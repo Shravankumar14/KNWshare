@@ -58,52 +58,52 @@ export const TimetablePage = () => {
       case 'study':
         return {
           badge: 'Study Block',
-          bg: 'bg-blue-50/70 border-blue-200 text-blue-900',
-          dot: 'bg-blue-600',
+          bg: 'border-knw-red/40 bg-red-950/20 text-red-300',
+          dot: 'bg-knw-red',
           icon: BookOpen
         };
       case 'practice':
         return {
           badge: 'Practice & Coding',
-          bg: 'bg-emerald-50/70 border-emerald-200 text-emerald-900',
-          dot: 'bg-emerald-600',
+          bg: 'border-emerald-500/40 bg-emerald-950/20 text-emerald-300',
+          dot: 'bg-emerald-500',
           icon: Code
         };
       case 'break':
         return {
           badge: 'Rest & Refresh',
-          bg: 'bg-amber-50/70 border-amber-200 text-amber-900',
-          dot: 'bg-amber-500',
+          bg: 'border-yellow-500/40 bg-yellow-950/20 text-yellow-300',
+          dot: 'bg-yellow-500',
           icon: Coffee
         };
       default:
         return {
           badge: 'Review Session',
-          bg: 'bg-slate-50 border-slate-200 text-slate-900',
-          dot: 'bg-slate-600',
+          bg: 'border-white/10 bg-knw-surface text-knw-muted',
+          dot: 'bg-knw-subtle',
           icon: Layers
         };
     }
   };
 
   return (
-    <div className="space-y-8">
-      
+    <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
       {/* Header Banner */}
-      <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-soft flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="knw-card rounded-3xl p-6 sm:p-8 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-knw-red via-red-500 to-knw-redDark shadow-red" />
         <div className="space-y-2 max-w-2xl">
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-brand-50 text-brand-700 border border-brand-200 uppercase tracking-wider">
-              Personalized Planner
+            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-knw-red/15 text-red-400 border border-knw-red/30 uppercase tracking-wider font-mono">
+              Personalized Study Planner
             </span>
-            <span className="text-xs text-slate-400">•</span>
-            <span className="text-xs text-slate-500 font-semibold">{activeGoal?.title}</span>
+            <span className="text-xs text-knw-subtle">•</span>
+            <span className="text-xs text-knw-muted font-semibold font-mono">{activeGoal?.title}</span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
             Weekly Study Timetable
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
+          <p className="text-xs sm:text-sm text-knw-muted leading-relaxed">
             A realistic schedule matching your daily hour capacity, complete with recovery breaks and synchronized tasks.
           </p>
         </div>
@@ -112,7 +112,7 @@ export const TimetablePage = () => {
         <div className="flex items-center gap-3">
           <button
             onClick={() => setIsGeneratorOpen(true)}
-            className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white text-xs sm:text-sm font-bold shadow-md shadow-brand-500/20 transition-all"
+            className="btn-red flex items-center gap-2 px-5 py-3 text-xs sm:text-sm font-bold shadow-red"
           >
             <Sparkles className="w-4 h-4" />
             <span>Generate My Timetable</span>
@@ -120,7 +120,7 @@ export const TimetablePage = () => {
 
           <Link
             to="/tasks"
-            className="flex items-center gap-1.5 px-4 py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-bold transition-colors"
+            className="btn-red-outline flex items-center gap-1.5 px-4 py-3 text-xs sm:text-sm font-bold font-mono"
           >
             <span>Task Board</span>
             <ArrowRight className="w-4 h-4" />
@@ -129,7 +129,7 @@ export const TimetablePage = () => {
       </div>
 
       {/* Days of Week Tabs */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2">
+      <div className="flex items-center gap-2 overflow-x-auto pb-2 font-mono">
         {daysList.map((day) => {
           const count = timetable?.blocks?.filter(b => b.dayOfWeek === day).length || 0;
           const isSelected = selectedDay === day;
@@ -138,112 +138,109 @@ export const TimetablePage = () => {
             <button
               key={day}
               onClick={() => setSelectedDay(day)}
-              className={`flex-1 min-w-[100px] p-3 rounded-2xl border text-center transition-all ${
+              className={`px-4 py-2.5 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 shrink-0 ${
                 isSelected
-                  ? 'bg-slate-900 text-white border-slate-900 shadow-sm'
-                  : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                  ? 'bg-knw-red text-white shadow-red'
+                  : 'bg-knw-surface text-knw-muted hover:text-white border border-white/5'
               }`}
             >
-              <div className="text-xs font-bold">{day}</div>
-              <div className={`text-[10px] mt-0.5 ${isSelected ? 'text-slate-300' : 'text-slate-400'}`}>
-                {count > 0 ? `${count} slots` : 'Rest Day'}
-              </div>
+              <span>{day}</span>
+              {count > 0 && (
+                <span className={`px-1.5 py-0.2 rounded-full text-[10px] ${
+                  isSelected ? 'bg-black/30 text-white' : 'bg-white/10 text-knw-subtle'
+                }`}>
+                  {count}
+                </span>
+              )}
             </button>
           );
         })}
       </div>
 
-      {/* Daily Schedule Blocks View */}
+      {/* Timetable Blocks Grid */}
       {loading ? (
-        <div className="space-y-4">
-          {[1, 2, 3].map(n => (
-            <div key={n} className="h-28 bg-white rounded-3xl border border-slate-200 animate-pulse" />
-          ))}
+        <div className="space-y-3">
+          {[1, 2, 3, 4].map(n => <div key={n} className="h-28 knw-skeleton rounded-3xl" />)}
         </div>
       ) : blocksForSelectedDay.length > 0 ? (
         <div className="space-y-4">
-          <div className="flex items-center justify-between text-xs text-slate-500 px-1 font-semibold">
-            <span>Schedule for {selectedDay}</span>
-            <span>{blocksForSelectedDay.length} Scheduled Blocks</span>
-          </div>
+          {blocksForSelectedDay.map((block, idx) => {
+            const style = getBlockTypeStyle(block.type);
+            const IconComp = style.icon;
 
-          <div className="space-y-3">
-            {blocksForSelectedDay.map((block, idx) => {
-              const style = getBlockTypeStyle(block.blockType);
-              const IconComp = style.icon;
-
-              return (
-                <div
-                  key={idx}
-                  className={`p-5 rounded-3xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${style.bg}`}
-                >
+            return (
+              <div
+                key={idx}
+                className={`p-5 rounded-3xl border transition-all knw-card ${style.bg}`}
+              >
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-white shadow-xs border border-slate-200/60 flex items-center justify-center shrink-0">
-                      <IconComp className="w-6 h-6 text-slate-700" />
+                    <div className="w-10 h-10 rounded-2xl bg-black/40 flex items-center justify-center shrink-0 border border-white/10">
+                      <IconComp className="w-5 h-5 text-white" />
                     </div>
-
                     <div>
-                      <div className="flex items-center gap-2">
-                        <span className={`w-2 h-2 rounded-full ${style.dot}`} />
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-black/40 border border-white/10">
                           {style.badge}
                         </span>
                         {block.stageNumber && (
-                          <span className="text-[10px] bg-white/80 border border-slate-200/80 px-2 py-0.5 rounded-full text-slate-600 font-medium">
+                          <span className="text-[10px] text-knw-muted font-mono">
                             Stage {block.stageNumber}
                           </span>
                         )}
                       </div>
-
-                      <h3 className="text-base font-bold text-slate-900 mt-1">
-                        {block.title}
-                      </h3>
-                      {block.topicTitle && (
-                        <p className="text-xs text-slate-600 mt-0.5">
-                          Topic: <strong className="font-semibold">{block.topicTitle}</strong>
-                        </p>
+                      <h3 className="text-sm font-bold text-white">{block.title}</h3>
+                      {block.description && (
+                        <p className="text-xs text-knw-muted mt-0.5">{block.description}</p>
                       )}
                     </div>
                   </div>
 
-                  {/* Slot Time & Duration */}
-                  <div className="flex sm:flex-col sm:items-end justify-between items-center shrink-0 border-t sm:border-t-0 border-slate-200/50 pt-3 sm:pt-0">
-                    <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
-                      <Clock className="w-3.5 h-3.5 text-slate-500" />
-                      <span>{block.startTime} – {block.endTime}</span>
+                  <div className="flex items-center gap-3 font-mono self-end sm:self-center">
+                    <div className="text-right">
+                      <span className="text-xs font-bold text-white flex items-center gap-1 justify-end">
+                        <Clock className="w-3.5 h-3.5 text-knw-red" />
+                        <span>{block.startTime} - {block.endTime}</span>
+                      </span>
+                      <span className="text-[10px] text-knw-subtle block mt-0.5">
+                        {block.durationMinutes} minutes
+                      </span>
                     </div>
-                    <span className="text-[11px] text-slate-500 font-medium mt-0.5">
-                      {block.durationMinutes} mins duration
-                    </span>
                   </div>
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
       ) : (
-        <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center max-w-md mx-auto space-y-4 shadow-soft">
-          <CalendarIcon className="w-12 h-12 text-slate-300 mx-auto" />
-          <h3 className="text-base font-bold text-slate-800">No study blocks for {selectedDay}</h3>
-          <p className="text-xs text-slate-500">
-            {timetable ? 'This is marked as a rest day or review day in your current timetable.' : 'You have not generated a timetable yet. Click the button below to build your weekly schedule.'}
+        <div className="p-12 text-center knw-card rounded-3xl space-y-4">
+          <CalendarIcon className="w-10 h-10 text-knw-red mx-auto" />
+          <h3 className="text-base font-bold text-white">No Blocks Scheduled for {selectedDay}</h3>
+          <p className="text-xs text-knw-muted max-w-sm mx-auto">
+            Click "Generate My Timetable" to create an AI-balanced schedule tailored to your free study hours.
           </p>
           <button
             onClick={() => setIsGeneratorOpen(true)}
-            className="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold shadow-sm"
+            className="btn-red px-6 py-2.5 text-xs font-bold inline-flex items-center gap-1.5 shadow-red"
           >
-            Generate My Timetable
+            <Sparkles className="w-4 h-4" />
+            <span>Generate Schedule</span>
           </button>
         </div>
       )}
 
-      {/* Generator Wizard Sub-Page / Modal */}
-      <TimetableGeneratorModal
-        isOpen={isGeneratorOpen}
-        onClose={() => setIsGeneratorOpen(false)}
-        onGenerated={(newTimetable) => setTimetable(newTimetable)}
-      />
-
+      {/* Timetable Generator Modal */}
+      {isGeneratorOpen && (
+        <TimetableGeneratorModal
+          isOpen={isGeneratorOpen}
+          onClose={() => setIsGeneratorOpen(false)}
+          onGenerated={() => {
+            setIsGeneratorOpen(false);
+            fetchTimetable();
+          }}
+          activeGoal={activeGoal}
+        />
+      )}
     </div>
   );
 };

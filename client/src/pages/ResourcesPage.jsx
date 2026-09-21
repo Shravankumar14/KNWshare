@@ -63,10 +63,10 @@ export const ResourcesPage = () => {
       };
 
       const res = await api.get('/resources', { params });
-      setResources(res.data.data);
-      setUserSelectedIds(res.data.userSelectedIds || []);
+      setResources(res.data.data.resources || []);
+      setUserSelectedIds(res.data.data.userSelectedResourceIds || []);
     } catch (err) {
-      console.error('Failed to fetch resources:', err);
+      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -74,146 +74,144 @@ export const ResourcesPage = () => {
 
   useEffect(() => {
     fetchResources();
-  }, [activeGoal, selectedStage, selectedType, selectedDifficulty, searchQuery]);
+  }, [activeGoal, selectedStage, selectedType, selectedDifficulty]);
 
   const handleToggleSelect = async (resourceId) => {
     if (!isAuthenticated) {
-      addToast('Sign in to bookmark resources to your study plan!', 'info');
+      addToast('Sign in to save resources to your vault', 'info');
       return;
     }
 
     try {
-      const res = await api.post('/resources/toggle-select', {
-        resourceId,
+      const res = await api.post('/resources/select', {
         goalId: activeGoal._id,
+        resourceId,
       });
 
-      const idStr = resourceId.toString();
-      if (userSelectedIds.includes(idStr)) {
-        setUserSelectedIds(userSelectedIds.filter(id => id !== idStr));
-        addToast('Resource removed from your plan', 'info');
-      } else {
-        setUserSelectedIds([...userSelectedIds, idStr]);
-        addToast('Resource bookmarked to your study plan!', 'success');
-      }
+      setUserSelectedIds(res.data.data.selectedResourceIds || []);
+      addToast(
+        userSelectedIds.includes(resourceId)
+          ? 'Removed from your study vault'
+          : 'Saved to your study vault!',
+        'success'
+      );
     } catch (err) {
       console.error(err);
-      addToast('Failed to update bookmark', 'error');
+      addToast('Failed to update study vault', 'error');
     }
   };
 
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    fetchResources();
+  };
+
   return (
-    <div className="space-y-8">
-      
-      {/* Page Header */}
-      <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-soft">
-        <div className="max-w-3xl space-y-2">
-          <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-brand-50 text-brand-700 border border-brand-200 uppercase tracking-wider">
-              Curated Resources Hub
-            </span>
-            <span className="text-xs text-slate-400">•</span>
-            <span className="text-xs text-slate-500 font-semibold">{activeGoal?.title}</span>
+    <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      {/* Header Banner */}
+      <div className="knw-card rounded-3xl p-6 sm:p-8 relative overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-knw-red via-red-500 to-knw-redDark shadow-red" />
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-knw-red/15 text-red-400 border border-knw-red/30 uppercase tracking-wider font-mono">
+                Curated Resource Hub
+              </span>
+              <span className="text-xs text-knw-subtle">•</span>
+              <span className="text-xs text-knw-muted font-medium font-mono">
+                {activeGoal ? activeGoal.title : 'All Ambitions'}
+              </span>
+            </div>
+
+            <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight mt-2">
+              Top Study Materials, Playlists & Practice
+            </h1>
+            <p className="text-xs sm:text-sm text-knw-muted max-w-2xl mt-1 leading-relaxed">
+              Vetted high-yield resources aligned with each stage of your roadmap. Bookmark items to personalize your learning queue.
+            </p>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-            Curated Study Materials & Practice Platforms
-          </h1>
-          <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
-            Every resource is mapped to an exact roadmap stage and topic so you never waste hours searching for what to study next.
-          </p>
+          {/* Quick Stats Pill */}
+          <div className="flex items-center gap-4 bg-knw-surface px-5 py-3 rounded-2xl border border-white/10 shrink-0 font-mono">
+            <div>
+              <span className="text-xl font-black text-knw-red">{resources.length}</span>
+              <span className="text-[10px] text-knw-muted block">Available</span>
+            </div>
+            <div className="w-px h-8 bg-white/10" />
+            <div>
+              <span className="text-xl font-black text-white">{userSelectedIds.length}</span>
+              <span className="text-[10px] text-knw-muted block">Saved in Vault</span>
+            </div>
+          </div>
         </div>
 
-        {/* Search and Filters Bar */}
-        <div className="mt-8 pt-6 border-t border-slate-100 flex flex-col md:flex-row gap-4 items-center justify-between">
-          <div className="relative w-full md:w-80">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+        {/* Search & Filter Controls */}
+        <div className="mt-8 pt-6 border-t border-white/10 flex flex-col md:flex-row items-stretch md:items-center gap-4">
+          <form onSubmit={handleSearchSubmit} className="flex-1 relative">
+            <Search className="w-4 h-4 text-knw-muted absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Search topics, author, tags..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:bg-white focus:ring-2 focus:ring-brand-500 outline-none"
+              placeholder="Search topics, author, LeetCode, docs, or keywords..."
+              className="w-full bg-knw-surface border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-knw-subtle focus:outline-none focus:border-knw-red transition-colors"
             />
-          </div>
+          </form>
 
-          <div className="flex items-center gap-3 w-full md:w-auto flex-wrap sm:flex-nowrap">
-            {/* Stage Filter */}
-            <select
-              value={selectedStage}
-              onChange={(e) => setSelectedStage(e.target.value)}
-              className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-700 outline-none focus:ring-2 focus:ring-brand-500"
-            >
-              <option value="all">All Stages</option>
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(s => (
-                <option key={s} value={s}>Stage {s}</option>
-              ))}
-            </select>
-
-            {/* Type Filter */}
+          {/* Filter Dropdowns */}
+          <div className="flex items-center gap-2 overflow-x-auto">
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-700 outline-none focus:ring-2 focus:ring-brand-500"
+              className="bg-knw-surface border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-knw-offWhite focus:outline-none focus:border-knw-red"
             >
-              {resourceTypes.map(t => (
-                <option key={t.id} value={t.id}>{t.label}</option>
+              {resourceTypes.map((t) => (
+                <option key={t.id} value={t.id} className="bg-knw-surface text-white">
+                  {t.label}
+                </option>
               ))}
             </select>
 
-            {/* Difficulty Filter */}
             <select
               value={selectedDifficulty}
               onChange={(e) => setSelectedDifficulty(e.target.value)}
-              className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-700 outline-none focus:ring-2 focus:ring-brand-500"
+              className="bg-knw-surface border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-knw-offWhite focus:outline-none focus:border-knw-red"
             >
-              {difficulties.map(d => (
-                <option key={d.id} value={d.id}>{d.label}</option>
+              {difficulties.map((d) => (
+                <option key={d.id} value={d.id} className="bg-knw-surface text-white">
+                  {d.label}
+                </option>
               ))}
             </select>
           </div>
         </div>
       </div>
 
-      {/* Resource Cards Grid */}
+      {/* Resource Grid */}
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[1, 2, 3, 4, 5, 6].map(n => (
-            <div key={n} className="h-56 bg-white rounded-3xl border border-slate-200 animate-pulse" />
+          {[1, 2, 3, 4, 5, 6].map((n) => (
+            <div key={n} className="h-56 knw-skeleton rounded-3xl" />
           ))}
         </div>
       ) : resources.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {resources.map(res => (
+          {resources.map((resource) => (
             <ResourceCard
-              key={res._id}
-              resource={res}
-              isSelected={userSelectedIds.includes(res._id.toString())}
+              key={resource._id}
+              resource={resource}
+              isSelected={userSelectedIds.includes(resource._id)}
               onToggleSelect={handleToggleSelect}
             />
           ))}
         </div>
       ) : (
-        <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center max-w-md mx-auto space-y-3">
-          <BookOpen className="w-12 h-12 text-slate-300 mx-auto" />
-          <h3 className="text-base font-bold text-slate-800">No resources found for this filter</h3>
-          <p className="text-xs text-slate-500">
-            Try choosing 'All Stages' or clearing the search terms to discover more study materials.
-          </p>
-          <button
-            onClick={() => {
-              setSelectedStage('all');
-              setSelectedType('all');
-              setSelectedDifficulty('all');
-              setSearchQuery('');
-            }}
-            className="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-brand-600"
-          >
-            Reset Filters
-          </button>
+        <div className="p-12 text-center knw-card rounded-3xl space-y-3">
+          <BookOpen className="w-10 h-10 text-knw-red mx-auto" />
+          <h3 className="text-base font-bold text-white">No Resources Matched Your Filters</h3>
+          <p className="text-xs text-knw-muted">Try resetting search criteria or selecting "All Ambitions".</p>
         </div>
       )}
-
     </div>
   );
 };

@@ -21,30 +21,31 @@ export const RescheduleSingleModal = ({ task, isOpen, onClose, onConfirm }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-slate-100 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-        
-        <div className="px-6 py-5 bg-slate-900 text-white flex items-center justify-between">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+      <div className="knw-glass rounded-3xl max-w-md w-full border border-knw-red/40 shadow-red-lg overflow-hidden relative">
+        <div className="h-1.5 w-full bg-gradient-to-r from-knw-red via-red-500 to-knw-redDark shadow-red" />
+
+        <div className="px-6 py-5 border-b border-white/10 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <RotateCcw className="w-5 h-5 text-brand-400" />
-            <h3 className="text-base font-bold">Reschedule Task</h3>
+            <RotateCcw className="w-5 h-5 text-knw-red" />
+            <h3 className="text-base font-bold text-white">Reschedule Task</h3>
           </div>
-          <button onClick={onClose} className="p-1 rounded-lg text-slate-400 hover:text-white">
+          <button onClick={onClose} className="p-1 rounded-lg text-knw-muted hover:text-white">
             <X className="w-5 h-5" />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div>
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+            <span className="text-[11px] font-mono font-bold text-knw-subtle uppercase tracking-wider block mb-1">
               Task
             </span>
-            <p className="text-xs font-bold text-slate-800">{task.title}</p>
-            <p className="text-[11px] text-slate-500">Currently scheduled: {task.date}</p>
+            <p className="text-xs font-bold text-white">{task.title}</p>
+            <p className="text-[11px] text-knw-muted font-mono">Currently scheduled: {task.date || task.scheduledDate || 'Today'}</p>
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+            <label className="block text-xs font-mono uppercase tracking-wider text-knw-muted mb-2">
               Select New Target Date
             </label>
             <input
@@ -53,24 +54,24 @@ export const RescheduleSingleModal = ({ task, isOpen, onClose, onConfirm }) => {
               value={newDate}
               min={new Date().toISOString().split('T')[0]}
               onChange={(e) => setNewDate(e.target.value)}
-              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 outline-none focus:ring-2 focus:ring-brand-500"
+              className="w-full px-4 py-2.5 bg-knw-surface border border-white/10 rounded-xl text-xs font-mono text-white outline-none focus:border-knw-red"
             />
           </div>
 
-          <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+          <div className="pt-3 border-t border-white/10 flex items-center justify-between">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-xs font-semibold text-slate-500 hover:text-slate-800"
+              className="text-xs font-mono font-bold text-knw-muted hover:text-white"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold shadow-sm"
+              className="btn-red px-5 py-2 text-xs font-bold shadow-red"
             >
-              {loading ? 'Rescheduling...' : 'Save New Date'}
+              {loading ? 'Rescheduling...' : 'Confirm New Date'}
             </button>
           </div>
         </form>

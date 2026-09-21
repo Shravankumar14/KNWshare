@@ -17,20 +17,20 @@ export const TaskCard = ({ task, onStatusChange, onRescheduleClick }) => {
 
   const getPriorityBadge = (p) => {
     switch (p) {
-      case 'high': return 'bg-rose-50 text-rose-700 border-rose-200';
-      case 'medium': return 'bg-amber-50 text-amber-700 border-amber-200';
-      case 'low': return 'bg-slate-50 text-slate-700 border-slate-200';
-      default: return 'bg-slate-50 text-slate-700 border-slate-200';
+      case 'high': return 'bg-red-950/40 text-red-400 border-red-700/50';
+      case 'medium': return 'bg-yellow-950/40 text-yellow-400 border-yellow-700/50';
+      case 'low': return 'bg-white/5 text-knw-muted border-white/10';
+      default: return 'bg-white/5 text-knw-muted border-white/10';
     }
   };
 
   const getStatusBadge = (status) => {
     switch (status) {
-      case 'completed': return { text: 'Completed', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200' };
-      case 'overdue': return { text: 'Overdue', cls: 'bg-rose-50 text-rose-700 border-rose-200' };
-      case 'rescheduled': return { text: `Rescheduled (${task.rescheduleCount || 1}x)`, cls: 'bg-indigo-50 text-indigo-700 border-indigo-200' };
-      case 'in_progress': return { text: 'In Progress', cls: 'bg-blue-50 text-blue-700 border-blue-200' };
-      default: return { text: 'Pending', cls: 'bg-slate-100 text-slate-700 border-slate-200' };
+      case 'completed': return { text: 'Completed', cls: 'bg-emerald-950/40 text-emerald-400 border-emerald-700/50' };
+      case 'overdue': return { text: 'Overdue', cls: 'bg-red-950/40 text-red-400 border-red-700/50 animate-pulse' };
+      case 'rescheduled': return { text: `Rescheduled (${task.rescheduleCount || 1}x)`, cls: 'bg-knw-red/15 text-red-300 border-knw-red/40' };
+      case 'in_progress': return { text: 'In Progress', cls: 'bg-yellow-950/40 text-yellow-400 border-yellow-700/50' };
+      default: return { text: 'Pending', cls: 'bg-white/5 text-knw-muted border-white/10' };
     }
   };
 
@@ -38,96 +38,100 @@ export const TaskCard = ({ task, onStatusChange, onRescheduleClick }) => {
 
   return (
     <div
-      className={`p-5 rounded-3xl border transition-all bg-white shadow-soft hover:shadow-soft-lg ${
+      className={`p-5 rounded-3xl border transition-all knw-card ${
         isCompleted
-          ? 'border-emerald-200 bg-emerald-50/20'
+          ? 'border-emerald-500/30 bg-emerald-950/10'
           : isOverdue
-          ? 'border-rose-200 bg-rose-50/10'
-          : 'border-slate-200 hover:border-brand-300'
+          ? 'border-red-500/40 bg-red-950/10'
+          : ''
       }`}
     >
       <div className="flex items-start justify-between gap-4">
-        
         {/* Checkbox & Task info */}
         <div className="flex items-start gap-3.5">
           <button
             onClick={() => onStatusChange(task._id, isCompleted ? 'pending' : 'completed')}
             className={`mt-1 shrink-0 transition-colors ${
-              isCompleted ? 'text-emerald-600' : 'text-slate-300 hover:text-brand-600'
+              isCompleted ? 'text-emerald-400' : 'text-knw-subtle hover:text-knw-red'
             }`}
             title={isCompleted ? 'Mark as incomplete' : 'Mark as completed'}
           >
             {isCompleted ? (
-              <CheckCircle2 className="w-6 h-6 fill-emerald-100" />
+              <CheckCircle2 className="w-5 h-5 fill-emerald-900/40" />
             ) : (
-              <Circle className="w-6 h-6" />
+              <Circle className="w-5 h-5" />
             )}
           </button>
 
           <div>
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${statusInfo.cls}`}>
+            <div className="flex items-center gap-2 flex-wrap mb-1">
+              <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono border ${statusInfo.cls}`}>
                 {statusInfo.text}
               </span>
-              <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${getPriorityBadge(task.priority)} uppercase`}>
-                {task.priority}
-              </span>
+
+              {task.priority && (
+                <span className={`px-2 py-0.5 rounded-md text-[10px] font-mono border capitalize ${getPriorityBadge(task.priority)}`}>
+                  {task.priority} Priority
+                </span>
+              )}
+
               {task.stageNumber && (
-                <span className="text-[10px] text-slate-500 font-medium">
-                  Stage {task.stageNumber} • {task.topicTitle}
+                <span className="text-[10px] text-knw-subtle font-mono">
+                  Stage {task.stageNumber}
                 </span>
               )}
             </div>
 
-            <h3 className={`text-base font-bold mt-1.5 ${isCompleted ? 'line-through text-slate-400' : 'text-slate-900'}`}>
+            <h3 className={`text-sm font-bold transition-all ${
+              isCompleted ? 'line-through text-knw-subtle' : 'text-white'
+            }`}>
               {task.title}
             </h3>
 
             {task.description && (
-              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+              <p className="text-xs text-knw-muted mt-1 leading-relaxed">
                 {task.description}
               </p>
             )}
 
-            {/* Date & Time info */}
-            <div className="mt-3 flex items-center gap-4 text-xs text-slate-500 flex-wrap">
-              <span className="flex items-center gap-1 font-medium">
-                <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                {task.date}
-              </span>
-              <span className="flex items-center gap-1 font-medium">
-                <Clock className="w-3.5 h-3.5 text-slate-400" />
-                {task.startTime} – {task.endTime} ({task.durationMinutes}m)
-              </span>
-              {task.originalDate && task.originalDate !== task.date && (
-                <span className="text-[10px] text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100">
-                  Originally scheduled: {task.originalDate}
-                </span>
-              )}
-            </div>
+            {/* Tags */}
+            {task.tags && task.tags.length > 0 && (
+              <div className="mt-2.5 flex flex-wrap gap-1.5">
+                {task.tags.map((t, idx) => (
+                  <span
+                    key={idx}
+                    className="knw-tag-grey text-[10px]"
+                  >
+                    #{t}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Action Controls */}
-        <div className="flex flex-col items-end gap-2 shrink-0">
-          {!isCompleted && (
+        {/* Timing and Reschedule action */}
+        <div className="flex flex-col items-end gap-3 shrink-0 font-mono">
+          <div className="text-right">
+            <span className="text-xs font-bold text-gray-300 flex items-center gap-1 justify-end">
+              <Clock className="w-3 h-3 text-knw-red" />
+              <span>{task.allocatedMinutes || 60}m</span>
+            </span>
+            <span className="text-[10px] text-knw-subtle block mt-0.5">
+              {task.scheduledDate || 'Today'}
+            </span>
+          </div>
+
+          {!isCompleted && onRescheduleClick && (
             <button
               onClick={() => onRescheduleClick(task)}
-              className="flex items-center gap-1 px-3 py-1.5 rounded-xl border border-slate-200 text-[11px] font-bold text-slate-600 hover:bg-slate-100 transition-colors"
-              title="Reschedule to another day"
+              className="px-2.5 py-1 text-[11px] font-bold text-knw-red hover:text-white hover:bg-knw-red/20 rounded-lg border border-knw-red/30 transition-all flex items-center gap-1"
             >
-              <RotateCcw className="w-3 h-3 text-slate-500" />
+              <RotateCcw className="w-3 h-3" />
               <span>Reschedule</span>
             </button>
           )}
-
-          {isCompleted && task.completedAt && (
-            <span className="text-[10px] text-emerald-600 font-semibold">
-              Done on {new Date(task.completedAt).toLocaleDateString()}
-            </span>
-          )}
         </div>
-
       </div>
     </div>
   );

@@ -44,125 +44,102 @@ export const CustomGoalModal = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-white rounded-3xl max-w-lg w-full shadow-2xl border border-slate-100 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-        
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+      <div className="knw-glass rounded-3xl max-w-lg w-full border border-knw-red/40 shadow-red-lg overflow-hidden relative">
+        <div className="h-1.5 w-full bg-gradient-to-r from-knw-red via-red-500 to-knw-redDark shadow-red" />
+
         {/* Header */}
-        <div className="px-6 py-5 bg-gradient-to-r from-purple-700 via-indigo-600 to-brand-600 text-white flex items-center justify-between">
+        <div className="px-6 py-5 border-b border-white/10 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white backdrop-blur-md">
+            <div className="w-10 h-10 rounded-xl bg-knw-red/20 border border-knw-red/40 flex items-center justify-center text-knw-red shadow-red">
               <Sparkles className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-lg font-bold">Design a Custom Goal</h2>
-              <p className="text-xs text-indigo-100">AI engine will decompose your ambition into structured stages</p>
+              <h2 className="text-base font-bold text-white">Design a Custom Ambition</h2>
+              <p className="text-xs text-knw-muted">AI engine will decompose your goal into structured roadmap stages</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+            className="p-2 rounded-xl text-knw-muted hover:text-white bg-white/5 hover:bg-white/10 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Form */}
+        {/* Form Body */}
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
-              What is your target goal or ambition?
+            <label className="block text-xs font-mono uppercase tracking-wider text-knw-muted mb-2">
+              What specific skill or exam do you want to master?
             </label>
             <input
               type="text"
               required
-              placeholder="e.g., Learn Rust Systems Programming, Cloud DevOps, UX Research..."
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 placeholder-slate-400 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+              placeholder="e.g. Autonomous Driving Perception Engineer, Quantitative Trading, Rust Systems..."
+              className="w-full bg-knw-surface border border-white/10 rounded-xl p-3 text-xs text-white placeholder-knw-subtle focus:outline-none focus:border-knw-red"
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Level */}
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
-                Starting Level
+              <label className="block text-xs font-mono uppercase tracking-wider text-knw-muted mb-2">
+                Starting Experience
               </label>
               <select
                 value={level}
                 onChange={(e) => setLevel(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-medium text-slate-800 focus:ring-2 focus:ring-indigo-500 outline-none"
+                className="w-full bg-knw-surface border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-knw-red"
               >
-                <option value="beginner">Beginner</option>
-                <option value="intermediate">Intermediate</option>
-                <option value="advanced">Advanced</option>
+                <option value="beginner" className="bg-knw-surface text-white">Absolute Beginner</option>
+                <option value="intermediate" className="bg-knw-surface text-white">Intermediate Student</option>
+                <option value="advanced" className="bg-knw-surface text-white">Advanced Practitioner</option>
               </select>
             </div>
 
+            {/* Target Duration */}
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
-                Timeline
+              <label className="block text-xs font-mono uppercase tracking-wider text-knw-muted mb-2">
+                Target Timeline
               </label>
               <select
                 value={targetMonths}
                 onChange={(e) => setTargetMonths(Number(e.target.value))}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-medium text-slate-800 focus:ring-2 focus:ring-indigo-500 outline-none"
+                className="w-full bg-knw-surface border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-knw-red"
               >
-                <option value={3}>3 Months</option>
-                <option value={6}>6 Months</option>
-                <option value={9}>9 Months</option>
-                <option value={12}>12 Months</option>
+                <option value={3} className="bg-knw-surface text-white">3 Months (Intensive)</option>
+                <option value={6} className="bg-knw-surface text-white">6 Months (Standard)</option>
+                <option value={12} className="bg-knw-surface text-white">12 Months (Long-term)</option>
               </select>
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2 flex items-center justify-between">
-              <span>Daily Study Time</span>
-              <span className="text-indigo-600 font-bold">{hoursPerDay} hours/day</span>
+            <label className="block text-xs font-mono uppercase tracking-wider text-knw-muted mb-2">
+              Daily Study Hours Available: <span className="text-white font-bold">{hoursPerDay} hours/day</span>
             </label>
             <input
               type="range"
               min="1"
-              max="6"
-              step="0.5"
+              max="8"
               value={hoursPerDay}
-              onChange={(e) => setHoursPerDay(Number(e.target.value))}
-              className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+              onChange={(e) => setHoursPerDay(e.target.value)}
+              className="w-full accent-knw-red cursor-pointer"
             />
           </div>
 
-          <div className="p-4 rounded-2xl bg-indigo-50/70 border border-indigo-100 flex items-start gap-3">
-            <Brain className="w-5 h-5 text-indigo-600 shrink-0 mt-0.5" />
-            <p className="text-xs text-indigo-900 leading-relaxed">
-              Our intelligent decomposition service will formulate an incremental syllabus, calculate hourly quotas, synthesize career milestones, and prepare your timetable.
-            </p>
-          </div>
-
-          <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 text-xs font-semibold text-slate-500 hover:text-slate-800"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={loading || !title.trim()}
-              className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white text-xs font-bold shadow-md shadow-indigo-500/20 transition-all disabled:opacity-50"
-            >
-              {loading ? (
-                <span>Decomposing & Creating...</span>
-              ) : (
-                <>
-                  <span>Synthesize & Launch</span>
-                  <ArrowRight className="w-4 h-4" />
-                </>
-              )}
-            </button>
-          </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full btn-red py-3 text-xs font-bold flex items-center justify-center gap-2 shadow-red mt-2"
+          >
+            <span>{loading ? 'Decomposing Ambition...' : 'Generate AI Roadmap & Enroll'}</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
         </form>
-
       </div>
     </div>
   );

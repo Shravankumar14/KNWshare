@@ -15,11 +15,26 @@ import {
   Sparkles,
   Zap,
   Menu,
-  X
+  X,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useGoal } from '../../context/GoalContext';
 import { useNotification } from '../../context/NotificationContext';
+
+/* ─────────────────────────────────────────────
+   KNWshare Netflix-dark Navbar
+   Colours driven by tailwind.config.js:
+     knw-bg       → #080808
+     knw-surface  → #111111
+     knw-red      → #E50914
+     knw-border   → #1f1f1f
+     knw-muted    → #6b7280
+     knw-offWhite → #f5f5f5
+   CSS helpers in index.css:
+     .knw-glass-nav   – dark glass header
+     .text-gradient-red – KNW gradient logo text
+     .btn-red         – solid red CTA button
+───────────────────────────────────────────── */
 
 export const Navbar = () => {
   const location = useLocation();
@@ -28,18 +43,18 @@ export const Navbar = () => {
   const { activeGoal, activeUserGoal, myGoals, switchActiveGoal } = useGoal();
   const { notifications, unreadCount, markAllAsRead } = useNotification();
 
-  const [showGoalDropdown, setShowGoalDropdown] = useState(false);
-  const [showNotifications, setShowNotifications] = useState(false);
-  const [showUserDropdown, setShowUserDropdown] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showGoalDropdown, setShowGoalDropdown]     = useState(false);
+  const [showNotifications, setShowNotifications]   = useState(false);
+  const [showUserDropdown, setShowUserDropdown]     = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen]         = useState(false);
 
   const navLinks = [
-    { name: 'Goals', path: '/', icon: Target },
-    { name: 'Roadmap & Career', path: '/roadmap', icon: Map },
-    { name: 'Resources', path: '/resources', icon: BookOpen },
-    { name: 'Timetable', path: '/timetable', icon: Calendar },
-    { name: 'Tasks', path: '/tasks', icon: CheckSquare },
-    { name: 'Progress', path: '/progress', icon: BarChart2 },
+    { name: 'Goals',            path: '/',         icon: Target      },
+    { name: 'Roadmap & Career', path: '/roadmap',  icon: Map         },
+    { name: 'Resources',        path: '/resources', icon: BookOpen   },
+    { name: 'Timetable',        path: '/timetable', icon: Calendar   },
+    { name: 'Tasks',            path: '/tasks',     icon: CheckSquare },
+    { name: 'Progress',         path: '/progress',  icon: BarChart2  },
   ];
 
   const handleGoalSwitch = async (userGoalId) => {
@@ -47,234 +62,327 @@ export const Navbar = () => {
     setShowGoalDropdown(false);
   };
 
+  const closeAll = () => {
+    setShowGoalDropdown(false);
+    setShowNotifications(false);
+    setShowUserDropdown(false);
+    setMobileMenuOpen(false);
+  };
+
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header className="knw-glass-nav sticky top-0 z-40 border-b border-knw-border">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          
-          {/* Logo */}
-          <div className="flex items-center gap-6">
-            <Link to="/" className="flex items-center gap-2 group">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center text-white shadow-md shadow-brand-500/20 group-hover:scale-105 transition-transform">
-                <Compass className="w-6 h-6" />
+
+          {/* ── LEFT: Logo + Active-Goal Badge ── */}
+          <div className="flex items-center gap-5">
+
+            {/* Logo */}
+            <Link to="/" className="flex items-center gap-2.5 group shrink-0">
+              {/* K icon */}
+              <div className="w-9 h-9 rounded-lg bg-knw-red flex items-center justify-center shadow-lg shadow-knw-red/30 group-hover:shadow-knw-red/50 group-hover:scale-105 transition-all duration-200">
+                <span className="text-white font-black text-base leading-none">K</span>
               </div>
-              <div>
-                <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-slate-900 via-brand-900 to-brand-600 bg-clip-text text-transparent">
-                  KNWshare
+              {/* Wordmark */}
+              <div className="leading-tight">
+                <span className="text-lg font-black tracking-tight">
+                  <span className="text-white">KNW</span>
+                  <span className="text-knw-red">share</span>
                 </span>
-                <span className="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 -mt-1">
-                  Goal → Execution
+                <span className="block text-[9px] font-mono font-semibold uppercase tracking-[0.18em] text-knw-muted -mt-0.5">
+                  GOAL → EXECUTION
                 </span>
               </div>
             </Link>
 
-            {/* Persistent Active Goal Badge */}
+            {/* Persistent Active Goal Badge (desktop) */}
             {activeGoal && (
               <div className="relative hidden md:block">
                 <button
                   onClick={() => setShowGoalDropdown(!showGoalDropdown)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-50 border border-brand-200/80 text-brand-900 hover:bg-brand-100/70 transition-colors text-xs font-semibold shadow-sm"
-                  title="Click to switch or manage active goal"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-full
+                             bg-white/5 border border-knw-border
+                             text-knw-offWhite hover:border-knw-red/60
+                             hover:bg-knw-red/10 transition-all duration-200
+                             text-xs font-semibold"
+                  title="Click to switch active goal"
                 >
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-slate-500 font-normal">Active:</span>
-                  <span className="max-w-[170px] truncate font-medium">{activeGoal.title}</span>
-                  <ChevronDown className="w-3.5 h-3.5 text-brand-600" />
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                  <span className="text-knw-muted font-normal">Active:</span>
+                  <span className="max-w-[160px] truncate">{activeGoal.title}</span>
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 text-knw-red transition-transform duration-200 ${
+                      showGoalDropdown ? 'rotate-180' : ''
+                    }`}
+                  />
                 </button>
 
-                {/* Switch Goal Dropdown */}
+                {/* Goal Switch Dropdown */}
                 {showGoalDropdown && (
-                  <div className="absolute left-0 mt-2 w-72 bg-white rounded-2xl shadow-soft-lg border border-slate-200 py-2 z-50 animate-in fade-in zoom-in-95 duration-150">
-                    <div className="px-4 py-2 border-b border-slate-100 flex items-center justify-between">
-                      <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Your Active Goals</span>
-                      <Link
-                        to="/"
-                        onClick={() => setShowGoalDropdown(false)}
-                        className="text-xs font-semibold text-brand-600 hover:text-brand-700"
-                      >
-                        + New Goal
-                      </Link>
-                    </div>
+                  <>
+                    {/* Backdrop */}
+                    <div
+                      className="fixed inset-0 z-40"
+                      onClick={() => setShowGoalDropdown(false)}
+                    />
+                    <div className="absolute left-0 mt-2 w-76 z-50
+                                    bg-[#111] border border-knw-border
+                                    rounded-xl shadow-2xl shadow-black/60
+                                    animate-in fade-in zoom-in-95 duration-150">
+                      <div className="px-4 py-2.5 border-b border-knw-border flex items-center justify-between">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-knw-muted">
+                          Your Goals
+                        </span>
+                        <Link
+                          to="/"
+                          onClick={closeAll}
+                          className="text-[11px] font-semibold text-knw-red hover:text-red-400 transition-colors"
+                        >
+                          + New Goal
+                        </Link>
+                      </div>
 
-                    <div className="max-h-60 overflow-y-auto py-1">
-                      {myGoals && myGoals.length > 0 ? (
-                        myGoals.map((ug) => (
-                          <button
-                            key={ug._id}
-                            onClick={() => handleGoalSwitch(ug._id)}
-                            className={`w-full text-left px-4 py-2.5 text-xs flex items-center justify-between transition-colors ${
-                              activeUserGoal?._id === ug._id
-                                ? 'bg-brand-50 font-bold text-brand-900'
-                                : 'hover:bg-slate-50 text-slate-700'
-                            }`}
-                          >
-                            <span className="truncate pr-2">{ug.goalId?.title || ug.customTitle}</span>
-                            <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-medium">
-                              {ug.overallProgress || 0}%
-                            </span>
-                          </button>
-                        ))
-                      ) : (
-                        <div className="px-4 py-3 text-xs text-slate-500 text-center">
-                          Viewing preview mode. Select a goal on the home page to track progress!
-                        </div>
-                      )}
+                      <div className="max-h-60 overflow-y-auto py-1 divide-y divide-knw-border">
+                        {myGoals && myGoals.length > 0 ? (
+                          myGoals.map((ug) => (
+                            <button
+                              key={ug._id}
+                              onClick={() => handleGoalSwitch(ug._id)}
+                              className={`w-full text-left px-4 py-2.5 text-xs flex items-center justify-between transition-colors ${
+                                activeUserGoal?._id === ug._id
+                                  ? 'bg-knw-red/10 text-knw-red font-bold'
+                                  : 'text-knw-offWhite/80 hover:bg-white/5'
+                              }`}
+                            >
+                              <span className="truncate pr-2">{ug.goalId?.title || ug.customTitle}</span>
+                              <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/10 text-knw-muted font-medium shrink-0">
+                                {ug.overallProgress || 0}%
+                              </span>
+                            </button>
+                          ))
+                        ) : (
+                          <div className="px-4 py-4 text-xs text-knw-muted text-center">
+                            Viewing preview mode. Select a goal on the home page to track progress!
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
+                  </>
                 )}
               </div>
             )}
           </div>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-1">
+          {/* ── MIDDLE: Desktop Nav Links ── */}
+          <nav className="hidden lg:flex items-center gap-0.5">
             {navLinks.map((link) => {
               const Icon = link.icon;
-              const isActive = location.pathname === link.path;
+              const isActive =
+                link.path === '/'
+                  ? location.pathname === '/'
+                  : location.pathname.startsWith(link.path);
               return (
                 <Link
                   key={link.name}
                   to={link.path}
-                  className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
+                  className={`relative flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold transition-all duration-200 ${
                     isActive
-                      ? 'bg-brand-50 text-brand-700 shadow-sm border border-brand-100'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
+                      ? 'text-knw-red'
+                      : 'text-knw-muted hover:text-white hover:bg-white/5'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-brand-600' : 'text-slate-400'}`} />
+                  <Icon className={`w-3.5 h-3.5 shrink-0 ${isActive ? 'text-knw-red' : ''}`} />
                   {link.name}
+                  {/* Active underline dot */}
+                  {isActive && (
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-knw-red" />
+                  )}
                 </Link>
               );
             })}
           </nav>
 
-          {/* Right Action Items */}
-          <div className="flex items-center gap-3">
+          {/* ── RIGHT: Bell + User / Auth ── */}
+          <div className="flex items-center gap-2">
+
             {/* Notification Bell */}
             {isAuthenticated && (
               <div className="relative">
                 <button
                   onClick={() => {
-                    setShowNotifications(!showNotifications);
-                    if (!showNotifications && unreadCount > 0) markAllAsRead();
+                    const opening = !showNotifications;
+                    setShowNotifications(opening);
+                    setShowUserDropdown(false);
+                    if (opening && unreadCount > 0) markAllAsRead();
                   }}
-                  className="p-2 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-100 relative transition-colors"
+                  className="relative p-2 rounded-lg text-knw-muted hover:text-white hover:bg-white/5 transition-colors"
+                  title="Notifications"
                 >
                   <Bell className="w-5 h-5" />
                   {unreadCount > 0 && (
-                    <span className="absolute top-1 right-1 w-2.5 h-2.5 rounded-full bg-rose-500 ring-2 ring-white" />
+                    <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-knw-red ring-2 ring-[#080808] animate-pulse" />
                   )}
                 </button>
 
                 {/* Notifications Panel */}
                 {showNotifications && (
-                  <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-2xl shadow-soft-lg border border-slate-200 py-3 z-50">
-                    <div className="px-4 pb-2 border-b border-slate-100 flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold uppercase tracking-wider text-slate-700">Reminders & Alerts</span>
-                        {unreadCount > 0 && (
-                          <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-brand-100 text-brand-800">
-                            {unreadCount} new
+                  <>
+                    <div className="fixed inset-0 z-40" onClick={() => setShowNotifications(false)} />
+                    <div className="absolute right-0 mt-2 w-80 sm:w-96 z-50
+                                    bg-[#111] border border-knw-border
+                                    rounded-xl shadow-2xl shadow-black/60
+                                    animate-in fade-in zoom-in-95 duration-150">
+                      <div className="px-4 py-2.5 border-b border-knw-border flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-knw-muted">
+                            Reminders & Alerts
                           </span>
+                          {unreadCount > 0 && (
+                            <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-knw-red/20 text-knw-red">
+                              {unreadCount} new
+                            </span>
+                          )}
+                        </div>
+                        <button
+                          onClick={markAllAsRead}
+                          className="text-[11px] font-semibold text-knw-red hover:text-red-400 transition-colors"
+                        >
+                          Mark all read
+                        </button>
+                      </div>
+
+                      <div className="max-h-72 overflow-y-auto divide-y divide-knw-border">
+                        {notifications.length > 0 ? (
+                          notifications.map((n) => (
+                            <div key={n._id} className="p-3 hover:bg-white/5 transition-colors">
+                              <div className="text-xs font-semibold text-knw-offWhite flex items-center justify-between">
+                                <span>{n.title}</span>
+                                <span className="text-[10px] text-knw-muted font-normal shrink-0 ml-2">
+                                  {new Date(n.createdAt).toLocaleTimeString([], {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                  })}
+                                </span>
+                              </div>
+                              <p className="text-[11px] text-knw-muted mt-0.5 leading-relaxed">{n.message}</p>
+                            </div>
+                          ))
+                        ) : (
+                          <div className="p-6 text-center text-xs text-knw-muted">
+                            All caught up! No unread notifications.
+                          </div>
                         )}
                       </div>
-                      <button
-                        onClick={markAllAsRead}
-                        className="text-[11px] font-semibold text-brand-600 hover:text-brand-700"
-                      >
-                        Mark all read
-                      </button>
                     </div>
-
-                    <div className="max-h-72 overflow-y-auto divide-y divide-slate-100">
-                      {notifications.length > 0 ? (
-                        notifications.map((n) => (
-                          <div key={n._id} className="p-3 hover:bg-slate-50 transition-colors">
-                            <div className="text-xs font-semibold text-slate-800 flex items-center justify-between">
-                              <span>{n.title}</span>
-                              <span className="text-[10px] text-slate-400 font-normal">
-                                {new Date(n.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                              </span>
-                            </div>
-                            <p className="text-[11px] text-slate-600 mt-0.5">{n.message}</p>
-                          </div>
-                        ))
-                      ) : (
-                        <div className="p-6 text-center text-xs text-slate-400">
-                          All caught up! No unread notifications.
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                  </>
                 )}
               </div>
             )}
 
-            {/* User Profile / Auth State */}
+            {/* ── User Profile OR Auth Buttons ── */}
             {isAuthenticated ? (
               <div className="relative">
                 <button
-                  onClick={() => setShowUserDropdown(!showUserDropdown)}
-                  className="flex items-center gap-2 p-1.5 rounded-xl hover:bg-slate-100 transition-colors"
+                  onClick={() => {
+                    setShowUserDropdown(!showUserDropdown);
+                    setShowNotifications(false);
+                  }}
+                  className="flex items-center gap-2 pl-2 pr-2.5 py-1.5 rounded-lg
+                             hover:bg-white/5 transition-colors"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-brand-100 text-brand-700 font-bold flex items-center justify-center text-xs border border-brand-200">
+                  {/* Avatar */}
+                  <div className="w-7 h-7 rounded-md bg-knw-red/20 border border-knw-red/40
+                                  text-knw-red font-bold flex items-center justify-center text-xs uppercase">
                     {user?.name?.[0]?.toUpperCase() || 'S'}
                   </div>
-                  <span className="text-xs font-semibold text-slate-800 hidden sm:inline">{user?.name}</span>
-                  <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+                  <span className="text-xs font-semibold text-knw-offWhite hidden sm:inline max-w-[100px] truncate">
+                    {user?.name}
+                  </span>
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 text-knw-muted transition-transform duration-200 ${
+                      showUserDropdown ? 'rotate-180' : ''
+                    }`}
+                  />
                 </button>
 
+                {/* User Dropdown */}
                 {showUserDropdown && (
-                  <div className="absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-soft-lg border border-slate-200 py-2 z-50">
-                    <div className="px-4 py-2 border-b border-slate-100">
-                      <p className="text-xs font-bold text-slate-800 truncate">{user?.name}</p>
-                      <p className="text-[11px] text-slate-500 truncate">{user?.email}</p>
-                      <span className="inline-block mt-1 px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                        {user?.role?.toUpperCase()}
-                      </span>
+                  <>
+                    <div className="fixed inset-0 z-40" onClick={() => setShowUserDropdown(false)} />
+                    <div className="absolute right-0 mt-2 w-52 z-50
+                                    bg-[#111] border border-knw-border
+                                    rounded-xl shadow-2xl shadow-black/60
+                                    animate-in fade-in zoom-in-95 duration-150">
+                      {/* User info header */}
+                      <div className="px-4 py-3 border-b border-knw-border">
+                        <p className="text-xs font-bold text-knw-offWhite truncate">{user?.name}</p>
+                        <p className="text-[11px] text-knw-muted truncate mt-0.5">{user?.email}</p>
+                        <span className="inline-block mt-1.5 px-2 py-0.5 rounded text-[10px] font-bold
+                                         bg-knw-red/15 text-knw-red border border-knw-red/30 uppercase tracking-wide">
+                          {user?.role}
+                        </span>
+                      </div>
+
+                      <div className="py-1">
+                        <Link
+                          to="/profile"
+                          onClick={() => setShowUserDropdown(false)}
+                          className="w-full text-left px-4 py-2 text-xs text-knw-offWhite/80
+                                     hover:text-white hover:bg-white/5
+                                     flex items-center gap-2.5 transition-colors"
+                        >
+                          <User className="w-3.5 h-3.5 text-knw-muted" />
+                          Profile & Settings
+                        </Link>
+
+                        <button
+                          onClick={() => {
+                            logout();
+                            setShowUserDropdown(false);
+                          }}
+                          className="w-full text-left px-4 py-2 text-xs text-knw-red
+                                     hover:bg-knw-red/10
+                                     flex items-center gap-2.5 transition-colors
+                                     border-t border-knw-border mt-1"
+                        >
+                          <LogOut className="w-3.5 h-3.5" />
+                          Sign Out
+                        </button>
+                      </div>
                     </div>
-
-                    <Link
-                      to="/profile"
-                      onClick={() => setShowUserDropdown(false)}
-                      className="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2"
-                    >
-                      <User className="w-3.5 h-3.5" />
-                      Profile & Settings
-                    </Link>
-
-                    <button
-                      onClick={() => {
-                        logout();
-                        setShowUserDropdown(false);
-                      }}
-                      className="w-full text-left px-4 py-2 text-xs text-rose-600 hover:bg-rose-50 flex items-center gap-2 border-t border-slate-100"
-                    >
-                      <LogOut className="w-3.5 h-3.5" />
-                      Sign Out
-                    </button>
-                  </div>
+                  </>
                 )}
               </div>
             ) : (
+              /* ── Not authenticated: Demo / Sign In / Get Started ── */
               <div className="flex items-center gap-2">
+                {/* 1-Click Demo */}
                 <button
                   onClick={() => demoLogin()}
-                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-white text-xs font-bold shadow-sm hover:brightness-105 transition-all"
                   title="Instant demo student login with pre-populated goals"
+                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg
+                             border border-knw-red/60 text-knw-red text-xs font-bold
+                             hover:bg-knw-red/10 hover:border-knw-red transition-all duration-200"
                 >
                   <Zap className="w-3.5 h-3.5 fill-current" />
                   1-Click Demo
                 </button>
+
                 <Link
                   to="/login"
-                  className="px-3.5 py-1.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition-colors"
+                  className="px-3.5 py-1.5 rounded-lg border border-knw-border
+                             text-xs font-semibold text-knw-muted
+                             hover:text-white hover:border-white/20 transition-colors"
                 >
                   Sign In
                 </Link>
+
                 <Link
                   to="/register"
-                  className="px-3.5 py-1.5 rounded-xl bg-brand-600 text-xs font-semibold text-white shadow-sm hover:bg-brand-700 transition-colors"
+                  className="px-3.5 py-1.5 rounded-lg bg-knw-red
+                             text-xs font-bold text-white
+                             shadow-lg shadow-knw-red/25
+                             hover:bg-red-700 transition-colors"
                 >
                   Get Started
                 </Link>
@@ -284,47 +392,69 @@ export const Navbar = () => {
             {/* Mobile hamburger */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100"
+              className="lg:hidden p-2 rounded-lg text-knw-muted hover:text-white hover:bg-white/5 transition-colors"
+              aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Navigation Drawer */}
+        {/* ── Mobile Navigation Drawer ── */}
         {mobileMenuOpen && (
-          <div className="lg:hidden py-3 border-t border-slate-100 space-y-1">
+          <div className="lg:hidden py-3 border-t border-knw-border space-y-1 animate-in fade-in slide-in-from-top-2 duration-150">
+
+            {/* Active goal pill in mobile */}
             {activeGoal && (
-              <div className="px-3 py-2 bg-brand-50 rounded-xl mb-2 flex items-center justify-between text-xs text-brand-900 font-semibold">
-                <span className="truncate">Active: {activeGoal.title}</span>
-                <span className="text-[10px] bg-brand-200 px-2 py-0.5 rounded-full">
+              <div className="px-3 py-2 mb-2 bg-knw-red/10 border border-knw-red/20 rounded-lg
+                              flex items-center justify-between text-xs font-semibold">
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                  <span className="truncate text-knw-offWhite">Active: {activeGoal.title}</span>
+                </div>
+                <span className="text-[10px] bg-knw-red/20 text-knw-red px-2 py-0.5 rounded-full shrink-0 ml-2">
                   {activeUserGoal?.overallProgress || 0}%
                 </span>
               </div>
             )}
+
+            {/* Nav links */}
             {navLinks.map((link) => {
               const Icon = link.icon;
+              const isActive =
+                link.path === '/'
+                  ? location.pathname === '/'
+                  : location.pathname.startsWith(link.path);
               return (
                 <Link
                   key={link.name}
                   to={link.path}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-100"
+                  className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-semibold transition-colors ${
+                    isActive
+                      ? 'bg-knw-red/10 text-knw-red border border-knw-red/20'
+                      : 'text-knw-muted hover:text-white hover:bg-white/5'
+                  }`}
                 >
-                  <Icon className="w-4 h-4 text-slate-400" />
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-knw-red' : ''}`} />
                   {link.name}
                 </Link>
               );
             })}
+
+            {/* Demo login in mobile */}
             {!isAuthenticated && (
               <button
                 onClick={() => {
                   demoLogin();
                   setMobileMenuOpen(false);
                 }}
-                className="w-full mt-2 flex items-center justify-center gap-2 py-2 rounded-xl bg-amber-500 text-white text-xs font-bold"
+                className="w-full mt-2 flex items-center justify-center gap-2 py-2.5 rounded-lg
+                           border border-knw-red/60 text-knw-red text-xs font-bold
+                           hover:bg-knw-red/10 transition-colors"
               >
-                <Zap className="w-4 h-4" /> 1-Click Instant Demo Login
+                <Zap className="w-4 h-4 fill-current" />
+                1-Click Instant Demo Login
               </button>
             )}
           </div>

@@ -104,69 +104,69 @@ export const TasksPage = () => {
   const pendingOrOverdueCount = summary.overdue + summary.pending;
 
   return (
-    <div className="space-y-8">
-      
+    <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
       {/* Header Banner */}
-      <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-soft flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="knw-card rounded-3xl p-6 sm:p-8 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-knw-red via-red-500 to-knw-redDark shadow-red" />
         <div className="space-y-2 max-w-2xl">
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-brand-50 text-brand-700 border border-brand-200 uppercase tracking-wider">
+            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-knw-red/15 text-red-400 border border-knw-red/30 uppercase tracking-wider font-mono">
               Actionable Execution
             </span>
-            <span className="text-xs text-slate-400">•</span>
-            <span className="text-xs text-slate-500 font-semibold">{activeGoal?.title}</span>
+            <span className="text-xs text-knw-subtle">•</span>
+            <span className="text-xs text-knw-muted font-semibold font-mono">{activeGoal?.title}</span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
             Study Tasks & Daily Actions
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
+          <p className="text-xs sm:text-sm text-knw-muted leading-relaxed">
             Turn your roadmap into bite-sized daily achievements. Missed a session? Our intelligent scheduler redistributes workload without cascading burnout.
           </p>
         </div>
 
         {/* Quick Task Metric Badges */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 shrink-0">
-          <div className="bg-slate-50 border border-slate-200 p-3 rounded-2xl text-center">
-            <div className="text-lg font-bold text-slate-900">{summary.total}</div>
-            <div className="text-[10px] uppercase font-bold text-slate-400">Total</div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 shrink-0 font-mono">
+          <div className="bg-knw-surface border border-white/10 p-3 rounded-2xl text-center">
+            <div className="text-lg font-bold text-white">{summary.total}</div>
+            <div className="text-[10px] uppercase font-bold text-knw-subtle">Total</div>
           </div>
-          <div className="bg-emerald-50 border border-emerald-200 p-3 rounded-2xl text-center">
-            <div className="text-lg font-bold text-emerald-700">{summary.completed}</div>
-            <div className="text-[10px] uppercase font-bold text-emerald-600">Done</div>
+          <div className="bg-emerald-950/30 border border-emerald-700/40 p-3 rounded-2xl text-center">
+            <div className="text-lg font-bold text-emerald-400">{summary.completed}</div>
+            <div className="text-[10px] uppercase font-bold text-emerald-500">Done</div>
           </div>
-          <div className="bg-amber-50 border border-amber-200 p-3 rounded-2xl text-center">
-            <div className="text-lg font-bold text-amber-700">{summary.pending}</div>
-            <div className="text-[10px] uppercase font-bold text-amber-600">Pending</div>
+          <div className="bg-yellow-950/30 border border-yellow-700/40 p-3 rounded-2xl text-center">
+            <div className="text-lg font-bold text-yellow-400">{summary.pending}</div>
+            <div className="text-[10px] uppercase font-bold text-yellow-500">Pending</div>
           </div>
-          <div className="bg-rose-50 border border-rose-200 p-3 rounded-2xl text-center">
-            <div className="text-lg font-bold text-rose-700">{summary.overdue}</div>
-            <div className="text-[10px] uppercase font-bold text-rose-600">Overdue</div>
+          <div className="bg-red-950/30 border border-red-700/40 p-3 rounded-2xl text-center">
+            <div className="text-lg font-bold text-red-400">{summary.overdue}</div>
+            <div className="text-[10px] uppercase font-bold text-red-500">Overdue</div>
           </div>
         </div>
       </div>
 
       {/* INTELLIGENT PENDING TASK RESCHEDULER BANNER */}
       {summary.overdue > 0 && (
-        <div className="rounded-3xl bg-gradient-to-r from-rose-50 via-amber-50 to-indigo-50 border border-amber-200 p-6 shadow-soft flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="rounded-3xl bg-gradient-to-r from-red-950/40 via-red-900/20 to-black border border-knw-red/40 p-6 shadow-red flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 shadow-xs">
+            <div className="w-12 h-12 rounded-2xl bg-knw-red/20 text-knw-red flex items-center justify-center shrink-0 border border-knw-red/40 shadow-red">
               <AlertTriangle className="w-6 h-6" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-amber-800">
+                <span className="text-xs font-bold uppercase tracking-wider text-red-400 font-mono">
                   Intelligent Rescheduling Available
                 </span>
-                <span className="text-[10px] bg-amber-200/80 text-amber-900 px-2 py-0.5 rounded-full font-bold">
-                  {summary.overdue} overdue task(s)
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-knw-red text-white font-mono font-bold">
+                  {summary.overdue} Overdue
                 </span>
               </div>
-              <h3 className="text-base font-bold text-slate-900 mt-0.5">
-                Life happened? Don't let missed tasks pile up.
+              <h3 className="text-base font-bold text-white mt-0.5">
+                Life happened? Automatically adjust your study queue.
               </h3>
-              <p className="text-xs text-slate-600 mt-1 max-w-xl leading-relaxed">
-                Rather than dumping every missed assignment onto tomorrow, our scheduling engine inspects your daily hour capacity and spreads tasks smoothly across available upcoming days.
+              <p className="text-xs text-knw-muted mt-1 leading-relaxed max-w-xl">
+                Redistribute overdue tasks across your remaining timetable slots without sacrificing buffer time or exam deadlines.
               </p>
             </div>
           </div>
@@ -174,83 +174,79 @@ export const TasksPage = () => {
           <button
             onClick={handleSmartReschedulePending}
             disabled={isReschedulingAll}
-            className="flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-slate-900 hover:bg-brand-600 text-white text-xs sm:text-sm font-bold shadow-md transition-all shrink-0 disabled:opacity-50"
+            className="btn-red px-5 py-3 text-xs font-bold flex items-center gap-2 shrink-0 shadow-red"
           >
-            <RotateCcw className="w-4 h-4" />
-            <span>{isReschedulingAll ? 'Balancing Schedule...' : '⚡ Smart Reschedule Pending Tasks'}</span>
+            <RotateCcw className={`w-4 h-4 ${isReschedulingAll ? 'animate-spin' : ''}`} />
+            <span>{isReschedulingAll ? 'Redistributing...' : 'Auto-Reschedule All'}</span>
           </button>
         </div>
       )}
 
-      {/* Filter Tabs */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1 border-b border-slate-200">
-        {[
-          { id: 'all', label: 'All Tasks' },
-          { id: 'today', label: "Today's Agenda" },
-          { id: 'pending', label: 'Pending' },
-          { id: 'overdue', label: 'Overdue' },
-          { id: 'rescheduled', label: 'Rescheduled' },
-          { id: 'completed', label: 'Completed' },
-        ].map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveFilter(tab.id)}
-            className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
-              activeFilter === tab.id
-                ? 'bg-slate-900 text-white shadow-xs'
-                : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
+      {/* Filter Tabs & Task List */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between flex-wrap gap-3">
+          <div className="flex items-center gap-1.5 overflow-x-auto font-mono">
+            {[
+              { id: 'all', label: 'All Tasks' },
+              { id: 'today', label: 'Today' },
+              { id: 'pending', label: 'Pending' },
+              { id: 'completed', label: 'Completed' },
+              { id: 'overdue', label: 'Overdue' },
+            ].map((f) => (
+              <button
+                key={f.id}
+                onClick={() => setActiveFilter(f.id)}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                  activeFilter === f.id
+                    ? 'bg-knw-red text-white shadow-red'
+                    : 'bg-knw-surface text-knw-muted hover:text-white border border-white/5'
+                }`}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+
+          <span className="text-xs text-knw-muted font-mono">
+            Showing {tasks.length} task{tasks.length !== 1 ? 's' : ''}
+          </span>
+        </div>
+
+        {/* Task Cards Grid */}
+        {loading ? (
+          <div className="space-y-3">
+            {[1, 2, 3, 4].map((n) => (
+              <div key={n} className="h-28 knw-skeleton rounded-3xl" />
+            ))}
+          </div>
+        ) : tasks.length > 0 ? (
+          <div className="space-y-3">
+            {tasks.map((task) => (
+              <TaskCard
+                key={task._id}
+                task={task}
+                onStatusChange={handleStatusChange}
+                onRescheduleClick={(t) => setTaskToReschedule(t)}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="p-12 text-center knw-card rounded-3xl space-y-3">
+            <CheckCircle2 className="w-10 h-10 text-knw-red mx-auto" />
+            <h3 className="text-base font-bold text-white">All Caught Up!</h3>
+            <p className="text-xs text-knw-muted">No tasks matching the "{activeFilter}" filter.</p>
+          </div>
+        )}
       </div>
 
-      {/* Tasks List */}
-      {loading ? (
-        <div className="space-y-4">
-          {[1, 2, 3, 4].map(n => (
-            <div key={n} className="h-28 bg-white rounded-3xl border border-slate-200 animate-pulse" />
-          ))}
-        </div>
-      ) : tasks.length > 0 ? (
-        <div className="space-y-4">
-          {tasks.map((task) => (
-            <TaskCard
-              key={task._id}
-              task={task}
-              onStatusChange={handleStatusChange}
-              onRescheduleClick={(t) => setTaskToReschedule(t)}
-            />
-          ))}
-        </div>
-      ) : (
-        <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center max-w-md mx-auto space-y-4 shadow-soft">
-          <CheckSquare className="w-12 h-12 text-slate-300 mx-auto" />
-          <h3 className="text-base font-bold text-slate-800">No tasks in this view</h3>
-          <p className="text-xs text-slate-500">
-            {activeFilter === 'today'
-              ? 'Nothing scheduled for today. Explore your timetable to generate more tasks.'
-              : 'You have no tasks matching this filter.'}
-          </p>
-          <Link
-            to="/timetable"
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold shadow-sm"
-          >
-            <span>Open Timetable</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
-      )}
-
       {/* Single Task Reschedule Modal */}
-      <RescheduleSingleModal
-        task={taskToReschedule}
-        isOpen={!!taskToReschedule}
-        onClose={() => setTaskToReschedule(null)}
-        onConfirm={handleSingleReschedule}
-      />
-
+      {taskToReschedule && (
+        <RescheduleSingleModal
+          task={taskToReschedule}
+          onClose={() => setTaskToReschedule(null)}
+          onReschedule={handleSingleReschedule}
+        />
+      )}
     </div>
   );
 };
