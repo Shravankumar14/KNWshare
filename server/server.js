@@ -7,6 +7,7 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import { seedDatabase } from './seeds/seedData.js';
 import Goal from './models/Goal.js';
 
+
 // Route imports
 import authRoutes from './routes/authRoutes.js';
 import goalRoutes from './routes/goalRoutes.js';
@@ -82,7 +83,7 @@ const startServer = async () => {
       await seedDatabase();
     }
 
-    app.listen(PORT, () => {
+    app.listen(PORT,"0.0.0.0", () => {
       console.log(`=========================================`);
       console.log(`🚀 KNWshare Server running on port ${PORT}`);
       console.log(`📡 API Health: http://localhost:${PORT}/api/health`);
