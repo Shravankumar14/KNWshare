@@ -1,0 +1,12 @@
+{
+  "name": "knwshare-root",
+  "version": "1.0.0",
+  "description": "KNWshare - Student Goal, Roadmap, Timetable and Career Guidance Platform (MERN)",
+  "private": true,
+  "scripts": {
+    "server": "npm --prefix server run dev",
+    "client": "npm --prefix client run dev",
+    "seed": "npm --prefix server run seed",
+    "build:client": "npm --prefix client run build"
+  }
+}
