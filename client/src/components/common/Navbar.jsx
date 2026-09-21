@@ -40,9 +40,7 @@ export const Navbar = () => {
     { name: 'Timetable', path: '/timetable', icon: Calendar },
     { name: 'Tasks', path: '/tasks', icon: CheckSquare },
     { name: 'Progress', path: '/progress', icon: BarChart2 },
-    { name: '✦ The Nest', path: '/nest', icon: Sparkles, isNest: true },
   ];
-
 
   const handleGoalSwitch = async (userGoalId) => {
     await switchActiveGoal(userGoalId);
@@ -132,24 +130,18 @@ export const Navbar = () => {
           <nav className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => {
               const Icon = link.icon;
-              const isActive = link.isNest
-                ? location.pathname.startsWith('/nest')
-                : location.pathname === link.path;
+              const isActive = location.pathname === link.path;
               return (
                 <Link
                   key={link.name}
                   to={link.path}
                   className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
-                    link.isNest
-                      ? isActive
-                        ? 'bg-purple-100 text-purple-700 border border-purple-200 shadow-sm'
-                        : 'text-purple-600 hover:text-purple-800 hover:bg-purple-50 border border-transparent'
-                      : isActive
-                        ? 'bg-brand-50 text-brand-700 shadow-sm border border-brand-100'
-                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
+                    isActive
+                      ? 'bg-brand-50 text-brand-700 shadow-sm border border-brand-100'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${link.isNest ? 'text-purple-500' : isActive ? 'text-brand-600' : 'text-slate-400'}`} />
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-brand-600' : 'text-slate-400'}`} />
                   {link.name}
                 </Link>
               );
