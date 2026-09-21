@@ -32,20 +32,19 @@ import { CreateCoursePage } from './pages/creator/CreateCoursePage';
 import { CreateRoadmapPage } from './pages/creator/CreateRoadmapPage';
 
 /**
- * NestRouter — mounts all InfoNest routes under /nest/* in KNWshare.
- * Wrapped in .nest-app div to scope dark theme styles without bleeding
- * into KNWshare's light-themed pages.
+ * NestRouter — InfoNest is the PRIMARY shell, mounted at /.
+ * KNWshare lives at /knwshare/* and is accessible via the sidebar link.
  */
 export default function NestRouter() {
   return (
     <div className="nest-app">
       <AppProvider>
         <Routes>
-          {/* Default: redirect /nest → /nest/feed */}
-          <Route index element={<Navigate to="feed" replace />} />
-          <Route path="home" element={<Navigate to="feed" replace />} />
+          {/* Default redirect → Feed */}
+          <Route index element={<Navigate to="/feed" replace />} />
+          <Route path="home" element={<Navigate to="/feed" replace />} />
 
-          {/* Core Student Routes */}
+          {/* Core InfoNest Routes */}
           <Route path="feed" element={<FeedPage />} />
           <Route path="explore" element={<ExplorePage />} />
           <Route path="search" element={<SearchPage />} />
@@ -53,7 +52,7 @@ export default function NestRouter() {
           <Route path="creator/:username" element={<CreatorProfilePage />} />
           <Route path="courses" element={<CoursesPage />} />
           <Route path="course/:courseId" element={<CourseDetailPage />} />
-          <Route path="course/:courseId/learn" element={<Navigate to="/nest/lecture/lec_1" replace />} />
+          <Route path="course/:courseId/learn" element={<Navigate to="/lecture/lec_1" replace />} />
           <Route path="lecture/:lectureId" element={<LecturePlayerPage />} />
           <Route path="roadmaps" element={<RoadmapsPage />} />
           <Route path="roadmap/:roadmapId" element={<RoadmapDetailPage />} />
@@ -67,16 +66,16 @@ export default function NestRouter() {
           <Route path="settings" element={<SettingsPage />} />
           <Route path="post/:postId" element={<PostDetailPage />} />
 
-          {/* Creator Workspace Routes */}
-          <Route path="creator-dashboard" element={<CreatorDashboardPage />} />
-          <Route path="creator-content" element={<CreatorContentPage />} />
-          <Route path="creator-studio" element={<CreatorStudioPage />} />
+          {/* Creator Workspace */}
+          <Route path="creator/dashboard" element={<CreatorDashboardPage />} />
+          <Route path="creator/content" element={<CreatorContentPage />} />
+          <Route path="creator/studio" element={<CreatorStudioPage />} />
           <Route path="create/post" element={<CreatePostPage />} />
           <Route path="create/course" element={<CreateCoursePage />} />
           <Route path="create/roadmap" element={<CreateRoadmapPage />} />
 
-          {/* Catch-all */}
-          <Route path="*" element={<Navigate to="feed" replace />} />
+          {/* Catch-all → Feed */}
+          <Route path="*" element={<Navigate to="/feed" replace />} />
         </Routes>
       </AppProvider>
     </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import {
   Sparkles,
   Compass,
@@ -17,7 +17,9 @@ import {
   GitPullRequest,
   Layers,
   Radio,
-  Zap
+  Zap,
+  ExternalLink,
+  Compass as CompassIcon
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { sounds } from '../../services/soundManager';
@@ -208,6 +210,36 @@ export const Sidebar: React.FC = () => {
           <span className="text-[10px]">Tokens</span>
         </div>
       </div>
+      {/* ── KNWshare Portal Entry ── */}
+      <Link
+        to="/knwshare"
+        onClick={() => sounds.playChime()}
+        className="group block glass-panel rounded-2xl p-4 border border-cyan-500/25 hover:border-cyan-400/50 transition-all relative overflow-hidden hover:shadow-glow-cyan"
+      >
+        {/* Glow blob */}
+        <div className="absolute top-0 right-0 w-24 h-24 bg-cyan-500/10 rounded-full blur-2xl -z-10 group-hover:bg-cyan-500/25 transition-all" />
+
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-glow-cyan">
+              <CompassIcon className="w-3.5 h-3.5 text-white" />
+            </div>
+            <span className="text-xs font-bold text-white">KNWshare</span>
+          </div>
+          <ExternalLink className="w-3.5 h-3.5 text-cyan-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+        </div>
+
+        <p className="text-[11px] text-slate-400 leading-relaxed mb-3">
+          Your personal goal tracker, roadmaps, timetable & tasks hub.
+        </p>
+
+        <div className="flex items-center gap-1.5 text-[10px] font-mono">
+          <span className="px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300">Goals</span>
+          <span className="px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-300">Roadmap</span>
+          <span className="px-2 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300">Tasks</span>
+        </div>
+      </Link>
+
     </aside>
   );
 };
