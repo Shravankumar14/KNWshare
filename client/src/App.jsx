@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { GoalProvider } from './context/GoalContext';
@@ -16,6 +16,10 @@ import { ProfilePage } from './pages/ProfilePage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { NotFoundPage } from './pages/NotFoundPage';
+
+// InfoNest — lazy loaded to keep KNWshare bundle lean
+const NestRouter = lazy(() => import('./features/infonest/NestRouter'));
+
 
 export function App() {
   return (
@@ -53,6 +57,25 @@ export function App() {
                 {/* 404 Fallback */}
                 <Route path="*" element={<NotFoundPage />} />
               </Route>
+
+              {/* ── InfoNest Knowledge Universe (/nest/*) ── */}
+              <Route
+                path="/nest/*"
+                element={
+                  <Suspense
+                    fallback={
+                      <div style={{ background: '#07080D', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <div style={{ color: '#8B5CF6', fontSize: '1.25rem', fontFamily: 'Inter, sans-serif' }}>
+                          ✦ Loading The Nest...
+                        </div>
+                      </div>
+                    }
+                  >
+                    <NestRouter />
+                  </Suspense>
+                }
+              />
+
             </Routes>
           </NotificationProvider>
         </GoalProvider>
