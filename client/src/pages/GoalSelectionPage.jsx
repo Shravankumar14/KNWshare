@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  Target, Map, BookOpen, Clock, CheckCircle2, ArrowRight,
+  Layers, Target, Map, BookOpen, Clock, CheckCircle2, ArrowRight,
   Sparkles, Zap, Star, TrendingUp, Play, Users, ChevronRight,
   Flame, MessageCircle, Bookmark, Share2, PlusCircle, Video,
   Briefcase, Check, ExternalLink, X, Compass, Award
@@ -701,41 +701,52 @@ export const GoalSelectionPage = () => {
 
                 {/* Goals List */}
                 <div className="space-y-2 max-h-80 overflow-y-auto pr-1">
-                  {filteredGoals.map((goal) => {
-                    const isEnrolled = activeGoal?._id === goal._id;
-                    return (
-                      <div
-                        key={goal._id}
-                        onClick={() => handleSelectGoal(goal)}
-                        className={`p-3 rounded-2xl border transition-all cursor-pointer ${
-                          isEnrolled
-                            ? 'border-knw-red bg-knw-red/10 shadow-red'
-                            : 'border-white/5 bg-knw-surface hover:border-knw-red/40 hover:bg-white/[0.02]'
-                        }`}
-                      >
-                        <div className="flex items-start justify-between gap-2">
-                          <div>
-                            <div className="flex items-center gap-1.5">
-                              <span className="text-xs font-bold text-white">{goal.title}</span>
-                              {isEnrolled && (
-                                <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-red-600 text-white font-bold">
-                                  Enrolled
-                                </span>
-                              )}
+                  {loading ? (
+                    <div className="py-8 text-center text-xs font-mono text-knw-muted space-y-2">
+                      <div className="w-5 h-5 border-2 border-knw-red border-t-transparent rounded-full animate-spin mx-auto" />
+                      <p>Loading curricula...</p>
+                    </div>
+                  ) : filteredGoals.length === 0 ? (
+                    <div className="py-6 text-center text-xs font-mono text-knw-muted">
+                      No matching curricula found.
+                    </div>
+                  ) : (
+                    filteredGoals.map((goal) => {
+                      const isEnrolled = activeGoal?._id === goal._id;
+                      return (
+                        <div
+                          key={goal._id}
+                          onClick={() => handleSelectGoal(goal)}
+                          className={`p-3 rounded-2xl border transition-all cursor-pointer ${
+                            isEnrolled
+                              ? 'border-knw-red bg-knw-red/10 shadow-red'
+                              : 'border-white/5 bg-knw-surface hover:border-knw-red/40 hover:bg-white/[0.02]'
+                          }`}
+                        >
+                          <div className="flex items-start justify-between gap-2">
+                            <div>
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-xs font-bold text-white">{goal.title}</span>
+                                {isEnrolled && (
+                                  <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-red-600 text-white font-bold">
+                                    Enrolled
+                                  </span>
+                                )}
+                              </div>
+                              <p className="text-[10px] text-knw-muted mt-0.5 line-clamp-1 leading-tight">
+                                {goal.description}
+                              </p>
                             </div>
-                            <p className="text-[10px] text-knw-muted mt-0.5 line-clamp-1 leading-tight">
-                              {goal.description}
-                            </p>
+                            <ChevronRight className="w-3.5 h-3.5 text-knw-subtle shrink-0 mt-0.5" />
                           </div>
-                          <ChevronRight className="w-3.5 h-3.5 text-knw-subtle shrink-0 mt-0.5" />
+                          <div className="flex items-center gap-3 mt-1.5 text-[10px] text-knw-subtle font-mono">
+                            <span>~{goal.estimatedDuration || '6 months'}</span>
+                            <span>• {goal.category}</span>
+                          </div>
                         </div>
-                        <div className="flex items-center gap-3 mt-1.5 text-[10px] text-knw-subtle font-mono">
-                          <span>~{goal.estimatedDuration || '6 months'}</span>
-                          <span>• {goal.category}</span>
-                        </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })
+                  )}
                 </div>
 
                 {/* Custom Goal Trigger */}

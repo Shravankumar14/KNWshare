@@ -31,6 +31,7 @@ app.use(cors({
       'http://localhost:5173',
       'http://127.0.0.1:5173',
       'http://localhost:3000',
+      'https://kn-wshare.vercel.app',
     ];
     // Allow any Vercel deployment (*.vercel.app) or no origin (mobile/Postman)
     if (!origin || allowed.includes(origin) || /\.vercel\.app$/.test(origin)) {
