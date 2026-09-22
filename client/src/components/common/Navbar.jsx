@@ -79,15 +79,15 @@ export const Navbar = () => {
 
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2.5 group shrink-0">
-              {/* K icon */}
+              {/* I icon */}
               <div className="w-9 h-9 rounded-lg bg-knw-red flex items-center justify-center shadow-lg shadow-knw-red/30 group-hover:shadow-knw-red/50 group-hover:scale-105 transition-all duration-200">
-                <span className="text-white font-black text-base leading-none">K</span>
+                <span className="text-white font-black text-base leading-none">I</span>
               </div>
               {/* Wordmark */}
               <div className="leading-tight">
                 <span className="text-lg font-black tracking-tight">
-                  <span className="text-white">KNW</span>
-                  <span className="text-knw-red">share</span>
+                  <span className="text-white">Info</span>
+                  <span className="text-knw-red">Nest</span>
                 </span>
                 <span className="block text-[9px] font-mono font-semibold uppercase tracking-[0.18em] text-knw-muted -mt-0.5">
                   GOAL → EXECUTION

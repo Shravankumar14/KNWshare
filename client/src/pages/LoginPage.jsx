@@ -20,7 +20,7 @@ export const LoginPage = () => {
     setLoading(true);
     try {
       await login(email, password);
-      addToast('Welcome back to KNWshare!', 'success');
+      addToast('Welcome back to InfoNest!', 'success');
       navigate('/');
     } catch (err) {
       setError(err.message || 'Login failed');
@@ -52,7 +52,7 @@ export const LoginPage = () => {
           <div className="w-12 h-12 rounded-2xl bg-knw-red text-white flex items-center justify-center mx-auto shadow-red">
             <Compass className="w-6 h-6" />
           </div>
-          <h1 className="text-2xl font-black text-white tracking-tight">Sign In to KNWshare</h1>
+          <h1 className="text-2xl font-black text-white tracking-tight">Sign In to InfoNest</h1>
           <p className="text-xs text-knw-muted">Pick up right where you left off on your goal journey</p>
         </div>
 

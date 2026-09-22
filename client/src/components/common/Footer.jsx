@@ -15,8 +15,8 @@ export const Footer = () => {
                 <Compass className="w-5 h-5" />
               </div>
               <span className="text-lg font-bold tracking-tight">
-                <span className="text-white font-black">KNW</span>
-                <span className="text-knw-red font-black">share</span>
+                <span className="text-white font-black">Info</span>
+                <span className="text-knw-red font-black">Nest</span>
               </span>
             </div>
             <p className="text-xs text-knw-muted max-w-sm leading-relaxed">
@@ -60,7 +60,7 @@ export const Footer = () => {
         </div>
 
         <div className="border-t border-white/10 mt-8 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-knw-subtle gap-4">
-          <p>© {new Date().getFullYear()} KNWshare. Built for ambitious students worldwide.</p>
+          <p>© {new Date().getFullYear()} InfoNest. Built for ambitious students worldwide.</p>
           <p className="flex items-center gap-1 text-knw-muted">
             Engineered with <Heart className="w-3.5 h-3.5 text-knw-red fill-knw-red" /> in Netflix-Dark & Neon.
           </p>

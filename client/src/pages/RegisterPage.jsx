@@ -21,7 +21,7 @@ export const RegisterPage = () => {
     setLoading(true);
     try {
       await register(name, email, password);
-      addToast('Welcome to KNWshare! Select your goal to begin.', 'success');
+      addToast('Welcome to InfoNest! Select your goal to begin.', 'success');
       navigate('/');
     } catch (err) {
       setError(err.message || 'Registration failed');
