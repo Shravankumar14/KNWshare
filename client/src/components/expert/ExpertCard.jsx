@@ -41,7 +41,7 @@ export const ExpertCard = ({ expert, onBook }) => {
                 <h3 className="text-base font-bold text-white group-hover:text-knw-red transition-colors">
                   {expert.name}
                 </h3>
-                <span className="text-[9px] font-mono uppercase px-2 py-0.5 rounded-full bg-knw-red/10 border border-knw-red/30 text-red-400 font-semibold">
+                <span className="text-[9px] font-mono uppercase px-2 py-0.5 rounded-full bg-knw-red/10 border border-knw-red/30 text-knw-red font-semibold">
                   Verified Mentor
                 </span>
               </div>
@@ -103,7 +103,7 @@ export const ExpertCard = ({ expert, onBook }) => {
         {/* Real Live Posted Slot Timings */}
         <div className="mt-4">
           <div className="flex items-center justify-between mb-1.5">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-red-400 flex items-center gap-1 font-bold">
+            <span className="text-[10px] font-mono uppercase tracking-widest text-knw-red flex items-center gap-1 font-bold">
               <Clock className="w-3 h-3 text-knw-red" /> Available Posted Slots:
             </span>
             <span className="text-[10px] font-mono text-knw-subtle">Click to reserve</span>

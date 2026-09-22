@@ -39,6 +39,15 @@ const userSchema = new mongoose.Schema({
     ref: 'UserGoal',
     default: null,
   },
+  currentGoalId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Goal',
+    default: null,
+  },
+  currentGoalSlug: {
+    type: String,
+    default: 'jee-main-advanced',
+  },
   preferences: {
     defaultHoursPerDay: { type: Number, default: 2 },
     preferredStudyTime: { type: String, enum: ['morning', 'afternoon', 'evening', 'night'], default: 'morning' },

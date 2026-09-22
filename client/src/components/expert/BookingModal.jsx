@@ -121,7 +121,7 @@ export const BookingModal = ({ expert, isOpen, onClose, goalId }) => {
 
       <div className="relative w-full max-w-xl knw-glass rounded-3xl overflow-hidden border border-knw-red/40 shadow-red-lg z-10">
         {/* Netflix red neon header stripe */}
-        <div className="h-1.5 w-full bg-gradient-to-r from-knw-red via-red-500 to-knw-redDark shadow-red" />
+        <div className="h-1.5 w-full bg-gradient-to-r from-knw-red via-knw-redBright to-knw-redDark shadow-red" />
 
         {/* Close Button */}
         <button
@@ -158,7 +158,7 @@ export const BookingModal = ({ expert, isOpen, onClose, goalId }) => {
 
               {/* What We Will Cover in this Session */}
               <div className="p-3 rounded-2xl bg-knw-surface border border-white/5 space-y-1.5">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-red-400 font-bold block flex items-center gap-1">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-knw-red font-bold block flex items-center gap-1">
                   <Sparkles className="w-3 h-3" /> Agenda / What Mentor Shares:
                 </span>
                 <p className="text-xs text-knw-offWhite leading-relaxed">

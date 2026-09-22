@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import { connectDB } from './config/db.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import { seedDatabase } from './seeds/seedData.js';
+import { seedRoadmaps } from './scripts/seedRoadmaps.js';
 import Goal from './models/Goal.js';
 import Roadmap from './models/Roadmap.js';
 
@@ -22,6 +23,10 @@ import notificationRoutes from './routes/notificationRoutes.js';
 import teacherRoutes from './routes/teacherRoutes.js';
 import bookingRoutes from './routes/bookingRoutes.js';
 import chatRoutes from './routes/chatRoutes.js';
+import multiGoalRoutes from './routes/multiGoalRoutes.js';
+import aiRoutes from './routes/aiRoutes.js';
+import postRoutes from './routes/postRoutes.js';
+import storyRoutes from './routes/storyRoutes.js';
 
 dotenv.config();
 
@@ -61,19 +66,31 @@ app.get(['/health', '/api/health', '/api/v1/health'], (req, res) => {
   });
 });
 
-// Mount Routes
-app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/goals', goalRoutes);
-app.use('/api/v1/roadmaps', roadmapRoutes);
-app.use('/api/v1/resources', resourceRoutes);
-app.use('/api/v1/timetable', timetableRoutes);
-app.use('/api/v1/tasks', taskRoutes);
-app.use('/api/v1/progress', progressRoutes);
-app.use('/api/v1/experts', expertRoutes);
-app.use('/api/v1/notifications', notificationRoutes);
-app.use('/api/v1/teachers', teacherRoutes);
-app.use('/api/v1/bookings', bookingRoutes);
-app.use('/api/v1/chat', chatRoutes);
+// Multi-Goal System Routes (§4: /api/goals, /api/resources, /api/users/me/*, etc.)
+app.use('/api', multiGoalRoutes);
+app.use('/api/v1', multiGoalRoutes);
+
+// Mount Existing Routes with /api and /api/v1 support
+const mountAppRoutes = (prefix) => {
+  app.use(`${prefix}/auth`, authRoutes);
+  app.use(`${prefix}/goals`, goalRoutes);
+  app.use(`${prefix}/roadmaps`, roadmapRoutes);
+  app.use(`${prefix}/resources`, resourceRoutes);
+  app.use(`${prefix}/timetable`, timetableRoutes);
+  app.use(`${prefix}/tasks`, taskRoutes);
+  app.use(`${prefix}/progress`, progressRoutes);
+  app.use(`${prefix}/experts`, expertRoutes);
+  app.use(`${prefix}/notifications`, notificationRoutes);
+  app.use(`${prefix}/teachers`, teacherRoutes);
+  app.use(`${prefix}/bookings`, bookingRoutes);
+  app.use(`${prefix}/chat`, chatRoutes);
+  app.use(`${prefix}/ai`, aiRoutes);
+  app.use(`${prefix}/posts`, postRoutes);
+  app.use(`${prefix}/stories`, storyRoutes);
+};
+
+mountAppRoutes('/api/v1');
+mountAppRoutes('/api');
 
 // Manual Seed Trigger Endpoint (Protected by secret or public in dev/initial deploy)
 app.post('/api/v1/seed', async (req, res, next) => {
@@ -94,18 +111,21 @@ const startServer = async () => {
   try {
     await connectDB();
 
-    // Auto-seed if database has 0 goals or missing roadmaps
+    // Auto-seed if database has missing roadmaps
     const goalCount = await Goal.countDocuments();
     const roadmapCount = await Roadmap.countDocuments();
-    if (goalCount === 0 || roadmapCount < 2) {
-      console.log(`[Server] Incomplete database detected (goals: ${goalCount}, roadmaps: ${roadmapCount}). Triggering automatic seed...`);
-      await seedDatabase();
+    if (goalCount < 4 || roadmapCount < 4) {
+      console.log(`[Server] Incomplete multi-goal database detected (goals: ${goalCount}, roadmaps: ${roadmapCount}). Triggering automatic seed...`);
+      await seedRoadmaps();
     }
 
     app.listen(PORT,"0.0.0.0", () => {
+      const hasGeminiKey = !!(process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim() !== '' && process.env.GEMINI_API_KEY !== 'your_gemini_api_key_here');
       console.log(`=========================================`);
       console.log(`🚀 KNWshare Server running on port ${PORT}`);
       console.log(`📡 API Health: http://localhost:${PORT}/api/health`);
+      console.log(`🔒 Security Boundary: Secret leak protection active`);
+      console.log(`🤖 Gemini AI Assistant: ${hasGeminiKey ? 'Active (API Key loaded)' : 'Active (Resilient Curated Engine)'}`);
       console.log(`=========================================`);
     });
   } catch (err) {

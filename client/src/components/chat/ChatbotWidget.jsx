@@ -69,19 +69,17 @@ export const ChatbotWidget = () => {
     setLoading(true);
 
     try {
-      const res = await api.post('/chat', {
+      const endpoint = isAuthenticated ? '/ai/chat' : '/chat';
+      const res = await api.post(endpoint, {
         message: text,
         history: messages.slice(-6).map(m => ({
           role: m.sender === 'user' ? 'user' : 'assistant',
           content: m.text
         })),
-        context: {
-          activeGoal: activeGoal || null,
-          userRole: user?.role || 'student'
-        }
+        conversationId: 'student-assistant-session'
       });
 
-      const botReply = res.data?.data?.reply || 'I am here to help you navigate InfoNest and master your learning goals!';
+      const botReply = res.data?.data?.reply || 'I am here to help you navigate KNWshare and master your learning goals!';
 
       setMessages(prev => [
         ...prev,
@@ -130,7 +128,7 @@ export const ChatbotWidget = () => {
         <div className="w-[92vw] sm:w-[420px] h-[580px] max-h-[85vh] knw-glass rounded-3xl border border-knw-red/40 shadow-red-lg flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-300">
           {/* Header */}
           <div className="px-5 py-4 bg-black/60 border-b border-white/10 flex items-center justify-between relative">
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-knw-red via-red-500 to-knw-redDark shadow-red" />
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-knw-red via-knw-redBright to-knw-redDark shadow-red" />
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-xl bg-knw-red/20 border border-knw-red/40 flex items-center justify-center text-knw-red shadow-red">
                 <Sparkles className="w-4 h-4" />
@@ -185,7 +183,7 @@ export const ChatbotWidget = () => {
                 <div
                   className={`max-w-[82%] p-3.5 rounded-2xl ${
                     msg.sender === 'user'
-                      ? 'bg-gradient-to-tr from-knw-red to-red-600 text-white rounded-tr-none shadow-red'
+                      ? 'bg-gradient-to-tr from-knw-red to-knw-redDark text-white rounded-tr-none shadow-red'
                       : 'bg-knw-surface border border-white/10 text-gray-200 rounded-tl-none'
                   }`}
                 >

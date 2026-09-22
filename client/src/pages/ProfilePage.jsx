@@ -51,7 +51,7 @@ export const ProfilePage = () => {
     <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
       {/* Profile Overview Card */}
       <div className="knw-card rounded-3xl p-6 sm:p-8 relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-knw-red via-red-500 to-knw-redDark shadow-red" />
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-knw-red via-knw-redBright to-knw-redDark shadow-red" />
         <div className="flex items-center gap-5">
           <div className="w-16 h-16 rounded-2xl bg-knw-red text-white font-black text-2xl flex items-center justify-center shadow-red">
             {user?.name?.[0]?.toUpperCase() || 'S'}
@@ -59,7 +59,7 @@ export const ProfilePage = () => {
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-xl font-bold text-white">{user?.name}</h1>
-              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-knw-red/15 text-red-400 border border-knw-red/30 uppercase">
+              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-knw-red/15 text-knw-red border border-knw-red/30 uppercase">
                 {user?.role || 'Student'}
               </span>
             </div>
@@ -90,7 +90,7 @@ export const ProfilePage = () => {
               <Target className="w-4 h-4 text-knw-red" />
               <span>Enrolled Goals ({myGoals.length})</span>
             </h2>
-            <Link to="/" className="text-xs font-bold text-knw-red hover:text-red-400 font-mono">
+            <Link to="/" className="text-xs font-bold text-knw-red hover:text-knw-redBright font-mono">
               + New Goal
             </Link>
           </div>
@@ -112,7 +112,7 @@ export const ProfilePage = () => {
                       {ug.goalId?.title || ug.customTitle}
                     </h3>
                     <p className="text-[11px] text-knw-muted mt-0.5 font-mono">
-                      Target: ~{ug.hoursPerDay} hrs/day • Progress: <strong className="text-red-400">{ug.overallProgress || 0}%</strong>
+                      Target: ~{ug.hoursPerDay} hrs/day • Progress: <strong className="text-knw-red">{ug.overallProgress || 0}%</strong>
                     </p>
                   </div>
 
@@ -141,7 +141,7 @@ export const ProfilePage = () => {
               <Video className="w-4 h-4 text-knw-red" />
               <span>Mentorship Guidance Bookings ({bookings.length})</span>
             </h2>
-            <Link to="/roadmap" className="text-xs font-bold text-knw-red hover:text-red-400 font-mono">
+            <Link to="/roadmap" className="text-xs font-bold text-knw-red hover:text-knw-redBright font-mono">
               Book Expert →
             </Link>
           </div>
@@ -174,7 +174,7 @@ export const ProfilePage = () => {
                       href={booking.meetingLink || '#'}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-1 font-bold text-knw-red hover:text-red-400 font-mono text-[11px]"
+                      className="inline-flex items-center gap-1 font-bold text-knw-red hover:text-knw-redBright font-mono text-[11px]"
                     >
                       <span>Join Video Call</span>
                       <ExternalLink className="w-3 h-3" />

@@ -132,6 +132,31 @@ export const TeacherDashboardPage = () => {
   });
   const [experienceSaving, setExperienceSaving] = useState(false);
 
+  // ── Posts & Stories State ──
+  const [myPosts, setMyPosts] = useState([]);
+  const [myStories, setMyStories] = useState([]);
+  const [showPostModal, setShowPostModal] = useState(false);
+  const [postForm, setPostForm] = useState({
+    title: '',
+    text: '',
+    imageUrl: '',
+    tags: '',
+    goalSlug: '',
+    published: true,
+  });
+  const [postSaving, setPostSaving] = useState(false);
+
+  const [showStoryModal, setShowStoryModal] = useState(false);
+  const [storyForm, setStoryForm] = useState({
+    mediaUrl: '',
+    title: '',
+    text: '',
+    badge: 'SPARK',
+    slotAction: 'Book 1-on-1 Guidance Session',
+    expiresHours: 24,
+  });
+  const [storySaving, setStorySaving] = useState(false);
+
   useEffect(() => {
     if (!authLoading) {
       if (!isAuthenticated) {
@@ -202,6 +227,18 @@ export const TeacherDashboardPage = () => {
         }
       } catch (err) {
         console.warn('Content fetch:', err.message);
+      }
+
+      // 5. Posts & Stories Sparks
+      try {
+        const [postsRes, storiesRes] = await Promise.all([
+          api.get('/posts/my').catch(() => ({ data: { data: [] } })),
+          api.get('/stories/my').catch(() => ({ data: { data: [] } })),
+        ]);
+        setMyPosts(postsRes.data?.data || []);
+        setMyStories(storiesRes.data?.data || []);
+      } catch (err) {
+        console.warn('Posts/Stories fetch:', err.message);
       }
     } finally {
       setLoadingData(false);
@@ -408,6 +445,61 @@ export const TeacherDashboardPage = () => {
     }
   };
 
+  // ── Posts & Stories Actions ──
+  const handleSavePost = async (e) => {
+    e.preventDefault();
+    setPostSaving(true);
+    try {
+      const res = await api.post('/posts', postForm);
+      setMyPosts(prev => [res.data.data, ...prev]);
+      setShowPostModal(false);
+      setPostForm({ title: '', text: '', imageUrl: '', tags: '', goalSlug: '', published: true });
+      addToast('Knowledge post published to student home feed!', 'success');
+    } catch (err) {
+      addToast(err.response?.data?.message || 'Failed to publish post', 'error');
+    } finally {
+      setPostSaving(false);
+    }
+  };
+
+  const handleDeletePost = async (postId) => {
+    if (!window.confirm('Delete this post?')) return;
+    try {
+      await api.delete(`/posts/${postId}`);
+      setMyPosts(prev => prev.filter(p => p._id !== postId));
+      addToast('Post removed.', 'info');
+    } catch (err) {
+      addToast(err.response?.data?.message || 'Failed to delete post', 'error');
+    }
+  };
+
+  const handleSaveStory = async (e) => {
+    e.preventDefault();
+    setStorySaving(true);
+    try {
+      const res = await api.post('/stories', storyForm);
+      setMyStories(prev => [res.data.data, ...prev]);
+      setShowStoryModal(false);
+      setStoryForm({ mediaUrl: '', title: '', text: '', badge: 'SPARK', slotAction: 'Book 1-on-1 Guidance Session', expiresHours: 24 });
+      addToast('24-Hour Spark Story published to student stories tray!', 'success');
+    } catch (err) {
+      addToast(err.response?.data?.message || 'Failed to publish story spark', 'error');
+    } finally {
+      setStorySaving(false);
+    }
+  };
+
+  const handleDeleteStory = async (storyId) => {
+    if (!window.confirm('Remove this story spark?')) return;
+    try {
+      await api.delete(`/stories/${storyId}`);
+      setMyStories(prev => prev.filter(s => s._id !== storyId));
+      addToast('Story spark removed.', 'info');
+    } catch (err) {
+      addToast(err.response?.data?.message || 'Failed to delete story', 'error');
+    }
+  };
+
   const toggleSubject = (sub) => {
     setProfileForm(prev => {
       const exists = prev.subjects.includes(sub);
@@ -438,7 +530,7 @@ export const TeacherDashboardPage = () => {
     <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* ── TEACHER HEADER BANNER ── */}
       <div className="relative rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-[#141414] via-[#1c0e0e] to-[#120808] border border-knw-red/30 shadow-red-lg overflow-hidden">
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-knw-red via-red-500 to-knw-redDark shadow-red" />
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-knw-red via-knw-redBright to-knw-redDark shadow-red" />
 
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           <div className="flex items-center gap-5">
@@ -517,6 +609,7 @@ export const TeacherDashboardPage = () => {
           { id: 'slots', label: `My Availability Slots (${slots.length})`, icon: Calendar },
           { id: 'bookings', label: `Student Sessions (${bookings.length})`, icon: Users },
           { id: 'content', label: `My Content (${contents.length})`, icon: FileText },
+          { id: 'feed', label: `Posts & Sparks (${myPosts.length + myStories.length})`, icon: Share2 },
           { id: 'achievements', label: `Achievements (${profile?.achievements?.length || 0})`, icon: Award },
           { id: 'experience', label: `Work Experience (${profile?.workExperiences?.length || 0})`, icon: Briefcase },
           { id: 'profile', label: 'Teacher Profile', icon: User },
@@ -1071,6 +1164,197 @@ export const TeacherDashboardPage = () => {
               </button>
             </div>
           )}
+        </div>
+      )}
+
+      {/* ─────────────────────────────────────────────────────────────
+          TAB 4.5: POSTS & 24H STORY SPARKS
+      ───────────────────────────────────────────────────────────── */}
+      {activeTab === 'feed' && (
+        <div className="space-y-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h2 className="text-xl font-bold text-white">Posts & Story Sparks</h2>
+              <p className="text-xs text-knw-muted">
+                Publish educational posts and ephemeral 24-hour tips directly onto the student home feeds and reels tray.
+              </p>
+            </div>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => {
+                  setStoryForm({
+                    mediaUrl: '',
+                    title: '',
+                    text: '',
+                    badge: 'SPARK',
+                    slotAction: 'Book 1-on-1 Guidance Session',
+                    expiresHours: 24,
+                  });
+                  setShowStoryModal(true);
+                }}
+                className="px-4 py-2 rounded-xl text-xs font-bold border border-knw-red/50 bg-knw-red/10 text-knw-red hover:bg-knw-red/20 transition-all flex items-center gap-2"
+              >
+                <Sparkles className="w-4 h-4" />
+                <span>+ Post Story Spark (24h)</span>
+              </button>
+              <button
+                onClick={() => {
+                  setPostForm({
+                    title: '',
+                    text: '',
+                    imageUrl: '',
+                    tags: '',
+                    goalSlug: '',
+                    published: true,
+                  });
+                  setShowPostModal(true);
+                }}
+                className="btn-red px-4 py-2 rounded-xl text-xs font-bold shadow-red flex items-center gap-2"
+              >
+                <Plus className="w-4 h-4" />
+                <span>+ Create Knowledge Post</span>
+              </button>
+            </div>
+          </div>
+
+          {/* ── Sub-section: 24h Story Sparks ── */}
+          <div className="knw-card p-6 rounded-3xl space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-knw-red" />
+                <h3 className="text-sm font-bold text-white font-mono uppercase tracking-wider">
+                  Active 24-Hour Story Sparks ({myStories.length})
+                </h3>
+              </div>
+              <span className="text-[11px] text-knw-muted font-mono">
+                Automatically unpublish after 24 hours
+              </span>
+            </div>
+
+            {myStories.length === 0 ? (
+              <div className="py-8 text-center bg-white/5 rounded-2xl border border-white/5 space-y-2">
+                <Sparkles className="w-8 h-8 text-knw-muted mx-auto opacity-40" />
+                <p className="text-xs text-knw-muted">No active story sparks right now.</p>
+                <button
+                  onClick={() => setShowStoryModal(true)}
+                  className="text-xs font-mono text-knw-red hover:text-white underline font-bold"
+                >
+                  Post your first 24h spark
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {myStories.map((story) => (
+                  <div
+                    key={story._id}
+                    className="p-4 rounded-2xl bg-knw-surface border border-white/10 hover:border-knw-red/40 transition-all flex flex-col justify-between space-y-3"
+                  >
+                    <div className="space-y-2">
+                      <div className="relative h-36 rounded-xl overflow-hidden bg-black/40">
+                        <img
+                          src={story.mediaUrl}
+                          alt={story.title}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.target.src = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500&auto=format&fit=crop&q=80';
+                          }}
+                        />
+                        <span className="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[9px] font-mono font-bold bg-black/70 border border-knw-red/40 text-knw-red">
+                          ✦ {story.badge || 'SPARK'}
+                        </span>
+                      </div>
+                      <h4 className="text-sm font-bold text-white leading-tight">{story.title || 'Quick Strategy Tip'}</h4>
+                      <p className="text-xs text-gray-300 line-clamp-3">{story.text}</p>
+                    </div>
+
+                    <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-knw-muted">
+                      <span>Expires: {new Date(story.expiresAt).toLocaleDateString()}</span>
+                      <button
+                        onClick={() => handleDeleteStory(story._id)}
+                        className="text-red-400 hover:text-red-300 p-1"
+                        title="Delete Story Spark"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* ── Sub-section: Knowledge Feed Posts ── */}
+          <div className="knw-card p-6 rounded-3xl space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Share2 className="w-5 h-5 text-knw-red" />
+                <h3 className="text-sm font-bold text-white font-mono uppercase tracking-wider">
+                  Knowledge Feed Posts ({myPosts.length})
+                </h3>
+              </div>
+            </div>
+
+            {myPosts.length === 0 ? (
+              <div className="py-8 text-center bg-white/5 rounded-2xl border border-white/5 space-y-2">
+                <FileText className="w-8 h-8 text-knw-muted mx-auto opacity-40" />
+                <p className="text-xs text-knw-muted">No knowledge posts published yet.</p>
+                <button
+                  onClick={() => setShowPostModal(true)}
+                  className="text-xs font-mono text-knw-red hover:text-white underline font-bold"
+                >
+                  Create your first post
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {myPosts.map((post) => (
+                  <div
+                    key={post._id}
+                    className="p-4 rounded-2xl bg-knw-surface border border-white/10 hover:border-knw-red/30 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4"
+                  >
+                    <div className="space-y-1.5 flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className={`px-2 py-0.5 rounded-md text-[10px] font-mono uppercase ${
+                          post.published ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/30'
+                        }`}>
+                          {post.published ? 'Published' : 'Draft'}
+                        </span>
+                        {post.goalSlug && (
+                          <span className="px-2 py-0.5 rounded-md text-[10px] font-mono text-knw-muted bg-white/5">
+                            {post.goalSlug}
+                          </span>
+                        )}
+                        <span className="text-[10px] font-mono text-knw-muted">
+                          {new Date(post.createdAt).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <h4 className="text-sm font-bold text-white leading-tight">{post.title}</h4>
+                      <p className="text-xs text-gray-300 line-clamp-2">{post.text}</p>
+                      {post.tags && post.tags.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5 pt-1">
+                          {post.tags.map((tag, idx) => (
+                            <span key={idx} className="text-[10px] font-mono text-knw-red">
+                              #{tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="flex items-center gap-3 shrink-0 self-end md:self-center">
+                      <button
+                        onClick={() => handleDeletePost(post._id)}
+                        className="p-2 rounded-xl text-knw-muted hover:text-red-400 hover:bg-white/5 transition-colors"
+                        title="Delete Post"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       )}
 
@@ -1694,8 +1978,9 @@ export const TeacherDashboardPage = () => {
                     onChange={(e) => setContentForm({ ...contentForm, goalSlug: e.target.value })}
                     className="w-full bg-[#161616] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-knw-red"
                   >
-                    <option value="jee-mains-advanced">JEE Mains & Advanced</option>
+                    <option value="jee-main-advanced">JEE Main & Advanced</option>
                     <option value="full-stack-development">Full Stack Web Development</option>
+                    <option value="competitive-programming-dsa">Competitive Programming & DSA</option>
                     <option value="machine-learning-ai">Machine Learning & AI</option>
                   </select>
                 </div>
@@ -1962,6 +2247,241 @@ export const TeacherDashboardPage = () => {
                   className="btn-red px-4 py-2 rounded-xl text-xs font-bold shadow-red"
                 >
                   {experienceSaving ? 'Saving…' : 'Save Experience'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+      {/* ─────────────────────────────────────────────────────────────
+          MODAL: CREATE KNOWLEDGE POST
+      ───────────────────────────────────────────────────────────── */}
+      {showPostModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+          <div className="relative w-full max-w-lg knw-glass rounded-3xl p-6 border border-knw-red/40 shadow-red-lg space-y-5">
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <Plus className="w-5 h-5 text-knw-red" />
+                <span>Publish Knowledge Post</span>
+              </h3>
+              <button
+                onClick={() => setShowPostModal(false)}
+                className="text-knw-muted hover:text-white"
+              >
+                <XCircle className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSavePost} className="space-y-4">
+              <div>
+                <label className="block text-xs font-mono uppercase text-knw-muted mb-1">Post Title *</label>
+                <input
+                  type="text"
+                  required
+                  value={postForm.title}
+                  onChange={(e) => setPostForm({ ...postForm, title: e.target.value })}
+                  placeholder="e.g. Top 3 Traps in Rotational Dynamics JEE Adv"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:border-knw-red focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-mono uppercase text-knw-muted mb-1">Content / Insights *</label>
+                <textarea
+                  required
+                  rows={4}
+                  value={postForm.text}
+                  onChange={(e) => setPostForm({ ...postForm, text: e.target.value })}
+                  placeholder="Explain the concept, step-by-step insight, or common misconception…"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:border-knw-red focus:outline-none resize-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-mono uppercase text-knw-muted mb-1">Image URL (Optional)</label>
+                <input
+                  type="url"
+                  value={postForm.imageUrl}
+                  onChange={(e) => setPostForm({ ...postForm, imageUrl: e.target.value })}
+                  placeholder="https://images.unsplash.com/…"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:border-knw-red focus:outline-none"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-mono uppercase text-knw-muted mb-1">Tags (Comma Separated)</label>
+                  <input
+                    type="text"
+                    value={postForm.tags}
+                    onChange={(e) => setPostForm({ ...postForm, tags: e.target.value })}
+                    placeholder="Physics, Rotational, JEE"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:border-knw-red focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-mono uppercase text-knw-muted mb-1">Target Curriculum Goal</label>
+                  <select
+                    value={postForm.goalSlug}
+                    onChange={(e) => setPostForm({ ...postForm, goalSlug: e.target.value })}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#141414] border border-white/10 text-white text-xs focus:border-knw-red focus:outline-none"
+                  >
+                    <option value="">All Curriculums</option>
+                    <option value="jee-mains-advanced">JEE Main & Advanced</option>
+                    <option value="neet-ug">NEET UG</option>
+                    <option value="full-stack-web-dev">Full Stack Web Dev</option>
+                    <option value="ai-ml-engineer">AI & Machine Learning</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 pt-1">
+                <input
+                  type="checkbox"
+                  id="publishedPost"
+                  checked={postForm.published}
+                  onChange={(e) => setPostForm({ ...postForm, published: e.target.checked })}
+                  className="rounded border-white/20 bg-white/5 text-knw-red focus:ring-0"
+                />
+                <label htmlFor="publishedPost" className="text-xs text-gray-300">
+                  Publish immediately to student home feed
+                </label>
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/10">
+                <button
+                  type="button"
+                  onClick={() => setShowPostModal(false)}
+                  className="px-4 py-2 rounded-xl text-xs text-knw-muted hover:text-white"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={postSaving}
+                  className="btn-red px-5 py-2 rounded-xl text-xs font-bold shadow-red"
+                >
+                  {postSaving ? 'Publishing…' : 'Publish Post'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ─────────────────────────────────────────────────────────────
+          MODAL: POST 24H STORY SPARK
+      ───────────────────────────────────────────────────────────── */}
+      {showStoryModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+          <div className="relative w-full max-w-lg knw-glass rounded-3xl p-6 border border-knw-red/40 shadow-red-lg space-y-5">
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-knw-red" />
+                <span>Post 24-Hour Story Spark</span>
+              </h3>
+              <button
+                onClick={() => setShowStoryModal(false)}
+                className="text-knw-muted hover:text-white"
+              >
+                <XCircle className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveStory} className="space-y-4">
+              <div>
+                <label className="block text-xs font-mono uppercase text-knw-muted mb-1">Image / Poster URL *</label>
+                <input
+                  type="url"
+                  required
+                  value={storyForm.mediaUrl}
+                  onChange={(e) => setStoryForm({ ...storyForm, mediaUrl: e.target.value })}
+                  placeholder="https://images.unsplash.com/photo-…"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:border-knw-red focus:outline-none"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-mono uppercase text-knw-muted mb-1">Tip Title</label>
+                  <input
+                    type="text"
+                    value={storyForm.title}
+                    onChange={(e) => setStoryForm({ ...storyForm, title: e.target.value })}
+                    placeholder="e.g. Master Pointer Arithmetic"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:border-knw-red focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-mono uppercase text-knw-muted mb-1">Badge</label>
+                  <select
+                    value={storyForm.badge}
+                    onChange={(e) => setStoryForm({ ...storyForm, badge: e.target.value })}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#141414] border border-white/10 text-white text-xs focus:border-knw-red focus:outline-none"
+                  >
+                    <option value="SPARK">SPARK</option>
+                    <option value="PRO TIP">PRO TIP</option>
+                    <option value="EXAM STRATEGY">EXAM STRATEGY</option>
+                    <option value="TOP SECRET">TOP SECRET</option>
+                    <option value="MOCK DRILL">MOCK DRILL</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-mono uppercase text-knw-muted mb-1">Tip Description *</label>
+                <textarea
+                  required
+                  rows={3}
+                  value={storyForm.text}
+                  onChange={(e) => setStoryForm({ ...storyForm, text: e.target.value })}
+                  placeholder="Share a concise, high-yield tip or strategy students can absorb in 10 seconds…"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:border-knw-red focus:outline-none resize-none"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-mono uppercase text-knw-muted mb-1">Button Call to Action</label>
+                  <input
+                    type="text"
+                    value={storyForm.slotAction}
+                    onChange={(e) => setStoryForm({ ...storyForm, slotAction: e.target.value })}
+                    placeholder="Book 1-on-1 Guidance Session"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:border-knw-red focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-mono uppercase text-knw-muted mb-1">Expires After</label>
+                  <select
+                    value={storyForm.expiresHours}
+                    onChange={(e) => setStoryForm({ ...storyForm, expiresHours: Number(e.target.value) })}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#141414] border border-white/10 text-white text-xs focus:border-knw-red focus:outline-none"
+                  >
+                    <option value={24}>24 Hours (Standard)</option>
+                    <option value={48}>48 Hours</option>
+                    <option value={12}>12 Hours</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/10">
+                <button
+                  type="button"
+                  onClick={() => setShowStoryModal(false)}
+                  className="px-4 py-2 rounded-xl text-xs text-knw-muted hover:text-white"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={storySaving}
+                  className="btn-red px-5 py-2 rounded-xl text-xs font-bold shadow-red"
+                >
+                  {storySaving ? 'Publishing…' : 'Publish Story Spark'}
                 </button>
               </div>
             </form>

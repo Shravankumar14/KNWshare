@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { GoalProvider } from './context/GoalContext';
 import { NotificationProvider } from './context/NotificationContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { MainLayout } from './layouts/MainLayout';
 import { RoleProtectedRoute } from './components/auth/RoleProtectedRoute';
 
@@ -30,21 +31,40 @@ const HomeRoute = () => {
 
 export function App() {
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <GoalProvider>
-          <NotificationProvider>
-            <Routes>
+    <ThemeProvider>
+      <BrowserRouter>
+        <AuthProvider>
+          <GoalProvider>
+            <NotificationProvider>
+              <Routes>
               <Route path="/" element={<MainLayout />}>
-                {/* PAGE 1: GOAL SELECTION — FRONT PAGE (Teachers redirected to /teacher/dashboard) */}
+                {/* PAGE 1: GOAL SELECTION — FRONT PAGE & /goal-select */}
                 <Route index element={<HomeRoute />} />
-                
-                {/* STUDENT-ONLY PAGES (Teachers redirected to /teacher/dashboard) */}
+                <Route path="goal-select" element={<HomeRoute />} />
+
+                {/* STUDENT-ONLY PAGES (Supports both general & goal-scoped routes) */}
                 <Route
                   path="roadmap"
                   element={
                     <RoleProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
                       <RoadmapCareerPage />
+                    </RoleProtectedRoute>
+                  }
+                />
+                <Route
+                  path="roadmap/:goalSlug"
+                  element={
+                    <RoleProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
+                      <RoadmapCareerPage />
+                    </RoleProtectedRoute>
+                  }
+                />
+
+                <Route
+                  path="career/:goalSlug"
+                  element={
+                    <RoleProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
+                      <RoadmapCareerPage initialTab="career" />
                     </RoleProtectedRoute>
                   }
                 />
@@ -57,9 +77,25 @@ export function App() {
                     </RoleProtectedRoute>
                   }
                 />
+                <Route
+                  path="resources/:goalSlug"
+                  element={
+                    <RoleProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
+                      <ResourcesPage />
+                    </RoleProtectedRoute>
+                  }
+                />
 
                 <Route
                   path="timetable"
+                  element={
+                    <RoleProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
+                      <TimetablePage />
+                    </RoleProtectedRoute>
+                  }
+                />
+                <Route
+                  path="timetable/:goalSlug"
                   element={
                     <RoleProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
                       <TimetablePage />
@@ -88,7 +124,15 @@ export function App() {
                 {/* Profile & Settings */}
                 <Route path="profile" element={<ProfilePage />} />
 
-                {/* TEACHER DASHBOARD (Students redirected to /) */}
+                {/* TEACHER DASHBOARD (guarded, separate from all student pages) */}
+                <Route
+                  path="teacher/*"
+                  element={
+                    <RoleProtectedRoute allowedRoles={['teacher', 'admin']}>
+                      <TeacherDashboardPage />
+                    </RoleProtectedRoute>
+                  }
+                />
                 <Route
                   path="teacher/dashboard"
                   element={
@@ -110,6 +154,7 @@ export function App() {
         </GoalProvider>
       </AuthProvider>
     </BrowserRouter>
+  </ThemeProvider>
   );
 }
 

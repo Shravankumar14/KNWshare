@@ -6,7 +6,7 @@ import { Clock, Zap, Users, ExternalLink } from "lucide-react";
 ───────────────────────────────────────────── */
 const TYPE_CONFIG = {
   "UPCOMING SESSION": {
-    pill: "bg-red-500/15 text-red-300 border border-red-500/35",
+    pill: "bg-knw-red/15 text-knw-red border border-knw-red/35",
     icon: <Clock className="w-3 h-3" />,
   },
   SCHOLARSHIP: {
@@ -39,11 +39,13 @@ export default function StudyAdBanner({ ad }) {
     <div
       className="relative w-full rounded-2xl overflow-hidden"
       style={{
-        background: `linear-gradient(135deg, ${ad.gradientFrom ?? "#1a0000"} 0%, ${ad.gradientTo ?? "#2d0000"} 100%)`,
-        border: "1px solid rgba(239,68,68,0.25)",
+        background: ad.gradientFrom
+          ? `linear-gradient(135deg, ${ad.gradientFrom} 0%, ${ad.gradientTo ?? "#2d0000"} 100%)`
+          : "var(--hero-bg)",
+        border: "1px solid rgba(var(--primary-rgb), 0.25)",
         boxShadow: hovered
-          ? "0 0 0 1px rgba(239,68,68,0.45), 0 0 28px rgba(239,68,68,0.18), 0 8px 32px rgba(0,0,0,0.6)"
-          : "0 0 0 1px rgba(239,68,68,0.15), 0 4px 24px rgba(0,0,0,0.55)",
+          ? "0 0 0 1px rgba(var(--primary-rgb), 0.45), 0 0 28px var(--primary-glow), 0 8px 32px rgba(0,0,0,0.6)"
+          : "0 0 0 1px rgba(var(--primary-rgb), 0.15), 0 4px 24px rgba(0,0,0,0.55)",
         transition: "box-shadow 0.3s ease",
       }}
       onMouseEnter={() => setHovered(true)}
@@ -54,7 +56,7 @@ export default function StudyAdBanner({ ad }) {
         className="absolute top-0 left-0 right-0 h-px"
         style={{
           background:
-            "linear-gradient(to right, transparent 0%, rgba(239,68,68,0.6) 40%, rgba(239,68,68,0.6) 60%, transparent 100%)",
+            "linear-gradient(to right, transparent 0%, rgba(var(--primary-rgb), 0.6) 40%, rgba(var(--primary-rgb), 0.6) 60%, transparent 100%)",
         }}
       />
 
@@ -72,7 +74,7 @@ export default function StudyAdBanner({ ad }) {
       <div
         className="absolute -bottom-10 -right-10 w-48 h-48 rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(239,68,68,0.12) 0%, transparent 70%)",
+          background: "radial-gradient(circle, var(--primary-glow) 0%, transparent 70%)",
         }}
       />
 
@@ -101,8 +103,8 @@ export default function StudyAdBanner({ ad }) {
           {/* Time row */}
           {ad.time && (
             <div className="flex items-center gap-1.5 mt-0.5">
-              <Clock className="w-3 h-3 text-red-400/70 flex-shrink-0" />
-              <span className="text-[11px] font-mono text-red-300/70">{ad.time}</span>
+              <Clock className="w-3 h-3 text-knw-red flex-shrink-0" />
+              <span className="text-[11px] font-mono text-knw-red">{ad.time}</span>
             </div>
           )}
         </div>
@@ -114,9 +116,9 @@ export default function StudyAdBanner({ ad }) {
             <span
               className="text-[10px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full"
               style={{
-                background: "rgba(239,68,68,0.18)",
-                border: "1px solid rgba(239,68,68,0.5)",
-                color: "#fca5a5",
+                background: "rgba(var(--primary-rgb), 0.18)",
+                border: "1px solid rgba(var(--primary-rgb), 0.5)",
+                color: "var(--primary)",
                 letterSpacing: "0.12em",
               }}
             >
@@ -127,18 +129,8 @@ export default function StudyAdBanner({ ad }) {
           {/* CTA button */}
           <button
             onClick={handleCta}
-            className="flex items-center gap-1.5 text-[12px] font-bold px-4 py-2.5 rounded-xl transition-all duration-200 whitespace-nowrap"
+            className="btn-red flex items-center gap-1.5 text-[12px] font-bold px-4 py-2.5 rounded-xl transition-all duration-200 whitespace-nowrap shadow-red"
             style={{
-              background: clicked
-                ? "rgba(239,68,68,0.25)"
-                : hovered
-                ? "rgba(239,68,68,0.85)"
-                : "rgba(239,68,68,0.7)",
-              border: "1px solid rgba(239,68,68,0.8)",
-              color: "#fff",
-              boxShadow: hovered
-                ? "0 0 18px rgba(239,68,68,0.45), 0 4px 12px rgba(0,0,0,0.4)"
-                : "0 0 8px rgba(239,68,68,0.2), 0 2px 8px rgba(0,0,0,0.3)",
               transform: hovered && !clicked ? "scale(1.03)" : "scale(1)",
             }}
           >
@@ -162,7 +154,7 @@ export default function StudyAdBanner({ ad }) {
         className="absolute bottom-0 left-0 right-0 h-px"
         style={{
           background:
-            "linear-gradient(to right, transparent 10%, rgba(239,68,68,0.3) 50%, transparent 90%)",
+            "linear-gradient(to right, transparent 10%, rgba(var(--primary-rgb), 0.3) 50%, transparent 90%)",
         }}
       />
     </div>

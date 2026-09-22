@@ -165,7 +165,7 @@ export const RoadmapStageCard = ({
                     isTopicDone
                       ? 'border-emerald-500/30 bg-emerald-950/15'
                       : isDetailOpen
-                        ? 'border-knw-red/50 bg-[#120000]/60 shadow-red-lg'
+                        ? 'border-knw-red/50 bg-knw-red/10 shadow-red-lg'
                         : 'border-white/5 bg-knw-surface hover:border-knw-red/40 hover:bg-white/[0.02]'
                   }`}
                 >
@@ -173,7 +173,7 @@ export const RoadmapStageCard = ({
                   <div className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div className="flex items-start gap-3 flex-1 min-w-0">
                       <button
-                        onClick={() => onToggleTopic(stage.stageNumber, topic.title)}
+                        onClick={() => onToggleTopic(stage.stageNumber, topic.title, topic._id)}
                         className={`mt-1 shrink-0 transition-colors ${
                           isTopicDone ? 'text-emerald-400' : 'text-knw-subtle hover:text-knw-red'
                         }`}
@@ -255,7 +255,7 @@ export const RoadmapStageCard = ({
                       {/* Section 1: 7-Step Learning Cycle */}
                       <div>
                         <div className="flex items-center justify-between mb-3">
-                          <h5 className="text-xs font-mono font-bold uppercase tracking-wider text-red-400 flex items-center gap-1.5">
+                          <h5 className="text-xs font-mono font-bold uppercase tracking-wider text-knw-red flex items-center gap-1.5">
                             <Sparkles className="w-3.5 h-3.5 text-knw-red" />
                             <span>Structured Learning Cycle (Step-by-Step Mastery)</span>
                           </h5>
@@ -314,7 +314,7 @@ export const RoadmapStageCard = ({
                               onClick={() => setPrepLayerTab('advanced')}
                               className={`px-3 py-1 rounded-lg font-bold transition-all ${
                                 prepLayerTab === 'advanced'
-                                  ? 'bg-gradient-to-r from-red-600 to-amber-600 text-white shadow-red'
+                                  ? 'bg-gradient-to-r from-knw-red to-knw-redDark text-white shadow-red'
                                   : 'text-knw-muted hover:text-white'
                               }`}
                             >
@@ -344,7 +344,7 @@ export const RoadmapStageCard = ({
                           </div>
                         ) : (
                           <div className="space-y-2">
-                            <span className="text-[11px] font-mono text-red-400 font-bold block">
+                            <span className="text-[11px] font-mono text-knw-red font-bold block">
                               ⚡ JEE Advanced Depth & Analytical Problem Solving:
                             </span>
                             <ul className="space-y-1.5 text-xs text-knw-muted">
@@ -355,7 +355,7 @@ export const RoadmapStageCard = ({
                                 'Condition analytical problem-solving resilience under pressure'
                               ]).map((item, aIdx) => (
                                 <li key={aIdx} className="flex items-start gap-2">
-                                  <Check className="w-3.5 h-3.5 text-red-500 shrink-0 mt-0.5" />
+                                  <Check className="w-3.5 h-3.5 text-knw-red shrink-0 mt-0.5" />
                                   <span>{item}</span>
                                 </li>
                               ))}
@@ -373,7 +373,7 @@ export const RoadmapStageCard = ({
                           </h5>
                           <Link
                             to={`/resources?stage=${stage.stageNumber}&topic=${encodeURIComponent(topic.title)}`}
-                            className="text-[11px] font-mono font-bold text-knw-red hover:text-red-300 flex items-center gap-1"
+                            className="text-[11px] font-mono font-bold text-knw-red hover:text-knw-redBright flex items-center gap-1"
                           >
                             <span>Open in Resource Hub</span>
                             <ArrowRight className="w-3 h-3" />
@@ -434,7 +434,7 @@ export const RoadmapStageCard = ({
           {stage.milestoneOutcome && (
             <div className="mt-4 p-3.5 rounded-2xl bg-knw-red/10 border border-knw-red/30 flex items-center gap-3">
               <Sparkles className="w-4 h-4 text-knw-red shrink-0" />
-              <div className="text-xs text-red-200">
+              <div className="text-xs text-knw-muted">
                 <strong className="text-white">Milestone Outcome:</strong> {stage.milestoneOutcome}
               </div>
             </div>

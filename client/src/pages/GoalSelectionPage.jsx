@@ -11,196 +11,8 @@ import { useAuth } from '../context/AuthContext';
 import { GoalOnboardingModal } from '../components/goal/GoalOnboardingModal';
 import { CustomGoalModal } from '../components/goal/CustomGoalModal';
 
-/* ── Story Sparks Data ────────────────────────────────────────── */
-const STORY_SPARKS = [
-  {
-    id: 's1',
-    author: 'Dr. Elena',
-    handle: '@elena_ai',
-    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&fit=crop',
-    badge: 'AI Flashcard',
-    isLive: false,
-    credential: 'Frontier AI Research Scientist · Ex-OpenAI',
-    storyImage: 'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=800&fit=crop',
-    tipTitle: 'Attention Scaling Trick',
-    tipText: 'In FlashAttention-3, warping asynchronous TMA memory copies eliminates GPU register spilling. When training 70B models, this reduces memory pressure by 38% without quality regression.',
-    slotAction: 'Book Research Review'
-  },
-  {
-    id: 's2',
-    author: 'Marcus',
-    handle: '@marcus_distrib',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&fit=crop',
-    badge: 'Kafka Tip',
-    isLive: false,
-    credential: 'Principal Architect · Ex-AWS',
-    storyImage: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&fit=crop',
-    tipTitle: 'Consumer Rebalance Storms',
-    tipText: 'Always use Cooperative Sticky Assignor in Kafka 3.0+. It prevents full partition revocation during rolling pod restarts, avoiding cascading latency spikes in production.',
-    slotAction: 'Book Architecture Drill'
-  },
-  {
-    id: 's3',
-    author: 'Priya',
-    handle: '@priya_ms',
-    avatar: 'https://i.pravatar.cc/150?img=47',
-    badge: 'Slot Posted',
-    isLive: false,
-    credential: 'Senior SDE at Microsoft | Ex-Amazon',
-    storyImage: 'https://images.unsplash.com/photo-1607799279861-4dd421887fb3?w=800&fit=crop',
-    tipTitle: 'MERN Scalability Checklist',
-    tipText: 'Stop querying Mongo without compound index prefixes. An unindexed $sort on 100k docs causes 100% CPU lockups. Here is my index audit script for your projects!',
-    slotAction: 'Book 1-on-1 Slot'
-  },
-  {
-    id: 's4',
-    author: 'Arjun',
-    handle: '@arjun_deepmind',
-    avatar: 'https://i.pravatar.cc/150?img=33',
-    badge: 'LIVE NOW',
-    isLive: true,
-    credential: 'AI Research Engineer, Google DeepMind',
-    storyImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&fit=crop',
-    tipTitle: 'Transformer Attention Deep Dive',
-    tipText: 'Live session kicking off in 10 minutes: Breaking down query-key projection dot products and Rotary Position Embedding (RoPE) mathematically.',
-    slotAction: 'Join Live Session'
-  },
-  {
-    id: 's5',
-    author: 'Devika',
-    handle: '@devika_cf',
-    avatar: 'https://i.pravatar.cc/150?img=44',
-    badge: 'Cloud Tips',
-    isLive: false,
-    credential: 'Staff Infrastructure Engineer at Cloudflare | Ex-Meta',
-    storyImage: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&fit=crop',
-    tipTitle: 'Edge Routing Latency',
-    tipText: 'Why Anycast BGP routing reduces cold-start TTFB to sub-15ms for globally distributed edge lambdas. Complete network packet trace included.',
-    slotAction: 'Book DevOps Review'
-  },
-  {
-    id: 's6',
-    author: 'Rohan',
-    handle: '@rohan_iit',
-    avatar: 'https://i.pravatar.cc/150?img=52',
-    badge: 'JEE Strategy',
-    isLive: false,
-    credential: 'AIR 42 JEE Advanced · IIT Delhi Alumnus',
-    storyImage: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&fit=crop',
-    tipTitle: 'Revision Loops That Stick',
-    tipText: 'The 1-3-7-21 spaced repetition protocol specifically adapted for JEE Advanced Physics formulas and Organic Chemistry reaction mechanisms.',
-    slotAction: 'Book Strategy Slot'
-  }
-];
+import api from '../services/api';
 
-/* ── Feed Posts Data (Instagram Style + Mentor Slots) ────────── */
-const FEED_POSTS = [
-  {
-    id: 'post-1',
-    postType: 'KNOWLEDGE DROP',
-    badgeColor: 'red',
-    timeAgo: '2 hours ago',
-    author: {
-      name: 'Dr. Elena Rostova',
-      handle: '@elena_ai',
-      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&fit=crop',
-      credential: 'Frontier AI Research Scientist · Ex-OpenAI',
-      verified: true
-    },
-    coverImage: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=900&fit=crop',
-    imageOverlayTag: '✦ Architecture Topology Breakdown',
-    tags: ['ReasoningAI', 'RAGSystems', 'GenerativeAI', 'SystemArchitecture'],
-    title: 'Why RAG Systems Fail Silently in Production (And the 5-Layer Defense Topology)',
-    description: 'Most enterprise RAG pipelines fail not with loud crashes, but with quiet semantic drift, hallucinated citations, and context window pollution. Here is our battle-tested 5-layer topology: Hierarchical chunking, reciprocal rank fusion (RRF), cross-encoder re-ranking, lost-in-the-middle context shuffling, and automated ground-truth verifiers.',
-    reactionsCount: 6930,
-    discussionsCount: 242,
-    hashtags: ['#ReasoningAI', '#RAGSystems', '#GenerativeAI', '#SystemArchitecture'],
-    isMentorSlot: false
-  },
-  {
-    id: 'post-2',
-    postType: 'MENTOR SLOT ANNOUNCEMENT',
-    badgeColor: 'live',
-    timeAgo: '45 min ago',
-    author: {
-      name: 'Priya Sharma',
-      handle: '@priya_ms',
-      avatar: 'https://i.pravatar.cc/150?img=47',
-      credential: 'Senior SDE at Microsoft | Ex-Amazon | Tech Interview Mentor',
-      verified: true
-    },
-    expertField: 'Full Stack Architecture, Distributed Systems & MERN',
-    whatTheyShare: [
-      'Production-grade MERN scalability & microservices breakdown',
-      'Realistic FAANG coding & behavioral mock interview drills',
-      'Architecture review of your personal full-stack projects'
-    ],
-    postedSlots: ['Today 3:00 PM', 'Today 6:30 PM', 'Tomorrow 10:00 AM'],
-    coverImage: 'https://images.unsplash.com/photo-1607799279861-4dd421887fb3?w=900&fit=crop',
-    imageOverlayTag: '✦ Live Slots Available This Week',
-    tags: ['FullStack', 'SystemDesign', 'ReactNode', 'FAANGPrep'],
-    title: 'Opening 3 1-on-1 Mentorship Slots for MERN Architecture & FAANG Mock Drills',
-    description: 'Students preparing for SDE-1 / SDE-2 roles: I am opening 3 slots this week for live 45-minute sessions. We will tear down your distributed backend, review database query efficiency, and simulate a real Microsoft/Amazon technical interview with immediate feedback.',
-    reactionsCount: 1420,
-    discussionsCount: 89,
-    hashtags: ['#FullStack', '#SystemDesign', '#Microsoft', '#MockInterview'],
-    isMentorSlot: true
-  },
-  {
-    id: 'post-3',
-    postType: 'LECTURE DROP (CO-CREATED)',
-    badgeColor: 'purple',
-    timeAgo: '5 hours ago',
-    coCreatedWith: 'Co-Created with Dr. Elena Rostova',
-    author: {
-      name: 'Marcus Vance',
-      handle: '@marcus_distrib',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&fit=crop',
-      credential: 'Principal Distributed Architect · Ex-AWS',
-      verified: true
-    },
-    coverImage: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=900&fit=crop',
-    imageOverlayTag: '✦ Full Lecture Theater (42:15)',
-    lectureDuration: '42:15',
-    tags: ['DistributedSystems', 'Kafka', 'EventDriven', 'HighScale'],
-    title: 'Event-Driven Microservices at 100k Req/Sec: Partitioning, Ordering & Idempotency',
-    description: 'An end-to-end masterclass demonstrating how we architected zero-loss event pipelines handling 100,000 transactions per second. Includes code patterns for transactional outbox, de-duplication caches, and exactly-once processing semantics.',
-    reactionsCount: 4890,
-    discussionsCount: 178,
-    hashtags: ['#Kafka', '#Microservices', '#BackendArchitecture', '#AWS'],
-    isMentorSlot: false,
-    hasVideoPlayer: true
-  },
-  {
-    id: 'post-4',
-    postType: 'MENTOR SLOT ANNOUNCEMENT',
-    badgeColor: 'live',
-    timeAgo: '1 hour ago',
-    author: {
-      name: 'Arjun Mehta',
-      handle: '@arjun_deepmind',
-      avatar: 'https://i.pravatar.cc/150?img=33',
-      credential: 'AI Research Engineer at Google DeepMind | Former OpenAI Researcher',
-      verified: true
-    },
-    expertField: 'Generative AI, Transformer LLMs & PyTorch Research',
-    whatTheyShare: [
-      'Transformer attention mechanism mathematical breakdown',
-      'RAG pipeline defense topology & production vector search',
-      'Breaking into tier-1 AI research labs (DeepMind, FAIR, OpenAI)'
-    ],
-    postedSlots: ['🔴 LIVE NOW in 15m', 'Tomorrow 2:00 PM', 'Tomorrow 5:00 PM'],
-    coverImage: 'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=900&fit=crop',
-    imageOverlayTag: '✦ Live Research Session & 1-on-1 Slots',
-    tags: ['MachineLearning', 'DeepMind', 'LLMs', 'PyTorch'],
-    title: '🔴 LIVE IN 15 MIN: Transformer Multi-Head Attention Implementations in PyTorch',
-    description: 'Join my live technical stream or book an exclusive 1-on-1 research review slot. We will write multi-head scaled dot-product attention from scratch, visualize memory bandwidth bottlenecks, and discuss research publications.',
-    reactionsCount: 3120,
-    discussionsCount: 215,
-    hashtags: ['#GenerativeAI', '#DeepMind', '#PyTorch', '#MachineLearning'],
-    isMentorSlot: true
-  }
-];
 
 export const GoalSelectionPage = () => {
   const { allGoals, activeGoal, activeUserGoal, loading, setPreviewGoal } = useGoal();
@@ -213,6 +25,35 @@ export const GoalSelectionPage = () => {
   const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
   const [isCustomGoalOpen, setIsCustomGoalOpen] = useState(false);
 
+  // Dynamic API feed states
+  const [stories, setStories] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const [availableMentors, setAvailableMentors] = useState([]);
+  const [feedLoading, setFeedLoading] = useState(true);
+
+  // Fetch real data from MongoDB
+  const loadHomeFeed = async () => {
+    setFeedLoading(true);
+    try {
+      const [storiesRes, postsRes, mentorsRes] = await Promise.all([
+        api.get('/stories').catch(() => ({ data: { data: [] } })),
+        api.get('/posts').catch(() => ({ data: { data: [] } })),
+        api.get('/teachers/available').catch(() => ({ data: { data: [] } })),
+      ]);
+      setStories(storiesRes.data?.data || []);
+      setPosts(postsRes.data?.data || []);
+      setAvailableMentors(mentorsRes.data?.data || []);
+    } catch (err) {
+      console.warn('Feed load error:', err.message);
+    } finally {
+      setFeedLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadHomeFeed();
+  }, []);
+
   // Modals & Active Story States
   const [activeStory, setActiveStory] = useState(null);
   const [bookingMentor, setBookingMentor] = useState(null);
@@ -220,6 +61,36 @@ export const GoalSelectionPage = () => {
   const [bookmarkedPosts, setBookmarkedPosts] = useState({});
   const [followingAuthors, setFollowingAuthors] = useState({});
   const [storyProgress, setStoryProgress] = useState(0);
+  const [bookingSlots, setBookingSlots] = useState([]);
+  const [loadingSlots, setLoadingSlots] = useState(false);
+  const [bookingStatus, setBookingStatus] = useState(null);
+  const [isBooking, setIsBooking] = useState(false);
+
+  // Sync slots when bookingMentor changes
+  useEffect(() => {
+    if (!bookingMentor) {
+      setBookingSlots([]);
+      setBookingStatus(null);
+      return;
+    }
+
+    if (bookingMentor.availableSlots && bookingMentor.availableSlots.length > 0) {
+      setBookingSlots(bookingMentor.availableSlots);
+    } else {
+      const teacherId = bookingMentor.teacherId || bookingMentor._id;
+      if (teacherId) {
+        setLoadingSlots(true);
+        api.get(`/teachers/${teacherId}/slots`)
+          .then((res) => {
+            setBookingSlots(res.data?.data || []);
+          })
+          .catch(() => {
+            setBookingSlots([]);
+          })
+          .finally(() => setLoadingSlots(false));
+      }
+    }
+  }, [bookingMentor]);
 
   // Story Auto-progress simulation
   useEffect(() => {
@@ -283,16 +154,15 @@ export const GoalSelectionPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#080808] text-white">
+    <div className="min-h-screen bg-knw-bg text-knw-offWhite">
       {/* ── Top Hero for Unauthenticated Visitors ── */}
       {!isAuthenticated && (
         <div
-          className="relative overflow-hidden px-4 py-10 sm:py-14 text-center border-b border-white/5"
-          style={{ background: 'linear-gradient(180deg, #180000 0%, #0d0000 60%, #080808 100%)' }}
+          className="hero-banner relative overflow-hidden px-4 py-10 sm:py-14 text-center border-b border-white/5"
         >
-          <div className="absolute inset-0 opacity-25 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 50% 0%, #E50914 0%, transparent 65%)' }} />
+          <div className="hero-radial absolute inset-0 opacity-25 pointer-events-none" />
           <div className="relative max-w-2xl mx-auto space-y-3">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-knw-red/40 bg-knw-red/15 text-xs font-mono text-red-400">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-knw-red/40 bg-knw-red/15 text-xs font-mono text-knw-red">
               <Sparkles className="w-3.5 h-3.5 text-knw-red animate-pulse" />
               <span>Netflix of Learning · Curated Knowledge & Mentorship</span>
             </div>
@@ -327,7 +197,7 @@ export const GoalSelectionPage = () => {
               <div className="flex items-center justify-between mb-3 px-1">
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-knw-red animate-pulse" />
-                  <span className="text-xs font-mono uppercase tracking-widest text-red-400 font-bold">
+                  <span className="text-xs font-mono uppercase tracking-widest text-knw-red font-bold">
                     KNOWLEDGE SPARKS
                   </span>
                   <span className="text-[11px] text-knw-subtle font-mono hidden sm:inline">
@@ -353,307 +223,271 @@ export const GoalSelectionPage = () => {
                 </div>
 
                 {/* Mentor Sparks Bubbles */}
-                {STORY_SPARKS.map((spark) => (
-                  <button
-                    key={spark.id}
-                    onClick={() => setActiveStory(spark)}
-                    className="flex flex-col items-center gap-1.5 shrink-0 group focus:outline-none"
-                  >
-                    <div className={spark.isLive ? 'story-ring-live' : 'story-ring'}>
-                      <div className="bg-[#080808] rounded-full p-[2px]">
-                        <img
-                          src={spark.avatar}
-                          alt={spark.author}
-                          className="w-14 h-14 rounded-full object-cover group-hover:scale-105 transition-transform"
-                        />
-                      </div>
-                    </div>
-                    <div className="text-center">
-                      <p className="text-[11px] font-bold text-white group-hover:text-knw-red transition-colors max-w-[70px] truncate leading-tight">
-                        {spark.author}
-                      </p>
-                      <span className={`text-[8px] font-mono font-bold px-1.5 py-0.5 rounded-full block mt-0.5 ${
-                        spark.isLive
-                          ? 'bg-red-600 text-white animate-pulse'
-                          : 'bg-white/10 text-gray-300 border border-white/10'
-                      }`}>
-                        {spark.badge}
-                      </span>
-                    </div>
-                  </button>
-                ))}
+                {stories.length > 0 ? (
+                  stories.map((spark) => {
+                    const authorName = spark.createdBy?.name || 'Educator';
+                    const authorAvatar = spark.createdBy?.avatar || spark.mediaUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=2d0000&color=ff4444`;
+                    return (
+                      <button
+                        key={spark._id}
+                        onClick={() => setActiveStory(spark)}
+                        className="flex flex-col items-center gap-1.5 shrink-0 group focus:outline-none"
+                      >
+                        <div className={spark.isLive ? 'story-ring-live' : 'story-ring'}>
+                          <div className="bg-[#080808] rounded-full p-[2px]">
+                            <img
+                              src={authorAvatar}
+                              alt={authorName}
+                              className="w-14 h-14 rounded-full object-cover group-hover:scale-105 transition-transform"
+                            />
+                          </div>
+                        </div>
+                        <div className="text-center">
+                          <p className="text-[11px] font-bold text-white group-hover:text-knw-red transition-colors max-w-[70px] truncate leading-tight">
+                            {authorName}
+                          </p>
+                          <span className={`text-[8px] font-mono font-bold px-1.5 py-0.5 rounded-full block mt-0.5 ${
+                            spark.isLive
+                              ? 'bg-knw-red text-white animate-pulse'
+                              : 'bg-white/10 text-gray-300 border border-white/10'
+                          }`}>
+                            {spark.badge || 'SPARK'}
+                          </span>
+                        </div>
+                      </button>
+                    );
+                  })
+                ) : (
+                  <div className="flex items-center text-xs font-mono text-knw-muted px-2 py-4">
+                    No active educator sparks right now.
+                  </div>
+                )}
               </div>
             </div>
 
-            {/* ── 2. "CONTINUE YOUR JOURNEY" BANNER (Matches Image 3) ── */}
-            <div className="knw-card rounded-2xl p-4 sm:p-5 relative overflow-hidden border border-knw-red/30 shadow-red">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div className="flex items-center gap-3.5">
-                  <div className="w-10 h-10 rounded-xl bg-knw-red/20 border border-knw-red/40 flex items-center justify-center text-knw-red shrink-0 shadow-red">
-                    <Layers className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-mono uppercase tracking-widest text-red-400 font-bold">
-                        CONTINUE YOUR JOURNEY
-                      </span>
-                      <span className="text-[10px] text-knw-subtle font-mono">• Module 4 of 8</span>
+            {/* ── 2. "CONTINUE YOUR JOURNEY" OR CLEAN EMPTY STATE ── */}
+            {activeGoal && activeUserGoal ? (
+              <div className="knw-card rounded-2xl p-4 sm:p-5 relative overflow-hidden border border-knw-red/30 shadow-red">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex items-center gap-3.5">
+                    <div className="w-10 h-10 rounded-xl bg-knw-red/20 border border-knw-red/40 flex items-center justify-center text-knw-red shrink-0 shadow-red">
+                      <Layers className="w-5 h-5" />
                     </div>
-                    <h2 className="text-sm sm:text-base font-black text-white mt-0.5">
-                      {activeGoal ? activeGoal.title : 'Full-Stack Generative AI Architect'}
-                    </h2>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4 self-end sm:self-center">
-                  <div className="text-right font-mono">
-                    <span className="text-base font-black text-white">
-                      {activeUserGoal?.overallProgress || 68}%
-                    </span>
-                    <span className="text-[10px] text-knw-subtle block -mt-0.5">completed</span>
-                  </div>
-
-                  <Link
-                    to="/roadmap"
-                    className="btn-red px-4 py-2 text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-red font-mono"
-                  >
-                    <span>Continue Learning</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* ── 3. INSTAGRAM FEED POSTS ── */}
-            <div className="space-y-6">
-              {FEED_POSTS.map((post) => {
-                const reaction = reactionsState[post.id] || { count: post.reactionsCount, reacted: false };
-                const isBookmarked = bookmarkedPosts[post.id] || false;
-                const isFollowing = followingAuthors[post.author.handle] || false;
-
-                return (
-                  <article
-                    key={post.id}
-                    className="knw-card rounded-3xl overflow-hidden relative group"
-                  >
-                    {/* Red hairline accent at top */}
-                    <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-knw-red/60 to-transparent" />
-
-                    {/* Post Top Meta: Type badge + timestamp */}
-                    <div className="flex items-center justify-between px-5 pt-4 pb-2">
+                    <div>
                       <div className="flex items-center gap-2">
-                        <span className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border ${
-                          post.badgeColor === 'live'
-                            ? 'bg-red-600/20 text-red-400 border-red-500 animate-pulse'
-                            : post.badgeColor === 'purple'
-                            ? 'bg-purple-950/40 text-purple-300 border-purple-700/50'
-                            : 'bg-knw-red/15 text-red-400 border-knw-red/40'
-                        }`}>
-                          ● {post.postType}
+                        <span className="text-[10px] font-mono uppercase tracking-widest text-knw-red font-bold">
+                          CONTINUE YOUR JOURNEY
                         </span>
-                        {post.coCreatedWith && (
-                          <span className="text-[10px] text-purple-400 font-mono hidden sm:inline">
-                            ✦ {post.coCreatedWith}
+                        {activeUserGoal.currentStage && (
+                          <span className="text-[10px] text-knw-subtle font-mono">
+                            • Stage {activeUserGoal.currentStage}
                           </span>
                         )}
                       </div>
-                      <span className="text-[11px] text-knw-muted font-mono">{post.timeAgo}</span>
+                      <h2 className="text-sm sm:text-base font-black text-white mt-0.5">
+                        {activeGoal.title}
+                      </h2>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 self-end sm:self-center">
+                    <div className="text-right font-mono">
+                      <span className="text-base font-black text-white">
+                        {activeUserGoal.overallProgress || 0}%
+                      </span>
+                      <span className="text-[10px] text-knw-subtle block -mt-0.5">completed</span>
                     </div>
 
-                    {/* Author Header */}
-                    <div className="flex items-center justify-between px-5 pb-3">
-                      <div className="flex items-center gap-3">
-                        <div className="story-ring shrink-0">
-                          <img
-                            src={post.author.avatar}
-                            alt={post.author.name}
-                            className="w-11 h-11 rounded-full object-cover bg-black p-[1px]"
-                          />
+                    <Link
+                      to={`/roadmap/${activeGoal.slug || ''}`}
+                      className="btn-red px-4 py-2 text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-red font-mono"
+                    >
+                      <span>Continue Learning</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="knw-card rounded-2xl p-4 sm:p-5 relative overflow-hidden border border-white/10 bg-white/[0.02]">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex items-center gap-3.5">
+                    <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 shrink-0">
+                      <Target className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-mono uppercase tracking-widest text-gray-400 font-bold">
+                        GET STARTED
+                      </span>
+                      <h2 className="text-sm sm:text-base font-bold text-white mt-0.5">
+                        Choose your goal below to begin your structured learning path
+                      </h2>
+                    </div>
+                  </div>
+
+                  <a
+                    href="#goal-catalogue"
+                    className="btn-red px-4 py-2 text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-red font-mono whitespace-nowrap self-start sm:self-center"
+                  >
+                    <span>Browse Goals</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              </div>
+            )}
+
+            {/* ── 3. FEED POSTS (Data-driven from MongoDB) ── */}
+            <div className="space-y-6">
+              {posts.length > 0 ? (
+                posts.map((post) => {
+                  const postId = post._id;
+                  const reaction = reactionsState[postId] || { count: post.likesCount || 0, reacted: false };
+                  const isBookmarked = bookmarkedPosts[postId] || false;
+                  const authorName = post.createdBy?.name || 'Verified Educator';
+                  const authorAvatar = post.createdBy?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=2d0000&color=ff4444`;
+                  const authorCred = post.authorProfile?.headline || post.authorProfile?.qualification || 'Academic Coach';
+
+                  return (
+                    <article
+                      key={postId}
+                      className="knw-card rounded-3xl overflow-hidden relative group"
+                    >
+                      <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-knw-red/60 to-transparent" />
+
+                      {/* Post Top Meta */}
+                      <div className="flex items-center justify-between px-5 pt-4 pb-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border bg-knw-red/15 text-knw-red border-knw-red/40">
+                            ● POST
+                          </span>
+                          {post.goalSlug && (
+                            <span className="text-[10px] text-knw-red font-mono hidden sm:inline">
+                              ✦ {post.goalSlug}
+                            </span>
+                          )}
                         </div>
-                        <div>
-                          <div className="flex items-center gap-1.5">
-                            <span className="text-sm font-bold text-white">{post.author.name}</span>
-                            {post.author.verified && (
-                              <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 fill-cyan-400/20" />
-                            )}
-                            <span className="text-[11px] text-knw-subtle font-mono">{post.author.handle}</span>
+                        <span className="text-[11px] text-knw-muted font-mono">
+                          {new Date(post.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}
+                        </span>
+                      </div>
+
+                      {/* Author Header */}
+                      <div className="flex items-center justify-between px-5 pb-3">
+                        <div className="flex items-center gap-3">
+                          <div className="story-ring shrink-0">
+                            <img
+                              src={authorAvatar}
+                              alt={authorName}
+                              className="w-11 h-11 rounded-full object-cover bg-black p-[1px]"
+                            />
                           </div>
-                          <p className="text-xs text-knw-red font-semibold leading-tight mt-0.5">
-                            {post.author.credential}
-                          </p>
+                          <div>
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-sm font-bold text-white">{authorName}</span>
+                              <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 fill-cyan-400/20" />
+                            </div>
+                            <p className="text-xs text-knw-red font-semibold leading-tight mt-0.5">
+                              {authorCred}
+                            </p>
+                          </div>
                         </div>
                       </div>
 
-                      <button
-                        onClick={() => toggleFollow(post.author.handle)}
-                        className={`text-xs font-semibold px-3.5 py-1.5 rounded-xl border transition-all ${
-                          isFollowing
-                            ? 'border-knw-red/40 bg-knw-red/10 text-red-400'
-                            : 'border-white/20 bg-white/5 text-white hover:border-knw-red/60 hover:text-red-400'
-                        }`}
-                      >
-                        {isFollowing ? 'Following' : '+ Follow'}
-                      </button>
-                    </div>
-
-                    {/* Media Cover Image with Interactive Overlay */}
-                    <div className="relative mx-5 rounded-2xl overflow-hidden cursor-pointer group/img">
-                      <img
-                        src={post.coverImage}
-                        alt={post.title}
-                        className="w-full h-56 sm:h-64 object-cover group-hover/img:scale-105 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
-
-                      {/* Video Play Button Overlay if Lecture */}
-                      {post.hasVideoPlayer && (
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-14 h-14 rounded-full bg-knw-red/90 text-white flex items-center justify-center shadow-red group-hover/img:scale-110 transition-transform">
-                            <Play className="w-6 h-6 fill-current ml-1" />
-                          </div>
+                      {/* Media Cover Image if present */}
+                      {post.imageUrl && (
+                        <div className="relative mx-5 rounded-2xl overflow-hidden">
+                          <img
+                            src={post.imageUrl}
+                            alt={post.title}
+                            className="w-full h-56 sm:h-64 object-cover"
+                            onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                          />
                         </div>
                       )}
 
-                      {/* Bottom Banner Overlay on Image */}
-                      <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs">
-                        <span className="px-3 py-1 rounded-full bg-black/75 backdrop-blur-md text-gray-200 border border-white/10 font-mono font-medium">
-                          {post.imageOverlayTag}
-                        </span>
-                        <span className="text-[10px] text-knw-muted bg-black/75 backdrop-blur-md px-2 py-0.5 rounded-full font-mono">
-                          Hover to expand view
-                        </span>
-                      </div>
-                    </div>
+                      {/* Title & Description Body */}
+                      <div className="px-5 pt-3 pb-4 space-y-1.5">
+                        <h3 className="text-base sm:text-lg font-black text-white leading-snug">
+                          {post.title}
+                        </h3>
+                        <p className="text-xs sm:text-sm text-gray-300 leading-relaxed whitespace-pre-line">
+                          {post.text}
+                        </p>
 
-                    {/* Mentor Slot Timings & What They Share (If Mentor Slot Drop) */}
-                    {post.isMentorSlot && (
-                      <div className="mx-5 mt-4 p-4 rounded-2xl bg-knw-surface border border-knw-red/30 space-y-3">
-                        <div>
-                          <span className="text-[10px] font-mono uppercase tracking-widest text-red-400 font-bold block mb-1">
-                            🎯 WHAT I SHARE & TEACH IN 1-ON-1 SESSIONS:
-                          </span>
-                          <div className="space-y-1">
-                            {post.whatTheyShare.map((item, idx) => (
-                              <div key={idx} className="flex items-center gap-2 text-xs text-gray-300">
-                                <span className="w-1.5 h-1.5 rounded-full bg-knw-red shrink-0" />
-                                <span>{item}</span>
-                              </div>
-                            ))}
+                        {/* External Link if present */}
+                        {post.externalLink?.url && (
+                          <div className="pt-2">
+                            <a
+                              href={post.externalLink.url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center gap-1.5 text-xs text-knw-red hover:text-knw-redBright underline font-mono"
+                            >
+                              <span>{post.externalLink.title || 'Open Reference Material'}</span>
+                              <ExternalLink className="w-3 h-3" />
+                            </a>
                           </div>
-                        </div>
-
-                        {/* Live Slot Badges */}
-                        <div>
-                          <span className="text-[10px] font-mono uppercase tracking-widest text-white font-bold block mb-1.5">
-                            ⏰ AVAILABLE POSTED SLOTS (CLICK TO RESERVE):
-                          </span>
-                          <div className="flex flex-wrap gap-2">
-                            {post.postedSlots.map((slot, idx) => (
-                              <button
-                                key={idx}
-                                onClick={() => setBookingMentor(post.author)}
-                                className={`text-xs font-mono font-bold px-3 py-1.5 rounded-lg border transition-all ${
-                                  slot.includes('LIVE')
-                                    ? 'bg-red-600 text-white border-red-500 animate-pulse'
-                                    : 'bg-knw-red/15 text-red-300 border-knw-red/40 hover:bg-knw-red hover:text-white'
-                                }`}
-                              >
-                                {slot}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Social Reaction Bar (Matches Image 3) */}
-                    <div className="flex items-center justify-between px-5 pt-4 pb-3">
-                      <div className="flex items-center gap-3">
-                        {/* Fire Reactions */}
-                        <button
-                          onClick={() => toggleReaction(post.id, post.reactionsCount)}
-                          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono transition-all border ${
-                            reaction.reacted
-                              ? 'bg-orange-950/40 text-orange-400 border-orange-700/50 shadow-sm'
-                              : 'bg-white/5 text-knw-muted hover:text-orange-400 border-white/10'
-                          }`}
-                        >
-                          <Flame className={`w-4 h-4 ${reaction.reacted ? 'fill-orange-400 text-orange-400' : ''}`} />
-                          <span className="font-bold">{reaction.count.toLocaleString()}</span>
-                          <span className="hidden sm:inline">Reactions</span>
-                        </button>
-
-                        {/* Discussions */}
-                        <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono bg-white/5 text-knw-muted hover:text-white border border-white/10 transition-colors">
-                          <MessageCircle className="w-4 h-4" />
-                          <span className="font-bold">{post.discussionsCount}</span>
-                          <span className="hidden sm:inline">Discussions</span>
-                        </button>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        {/* Add to Trail / Book Slot */}
-                        {post.isMentorSlot ? (
-                          <button
-                            onClick={() => setBookingMentor(post.author)}
-                            className="btn-red text-xs px-3.5 py-1.5 rounded-xl flex items-center gap-1.5 font-bold shadow-red font-mono"
-                          >
-                            <Video className="w-3.5 h-3.5" />
-                            <span>Book Slot</span>
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() => toggleBookmark(post.id)}
-                            className="px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-knw-red/10 border border-knw-red/30 text-red-300 hover:bg-knw-red hover:text-white transition-all flex items-center gap-1"
-                          >
-                            <PlusCircle className="w-3.5 h-3.5" />
-                            <span>Add to Trail</span>
-                          </button>
                         )}
 
-                        {/* Bookmark */}
-                        <button
-                          onClick={() => toggleBookmark(post.id)}
-                          className={`p-2 rounded-xl border transition-all ${
-                            isBookmarked
-                              ? 'bg-yellow-500/20 border-yellow-500/40 text-yellow-400'
-                              : 'bg-white/5 border-white/10 text-knw-muted hover:text-yellow-400'
-                          }`}
-                        >
-                          <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-current' : ''}`} />
-                        </button>
-
-                        {/* Share */}
-                        <button className="p-2 rounded-xl bg-white/5 border border-white/10 text-knw-muted hover:text-white transition-colors">
-                          <Share2 className="w-4 h-4" />
-                        </button>
+                        {/* Tags */}
+                        {post.tags?.length > 0 && (
+                          <div className="flex flex-wrap gap-2 pt-2">
+                            {post.tags.map((tag, tIdx) => (
+                              <span
+                                key={tIdx}
+                                className="text-xs font-mono text-knw-red/80 hover:text-knw-red cursor-pointer transition-colors"
+                              >
+                                #{tag}
+                              </span>
+                            ))}
+                          </div>
+                        )}
                       </div>
-                    </div>
 
-                    {/* Title & Description Body */}
-                    <div className="px-5 pb-4 space-y-1.5">
-                      <h3 className="text-base sm:text-lg font-black text-white leading-snug">
-                        {post.title}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
-                        {post.description}
-                      </p>
-
-                      {/* Hashtags */}
-                      <div className="flex flex-wrap gap-2 pt-2">
-                        {post.hashtags.map((ht) => (
-                          <span
-                            key={ht}
-                            className="text-xs font-mono text-red-500/80 hover:text-knw-red cursor-pointer transition-colors"
+                      {/* Social Reaction Bar */}
+                      <div className="flex items-center justify-between px-5 pt-2 pb-3 border-t border-white/5">
+                        <div className="flex items-center gap-3">
+                          <button
+                            onClick={() => toggleReaction(postId, post.likesCount || 0)}
+                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono transition-all border ${
+                              reaction.reacted
+                                ? 'bg-orange-950/40 text-orange-400 border-orange-700/50 shadow-sm'
+                                : 'bg-white/5 text-knw-muted hover:text-orange-400 border-white/10'
+                            }`}
                           >
-                            {ht}
-                          </span>
-                        ))}
+                            <Flame className={`w-4 h-4 ${reaction.reacted ? 'fill-orange-400 text-orange-400' : ''}`} />
+                            <span className="font-bold">{reaction.count.toLocaleString()}</span>
+                            <span className="hidden sm:inline">Likes</span>
+                          </button>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => toggleBookmark(postId)}
+                            className={`p-2 rounded-xl border transition-all ${
+                              isBookmarked
+                                ? 'bg-yellow-500/20 border-yellow-500/40 text-yellow-400'
+                                : 'bg-white/5 border-white/10 text-knw-muted hover:text-yellow-400'
+                            }`}
+                          >
+                            <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-current' : ''}`} />
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  </article>
-                );
-              })}
+                    </article>
+                  );
+                })
+              ) : (
+                <div className="knw-card rounded-3xl p-8 text-center space-y-3">
+                  <div className="w-12 h-12 rounded-full bg-knw-red/15 text-knw-red flex items-center justify-center mx-auto">
+                    <BookOpen className="w-6 h-6" />
+                  </div>
+                  <h4 className="text-base font-bold text-white">Community Feed</h4>
+                  <p className="text-xs text-knw-muted max-w-sm mx-auto">
+                    Educators and mentors will share educational sparks, practice problem breakdowns, and live session updates here.
+                  </p>
+                </div>
+              )}
             </div>
 
           </div>
@@ -667,7 +501,7 @@ export const GoalSelectionPage = () => {
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-knw-red" />
-                    <span className="text-xs font-mono uppercase tracking-widest text-red-400 font-bold">
+                    <span className="text-xs font-mono uppercase tracking-widest text-knw-red font-bold">
                       SELECT YOUR GOAL
                     </span>
                   </div>
@@ -731,7 +565,7 @@ export const GoalSelectionPage = () => {
                               <div className="flex items-center gap-1.5">
                                 <span className="text-xs font-bold text-white">{goal.title}</span>
                                 {isEnrolled && (
-                                  <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-red-600 text-white font-bold">
+                                  <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-knw-red text-white font-bold">
                                     Enrolled
                                   </span>
                                 )}
@@ -755,7 +589,7 @@ export const GoalSelectionPage = () => {
                 {/* Custom Goal Trigger */}
                 <button
                   onClick={() => setIsCustomGoalOpen(true)}
-                  className="w-full mt-3 py-2.5 rounded-xl border border-dashed border-knw-red/40 text-red-400 hover:bg-knw-red/10 transition-colors text-xs font-bold flex items-center justify-center gap-1.5"
+                  className="w-full mt-3 py-2.5 rounded-xl border border-dashed border-knw-red/40 text-knw-red hover:bg-knw-red/10 transition-colors text-xs font-bold flex items-center justify-center gap-1.5"
                 >
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>Design Custom Goal with AI</span>
@@ -765,7 +599,7 @@ export const GoalSelectionPage = () => {
               {/* Top Industry Advisors Card */}
               <div className="knw-card rounded-3xl p-5">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-mono uppercase tracking-widest text-red-400 font-bold">
+                  <span className="text-xs font-mono uppercase tracking-widest text-knw-red font-bold">
                     VERIFIED MENTORS
                   </span>
                   <Link to="/roadmap" className="text-[11px] font-mono text-knw-muted hover:text-white">
@@ -774,34 +608,52 @@ export const GoalSelectionPage = () => {
                 </div>
 
                 <div className="space-y-3">
-                  {[
-                    { name: 'Priya Sharma', pos: 'Senior SDE, Microsoft', avatar: 'https://i.pravatar.cc/150?img=47', rating: 4.95 },
-                    { name: 'Arjun Mehta', pos: 'AI Engineer, DeepMind', avatar: 'https://i.pravatar.cc/150?img=33', rating: 4.98 },
-                    { name: 'Devika Patel', pos: 'Staff Engineer, Cloudflare', avatar: 'https://i.pravatar.cc/150?img=44', rating: 4.97 },
-                    { name: 'Rohan Verma', pos: 'AIR 42 JEE Adv, IIT Delhi', avatar: 'https://i.pravatar.cc/150?img=52', rating: 4.92 },
-                  ].map((adv, idx) => (
-                    <div
-                      key={idx}
-                      className="flex items-center justify-between p-2.5 rounded-2xl bg-knw-surface border border-white/5 hover:border-knw-red/30 transition-all"
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <img src={adv.avatar} alt={adv.name} className="w-9 h-9 rounded-full object-cover ring-1 ring-knw-red/40" />
-                        <div>
-                          <h4 className="text-xs font-bold text-white leading-tight">{adv.name}</h4>
-                          <p className="text-[10px] text-knw-red font-mono truncate max-w-[130px]">{adv.pos}</p>
+                  {availableMentors.length === 0 ? (
+                    <div className="py-6 px-3 text-center rounded-2xl bg-knw-surface/50 border border-white/5">
+                      <p className="text-xs text-knw-muted font-mono">No mentors with open slots currently.</p>
+                      <p className="text-[10px] text-gray-500 mt-1">Check back soon or explore roadmaps.</p>
+                    </div>
+                  ) : (
+                    availableMentors.map((adv) => (
+                      <div
+                        key={adv._id || adv.teacherId}
+                        className="flex items-center justify-between p-2.5 rounded-2xl bg-knw-surface border border-white/5 hover:border-knw-red/30 transition-all"
+                      >
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <img
+                            src={adv.avatar}
+                            alt={adv.name}
+                            className="w-9 h-9 rounded-full object-cover ring-1 ring-knw-red/40 shrink-0"
+                            onError={(e) => {
+                              e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(adv.name)}&background=2d0000&color=ff4444`;
+                            }}
+                          />
+                          <div className="min-w-0">
+                            <h4 className="text-xs font-bold text-white leading-tight truncate">{adv.name}</h4>
+                            <p className="text-[10px] text-knw-red font-mono truncate max-w-[130px]">
+                              {adv.headline || adv.currentPosition?.jobTitle || 'Verified Mentor'}
+                            </p>
+                            {adv.nextAvailableSlot && (
+                              <p className="text-[9px] text-emerald-400 font-mono">
+                                Next: {adv.nextAvailableSlot}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                        <div className="text-right shrink-0">
+                          {adv.rating && (
+                            <span className="text-xs font-mono text-yellow-400 font-bold block">★ {adv.rating}</span>
+                          )}
+                          <button
+                            onClick={() => setBookingMentor(adv)}
+                            className="block text-[10px] font-mono text-knw-red hover:text-white mt-0.5 underline font-bold"
+                          >
+                            Book Slot
+                          </button>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <span className="text-xs font-mono text-yellow-400 font-bold">★ {adv.rating}</span>
-                        <button
-                          onClick={() => setBookingMentor(adv)}
-                          className="block text-[10px] font-mono text-red-400 hover:text-white mt-0.5 underline"
-                        >
-                          Book Slot
-                        </button>
-                      </div>
-                    </div>
-                  ))}
+                    ))
+                  )}
                 </div>
               </div>
 
@@ -814,7 +666,7 @@ export const GoalSelectionPage = () => {
       {/* ── 4. POPUP STORY VIEWER MODAL (Instagram Style) ── */}
       {activeStory && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md animate-in fade-in duration-150">
-          <div className="relative w-full max-w-sm rounded-3xl overflow-hidden bg-[#0A0000] border border-knw-red/40 shadow-red-lg">
+          <div className="relative w-full max-w-sm rounded-3xl overflow-hidden bg-knw-surface border border-knw-red/40 shadow-red-lg">
             {/* Story Progress Timer Bar */}
             <div className="absolute top-2 left-3 right-3 z-30 h-1 bg-white/20 rounded-full overflow-hidden">
               <div
@@ -833,7 +685,7 @@ export const GoalSelectionPage = () => {
                 />
                 <div>
                   <span className="text-xs font-bold text-white block leading-tight">{activeStory.author}</span>
-                  <span className="text-[9px] text-red-400 font-mono block">{activeStory.credential}</span>
+                  <span className="text-[9px] text-knw-red font-mono block">{activeStory.credential}</span>
                 </div>
               </div>
 
@@ -852,12 +704,12 @@ export const GoalSelectionPage = () => {
                 alt={activeStory.tipTitle}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0000] via-transparent to-black/40" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40" />
             </div>
 
             {/* Story Content & Educational Tip */}
             <div className="p-5 space-y-3 relative z-20">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-red-400 px-2 py-0.5 rounded-full bg-knw-red/15 border border-knw-red/30">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-knw-red px-2 py-0.5 rounded-full bg-knw-red/15 border border-knw-red/30">
                 ✦ {activeStory.badge}
               </span>
               <h3 className="text-base font-black text-white leading-tight">
@@ -872,12 +724,21 @@ export const GoalSelectionPage = () => {
                   onClick={() => {
                     const selected = activeStory;
                     setActiveStory(null);
-                    setBookingMentor(selected);
+                    const mentorUser = availableMentors.find(m => m.teacherId === (selected.teacherId?._id || selected.teacherId));
+                    setBookingMentor(mentorUser || {
+                      _id: selected.teacherId?._id || selected.teacherId,
+                      teacherId: selected.teacherId?._id || selected.teacherId,
+                      name: selected.author,
+                      avatar: selected.avatar,
+                      headline: selected.credential,
+                      rating: selected.rating,
+                      availableSlots: []
+                    });
                   }}
                   className="w-full btn-red py-2.5 text-xs font-bold shadow-red flex items-center justify-center gap-2 font-mono"
                 >
                   <Video className="w-3.5 h-3.5" />
-                  <span>{activeStory.slotAction}</span>
+                  <span>{activeStory.slotAction || 'Book 1-on-1 Session'}</span>
                 </button>
               </div>
             </div>
@@ -906,10 +767,13 @@ export const GoalSelectionPage = () => {
 
       {/* Mentor Slot Booking Modal from Feed */}
       {bookingMentor && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in">
           <div className="relative w-full max-w-lg knw-glass rounded-3xl p-6 border border-knw-red/40 shadow-red-lg space-y-5">
             <button
-              onClick={() => setBookingMentor(null)}
+              onClick={() => {
+                setBookingMentor(null);
+                setBookingStatus(null);
+              }}
               className="absolute top-4 right-4 text-knw-muted hover:text-white"
             >
               <X className="w-5 h-5" />
@@ -920,39 +784,107 @@ export const GoalSelectionPage = () => {
                 src={bookingMentor.avatar}
                 alt={bookingMentor.name || bookingMentor.author}
                 className="w-14 h-14 rounded-full object-cover ring-2 ring-knw-red/60"
+                onError={(e) => {
+                  e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(bookingMentor.name || 'Mentor')}&background=2d0000&color=ff4444`;
+                }}
               />
               <div>
                 <h3 className="text-base font-bold text-white">{bookingMentor.name || bookingMentor.author}</h3>
-                <p className="text-xs text-knw-red font-semibold">{bookingMentor.credential || bookingMentor.pos}</p>
-                <span className="text-[10px] text-yellow-400 font-mono">★ 4.95 Rating · Verified Mentor</span>
+                <p className="text-xs text-knw-red font-semibold">{bookingMentor.headline || bookingMentor.credential || bookingMentor.pos || 'Faculty Mentor'}</p>
+                {bookingMentor.rating && (
+                  <span className="text-[10px] text-yellow-400 font-mono">★ {bookingMentor.rating} Rating · Verified Mentor</span>
+                )}
               </div>
             </div>
 
-            {/* What they share */}
+            {/* Status Alert if booking succeeded or failed */}
+            {bookingStatus && (
+              <div className={`p-3 rounded-2xl text-xs font-mono border ${
+                bookingStatus.type === 'success'
+                  ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
+                  : 'bg-red-500/10 border-red-500/30 text-red-300'
+              }`}>
+                {bookingStatus.message}
+              </div>
+            )}
+
+            {/* Session Agenda */}
             <div className="p-3 bg-knw-surface rounded-2xl border border-white/10 space-y-1">
-              <span className="text-[10px] font-mono uppercase text-red-400 font-bold block">1-ON-1 SESSION AGENDA:</span>
+              <span className="text-[10px] font-mono uppercase text-knw-red font-bold block">1-ON-1 SESSION AGENDA:</span>
               <p className="text-xs text-gray-300">
-                Code & Architecture Review, FAANG Mock Interview Drills, and Resume Guidance.
+                Live Concept Discussion, Code & Architecture Review, FAANG Mock Interview Drills, and Exam Strategy.
               </p>
             </div>
 
             {/* Slots Picker */}
             <div>
-              <span className="text-xs font-mono uppercase text-knw-muted font-bold block mb-2">SELECT AVAILABLE SLOT:</span>
-              <div className="grid grid-cols-3 gap-2">
-                {['Today 3:00 PM', 'Today 6:30 PM', 'Tomorrow 10:00 AM', 'Tomorrow 4:00 PM', 'Friday 5:00 PM', 'Saturday 11:00 AM'].map((s, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => {
-                      alert(`1-on-1 slot booked for ${s} with ${bookingMentor.name || bookingMentor.author}! A calendar invite has been dispatched.`);
-                      setBookingMentor(null);
-                    }}
-                    className="p-2.5 rounded-xl border border-white/10 bg-knw-surface text-xs font-mono text-white hover:border-knw-red hover:bg-knw-red transition-all text-center"
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
+              <span className="text-xs font-mono uppercase text-knw-muted font-bold block mb-2">
+                SELECT AVAILABLE SLOT:
+              </span>
+              {loadingSlots ? (
+                <div className="py-6 text-center text-xs font-mono text-knw-muted">
+                  Checking open slots…
+                </div>
+              ) : bookingSlots.length === 0 ? (
+                <div className="py-6 text-center text-xs font-mono text-knw-muted bg-white/5 rounded-2xl border border-white/5">
+                  No open slots currently available for this mentor.
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-56 overflow-y-auto pr-1">
+                  {bookingSlots.map((slot) => (
+                    <button
+                      key={slot._id}
+                      disabled={isBooking}
+                      onClick={async () => {
+                        if (!isAuthenticated) {
+                          setBookingStatus({
+                            type: 'error',
+                            message: 'Please sign in to book a mentorship session.'
+                          });
+                          return;
+                        }
+                        setIsBooking(true);
+                        setBookingStatus(null);
+                        try {
+                          await api.post('/bookings', {
+                            slotId: slot._id,
+                            teacherId: bookingMentor.teacherId || bookingMentor._id,
+                            subject: '1-on-1 Guidance Session'
+                          });
+                          setBookingStatus({
+                            type: 'success',
+                            message: `Confirmed! Your 1-on-1 session is booked for ${slot.dayOfWeek} at ${slot.startTime}. Meeting room generated.`
+                          });
+                          setBookingSlots(prev => prev.filter(s => s._id !== slot._id));
+                          loadHomeFeed();
+                        } catch (err) {
+                          if (err.response?.status === 409) {
+                            setBookingStatus({
+                              type: 'error',
+                              message: 'This slot was just booked by another student. Please pick another time.'
+                            });
+                            setBookingSlots(prev => prev.filter(s => s._id !== slot._id));
+                          } else {
+                            setBookingStatus({
+                              type: 'error',
+                              message: err.response?.data?.message || 'Failed to book slot. Please try again.'
+                            });
+                          }
+                        } finally {
+                          setIsBooking(false);
+                        }
+                      }}
+                      className="p-2.5 rounded-xl border border-white/10 bg-knw-surface text-xs font-mono text-white hover:border-knw-red hover:bg-knw-red/20 transition-all text-center disabled:opacity-50"
+                    >
+                      <div className="font-bold text-knw-red">{slot.dayOfWeek}</div>
+                      <div className="text-[11px] text-gray-300 mt-0.5">{slot.startTime} - {slot.endTime}</div>
+                      {slot.specificDate && (
+                        <div className="text-[9px] text-knw-muted">{slot.specificDate}</div>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             <p className="text-[11px] text-center text-knw-muted">

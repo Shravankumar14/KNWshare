@@ -50,6 +50,18 @@ const goalSchema = new mongoose.Schema({
     type: String
   }],
   careerPath: [careerPathStepSchema],
+  shortDescription: {
+    type: String,
+    default: '',
+  },
+  active: {
+    type: Boolean,
+    default: true,
+  },
+  order: {
+    type: Number,
+    default: 0,
+  },
   isCustom: {
     type: Boolean,
     default: false,

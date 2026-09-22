@@ -17,8 +17,8 @@ const MENTORS = [
 // Badge style map
 // ---------------------------------------------------------------------------
 const BADGE_STYLES = {
-  live:  'bg-red-600 text-white animate-pulse',
-  red:   'bg-red-900/50 text-red-400 border border-red-700/50',
+  live:  'bg-knw-red text-white animate-pulse',
+  red:   'bg-knw-red/20 text-knw-red border border-knw-red/40',
   green: 'bg-green-900/50 text-green-400 border border-green-700/50',
   white: 'bg-white/10 text-gray-300 border border-white/20',
 };
@@ -33,16 +33,16 @@ function AddSpark() {
       <div
         className="
           w-16 h-16 rounded-full
-          bg-zinc-800 border-2 border-dashed border-red-700/60
+          bg-zinc-800 border-2 border-dashed border-knw-red/60
           flex items-center justify-center
-          group-hover:border-red-500 group-hover:bg-zinc-700
+          group-hover:border-knw-red group-hover:bg-zinc-700
           transition-all duration-200
         "
       >
-        <span className="text-red-500 text-2xl font-light leading-none">+</span>
+        <span className="text-knw-red text-2xl font-light leading-none">+</span>
       </div>
       {/* Label */}
-      <span className="text-[10px] text-gray-500 font-mono tracking-wide group-hover:text-red-400 transition-colors duration-200">
+      <span className="text-[10px] text-gray-500 font-mono tracking-wide group-hover:text-knw-red transition-colors duration-200">
         ADD SPARK
       </span>
       {/* Empty badge placeholder keeps alignment */}
@@ -70,12 +70,16 @@ function MentorStoryItem({ mentor, onClick }) {
           <div
             className="
               absolute inset-0 rounded-full
-              border-[2.5px] border-red-500
+              border-[2.5px] border-knw-red
               animate-[spin_3s_linear_infinite]
-              [background:conic-gradient(from_0deg,#ef4444,#991b1b,#ef4444)]
               opacity-80
             "
-            style={{ margin: '-3px', borderRadius: '9999px' }}
+            style={{
+              margin: '-3px',
+              borderRadius: '9999px',
+              background: 'conic-gradient(from 0deg, var(--primary), var(--primary-dark), var(--primary))',
+              boxShadow: '0 0 14px var(--primary-glow)',
+            }}
           />
         ) : (
           /* Static gradient ring */
@@ -83,7 +87,7 @@ function MentorStoryItem({ mentor, onClick }) {
             className="absolute inset-0 rounded-full opacity-90"
             style={{
               margin: '-2.5px',
-              background: 'conic-gradient(from 90deg, #dc2626, #7f1d1d, #dc2626)',
+              background: 'conic-gradient(from 90deg, var(--primary), var(--primary-dark), var(--primary))',
               borderRadius: '9999px',
             }}
           />
@@ -104,7 +108,7 @@ function MentorStoryItem({ mentor, onClick }) {
           <span
             className="
               absolute -bottom-0.5 left-1/2 -translate-x-1/2 z-20
-              bg-red-600 text-white text-[8px] font-bold font-mono
+              bg-knw-red text-white text-[8px] font-bold font-mono
               px-1.5 py-px rounded-sm tracking-widest
               border border-black
             "
@@ -146,7 +150,7 @@ export default function MentorStoriesRow({ onStoryClick }) {
     <section className="w-full">
       {/* Section header */}
       <div className="flex items-center gap-2 mb-3 px-1">
-        <span className="text-red-500 font-mono text-xs font-bold tracking-widest">
+        <span className="text-knw-red font-mono text-xs font-bold tracking-widest">
           ● MENTOR SPARKS
         </span>
         <span className="text-gray-600 text-xs font-mono hidden sm:inline">

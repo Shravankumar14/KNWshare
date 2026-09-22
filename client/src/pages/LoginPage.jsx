@@ -62,7 +62,7 @@ export const LoginPage = () => {
   return (
     <div className="max-w-md mx-auto py-12 px-4">
       <div className="knw-card rounded-3xl p-8 space-y-6 relative overflow-hidden border border-knw-red/30 shadow-red-lg">
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-knw-red via-red-500 to-knw-redDark shadow-red" />
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-knw-red via-knw-redBright to-knw-redDark shadow-red" />
 
         {/* Header */}
         <div className="text-center space-y-2">
@@ -157,7 +157,7 @@ export const LoginPage = () => {
 
         <div className="text-center text-xs text-knw-muted pt-2 border-t border-white/5">
           <span>Don't have an account yet? </span>
-          <Link to="/register" className="font-bold text-knw-red hover:text-red-400">
+          <Link to="/register" className="font-bold text-knw-red hover:text-knw-redBright">
             Create Free Account
           </Link>
         </div>

@@ -89,11 +89,11 @@ export const GoalOnboardingModal = ({ goal, isOpen, onClose }) => {
       }
 
       onClose();
-      navigate('/roadmap');
+      navigate(`/roadmap/${goal.slug || 'jee-main-advanced'}`);
     } catch (err) {
       console.error('Failed to complete onboarding:', err);
       onClose();
-      navigate('/roadmap');
+      navigate(`/roadmap/${goal.slug || 'jee-main-advanced'}`);
     } finally {
       setLoading(false);
     }
@@ -102,7 +102,7 @@ export const GoalOnboardingModal = ({ goal, isOpen, onClose }) => {
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
       <div className="knw-glass rounded-3xl max-w-xl w-full border border-knw-red/40 shadow-red-lg overflow-hidden relative">
-        <div className="h-1.5 w-full bg-gradient-to-r from-knw-red via-red-500 to-knw-redDark shadow-red" />
+        <div className="h-1.5 w-full bg-gradient-to-r from-knw-red via-knw-redBright to-knw-redDark shadow-red" />
 
         {/* Header */}
         <div className="px-6 py-5 border-b border-white/10 flex items-center justify-between">
@@ -112,7 +112,7 @@ export const GoalOnboardingModal = ({ goal, isOpen, onClose }) => {
             </div>
             <div>
               <h2 className="text-base font-bold text-white">Personalize Your Learning Plan</h2>
-              <p className="text-xs text-knw-muted">Tailoring roadmap & schedule for: <span className="text-red-400 font-semibold">{goal.title}</span></p>
+              <p className="text-xs text-knw-muted">Tailoring roadmap & schedule for: <span className="text-knw-red font-semibold">{goal.title}</span></p>
             </div>
           </div>
           <button
@@ -210,7 +210,7 @@ export const GoalOnboardingModal = ({ goal, isOpen, onClose }) => {
                     onClick={() => toggleSkill(skill)}
                     className={`px-3 py-1.5 rounded-xl text-xs font-mono transition-all border ${
                       isSelected
-                        ? 'border-knw-red bg-knw-red/20 text-red-300 shadow-red'
+                        ? 'border-knw-red bg-knw-red/20 text-knw-red shadow-red'
                         : 'border-white/10 bg-knw-surface text-knw-muted hover:text-white'
                     }`}
                   >

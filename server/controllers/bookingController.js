@@ -20,7 +20,7 @@ export const createBooking = async (req, res, next) => {
     );
 
     if (!reservedSlot) {
-      return res.status(400).json({
+      return res.status(409).json({
         success: false,
         message: 'This slot is no longer available or was already booked by another student.'
       });
@@ -113,6 +113,16 @@ export const createBooking = async (req, res, next) => {
       message: 'Session successfully booked! Check your upcoming schedule or meeting room.'
     });
   } catch (err) {
+    if (err.code === 11000 && req.body?.slotId) {
+      await AvailabilitySlot.findByIdAndUpdate(req.body.slotId, {
+        isBooked: false,
+        bookedBy: null
+      }).catch(() => {});
+      return res.status(409).json({
+        success: false,
+        message: 'This slot was already booked in a concurrent request.'
+      });
+    }
     next(err);
   }
 };

@@ -23,7 +23,7 @@ export const RescheduleSingleModal = ({ task, isOpen, onClose, onConfirm }) => {
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
       <div className="knw-glass rounded-3xl max-w-md w-full border border-knw-red/40 shadow-red-lg overflow-hidden relative">
-        <div className="h-1.5 w-full bg-gradient-to-r from-knw-red via-red-500 to-knw-redDark shadow-red" />
+        <div className="h-1.5 w-full bg-gradient-to-r from-knw-red via-knw-redBright to-knw-redDark shadow-red" />
 
         <div className="px-6 py-5 border-b border-white/10 flex items-center justify-between">
           <div className="flex items-center gap-2.5">

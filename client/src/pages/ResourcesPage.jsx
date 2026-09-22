@@ -11,187 +11,106 @@ import {
   FileText,
   Video,
   GraduationCap,
-  Download
+  Download,
+  DollarSign,
+  UserCheck
 } from 'lucide-react';
 import { useGoal } from '../context/GoalContext';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
 import api from '../services/api';
 import { ResourceCard } from '../components/resources/ResourceCard';
-import { useSearchParams } from 'react-router-dom';
-import { getGoalDataByIdOrSlug } from '../data/goalRegistry';
+import { useParams, useSearchParams } from 'react-router-dom';
+import { getGoalDataByIdOrSlug, resolveCanonicalGoalSlug } from '../data/goalRegistry';
 
 export const ResourcesPage = () => {
-  const { activeGoal, allGoals } = useGoal();
+  const { goalSlug: urlGoalSlug } = useParams();
+  const { activeGoal, allGoals, selectedGoalSlug, setSelectedGoalSlug } = useGoal();
   const { isAuthenticated } = useAuth();
   const { addToast } = useNotification();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const goalStaticData = getGoalDataByIdOrSlug(activeGoal, allGoals);
+  // Target Goal Slug
+  const currentSlug = resolveCanonicalGoalSlug(urlGoalSlug || selectedGoalSlug || activeGoal?.slug || 'jee-main-advanced');
 
-  const [resources, setResources] = useState(goalStaticData?.resources || []);
+  // Sync GoalContext with URL if needed
+  useEffect(() => {
+    if (urlGoalSlug && resolveCanonicalGoalSlug(urlGoalSlug) !== selectedGoalSlug) {
+      setSelectedGoalSlug(urlGoalSlug);
+    }
+  }, [urlGoalSlug, selectedGoalSlug, setSelectedGoalSlug]);
+
+  const [resources, setResources] = useState([]);
   const [userSelectedIds, setUserSelectedIds] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Faculty Materials
-  const [activeTab, setActiveTab] = useState('curated'); // 'curated' | 'faculty'
-  const [facultyMaterials, setFacultyMaterials] = useState([]);
-  const [loadingFaculty, setLoadingFaculty] = useState(false);
-
-  // Filters
+  // Controlled Filter State (§8 & §4 query params)
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedStage, setSelectedStage] = useState(searchParams.get('stage') || 'all');
-  const [selectedSubject, setSelectedSubject] = useState('all');
-  const [selectedExamLevel, setSelectedExamLevel] = useState('all');
   const [selectedType, setSelectedType] = useState('all');
+  const [selectedFree, setSelectedFree] = useState('all'); // 'all' | 'true' | 'false'
   const [selectedDifficulty, setSelectedDifficulty] = useState('all');
-
-  const isJee = activeGoal?.slug === 'jee-mains-advanced' ||
-    activeGoal?.category === 'engineering_exams' ||
-    activeGoal?.title?.toLowerCase().includes('jee');
+  const [activeTab, setActiveTab] = useState('all'); // 'all' | 'curated' | 'faculty'
 
   const resourceTypes = [
-    { id: 'all', label: 'All Formats' },
-    { id: 'youtube_playlist', label: 'YouTube Playlists' },
-    { id: 'youtube_video', label: 'Videos' },
-    { id: 'doc', label: 'Official Docs / Text' },
-    { id: 'course_free', label: 'Free Courses' },
+    { id: 'all', label: 'All Types' },
+    { id: 'video', label: 'Videos' },
+    { id: 'playlist', label: 'Playlists' },
+    { id: 'documentation', label: 'Documentation / Notes' },
     { id: 'book', label: 'Books' },
-    { id: 'practice_platform', label: 'Practice / PYQs' },
-    { id: 'mock_test', label: 'Mock Test Series' },
-  ];
-
-  const subjects = [
-    { id: 'all', label: 'All Subjects' },
-    { id: 'Physics', label: 'Physics' },
-    { id: 'Chemistry', label: 'Chemistry' },
-    { id: 'Mathematics', label: 'Mathematics' },
-    { id: 'PCM Integrated', label: 'PCM Integrated' },
-  ];
-
-  const examLevels = [
-    { id: 'all', label: 'All Exam Levels' },
-    { id: 'JEE Main', label: 'JEE Main' },
-    { id: 'JEE Advanced', label: 'JEE Advanced' },
-    { id: 'Both Main & Advanced', label: 'Both Main & Adv' },
+    { id: 'practice', label: 'Practice & PYQs' },
+    { id: 'course', label: 'Courses' },
   ];
 
   const difficulties = [
-    { id: 'all', label: 'All Difficulties' },
-    { id: 'beginner', label: 'Beginner / Foundation' },
+    { id: 'all', label: 'All Levels' },
+    { id: 'beginner', label: 'Beginner' },
     { id: 'intermediate', label: 'Intermediate' },
     { id: 'advanced', label: 'Advanced' },
   ];
 
+  // Fetch Resources directly from /api/resources with controlled filters
   const fetchResources = async () => {
-    const staticResources = goalStaticData?.resources || [];
-
-    if (!activeGoal?._id) {
-      setResources(staticResources);
-      return;
-    }
-
     setLoading(true);
     try {
       const params = {
-        goalId: activeGoal._id,
-        stageNumber: selectedStage !== 'all' ? selectedStage : undefined,
+        goal: currentSlug,
+        stage: selectedStage !== 'all' ? selectedStage : undefined,
         type: selectedType !== 'all' ? selectedType : undefined,
         difficulty: selectedDifficulty !== 'all' ? selectedDifficulty : undefined,
-        subject: selectedSubject !== 'all' ? selectedSubject : undefined,
-        examLevel: selectedExamLevel !== 'all' ? selectedExamLevel : undefined,
-        search: searchQuery || undefined,
+        free: selectedFree !== 'all' ? selectedFree : undefined,
+        search: searchQuery.trim() || undefined,
       };
 
       const res = await api.get('/resources', { params });
-      const apiRes = res.data?.data?.resources;
+      const items = Array.isArray(res.data?.data) ? res.data.data : (res.data?.data?.resources || []);
+      setResources(items);
 
-      if (apiRes && apiRes.length > 0) {
-        setResources(apiRes);
-      } else {
-        // Filter static resources client-side
-        let filtered = [...staticResources];
-        if (selectedSubject !== 'all') {
-          filtered = filtered.filter(r => r.subject === selectedSubject);
-        }
-        if (selectedExamLevel !== 'all') {
-          filtered = filtered.filter(r => r.examLevel === selectedExamLevel);
-        }
-        if (selectedType !== 'all') {
-          filtered = filtered.filter(r => r.type === selectedType);
-        }
-        if (selectedDifficulty !== 'all') {
-          filtered = filtered.filter(r => r.difficulty === selectedDifficulty);
-        }
-        if (searchQuery) {
-          const q = searchQuery.toLowerCase();
-          filtered = filtered.filter(r =>
-            r.title.toLowerCase().includes(q) ||
-            r.description.toLowerCase().includes(q) ||
-            r.platformOrAuthor?.toLowerCase().includes(q)
-          );
-        }
-        setResources(filtered);
+      if (res.data?.data?.userSelectedResourceIds) {
+        setUserSelectedIds(res.data.data.userSelectedResourceIds);
       }
-
-      setUserSelectedIds(res.data?.data?.userSelectedResourceIds || []);
     } catch (err) {
-      console.warn('API get resources warning, using high-fidelity curated data:', err.message);
-      let filtered = [...staticResources];
-      if (selectedSubject !== 'all') {
-        filtered = filtered.filter(r => r.subject === selectedSubject);
+      console.warn('API get resources warning:', err.message);
+      // Try local goal static data if matching goal
+      const staticGoal = getGoalDataByIdOrSlug(currentSlug, allGoals);
+      if (staticGoal?.resources) {
+        setResources(staticGoal.resources);
+      } else {
+        setResources([]);
       }
-      if (selectedExamLevel !== 'all') {
-        filtered = filtered.filter(r => r.examLevel === selectedExamLevel);
-      }
-      if (selectedType !== 'all') {
-        filtered = filtered.filter(r => r.type === selectedType);
-      }
-      if (selectedDifficulty !== 'all') {
-        filtered = filtered.filter(r => r.difficulty === selectedDifficulty);
-      }
-      if (searchQuery) {
-        const q = searchQuery.toLowerCase();
-        filtered = filtered.filter(r =>
-          r.title.toLowerCase().includes(q) ||
-          r.description.toLowerCase().includes(q) ||
-          r.platformOrAuthor?.toLowerCase().includes(q)
-        );
-      }
-      setResources(filtered);
     } finally {
       setLoading(false);
     }
   };
 
-  const fetchFacultyContent = async () => {
-    setLoadingFaculty(true);
-    try {
-      const params = {};
-      if (activeGoal?.slug) params.goalSlug = activeGoal.slug;
-      if (selectedSubject !== 'all') params.subject = selectedSubject;
-      if (searchQuery) params.topic = searchQuery;
-
-      const res = await api.get('/teachers/content/public', { params });
-      if (res.data?.success && res.data?.data) {
-        setFacultyMaterials(res.data.data);
-      }
-    } catch (err) {
-      console.warn('Faculty materials fetch error:', err.message);
-    } finally {
-      setLoadingFaculty(false);
-    }
-  };
-
   useEffect(() => {
     fetchResources();
-    fetchFacultyContent();
-  }, [activeGoal, selectedStage, selectedSubject, selectedExamLevel, selectedType, selectedDifficulty]);
+  }, [currentSlug, selectedStage, selectedType, selectedFree, selectedDifficulty]);
 
   const handleToggleSelect = async (resourceId) => {
     const isSaved = userSelectedIds.includes(resourceId);
     const nextSaved = isSaved
-      ? userSelectedIds.filter(id => id !== resourceId)
+      ? userSelectedIds.filter((id) => id !== resourceId)
       : [...userSelectedIds, resourceId];
 
     setUserSelectedIds(nextSaved);
@@ -202,18 +121,12 @@ export const ResourcesPage = () => {
     }
 
     try {
-      const res = await api.post('/resources/select', {
-        goalId: activeGoal._id,
+      await api.post('/resources/select', {
+        goalId: activeGoal?._id,
         resourceId,
-      });
+      }).catch(() => null);
 
-      if (res.data?.data?.selectedResourceIds) {
-        setUserSelectedIds(res.data.data.selectedResourceIds);
-      }
-      addToast(
-        isSaved ? 'Removed from your study vault' : 'Saved to your study vault!',
-        'success'
-      );
+      addToast(isSaved ? 'Removed from vault' : 'Saved to vault!', 'success');
     } catch (err) {
       console.warn('Sync resource select warning:', err.message);
     }
@@ -222,31 +135,43 @@ export const ResourcesPage = () => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     fetchResources();
-    fetchFacultyContent();
   };
+
+  // Tab Filtering (All vs Curated vs Faculty)
+  const displayedResources = resources.filter((r) => {
+    if (activeTab === 'faculty') return r.sourceType === 'teacher';
+    if (activeTab === 'curated') return r.sourceType !== 'teacher';
+    return true;
+  });
+
+  const currentGoalMeta = activeGoal?.slug === currentSlug
+    ? activeGoal
+    : (allGoals.find((g) => resolveCanonicalGoalSlug(g.slug) === currentSlug) || {
+        title: currentSlug.replace(/-/g, ' ').toUpperCase()
+      });
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
       {/* Header Banner */}
-      <div className="knw-card rounded-3xl p-6 sm:p-8 relative overflow-hidden">
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-knw-red via-red-500 to-knw-redDark shadow-red" />
+      <div className="knw-card rounded-3xl p-6 sm:p-8 relative overflow-hidden border border-knw-border">
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-knw-red via-knw-redBright to-knw-redDark shadow-red" />
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-knw-red/15 text-red-400 border border-knw-red/30 uppercase tracking-wider font-mono">
-                Curated Resource Hub
+              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-knw-red/15 text-knw-red border border-knw-red/30 uppercase tracking-wider font-mono">
+                Resource Catalog
               </span>
               <span className="text-xs text-knw-subtle">•</span>
               <span className="text-xs text-knw-muted font-medium font-mono">
-                {activeGoal ? activeGoal.title : 'All Ambitions'}
+                {currentGoalMeta.title}
               </span>
             </div>
 
             <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight mt-2">
-              Top Study Materials, Playlists & Practice
+              Curated Materials & Faculty Contributions
             </h1>
             <p className="text-xs sm:text-sm text-knw-muted max-w-2xl mt-1 leading-relaxed">
-              Vetted high-yield resources aligned with each stage of your roadmap. Bookmark items to personalize your learning queue.
+              Strictly goal-scoped study resources, video walkthroughs, and vetted notes for {currentGoalMeta.title}. Zero fallback content.
             </p>
           </div>
 
@@ -258,8 +183,10 @@ export const ResourcesPage = () => {
             </div>
             <div className="w-px h-8 bg-white/10" />
             <div>
-              <span className="text-xl font-black text-white">{userSelectedIds.length}</span>
-              <span className="text-[10px] text-knw-muted block">Saved in Vault</span>
+              <span className="text-xl font-black text-white">
+                {resources.filter((r) => r.sourceType === 'teacher').length}
+              </span>
+              <span className="text-[10px] text-knw-muted block">Faculty Notes</span>
             </div>
           </div>
         </div>
@@ -272,41 +199,14 @@ export const ResourcesPage = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search topics, Ashish Arora, NCERT, MathonGo, PYQs..."
+              placeholder={`Search ${currentGoalMeta.title} topics, documentation, problems...`}
               className="w-full bg-knw-surface border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-knw-subtle focus:outline-none focus:border-knw-red transition-colors"
             />
           </form>
 
           {/* Filter Dropdowns */}
           <div className="flex items-center gap-2 overflow-x-auto flex-wrap sm:flex-nowrap">
-            {isJee && (
-              <>
-                <select
-                  value={selectedSubject}
-                  onChange={(e) => setSelectedSubject(e.target.value)}
-                  className="bg-knw-surface border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-knw-offWhite focus:outline-none focus:border-knw-red"
-                >
-                  {subjects.map((s) => (
-                    <option key={s.id} value={s.id} className="bg-knw-surface text-white">
-                      {s.label}
-                    </option>
-                  ))}
-                </select>
-
-                <select
-                  value={selectedExamLevel}
-                  onChange={(e) => setSelectedExamLevel(e.target.value)}
-                  className="bg-knw-surface border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-knw-offWhite focus:outline-none focus:border-knw-red"
-                >
-                  {examLevels.map((el) => (
-                    <option key={el.id} value={el.id} className="bg-knw-surface text-white">
-                      {el.label}
-                    </option>
-                  ))}
-                </select>
-              </>
-            )}
-
+            {/* Type */}
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
@@ -319,6 +219,18 @@ export const ResourcesPage = () => {
               ))}
             </select>
 
+            {/* Free / Paid */}
+            <select
+              value={selectedFree}
+              onChange={(e) => setSelectedFree(e.target.value)}
+              className="bg-knw-surface border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-knw-offWhite focus:outline-none focus:border-knw-red"
+            >
+              <option value="all" className="bg-knw-surface text-white">All Pricing</option>
+              <option value="true" className="bg-knw-surface text-white">Free Only</option>
+              <option value="false" className="bg-knw-surface text-white">Paid</option>
+            </select>
+
+            {/* Difficulty */}
             <select
               value={selectedDifficulty}
               onChange={(e) => setSelectedDifficulty(e.target.value)}
@@ -332,140 +244,69 @@ export const ResourcesPage = () => {
             </select>
           </div>
         </div>
+
+        {/* Source Sub-Tabs (All vs Platform vs Faculty) */}
+        <div className="mt-6 pt-4 border-t border-white/5 flex items-center gap-2">
+          <button
+            onClick={() => setActiveTab('all')}
+            className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition-all ${
+              activeTab === 'all'
+                ? 'bg-knw-red text-white shadow-red'
+                : 'bg-white/5 text-knw-muted hover:text-white'
+            }`}
+          >
+            All Resources ({resources.length})
+          </button>
+          <button
+            onClick={() => setActiveTab('curated')}
+            className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition-all ${
+              activeTab === 'curated'
+                ? 'bg-knw-red text-white shadow-red'
+                : 'bg-white/5 text-knw-muted hover:text-white'
+            }`}
+          >
+            Curated Platform ({resources.filter((r) => r.sourceType !== 'teacher').length})
+          </button>
+          <button
+            onClick={() => setActiveTab('faculty')}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition-all ${
+              activeTab === 'faculty'
+                ? 'bg-knw-red text-white shadow-red'
+                : 'bg-white/5 text-knw-muted hover:text-white'
+            }`}
+          >
+            <UserCheck className="w-3.5 h-3.5" />
+            <span>Faculty Verified ({resources.filter((r) => r.sourceType === 'teacher').length})</span>
+          </button>
+        </div>
       </div>
 
-      {/* Tab Switcher: Curated Hub vs Faculty Materials */}
-      <div className="flex items-center gap-3 border-b border-white/10 pb-4">
-        <button
-          onClick={() => setActiveTab('curated')}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all ${
-            activeTab === 'curated'
-              ? 'bg-knw-red text-white shadow-lg shadow-knw-red/30'
-              : 'text-knw-muted hover:text-white bg-knw-surface border border-white/10'
-          }`}
-        >
-          <BookOpen className="w-4 h-4" />
-          Standard Curated Hub ({resources.length})
-        </button>
-        <button
-          onClick={() => setActiveTab('faculty')}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all ${
-            activeTab === 'faculty'
-              ? 'bg-knw-red text-white shadow-lg shadow-knw-red/30'
-              : 'text-knw-muted hover:text-white bg-knw-surface border border-white/10'
-          }`}
-        >
-          <Sparkles className="w-4 h-4" />
-          Faculty & Mentor Vault ({facultyMaterials.length})
-        </button>
-      </div>
-
-      {activeTab === 'faculty' ? (
-        loadingFaculty ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3].map((n) => (
-              <div key={n} className="h-56 knw-skeleton rounded-3xl" />
-            ))}
-          </div>
-        ) : facultyMaterials.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {facultyMaterials.map((mat) => (
-              <div
-                key={mat._id}
-                className="knw-card rounded-3xl p-5 flex flex-col justify-between relative overflow-hidden group hover:border-knw-red/40 transition-all"
-              >
-                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-knw-red/40 to-transparent group-hover:via-knw-red transition-all" />
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-mono font-bold bg-knw-red/10 text-red-400 border border-knw-red/30 uppercase">
-                      {mat.contentType === 'video' ? (
-                        <Video className="w-3.5 h-3.5 text-knw-red" />
-                      ) : (
-                        <FileText className="w-3.5 h-3.5 text-knw-red" />
-                      )}
-                      {mat.contentType}
-                    </span>
-                    <span className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-blue-950/30 text-blue-300 border border-blue-700/40">
-                      {mat.subject}
-                    </span>
-                  </div>
-
-                  <div>
-                    <h3 className="text-base font-bold text-white group-hover:text-knw-red transition-colors line-clamp-2">
-                      {mat.title}
-                    </h3>
-                    <p className="text-xs text-knw-muted line-clamp-2 mt-1">
-                      {mat.description || `Topic: ${mat.topic}`}
-                    </p>
-                  </div>
-
-                  <div className="pt-2 border-t border-white/5 flex items-center gap-2.5">
-                    <div className="w-7 h-7 rounded-full bg-knw-red/20 text-knw-red font-bold text-xs flex items-center justify-center border border-knw-red/30 shrink-0">
-                      {mat.teacherId?.name?.[0]?.toUpperCase() || 'F'}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-xs font-semibold text-white truncate">
-                        {mat.teacherId?.name || 'Faculty Mentor'}
-                      </p>
-                      <p className="text-[10px] text-knw-muted truncate">
-                        {mat.teacherProfileId?.headline || 'Verified Faculty'}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between">
-                  <span className="text-[10px] font-mono text-knw-subtle">
-                    Stage {mat.stageNumber || 1} • {mat.topic}
-                  </span>
-                  <a
-                    href={mat.mediaUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-knw-red/15 hover:bg-knw-red text-red-400 hover:text-white text-xs font-bold transition-all border border-knw-red/30"
-                  >
-                    Open Material
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="p-12 text-center knw-card rounded-3xl space-y-3">
-            <GraduationCap className="w-10 h-10 text-knw-red mx-auto" />
-            <h3 className="text-base font-bold text-white">No Faculty Materials Yet</h3>
-            <p className="text-xs text-knw-muted">
-              Teachers have not yet uploaded materials for this filter. Check the Standard Curated Hub above!
-            </p>
-          </div>
-        )
+      {/* Grid of Resource Cards */}
+      {loading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[1, 2, 3, 4, 5, 6].map((n) => (
+            <div key={n} className="h-56 knw-skeleton rounded-3xl" />
+          ))}
+        </div>
+      ) : displayedResources.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {displayedResources.map((resource) => (
+            <ResourceCard
+              key={resource._id || resource.url}
+              resource={resource}
+              isSelected={userSelectedIds.includes(resource._id)}
+              onToggleSelect={handleToggleSelect}
+            />
+          ))}
+        </div>
       ) : (
-        /* Resource Grid */
-        loading && resources.length === 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3, 4, 5, 6].map((n) => (
-              <div key={n} className="h-56 knw-skeleton rounded-3xl" />
-            ))}
-          </div>
-        ) : resources.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {resources.map((resource, idx) => (
-              <ResourceCard
-                key={resource._id || resource.title || idx}
-                resource={resource}
-                isSelected={userSelectedIds.includes(resource._id || resource.title)}
-                onToggleSelect={handleToggleSelect}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="p-12 text-center knw-card rounded-3xl space-y-3">
-            <BookOpen className="w-10 h-10 text-knw-red mx-auto" />
-            <h3 className="text-base font-bold text-white">No Resources Matched Your Filters</h3>
-            <p className="text-xs text-knw-muted">Try resetting search criteria or selecting another subject.</p>
-          </div>
-        )
+        <div className="text-center py-16 knw-card rounded-3xl border border-knw-border p-8 max-w-lg mx-auto space-y-3">
+          <BookOpen className="w-10 h-10 text-knw-muted mx-auto" />
+          <h3 className="text-sm font-bold text-white">No Resources Found</h3>
+          <p className="text-xs text-knw-muted">
+            No resources match your active filters for {currentGoalMeta.title}. Try changing your filters or search query.
+          </p>
+        </div>
       )}
     </div>
   );

@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useGoal } from '../../context/GoalContext';
+import { ThemeToggle } from './ThemeToggle';
 import { useNotification } from '../../context/NotificationContext';
 
 /* ─────────────────────────────────────────────
@@ -152,7 +153,7 @@ export const Navbar = () => {
                         <Link
                           to="/"
                           onClick={closeAll}
-                          className="text-[11px] font-semibold text-knw-red hover:text-red-400 transition-colors"
+                          className="text-[11px] font-semibold text-knw-red hover:text-knw-redBright transition-colors"
                         >
                           + New Goal
                         </Link>
@@ -224,6 +225,9 @@ export const Navbar = () => {
           {/* ── RIGHT: Bell + User / Auth ── */}
           <div className="flex items-center gap-2">
 
+            {/* Theme Toggle Button */}
+            <ThemeToggle />
+
             {/* Notification Bell */}
             {isAuthenticated && (
               <div className="relative">
@@ -264,7 +268,7 @@ export const Navbar = () => {
                         </div>
                         <button
                           onClick={markAllAsRead}
-                          className="text-[11px] font-semibold text-knw-red hover:text-red-400 transition-colors"
+                          className="text-[11px] font-semibold text-knw-red hover:text-knw-redBright transition-colors"
                         >
                           Mark all read
                         </button>
@@ -413,7 +417,7 @@ export const Navbar = () => {
                   className="px-3.5 py-1.5 rounded-lg bg-knw-red
                              text-xs font-bold text-white
                              shadow-lg shadow-knw-red/25
-                             hover:bg-red-700 transition-colors"
+                             hover:bg-knw-redDark transition-colors"
                 >
                   Get Started
                 </Link>

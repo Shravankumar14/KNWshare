@@ -7,30 +7,47 @@ export default {
   theme: {
     extend: {
       colors: {
-        // KNWshare — Black × Red × Neon palette
+        // KNWshare theme palette (dynamic theme tokens)
         knw: {
-          bg:          '#080808',
-          surface:     '#111111',
-          card:        '#181818',
-          cardHover:   '#1f1f1f',
-          red:         '#E50914',
-          redBright:   '#FF1A26',
-          redDark:     '#B91C1C',
-          redDeep:     '#7F1D1D',
-          redGlow:     'rgba(229,9,20,0.25)',
-          border:      'rgba(229,9,20,0.2)',
-          borderSoft:  'rgba(255,255,255,0.07)',
-          neon:        '#FF073A',
-          neonGlow:    'rgba(255,7,58,0.4)',
-          white:       '#FFFFFF',
-          offWhite:    '#E5E5E5',
-          muted:       '#A3A3A3',
-          subtle:      '#525252',
+          bg:          'var(--background)',
+          surface:     'var(--surface)',
+          card:        'var(--card)',
+          cardHover:   'var(--card-hover)',
+          red:         'rgb(var(--primary-rgb) / <alpha-value>)',
+          redBright:   'rgb(var(--primary-hover-rgb) / <alpha-value>)',
+          redDark:     'rgb(var(--primary-dark-rgb) / <alpha-value>)',
+          redDeep:     'rgb(var(--primary-deep-rgb) / <alpha-value>)',
+          redGlow:     'var(--primary-glow)',
+          border:      'var(--border)',
+          borderSoft:  'var(--border)',
+          neon:        'rgb(var(--accent-rgb) / <alpha-value>)',
+          neonGlow:    'var(--accent-glow)',
+          white:       'var(--text)',
+          offWhite:    'var(--text)',
+          muted:       'var(--muted-text)',
+          subtle:      'var(--muted-text)',
         },
-        // keep brand for any legacy usage
+        primary: {
+          DEFAULT:     'rgb(var(--primary-rgb) / <alpha-value>)',
+          hover:       'rgb(var(--primary-hover-rgb) / <alpha-value>)',
+          dark:        'rgb(var(--primary-dark-rgb) / <alpha-value>)',
+          deep:        'rgb(var(--primary-deep-rgb) / <alpha-value>)',
+          soft:        'var(--primary-soft)',
+          glow:        'var(--primary-glow)',
+        },
+        accent: {
+          DEFAULT:     'rgb(var(--accent-rgb) / <alpha-value>)',
+          soft:        'var(--accent-soft)',
+          glow:        'var(--accent-glow)',
+        },
+        // brand palette for existing and legacy components
         brand: {
-          500: '#E50914', 600: '#B91C1C', 700: '#7F1D1D',
-          50: '#1a0000',  100: '#2d0000', 900: '#0A0000',
+          500:         'rgb(var(--primary-rgb) / <alpha-value>)',
+          600:         'rgb(var(--primary-dark-rgb) / <alpha-value>)',
+          700:         'rgb(var(--primary-deep-rgb) / <alpha-value>)',
+          50:          'var(--primary-soft-bg)',
+          100:         'var(--primary-soft)',
+          900:         'var(--background)',
         },
       },
       fontFamily: {
@@ -39,10 +56,10 @@ export default {
       boxShadow: {
         'soft':      '0 2px 15px -3px rgba(0,0,0,0.5), 0 10px 20px -2px rgba(0,0,0,0.3)',
         'soft-lg':   '0 10px 25px -3px rgba(0,0,0,0.6)',
-        'red':       '0 0 20px -4px rgba(229,9,20,0.5)',
-        'red-lg':    '0 0 40px -8px rgba(229,9,20,0.4)',
-        'neon':      '0 0 15px rgba(255,7,58,0.6), 0 0 30px rgba(255,7,58,0.3)',
-        'card':      '0 4px 24px rgba(0,0,0,0.8)',
+        'red':       '0 0 20px -4px var(--shadow-primary)',
+        'red-lg':    '0 0 40px -8px var(--shadow-primary-lg)',
+        'neon':      '0 0 15px var(--accent-glow), 0 0 30px var(--primary-glow)',
+        'card':      '0 4px 24px var(--shadow-color)',
       },
       animation: {
         'neon-pulse': 'neon-pulse 2s ease-in-out infinite',
@@ -51,16 +68,16 @@ export default {
       },
       keyframes: {
         'neon-pulse': {
-          '0%,100%': { boxShadow: '0 0 5px rgba(229,9,20,0.5), 0 0 10px rgba(229,9,20,0.3)' },
-          '50%':     { boxShadow: '0 0 20px rgba(229,9,20,0.8), 0 0 40px rgba(229,9,20,0.4)' },
+          '0%,100%': { boxShadow: '0 0 5px var(--shadow-primary), 0 0 10px var(--primary-glow)' },
+          '50%':     { boxShadow: '0 0 20px var(--shadow-primary), 0 0 40px var(--shadow-primary-lg)' },
         },
         'slide-in': {
           from: { opacity: '0', transform: 'translateY(10px)' },
           to:   { opacity: '1', transform: 'translateY(0)' },
         },
         'ring-live': {
-          '0%,100%': { boxShadow: '0 0 0 2px rgba(229,9,20,1)' },
-          '50%':     { boxShadow: '0 0 0 5px rgba(229,9,20,0.2)' },
+          '0%,100%': { boxShadow: '0 0 0 2px var(--primary)' },
+          '50%':     { boxShadow: '0 0 0 5px var(--primary-glow)' },
         },
       },
     },

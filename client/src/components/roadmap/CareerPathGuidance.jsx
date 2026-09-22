@@ -39,13 +39,13 @@ export const CareerPathGuidance = ({
     <div className="space-y-8">
       {/* Main Guidance Card */}
       <div className="knw-card rounded-3xl p-6 sm:p-8 space-y-8 relative overflow-hidden">
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-knw-red via-red-500 to-knw-redDark shadow-red" />
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-knw-red via-knw-redBright to-knw-redDark shadow-red" />
 
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-red-400 bg-knw-red/15 px-2.5 py-0.5 rounded-full border border-knw-red/30 font-mono">
+              <span className="text-xs font-bold uppercase tracking-wider text-knw-red bg-knw-red/15 px-2.5 py-0.5 rounded-full border border-knw-red/30 font-mono">
                 {isJee ? 'JoSAA Counselling & Rank Milestone Ladder' : 'Career Trajectory & Growth Ladder'}
               </span>
             </div>
@@ -91,7 +91,7 @@ export const CareerPathGuidance = ({
                 <div className="flex flex-col items-center">
                   <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-bold text-sm shadow-sm transition-transform group-hover:scale-105 ${
                     isLast
-                      ? 'bg-gradient-to-tr from-knw-red to-red-500 text-white shadow-red'
+                      ? 'bg-gradient-to-tr from-knw-red to-knw-redBright text-white shadow-red'
                       : 'bg-knw-surface border border-knw-red/30 text-knw-red'
                   }`}>
                     <IconComp className="w-6 h-6" />
@@ -141,7 +141,7 @@ export const CareerPathGuidance = ({
         <div className="knw-card rounded-3xl p-6 sm:p-8 space-y-6">
           <div className="border-b border-white/10 pb-4">
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-knw-red/15 text-red-400 border border-knw-red/30 uppercase tracking-wider font-mono">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-knw-red/15 text-knw-red border border-knw-red/30 uppercase tracking-wider font-mono">
                 IIT & NIT Branch Navigator
               </span>
             </div>

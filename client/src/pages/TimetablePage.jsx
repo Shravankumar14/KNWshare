@@ -64,7 +64,7 @@ export const TimetablePage = () => {
       case 'study':
         return {
           badge: 'Study Block',
-          bg: 'border-knw-red/40 bg-red-950/20 text-red-300',
+          bg: 'border-knw-red/40 bg-knw-red/10 text-knw-red',
           dot: 'bg-knw-red',
           icon: BookOpen
         };
@@ -96,10 +96,10 @@ export const TimetablePage = () => {
     <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
       {/* Header Banner */}
       <div className="knw-card rounded-3xl p-6 sm:p-8 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-knw-red via-red-500 to-knw-redDark shadow-red" />
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-knw-red via-knw-redBright to-knw-redDark shadow-red" />
         <div className="space-y-2 max-w-2xl">
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-knw-red/15 text-red-400 border border-knw-red/30 uppercase tracking-wider font-mono">
+            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-knw-red/15 text-knw-red border border-knw-red/30 uppercase tracking-wider font-mono">
               Personalized Study Planner
             </span>
             <span className="text-xs text-knw-subtle">•</span>
