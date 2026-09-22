@@ -7,7 +7,11 @@ import {
   Sparkles,
   ExternalLink,
   CheckCircle,
-  Tag
+  Tag,
+  FileText,
+  Video,
+  GraduationCap,
+  Download
 } from 'lucide-react';
 import { useGoal } from '../context/GoalContext';
 import { useAuth } from '../context/AuthContext';
@@ -28,6 +32,11 @@ export const ResourcesPage = () => {
   const [resources, setResources] = useState(goalStaticData?.resources || []);
   const [userSelectedIds, setUserSelectedIds] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  // Faculty Materials
+  const [activeTab, setActiveTab] = useState('curated'); // 'curated' | 'faculty'
+  const [facultyMaterials, setFacultyMaterials] = useState([]);
+  const [loadingFaculty, setLoadingFaculty] = useState(false);
 
   // Filters
   const [searchQuery, setSearchQuery] = useState('');
@@ -155,8 +164,28 @@ export const ResourcesPage = () => {
     }
   };
 
+  const fetchFacultyContent = async () => {
+    setLoadingFaculty(true);
+    try {
+      const params = {};
+      if (activeGoal?.slug) params.goalSlug = activeGoal.slug;
+      if (selectedSubject !== 'all') params.subject = selectedSubject;
+      if (searchQuery) params.topic = searchQuery;
+
+      const res = await api.get('/teachers/content/public', { params });
+      if (res.data?.success && res.data?.data) {
+        setFacultyMaterials(res.data.data);
+      }
+    } catch (err) {
+      console.warn('Faculty materials fetch error:', err.message);
+    } finally {
+      setLoadingFaculty(false);
+    }
+  };
+
   useEffect(() => {
     fetchResources();
+    fetchFacultyContent();
   }, [activeGoal, selectedStage, selectedSubject, selectedExamLevel, selectedType, selectedDifficulty]);
 
   const handleToggleSelect = async (resourceId) => {
@@ -193,6 +222,7 @@ export const ResourcesPage = () => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     fetchResources();
+    fetchFacultyContent();
   };
 
   return (
@@ -304,30 +334,138 @@ export const ResourcesPage = () => {
         </div>
       </div>
 
-      {/* Resource Grid */}
-      {loading && resources.length === 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[1, 2, 3, 4, 5, 6].map((n) => (
-            <div key={n} className="h-56 knw-skeleton rounded-3xl" />
-          ))}
-        </div>
-      ) : resources.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {resources.map((resource, idx) => (
-            <ResourceCard
-              key={resource._id || resource.title || idx}
-              resource={resource}
-              isSelected={userSelectedIds.includes(resource._id || resource.title)}
-              onToggleSelect={handleToggleSelect}
-            />
-          ))}
-        </div>
+      {/* Tab Switcher: Curated Hub vs Faculty Materials */}
+      <div className="flex items-center gap-3 border-b border-white/10 pb-4">
+        <button
+          onClick={() => setActiveTab('curated')}
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all ${
+            activeTab === 'curated'
+              ? 'bg-knw-red text-white shadow-lg shadow-knw-red/30'
+              : 'text-knw-muted hover:text-white bg-knw-surface border border-white/10'
+          }`}
+        >
+          <BookOpen className="w-4 h-4" />
+          Standard Curated Hub ({resources.length})
+        </button>
+        <button
+          onClick={() => setActiveTab('faculty')}
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all ${
+            activeTab === 'faculty'
+              ? 'bg-knw-red text-white shadow-lg shadow-knw-red/30'
+              : 'text-knw-muted hover:text-white bg-knw-surface border border-white/10'
+          }`}
+        >
+          <Sparkles className="w-4 h-4" />
+          Faculty & Mentor Vault ({facultyMaterials.length})
+        </button>
+      </div>
+
+      {activeTab === 'faculty' ? (
+        loadingFaculty ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3].map((n) => (
+              <div key={n} className="h-56 knw-skeleton rounded-3xl" />
+            ))}
+          </div>
+        ) : facultyMaterials.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {facultyMaterials.map((mat) => (
+              <div
+                key={mat._id}
+                className="knw-card rounded-3xl p-5 flex flex-col justify-between relative overflow-hidden group hover:border-knw-red/40 transition-all"
+              >
+                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-knw-red/40 to-transparent group-hover:via-knw-red transition-all" />
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-mono font-bold bg-knw-red/10 text-red-400 border border-knw-red/30 uppercase">
+                      {mat.contentType === 'video' ? (
+                        <Video className="w-3.5 h-3.5 text-knw-red" />
+                      ) : (
+                        <FileText className="w-3.5 h-3.5 text-knw-red" />
+                      )}
+                      {mat.contentType}
+                    </span>
+                    <span className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-blue-950/30 text-blue-300 border border-blue-700/40">
+                      {mat.subject}
+                    </span>
+                  </div>
+
+                  <div>
+                    <h3 className="text-base font-bold text-white group-hover:text-knw-red transition-colors line-clamp-2">
+                      {mat.title}
+                    </h3>
+                    <p className="text-xs text-knw-muted line-clamp-2 mt-1">
+                      {mat.description || `Topic: ${mat.topic}`}
+                    </p>
+                  </div>
+
+                  <div className="pt-2 border-t border-white/5 flex items-center gap-2.5">
+                    <div className="w-7 h-7 rounded-full bg-knw-red/20 text-knw-red font-bold text-xs flex items-center justify-center border border-knw-red/30 shrink-0">
+                      {mat.teacherId?.name?.[0]?.toUpperCase() || 'F'}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs font-semibold text-white truncate">
+                        {mat.teacherId?.name || 'Faculty Mentor'}
+                      </p>
+                      <p className="text-[10px] text-knw-muted truncate">
+                        {mat.teacherProfileId?.headline || 'Verified Faculty'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between">
+                  <span className="text-[10px] font-mono text-knw-subtle">
+                    Stage {mat.stageNumber || 1} • {mat.topic}
+                  </span>
+                  <a
+                    href={mat.mediaUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-knw-red/15 hover:bg-knw-red text-red-400 hover:text-white text-xs font-bold transition-all border border-knw-red/30"
+                  >
+                    Open Material
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="p-12 text-center knw-card rounded-3xl space-y-3">
+            <GraduationCap className="w-10 h-10 text-knw-red mx-auto" />
+            <h3 className="text-base font-bold text-white">No Faculty Materials Yet</h3>
+            <p className="text-xs text-knw-muted">
+              Teachers have not yet uploaded materials for this filter. Check the Standard Curated Hub above!
+            </p>
+          </div>
+        )
       ) : (
-        <div className="p-12 text-center knw-card rounded-3xl space-y-3">
-          <BookOpen className="w-10 h-10 text-knw-red mx-auto" />
-          <h3 className="text-base font-bold text-white">No Resources Matched Your Filters</h3>
-          <p className="text-xs text-knw-muted">Try resetting search criteria or selecting another subject.</p>
-        </div>
+        /* Resource Grid */
+        loading && resources.length === 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3, 4, 5, 6].map((n) => (
+              <div key={n} className="h-56 knw-skeleton rounded-3xl" />
+            ))}
+          </div>
+        ) : resources.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {resources.map((resource, idx) => (
+              <ResourceCard
+                key={resource._id || resource.title || idx}
+                resource={resource}
+                isSelected={userSelectedIds.includes(resource._id || resource.title)}
+                onToggleSelect={handleToggleSelect}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="p-12 text-center knw-card rounded-3xl space-y-3">
+            <BookOpen className="w-10 h-10 text-knw-red mx-auto" />
+            <h3 className="text-base font-bold text-white">No Resources Matched Your Filters</h3>
+            <p className="text-xs text-knw-muted">Try resetting search criteria or selecting another subject.</p>
+          </div>
+        )
       )}
     </div>
   );

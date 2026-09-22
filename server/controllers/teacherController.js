@@ -3,6 +3,7 @@ import AvailabilitySlot from '../models/AvailabilitySlot.js';
 import Booking from '../models/Booking.js';
 import User from '../models/User.js';
 import Notification from '../models/Notification.js';
+import TeacherContent from '../models/TeacherContent.js';
 
 // Helper to convert time string e.g. "09:30 AM" to minutes from midnight
 const timeStringToMinutes = (timeStr) => {
@@ -18,7 +19,10 @@ const timeStringToMinutes = (timeStr) => {
   return hour * 60 + minute;
 };
 
-// 1. Get Logged-in Teacher's Profile
+// ==========================================
+// 1. TEACHER PROFILE MANAGEMENT
+// ==========================================
+
 export const getMyTeacherProfile = async (req, res, next) => {
   try {
     const userId = req.user._id;
@@ -32,7 +36,13 @@ export const getMyTeacherProfile = async (req, res, next) => {
         photo: req.user.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&fit=crop',
         subjects: ['Physics'],
         expertise: ['JEE Main', 'JEE Advanced'],
-        goalsSupported: ['jee-mains-advanced']
+        goalsSupported: ['jee-mains-advanced'],
+        currentPosition: {
+          company: 'Senior Faculty',
+          jobTitle: 'JEE Physics Coach',
+          startDate: '2021'
+        },
+        languages: ['English', 'Hindi']
       });
     }
 
@@ -42,7 +52,6 @@ export const getMyTeacherProfile = async (req, res, next) => {
   }
 };
 
-// 2. Update Teacher Profile
 export const updateMyTeacherProfile = async (req, res, next) => {
   try {
     const userId = req.user._id;
@@ -68,7 +77,10 @@ export const updateMyTeacherProfile = async (req, res, next) => {
   }
 };
 
-// 3. Get Teacher's Availability Slots
+// ==========================================
+// 2. AVAILABILITY SLOTS (Add, Edit, Delete, Query)
+// ==========================================
+
 export const getMyAvailabilitySlots = async (req, res, next) => {
   try {
     const userId = req.user._id;
@@ -83,7 +95,6 @@ export const getMyAvailabilitySlots = async (req, res, next) => {
   }
 };
 
-// 4. Add Availability Slot (with Overlap Prevention)
 export const addAvailabilitySlot = async (req, res, next) => {
   try {
     const userId = req.user._id;
@@ -100,7 +111,7 @@ export const addAvailabilitySlot = async (req, res, next) => {
       return res.status(400).json({ success: false, message: 'End time must be after start time' });
     }
 
-    // Overlap check: Query existing active slots for this teacher on this day
+    // Overlap check
     const existingSlots = await AvailabilitySlot.find({
       teacherId: userId,
       dayOfWeek,
@@ -112,7 +123,6 @@ export const addAvailabilitySlot = async (req, res, next) => {
       const existStart = timeStringToMinutes(slot.startTime);
       const existEnd = timeStringToMinutes(slot.endTime);
 
-      // Overlap condition: max(start1, start2) < min(end1, end2)
       if (Math.max(newStart, existStart) < Math.min(newEnd, existEnd)) {
         return res.status(400).json({
           success: false,
@@ -143,7 +153,66 @@ export const addAvailabilitySlot = async (req, res, next) => {
   }
 };
 
-// 5. Delete / Deactivate Availability Slot
+export const updateAvailabilitySlot = async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    const { id } = req.params;
+    const { dayOfWeek, startTime, endTime, durationMinutes, isRecurring } = req.body;
+
+    const slot = await AvailabilitySlot.findOne({ _id: id, teacherId: userId });
+    if (!slot) {
+      return res.status(404).json({ success: false, message: 'Slot not found' });
+    }
+
+    if (slot.isBooked) {
+      return res.status(400).json({ success: false, message: 'Cannot edit a slot that has already been booked by a student.' });
+    }
+
+    const targetDay = dayOfWeek || slot.dayOfWeek;
+    const targetStart = startTime || slot.startTime;
+    const targetEnd = endTime || slot.endTime;
+
+    const newStart = timeStringToMinutes(targetStart);
+    const newEnd = timeStringToMinutes(targetEnd);
+
+    if (newEnd <= newStart) {
+      return res.status(400).json({ success: false, message: 'End time must be after start time' });
+    }
+
+    // Overlap check excluding this slot
+    const existingSlots = await AvailabilitySlot.find({
+      _id: { $ne: id },
+      teacherId: userId,
+      dayOfWeek: targetDay,
+      isActive: true
+    });
+
+    for (const other of existingSlots) {
+      const existStart = timeStringToMinutes(other.startTime);
+      const existEnd = timeStringToMinutes(other.endTime);
+
+      if (Math.max(newStart, existStart) < Math.min(newEnd, existEnd)) {
+        return res.status(400).json({
+          success: false,
+          message: `Updated time overlaps with slot: ${other.dayOfWeek} ${other.startTime} - ${other.endTime}`
+        });
+      }
+    }
+
+    if (dayOfWeek) slot.dayOfWeek = dayOfWeek;
+    if (startTime) slot.startTime = startTime;
+    if (endTime) slot.endTime = endTime;
+    if (durationMinutes) slot.durationMinutes = Number(durationMinutes);
+    if (isRecurring !== undefined) slot.isRecurring = isRecurring;
+
+    await slot.save();
+
+    res.json({ success: true, data: slot, message: 'Availability slot updated successfully!' });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const deleteAvailabilitySlot = async (req, res, next) => {
   try {
     const userId = req.user._id;
@@ -170,7 +239,10 @@ export const deleteAvailabilitySlot = async (req, res, next) => {
   }
 };
 
-// 6. Get Teacher's Student Bookings
+// ==========================================
+// 3. STUDENT SESSIONS & BOOKING MANAGEMENT
+// ==========================================
+
 export const getTeacherBookings = async (req, res, next) => {
   try {
     const userId = req.user._id;
@@ -185,7 +257,6 @@ export const getTeacherBookings = async (req, res, next) => {
   }
 };
 
-// 7. Teacher Updates Booking Status / Meeting Link
 export const updateBookingStatus = async (req, res, next) => {
   try {
     const userId = req.user._id;
@@ -226,7 +297,303 @@ export const updateBookingStatus = async (req, res, next) => {
   }
 };
 
-// 8. Public: Discover Teachers (Filtered by Goal & Subject)
+// ==========================================
+// 4. TEACHER CONTENT (Notes, PDFs, Videos, Material)
+// ==========================================
+
+export const getMyTeacherContent = async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    const contents = await TeacherContent.find({ teacherId: userId }).sort({ createdAt: -1 });
+    res.json({ success: true, count: contents.length, data: contents });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const createTeacherContent = async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    const profile = await TeacherProfile.findOne({ userId });
+
+    const {
+      title,
+      description,
+      goalSlug,
+      goalTitle,
+      subject,
+      topic,
+      stageNumber,
+      contentType,
+      mediaUrl,
+      thumbnailUrl,
+      visibility,
+      fileSize
+    } = req.body;
+
+    if (!title || !subject || !mediaUrl) {
+      return res.status(400).json({
+        success: false,
+        message: 'Title, subject, and media/link URL are required.'
+      });
+    }
+
+    const content = await TeacherContent.create({
+      teacherId: userId,
+      teacherProfileId: profile?._id || null,
+      title: title.trim(),
+      description: description || '',
+      goalSlug: goalSlug || 'jee-mains-advanced',
+      goalTitle: goalTitle || 'JEE Mains & Advanced',
+      subject: subject.trim(),
+      topic: topic ? topic.trim() : 'General',
+      stageNumber: Number(stageNumber) || 1,
+      contentType: contentType || 'pdf',
+      mediaUrl: mediaUrl.trim(),
+      thumbnailUrl: thumbnailUrl || '',
+      visibility: visibility || 'published',
+      fileSize: fileSize || ''
+    });
+
+    res.status(201).json({
+      success: true,
+      data: content,
+      message: 'Educational material published successfully!'
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const updateTeacherContent = async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    const { id } = req.params;
+
+    const content = await TeacherContent.findOneAndUpdate(
+      { _id: id, teacherId: userId },
+      { $set: req.body },
+      { new: true, runValidators: true }
+    );
+
+    if (!content) {
+      return res.status(404).json({ success: false, message: 'Content item not found' });
+    }
+
+    res.json({ success: true, data: content, message: 'Content updated successfully' });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const deleteTeacherContent = async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    const { id } = req.params;
+
+    const deleted = await TeacherContent.findOneAndDelete({ _id: id, teacherId: userId });
+    if (!deleted) {
+      return res.status(404).json({ success: false, message: 'Content item not found' });
+    }
+
+    res.json({ success: true, message: 'Content removed successfully' });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Public: Students discover published materials filtered by goal & subject
+export const getPublicTeacherContent = async (req, res, next) => {
+  try {
+    const { goalSlug, subject, topic, contentType } = req.query;
+    const query = { visibility: 'published' };
+
+    if (goalSlug) query.goalSlug = goalSlug;
+    if (subject && subject !== 'All Subjects') query.subject = subject;
+    if (topic) query.topic = { $regex: topic, $options: 'i' };
+    if (contentType && contentType !== 'all') query.contentType = contentType;
+
+    const materials = await TeacherContent.find(query)
+      .populate('teacherId', 'name avatar')
+      .populate('teacherProfileId', 'headline photo rating')
+      .sort({ createdAt: -1 });
+
+    res.json({ success: true, count: materials.length, data: materials });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// ==========================================
+// 5. ACHIEVEMENTS & RECOGNITION
+// ==========================================
+
+export const addAchievement = async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    const { title, organization, date, description, credentialUrl, imageUrl } = req.body;
+
+    if (!title) {
+      return res.status(400).json({ success: false, message: 'Achievement title is required' });
+    }
+
+    const profile = await TeacherProfile.findOne({ userId });
+    if (!profile) {
+      return res.status(404).json({ success: false, message: 'Teacher profile not found' });
+    }
+
+    profile.achievements.unshift({
+      title,
+      organization: organization || '',
+      date: date || '',
+      description: description || '',
+      credentialUrl: credentialUrl || '',
+      imageUrl: imageUrl || ''
+    });
+
+    await profile.save();
+    res.status(201).json({ success: true, data: profile.achievements, message: 'Achievement added successfully!' });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const updateAchievement = async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    const { id } = req.params;
+    const updates = req.body;
+
+    const profile = await TeacherProfile.findOne({ userId });
+    if (!profile) {
+      return res.status(404).json({ success: false, message: 'Teacher profile not found' });
+    }
+
+    const item = profile.achievements.id(id);
+    if (!item) {
+      return res.status(404).json({ success: false, message: 'Achievement not found' });
+    }
+
+    Object.assign(item, updates);
+    await profile.save();
+
+    res.json({ success: true, data: profile.achievements, message: 'Achievement updated!' });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const deleteAchievement = async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    const { id } = req.params;
+
+    const profile = await TeacherProfile.findOne({ userId });
+    if (!profile) {
+      return res.status(404).json({ success: false, message: 'Teacher profile not found' });
+    }
+
+    profile.achievements.pull(id);
+    await profile.save();
+
+    res.json({ success: true, data: profile.achievements, message: 'Achievement removed!' });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// ==========================================
+// 6. PROFESSIONAL WORK EXPERIENCE
+// ==========================================
+
+export const addWorkExperience = async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    const { company, jobTitle, employmentType, startDate, endDate, current, description, skills, achievements } = req.body;
+
+    if (!company || !jobTitle) {
+      return res.status(400).json({ success: false, message: 'Company and Job Title are required' });
+    }
+
+    const profile = await TeacherProfile.findOne({ userId });
+    if (!profile) {
+      return res.status(404).json({ success: false, message: 'Teacher profile not found' });
+    }
+
+    profile.workExperiences.unshift({
+      company,
+      jobTitle,
+      employmentType: employmentType || 'Full-time',
+      startDate: startDate || '',
+      endDate: current ? 'Present' : (endDate || ''),
+      current: !!current,
+      description: description || '',
+      skills: Array.isArray(skills) ? skills : (skills ? skills.split(',').map(s => s.trim()) : []),
+      achievements: Array.isArray(achievements) ? achievements : (achievements ? achievements.split(',').map(s => s.trim()) : [])
+    });
+
+    await profile.save();
+    res.status(201).json({ success: true, data: profile.workExperiences, message: 'Work experience added!' });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const updateWorkExperience = async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    const { id } = req.params;
+    const updates = req.body;
+
+    const profile = await TeacherProfile.findOne({ userId });
+    if (!profile) {
+      return res.status(404).json({ success: false, message: 'Teacher profile not found' });
+    }
+
+    const item = profile.workExperiences.id(id);
+    if (!item) {
+      return res.status(404).json({ success: false, message: 'Work experience entry not found' });
+    }
+
+    if (updates.skills && typeof updates.skills === 'string') {
+      updates.skills = updates.skills.split(',').map(s => s.trim());
+    }
+    if (updates.achievements && typeof updates.achievements === 'string') {
+      updates.achievements = updates.achievements.split(',').map(s => s.trim());
+    }
+
+    Object.assign(item, updates);
+    await profile.save();
+
+    res.json({ success: true, data: profile.workExperiences, message: 'Work experience updated!' });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const deleteWorkExperience = async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    const { id } = req.params;
+
+    const profile = await TeacherProfile.findOne({ userId });
+    if (!profile) {
+      return res.status(404).json({ success: false, message: 'Teacher profile not found' });
+    }
+
+    profile.workExperiences.pull(id);
+    await profile.save();
+
+    res.json({ success: true, data: profile.workExperiences, message: 'Work experience removed!' });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// ==========================================
+// 7. PUBLIC TEACHER DISCOVERY
+// ==========================================
+
 export const getPublicTeachers = async (req, res, next) => {
   try {
     const { goalSlug, subject, search } = req.query;
@@ -249,7 +616,6 @@ export const getPublicTeachers = async (req, res, next) => {
 
     const teachers = await TeacherProfile.find(query).sort({ rating: -1, studentsHelped: -1 });
 
-    // Attach count of available slots for each teacher
     const enriched = await Promise.all(
       teachers.map(async (t) => {
         const availableSlotsCount = await AvailabilitySlot.countDocuments({
@@ -271,7 +637,6 @@ export const getPublicTeachers = async (req, res, next) => {
   }
 };
 
-// 9. Public: Get Available Slots for a Specific Teacher
 export const getTeacherPublicSlots = async (req, res, next) => {
   try {
     const { teacherId } = req.params;

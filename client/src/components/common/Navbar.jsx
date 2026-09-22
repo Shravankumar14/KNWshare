@@ -16,6 +16,10 @@ import {
   Zap,
   Menu,
   X,
+  Briefcase,
+  Award,
+  FileText,
+  Users,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useGoal } from '../../context/GoalContext';
@@ -58,9 +62,13 @@ export const Navbar = () => {
   ];
 
   const teacherLinks = [
-    { name: 'Teacher Dashboard', path: '/teacher/dashboard', icon: Sparkles },
-    { name: 'Curriculum & Roadmap', path: '/roadmap', icon: Map },
-    { name: 'Resources', path: '/resources', icon: BookOpen },
+    { name: 'Teacher Dashboard',        path: '/teacher/dashboard?tab=overview',     icon: Sparkles },
+    { name: 'Availability',             path: '/teacher/dashboard?tab=slots',        icon: Calendar },
+    { name: 'Student Sessions',         path: '/teacher/dashboard?tab=bookings',     icon: Users },
+    { name: 'My Content',               path: '/teacher/dashboard?tab=content',      icon: FileText },
+    { name: 'Achievements',             path: '/teacher/dashboard?tab=achievements', icon: Award },
+    { name: 'Professional Experience',  path: '/teacher/dashboard?tab=experience',   icon: Briefcase },
+    { name: 'Profile',                  path: '/teacher/dashboard?tab=profile',      icon: User },
   ];
 
   const activeNavLinks = user?.role === 'teacher' ? teacherLinks : navLinks;
@@ -86,7 +94,7 @@ export const Navbar = () => {
           <div className="flex items-center gap-5">
 
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2.5 group shrink-0">
+            <Link to={user?.role === 'teacher' ? '/teacher/dashboard' : '/'} className="flex items-center gap-2.5 group shrink-0">
               {/* I icon */}
               <div className="w-9 h-9 rounded-lg bg-knw-red flex items-center justify-center shadow-lg shadow-knw-red/30 group-hover:shadow-knw-red/50 group-hover:scale-105 transition-all duration-200">
                 <span className="text-white font-black text-base leading-none">I</span>
@@ -103,8 +111,8 @@ export const Navbar = () => {
               </div>
             </Link>
 
-            {/* Persistent Active Goal Badge (desktop) */}
-            {activeGoal && (
+            {/* Persistent Active Goal Badge (desktop) - only for students */}
+            {activeGoal && user?.role !== 'teacher' && (
               <div className="relative hidden md:block">
                 <button
                   onClick={() => setShowGoalDropdown(!showGoalDropdown)}
@@ -185,8 +193,11 @@ export const Navbar = () => {
           <nav className="hidden lg:flex items-center gap-0.5">
             {activeNavLinks.map((link) => {
               const Icon = link.icon;
+              const currentFull = location.pathname + location.search;
               const isActive =
-                link.path === '/'
+                user?.role === 'teacher'
+                  ? currentFull === link.path || (link.path.includes('tab=overview') && location.pathname === '/teacher/dashboard' && !location.search)
+                  : link.path === '/'
                   ? location.pathname === '/'
                   : location.pathname.startsWith(link.path);
               return (
@@ -424,8 +435,8 @@ export const Navbar = () => {
         {mobileMenuOpen && (
           <div className="lg:hidden py-3 border-t border-knw-border space-y-1 animate-in fade-in slide-in-from-top-2 duration-150">
 
-            {/* Active goal pill in mobile */}
-            {activeGoal && (
+            {/* Active goal pill in mobile - only for students */}
+            {activeGoal && user?.role !== 'teacher' && (
               <div className="px-3 py-2 mb-2 bg-knw-red/10 border border-knw-red/20 rounded-lg
                               flex items-center justify-between text-xs font-semibold">
                 <div className="flex items-center gap-2 min-w-0">
@@ -441,8 +452,11 @@ export const Navbar = () => {
             {/* Nav links */}
             {activeNavLinks.map((link) => {
               const Icon = link.icon;
+              const currentFull = location.pathname + location.search;
               const isActive =
-                link.path === '/'
+                user?.role === 'teacher'
+                  ? currentFull === link.path || (link.path.includes('tab=overview') && location.pathname === '/teacher/dashboard' && !location.search)
+                  : link.path === '/'
                   ? location.pathname === '/'
                   : location.pathname.startsWith(link.path);
               return (

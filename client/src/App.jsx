@@ -1,9 +1,10 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import { GoalProvider } from './context/GoalContext';
 import { NotificationProvider } from './context/NotificationContext';
 import { MainLayout } from './layouts/MainLayout';
+import { RoleProtectedRoute } from './components/auth/RoleProtectedRoute';
 
 // Pages
 import { GoalSelectionPage } from './pages/GoalSelectionPage';
@@ -18,6 +19,15 @@ import { RegisterPage } from './pages/RegisterPage';
 import { TeacherDashboardPage } from './pages/TeacherDashboardPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
+// Smart Home route: teachers are redirected to teacher dashboard
+const HomeRoute = () => {
+  const { user, isAuthenticated } = useAuth();
+  if (isAuthenticated && user?.role === 'teacher') {
+    return <Navigate to="/teacher/dashboard" replace />;
+  }
+  return <GoalSelectionPage />;
+};
+
 export function App() {
   return (
     <BrowserRouter>
@@ -26,27 +36,67 @@ export function App() {
           <NotificationProvider>
             <Routes>
               <Route path="/" element={<MainLayout />}>
-                {/* PAGE 1: GOAL SELECTION — FRONT PAGE */}
-                <Route index element={<GoalSelectionPage />} />
+                {/* PAGE 1: GOAL SELECTION — FRONT PAGE (Teachers redirected to /teacher/dashboard) */}
+                <Route index element={<HomeRoute />} />
                 
-                {/* PAGE 2: ROADMAP + CAREER GUIDANCE */}
-                <Route path="roadmap" element={<RoadmapCareerPage />} />
+                {/* STUDENT-ONLY PAGES (Teachers redirected to /teacher/dashboard) */}
+                <Route
+                  path="roadmap"
+                  element={
+                    <RoleProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
+                      <RoadmapCareerPage />
+                    </RoleProtectedRoute>
+                  }
+                />
 
-                {/* PAGE 3: RESOURCES */}
-                <Route path="resources" element={<ResourcesPage />} />
+                <Route
+                  path="resources"
+                  element={
+                    <RoleProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
+                      <ResourcesPage />
+                    </RoleProtectedRoute>
+                  }
+                />
 
-                {/* PAGE 4: TIMETABLE & GENERATOR SUB-PAGE */}
-                <Route path="timetable" element={<TimetablePage />} />
+                <Route
+                  path="timetable"
+                  element={
+                    <RoleProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
+                      <TimetablePage />
+                    </RoleProtectedRoute>
+                  }
+                />
 
-                {/* PAGE 5: TASKS & RESCHEDULER */}
-                <Route path="tasks" element={<TasksPage />} />
+                <Route
+                  path="tasks"
+                  element={
+                    <RoleProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
+                      <TasksPage />
+                    </RoleProtectedRoute>
+                  }
+                />
 
-                {/* PAGE 6: PROGRESS TRACKING */}
-                <Route path="progress" element={<ProgressPage />} />
+                <Route
+                  path="progress"
+                  element={
+                    <RoleProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
+                      <ProgressPage />
+                    </RoleProtectedRoute>
+                  }
+                />
 
                 {/* Profile & Settings */}
                 <Route path="profile" element={<ProfilePage />} />
-                <Route path="teacher/dashboard" element={<TeacherDashboardPage />} />
+
+                {/* TEACHER DASHBOARD (Students redirected to /) */}
+                <Route
+                  path="teacher/dashboard"
+                  element={
+                    <RoleProtectedRoute allowedRoles={['teacher', 'admin']}>
+                      <TeacherDashboardPage />
+                    </RoleProtectedRoute>
+                  }
+                />
 
                 {/* Auth */}
                 <Route path="login" element={<LoginPage />} />
