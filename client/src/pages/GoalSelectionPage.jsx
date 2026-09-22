@@ -203,7 +203,7 @@ const FEED_POSTS = [
 ];
 
 export const GoalSelectionPage = () => {
-  const { allGoals, activeGoal, activeUserGoal, loading } = useGoal();
+  const { allGoals, activeGoal, activeUserGoal, loading, setPreviewGoal } = useGoal();
   const { isAuthenticated, demoLogin } = useAuth();
   const navigate = useNavigate();
 
@@ -275,6 +275,9 @@ export const GoalSelectionPage = () => {
   });
 
   const handleSelectGoal = (goal) => {
+    if (setPreviewGoal) {
+      setPreviewGoal(goal);
+    }
     setTargetGoalToEnroll(goal);
     setIsOnboardingOpen(true);
   };

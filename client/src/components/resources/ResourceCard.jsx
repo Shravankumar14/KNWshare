@@ -33,23 +33,23 @@ export const ResourceCard = ({ resource, isSelected, onToggleSelect }) => {
     switch (type) {
       case 'youtube_playlist': return 'YouTube Playlist';
       case 'youtube_video': return 'Video Lecture';
-      case 'doc': return 'Official Docs';
+      case 'doc': return 'Official Text / Docs';
       case 'course_free': return 'Free Course';
       case 'course_paid': return 'Paid Course';
-      case 'book': return 'Book / Manual';
+      case 'book': return 'Standard Book';
       case 'practice_platform': return 'Practice Platform';
       case 'project': return 'Hands-on Project';
-      case 'mock_test': return 'Mock Test Series';
-      case 'article': return 'Deep Dive Article';
+      case 'mock_test': return 'Mock Test / PYQs';
+      case 'article': return 'Curriculum Guide';
       default: return 'Study Material';
     }
   };
 
   const getDifficultyBadge = (diff) => {
     switch (diff) {
-      case 'beginner': return { label: 'Beginner', bg: 'bg-emerald-950/40 text-emerald-400 border-emerald-700/50' };
+      case 'beginner': return { label: 'Beginner / Foundational', bg: 'bg-emerald-950/40 text-emerald-400 border-emerald-700/50' };
       case 'intermediate': return { label: 'Intermediate', bg: 'bg-yellow-950/40 text-yellow-400 border-yellow-700/50' };
-      case 'advanced': return { label: 'Advanced', bg: 'bg-red-950/40 text-red-400 border-red-700/50' };
+      case 'advanced': return { label: 'Advanced / JEE Adv', bg: 'bg-red-950/40 text-red-400 border-red-700/50' };
       default: return { label: 'All Levels', bg: 'bg-white/5 text-knw-muted border-white/10' };
     }
   };
@@ -63,11 +63,23 @@ export const ResourceCard = ({ resource, isSelected, onToggleSelect }) => {
       <div>
         {/* Header Tags & Save Bookmark */}
         <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-mono font-bold bg-knw-red/10 text-red-400 border border-knw-red/30">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-mono font-bold bg-knw-red/10 text-red-400 border border-knw-red/30">
               <IconComp className="w-3.5 h-3.5 text-knw-red" />
               <span>{getTypeLabel(resource.type)}</span>
             </span>
+
+            {resource.subject && (
+              <span className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-blue-950/30 text-blue-300 border border-blue-700/40">
+                {resource.subject}
+              </span>
+            )}
+
+            {resource.examLevel && (
+              <span className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-amber-950/30 text-amber-300 border border-amber-700/40">
+                {resource.examLevel}
+              </span>
+            )}
 
             <span className={`px-2 py-0.5 rounded-md text-[10px] font-mono border ${diffBadge.bg}`}>
               {diffBadge.label}
@@ -75,7 +87,7 @@ export const ResourceCard = ({ resource, isSelected, onToggleSelect }) => {
           </div>
 
           <button
-            onClick={() => onToggleSelect(resource._id)}
+            onClick={() => onToggleSelect(resource._id || resource.title)}
             className={`p-2 rounded-xl transition-all ${
               isSelected
                 ? 'bg-knw-red/20 text-knw-red border border-knw-red/50 shadow-red'
@@ -103,7 +115,7 @@ export const ResourceCard = ({ resource, isSelected, onToggleSelect }) => {
 
         {/* Key Info Meta (Platform, Author, Rating) */}
         <div className="mt-3.5 pt-3 border-t border-white/5 flex items-center justify-between text-xs text-knw-muted font-mono">
-          <span className="font-semibold text-gray-300 truncate max-w-[150px]">
+          <span className="font-semibold text-gray-300 truncate max-w-[170px]">
             {resource.platformOrAuthor || 'Curated Resource'}
           </span>
 

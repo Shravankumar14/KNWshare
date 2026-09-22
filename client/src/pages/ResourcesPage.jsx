@@ -15,43 +15,73 @@ import { useNotification } from '../context/NotificationContext';
 import api from '../services/api';
 import { ResourceCard } from '../components/resources/ResourceCard';
 import { useSearchParams } from 'react-router-dom';
+import { getGoalDataByIdOrSlug } from '../data/goalRegistry';
 
 export const ResourcesPage = () => {
-  const { activeGoal } = useGoal();
+  const { activeGoal, allGoals } = useGoal();
   const { isAuthenticated } = useAuth();
   const { addToast } = useNotification();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [resources, setResources] = useState([]);
+  const goalStaticData = getGoalDataByIdOrSlug(activeGoal, allGoals);
+
+  const [resources, setResources] = useState(goalStaticData?.resources || []);
   const [userSelectedIds, setUserSelectedIds] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   // Filters
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedStage, setSelectedStage] = useState(searchParams.get('stage') || 'all');
+  const [selectedSubject, setSelectedSubject] = useState('all');
+  const [selectedExamLevel, setSelectedExamLevel] = useState('all');
   const [selectedType, setSelectedType] = useState('all');
   const [selectedDifficulty, setSelectedDifficulty] = useState('all');
+
+  const isJee = activeGoal?.slug === 'jee-mains-advanced' ||
+    activeGoal?.category === 'engineering_exams' ||
+    activeGoal?.title?.toLowerCase().includes('jee');
 
   const resourceTypes = [
     { id: 'all', label: 'All Formats' },
     { id: 'youtube_playlist', label: 'YouTube Playlists' },
     { id: 'youtube_video', label: 'Videos' },
-    { id: 'doc', label: 'Documentation' },
+    { id: 'doc', label: 'Official Docs / Text' },
     { id: 'course_free', label: 'Free Courses' },
     { id: 'book', label: 'Books' },
-    { id: 'practice_platform', label: 'Practice / LeetCode' },
-    { id: 'project', label: 'Project Ideas' },
+    { id: 'practice_platform', label: 'Practice / PYQs' },
+    { id: 'mock_test', label: 'Mock Test Series' },
+  ];
+
+  const subjects = [
+    { id: 'all', label: 'All Subjects' },
+    { id: 'Physics', label: 'Physics' },
+    { id: 'Chemistry', label: 'Chemistry' },
+    { id: 'Mathematics', label: 'Mathematics' },
+    { id: 'PCM Integrated', label: 'PCM Integrated' },
+  ];
+
+  const examLevels = [
+    { id: 'all', label: 'All Exam Levels' },
+    { id: 'JEE Main', label: 'JEE Main' },
+    { id: 'JEE Advanced', label: 'JEE Advanced' },
+    { id: 'Both Main & Advanced', label: 'Both Main & Adv' },
   ];
 
   const difficulties = [
     { id: 'all', label: 'All Difficulties' },
-    { id: 'beginner', label: 'Beginner' },
+    { id: 'beginner', label: 'Beginner / Foundation' },
     { id: 'intermediate', label: 'Intermediate' },
     { id: 'advanced', label: 'Advanced' },
   ];
 
   const fetchResources = async () => {
-    if (!activeGoal?._id) return;
+    const staticResources = goalStaticData?.resources || [];
+
+    if (!activeGoal?._id) {
+      setResources(staticResources);
+      return;
+    }
+
     setLoading(true);
     try {
       const params = {
@@ -59,14 +89,67 @@ export const ResourcesPage = () => {
         stageNumber: selectedStage !== 'all' ? selectedStage : undefined,
         type: selectedType !== 'all' ? selectedType : undefined,
         difficulty: selectedDifficulty !== 'all' ? selectedDifficulty : undefined,
+        subject: selectedSubject !== 'all' ? selectedSubject : undefined,
+        examLevel: selectedExamLevel !== 'all' ? selectedExamLevel : undefined,
         search: searchQuery || undefined,
       };
 
       const res = await api.get('/resources', { params });
-      setResources(res.data.data.resources || []);
-      setUserSelectedIds(res.data.data.userSelectedResourceIds || []);
+      const apiRes = res.data?.data?.resources;
+
+      if (apiRes && apiRes.length > 0) {
+        setResources(apiRes);
+      } else {
+        // Filter static resources client-side
+        let filtered = [...staticResources];
+        if (selectedSubject !== 'all') {
+          filtered = filtered.filter(r => r.subject === selectedSubject);
+        }
+        if (selectedExamLevel !== 'all') {
+          filtered = filtered.filter(r => r.examLevel === selectedExamLevel);
+        }
+        if (selectedType !== 'all') {
+          filtered = filtered.filter(r => r.type === selectedType);
+        }
+        if (selectedDifficulty !== 'all') {
+          filtered = filtered.filter(r => r.difficulty === selectedDifficulty);
+        }
+        if (searchQuery) {
+          const q = searchQuery.toLowerCase();
+          filtered = filtered.filter(r =>
+            r.title.toLowerCase().includes(q) ||
+            r.description.toLowerCase().includes(q) ||
+            r.platformOrAuthor?.toLowerCase().includes(q)
+          );
+        }
+        setResources(filtered);
+      }
+
+      setUserSelectedIds(res.data?.data?.userSelectedResourceIds || []);
     } catch (err) {
-      console.error(err);
+      console.warn('API get resources warning, using high-fidelity curated data:', err.message);
+      let filtered = [...staticResources];
+      if (selectedSubject !== 'all') {
+        filtered = filtered.filter(r => r.subject === selectedSubject);
+      }
+      if (selectedExamLevel !== 'all') {
+        filtered = filtered.filter(r => r.examLevel === selectedExamLevel);
+      }
+      if (selectedType !== 'all') {
+        filtered = filtered.filter(r => r.type === selectedType);
+      }
+      if (selectedDifficulty !== 'all') {
+        filtered = filtered.filter(r => r.difficulty === selectedDifficulty);
+      }
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        filtered = filtered.filter(r =>
+          r.title.toLowerCase().includes(q) ||
+          r.description.toLowerCase().includes(q) ||
+          r.platformOrAuthor?.toLowerCase().includes(q)
+        );
+      }
+      setResources(filtered);
     } finally {
       setLoading(false);
     }
@@ -74,11 +157,18 @@ export const ResourcesPage = () => {
 
   useEffect(() => {
     fetchResources();
-  }, [activeGoal, selectedStage, selectedType, selectedDifficulty]);
+  }, [activeGoal, selectedStage, selectedSubject, selectedExamLevel, selectedType, selectedDifficulty]);
 
   const handleToggleSelect = async (resourceId) => {
+    const isSaved = userSelectedIds.includes(resourceId);
+    const nextSaved = isSaved
+      ? userSelectedIds.filter(id => id !== resourceId)
+      : [...userSelectedIds, resourceId];
+
+    setUserSelectedIds(nextSaved);
+
     if (!isAuthenticated) {
-      addToast('Sign in to save resources to your vault', 'info');
+      addToast(isSaved ? 'Removed from local vault' : 'Saved to local vault!', 'info');
       return;
     }
 
@@ -88,16 +178,15 @@ export const ResourcesPage = () => {
         resourceId,
       });
 
-      setUserSelectedIds(res.data.data.selectedResourceIds || []);
+      if (res.data?.data?.selectedResourceIds) {
+        setUserSelectedIds(res.data.data.selectedResourceIds);
+      }
       addToast(
-        userSelectedIds.includes(resourceId)
-          ? 'Removed from your study vault'
-          : 'Saved to your study vault!',
+        isSaved ? 'Removed from your study vault' : 'Saved to your study vault!',
         'success'
       );
     } catch (err) {
-      console.error(err);
-      addToast('Failed to update study vault', 'error');
+      console.warn('Sync resource select warning:', err.message);
     }
   };
 
@@ -153,13 +242,41 @@ export const ResourcesPage = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search topics, author, LeetCode, docs, or keywords..."
+              placeholder="Search topics, Ashish Arora, NCERT, MathonGo, PYQs..."
               className="w-full bg-knw-surface border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-knw-subtle focus:outline-none focus:border-knw-red transition-colors"
             />
           </form>
 
           {/* Filter Dropdowns */}
-          <div className="flex items-center gap-2 overflow-x-auto">
+          <div className="flex items-center gap-2 overflow-x-auto flex-wrap sm:flex-nowrap">
+            {isJee && (
+              <>
+                <select
+                  value={selectedSubject}
+                  onChange={(e) => setSelectedSubject(e.target.value)}
+                  className="bg-knw-surface border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-knw-offWhite focus:outline-none focus:border-knw-red"
+                >
+                  {subjects.map((s) => (
+                    <option key={s.id} value={s.id} className="bg-knw-surface text-white">
+                      {s.label}
+                    </option>
+                  ))}
+                </select>
+
+                <select
+                  value={selectedExamLevel}
+                  onChange={(e) => setSelectedExamLevel(e.target.value)}
+                  className="bg-knw-surface border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-knw-offWhite focus:outline-none focus:border-knw-red"
+                >
+                  {examLevels.map((el) => (
+                    <option key={el.id} value={el.id} className="bg-knw-surface text-white">
+                      {el.label}
+                    </option>
+                  ))}
+                </select>
+              </>
+            )}
+
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
@@ -188,7 +305,7 @@ export const ResourcesPage = () => {
       </div>
 
       {/* Resource Grid */}
-      {loading ? (
+      {loading && resources.length === 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3, 4, 5, 6].map((n) => (
             <div key={n} className="h-56 knw-skeleton rounded-3xl" />
@@ -196,11 +313,11 @@ export const ResourcesPage = () => {
         </div>
       ) : resources.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {resources.map((resource) => (
+          {resources.map((resource, idx) => (
             <ResourceCard
-              key={resource._id}
+              key={resource._id || resource.title || idx}
               resource={resource}
-              isSelected={userSelectedIds.includes(resource._id)}
+              isSelected={userSelectedIds.includes(resource._id || resource.title)}
               onToggleSelect={handleToggleSelect}
             />
           ))}
@@ -209,7 +326,7 @@ export const ResourcesPage = () => {
         <div className="p-12 text-center knw-card rounded-3xl space-y-3">
           <BookOpen className="w-10 h-10 text-knw-red mx-auto" />
           <h3 className="text-base font-bold text-white">No Resources Matched Your Filters</h3>
-          <p className="text-xs text-knw-muted">Try resetting search criteria or selecting "All Ambitions".</p>
+          <p className="text-xs text-knw-muted">Try resetting search criteria or selecting another subject.</p>
         </div>
       )}
     </div>

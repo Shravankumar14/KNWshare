@@ -4,11 +4,15 @@ import Notification from '../models/Notification.js';
 
 export const getAllExperts = async (req, res, next) => {
   try {
-    const { goalId, expertise } = req.query;
+    let resolvedGoalId = goalId;
+    if (goalId && !mongoose.Types.ObjectId.isValid(goalId)) {
+      const g = await Goal.findOne({ slug: goalId });
+      if (g) resolvedGoalId = g._id;
+    }
 
     const query = { isAvailable: true };
-    if (goalId) {
-      query.$or = [{ targetGoals: goalId }, { targetGoals: { $size: 0 } }];
+    if (resolvedGoalId) {
+      query.$or = [{ targetGoals: resolvedGoalId }, { targetGoals: { $size: 0 } }];
     }
     if (expertise) {
       query.expertiseAreas = new RegExp(expertise, 'i');

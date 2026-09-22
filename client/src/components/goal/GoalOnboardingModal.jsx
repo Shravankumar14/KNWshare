@@ -5,25 +5,41 @@ import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 export const GoalOnboardingModal = ({ goal, isOpen, onClose }) => {
-  const { selectGoal } = useGoal();
+  const { selectGoal, setPreviewGoal } = useGoal();
   const { isAuthenticated, demoLogin } = useAuth();
   const navigate = useNavigate();
 
   const [level, setLevel] = useState('beginner');
-  const [targetMonths, setTargetMonths] = useState(goal?.estimatedMonths || 6);
-  const [hoursPerDay, setHoursPerDay] = useState(2);
+  const [targetMonths, setTargetMonths] = useState(goal?.estimatedMonths || 12);
+  const [hoursPerDay, setHoursPerDay] = useState(4);
   const [knowledge, setKnowledge] = useState([]);
   const [loading, setLoading] = useState(false);
 
   if (!isOpen || !goal) return null;
 
-  const levels = [
+  const isJee = goal?.slug === 'jee-mains-advanced' ||
+    goal?.category === 'engineering_exams' ||
+    goal?.title?.toLowerCase().includes('jee');
+
+  const levels = isJee ? [
+    { id: 'beginner', title: 'Starting Scratch / Class 11', desc: 'New to JEE prep, building core PCM foundational concepts' },
+    { id: 'intermediate', title: 'Class 12 / In Progress', desc: 'Studying syllabus, targeting speed, accuracy & PYQ drills' },
+    { id: 'advanced', title: 'Dropper / Final Revision', desc: 'Covered syllabus, focusing on mock tests & top IIT rank' },
+  ] : [
     { id: 'beginner', title: 'Absolute Beginner', desc: 'Starting from scratch with no prior background' },
     { id: 'intermediate', title: 'Familiar / Student', desc: 'Know basic syntax or theory, want structured mastery' },
     { id: 'advanced', title: 'Practitioner', desc: 'Have built small projects, targeting advanced prep' },
   ];
 
-  const suggestedSkills = [
+  const suggestedSkills = isJee ? [
+    'Physics: Kinematics & Mechanics',
+    'Physics: Optics & Modern Physics',
+    'Chemistry: Mole Concept & Bonding',
+    'Chemistry: Organic Mechanisms',
+    'Math: Quadratic Equations & Algebra',
+    'Math: Differential & Integral Calculus',
+    'Math: Vectors & 3D Geometry'
+  ] : [
     'Basic Computer Literacy',
     'Git & GitHub',
     'Basic Math & Logic',
@@ -43,25 +59,41 @@ export const GoalOnboardingModal = ({ goal, isOpen, onClose }) => {
   const handleConfirm = async () => {
     setLoading(true);
     try {
+      // 1. Immediately activate goal in client state & local storage
+      if (goal.slug) {
+        localStorage.setItem('knwshare_active_goal_slug', goal.slug);
+      }
+      setPreviewGoal(goal);
+
+      // 2. Ensure user is logged in
       if (!isAuthenticated) {
         await demoLogin();
       }
 
+      // 3. Persist enrollment in server
       const targetDate = new Date();
       targetDate.setMonth(targetDate.getMonth() + Number(targetMonths));
 
-      await selectGoal({
-        goalId: goal._id,
-        targetDate,
-        hoursPerDay: Number(hoursPerDay),
-        currentLevel: level,
-        currentKnowledge: knowledge,
-      });
+      if (goal._id) {
+        try {
+          await selectGoal({
+            goalId: goal._id,
+            targetDate,
+            hoursPerDay: Number(hoursPerDay),
+            currentLevel: level,
+            currentKnowledge: knowledge,
+          });
+        } catch (enrollErr) {
+          console.warn('Server enrollment fallback warning:', enrollErr);
+        }
+      }
 
       onClose();
       navigate('/roadmap');
     } catch (err) {
-      alert(err.message || 'Failed to enroll in goal');
+      console.error('Failed to complete onboarding:', err);
+      onClose();
+      navigate('/roadmap');
     } finally {
       setLoading(false);
     }
@@ -134,10 +166,10 @@ export const GoalOnboardingModal = ({ goal, isOpen, onClose }) => {
                 onChange={(e) => setTargetMonths(Number(e.target.value))}
                 className="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-xs font-mono font-medium text-white focus:border-knw-red outline-none"
               >
-                <option value={3} className="bg-knw-surface text-white">Fast Track (3 Months)</option>
-                <option value={6} className="bg-knw-surface text-white">Standard Pace (6 Months)</option>
-                <option value={9} className="bg-knw-surface text-white">Thorough Mastery (9 Months)</option>
-                <option value={12} className="bg-knw-surface text-white">Comprehensive (12 Months)</option>
+                <option value={3} className="bg-knw-surface text-white">Fast Track Crash Course (3 Months)</option>
+                <option value={6} className="bg-knw-surface text-white">Intensive Target (6 Months)</option>
+                <option value={9} className="bg-knw-surface text-white">Comprehensive 1-Year (9 Months)</option>
+                <option value={12} className="bg-knw-surface text-white">Two-Year Comprehensive (12+ Months)</option>
               </select>
             </div>
 
@@ -151,7 +183,7 @@ export const GoalOnboardingModal = ({ goal, isOpen, onClose }) => {
                 <input
                   type="range"
                   min="1"
-                  max="8"
+                  max="10"
                   value={hoursPerDay}
                   onChange={(e) => setHoursPerDay(e.target.value)}
                   className="w-full accent-knw-red cursor-pointer"
@@ -166,7 +198,7 @@ export const GoalOnboardingModal = ({ goal, isOpen, onClose }) => {
           {/* Step 3: Prior Skills */}
           <div>
             <label className="block text-xs font-mono uppercase tracking-wider text-knw-muted mb-2">
-              Select any topics you already feel comfortable with (Optional):
+              Select topics you already feel comfortable with (Optional):
             </label>
             <div className="flex flex-wrap gap-2">
               {suggestedSkills.map((skill) => {

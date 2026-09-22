@@ -1,0 +1,2305 @@
+{
+  "goal": {
+    "title": "JEE Mains & Advanced Preparation",
+    "slug": "jee-mains-advanced",
+    "category": "engineering_exams",
+    "tagline": "Comprehensive Master Plan for Physics, Chemistry & Mathematics Mastery",
+    "description": "Official NTA & IIT JEE Advanced syllabus coverage with deep conceptual rigor, formula derivation, Physics Galaxy illustrations, NCERT Chemistry foundations, MathonGo PYQ drills, and JoSAA admission guidance.",
+    "icon": "Target",
+    "badgeColor": "emerald",
+    "estimatedMonths": 12,
+    "targetRoles": [
+      "Top 1% All India Rank in JEE Main & Advanced",
+      "Admissions to IITs, NITs, IIITs & BITS",
+      "B.Tech in Computer Science / Electrical / Core Engineering",
+      "Research & Frontier Technology Careers"
+    ],
+    "careerPath": [
+      {
+        "stepNumber": 1,
+        "title": "Stage 1: Core Conceptual Foundations & NCERT Mastery",
+        "subtitle": "Class 11 & 12 Fundamentals Across PCM",
+        "description": "Build rigorous foundational concepts in Mechanics, Physical Chemistry, and Algebra. Ensure zero conceptual gaps using NCERT and standard theory.",
+        "milestones": [
+          "Complete all NCERT textbook reading and in-text problems in Chemistry",
+          "Derive every fundamental law in Physics (Kinematics, Newton's Laws, Work-Energy)",
+          "Maintain a dedicated Formula & Theorem Notebook for daily revision"
+        ],
+        "icon": "BookOpen"
+      },
+      {
+        "stepNumber": 2,
+        "title": "Stage 2: Standard Problem Solving & JEE Main Mastery",
+        "subtitle": "Speed, Accuracy & Chapter-wise PYQ Drills",
+        "description": "Develop numerical dexterity and quick dimensional/elimination techniques required to crack JEE Main with 99+ percentile.",
+        "milestones": [
+          "Solve 10+ years of chapter-wise JEE Main Previous Year Questions (PYQs)",
+          "Practice timed 60-minute sectional problem sets for speed and accuracy",
+          "Identify and eliminate repeated negative marking errors"
+        ],
+        "icon": "Activity"
+      },
+      {
+        "stepNumber": 3,
+        "title": "Stage 3: Advanced Problem Solving & Multi-Concept Drills",
+        "subtitle": "JEE Advanced Depth, Mixed Concepts & Rigorous Analysis",
+        "description": "Tackle multi-concept, multi-correct, comprehension, and matrix-match questions designed for JEE Advanced rank maximization.",
+        "milestones": [
+          "Complete Physics Galaxy Advanced Illustrations and challenging problems",
+          "Solve 15 years of JEE Advanced subjective and objective PYQs",
+          "Master multi-chapter synthesis (e.g. Calculus in Mechanics, Thermodynamics in Physical Chemistry)"
+        ],
+        "icon": "Flame"
+      },
+      {
+        "stepNumber": 4,
+        "title": "Stage 4: National Exam Simulation & CBT Conditioning",
+        "subtitle": "Full 3-Hour Computer Based Tests & Error Log Auditing",
+        "description": "Simulate real exam conditions (Paper 1 & Paper 2) to build mental stamina, exam temperament, and time allocation strategy.",
+        "milestones": [
+          "Complete 20+ full-length 3-hour Computer Based Mock Tests (CBTs)",
+          "Maintain an Error Logbook: categorize errors into silly mistakes, conceptual gaps, or time pressure",
+          "Achieve consistent 99+ percentile performance across mock series"
+        ],
+        "icon": "Award"
+      },
+      {
+        "stepNumber": 5,
+        "title": "Stage 5: JoSAA Counselling, Seat Allocation & College Enrollment",
+        "subtitle": "Official JoSAA / CSAB Strategy, Choice Filling & Institute Selection",
+        "description": "Navigate the official Joint Seat Allocation Authority (JoSAA) process, rank analytics, choice prioritization, and document verification.",
+        "milestones": [
+          "Analyze opening and closing ranks for IITs, NITs, IIITs, and GFTIs across prior years",
+          "Lock optimal prioritized choice order based on genuine branch interest and institute tier",
+          "Complete seat acceptance, fee payment, and physical reporting at the allocated institute"
+        ],
+        "icon": "Compass"
+      }
+    ]
+  },
+  "roadmap": {
+    "title": "JEE Mains & Advanced Official Syllabus Roadmap",
+    "totalEstimatedHours": 650,
+    "stages": [
+      {
+        "stageNumber": 1,
+        "title": "Physics: Mechanics & Properties of Matter",
+        "shortSummary": "Units, Dimensions, Kinematics, Newton's Laws, Work-Energy, Center of Mass, Rotation, Gravitation & Fluids.",
+        "estimatedHours": 85,
+        "dependencies": [],
+        "subject": "Physics",
+        "topics": [
+          {
+            "title": "Units, Dimensions, Errors & Practical Physics",
+            "description": "SI units, dimensional analysis, propagation of errors, significant figures, Vernier calipers, and screw gauge.",
+            "subtopics": [
+              "Dimensional homogeneity",
+              "Error analysis in experiments",
+              "Vernier calipers & micrometer screw gauge",
+              "Least count calculations"
+            ],
+            "skills": [
+              "Dimensional Analysis",
+              "Error Propagation",
+              "Instrument Reading"
+            ],
+            "importance": "high",
+            "estimatedHours": 10,
+            "jeeMainRelevance": "Guaranteed 1-2 direct numerical/MCQ questions in JEE Main.",
+            "jeeAdvancedRelevance": "Essential for experimental physics questions and multi-concept calculations.",
+            "practiceTasks": [
+              "Solve 20 error propagation questions",
+              "Practice virtual Vernier and screw gauge readings"
+            ]
+          },
+          {
+            "title": "Vectors & Kinematics (1D, 2D & Relative Motion)",
+            "description": "Scalar and vector products, motion in a straight line, projectile motion, and relative velocity in 1D/2D.",
+            "subtopics": [
+              "1D motion under constant & variable acceleration",
+              "Graph analysis (x-t, v-t, a-t)",
+              "Ground-to-ground and oblique projectiles",
+              "Relative velocity & river-boat / rain-man problems"
+            ],
+            "skills": [
+              "Kinematic Equations",
+              "Graph Interpretation",
+              "Relative Motion Vectors"
+            ],
+            "importance": "high",
+            "estimatedHours": 18,
+            "jeeMainRelevance": "Core foundation testing direct formula and graph interpretations.",
+            "jeeAdvancedRelevance": "Complex multi-body relative motion and constraints in 2D and 3D.",
+            "practiceTasks": [
+              "Solve 30 projectile motion problems including inclined planes",
+              "Master 20 relative velocity problems"
+            ]
+          },
+          {
+            "title": "Newton's Laws of Motion, Constraints & Friction",
+            "description": "Free body diagrams, inertial & non-inertial frames, pseudo force, static & kinetic friction, circular dynamics.",
+            "subtopics": [
+              "String and wedge constraint relations",
+              "Equilibrium of concurrent forces",
+              "Friction on rough inclined surfaces",
+              "Banking of tracks & vertical circular motion"
+            ],
+            "skills": [
+              "Free Body Diagrams",
+              "Friction Analysis",
+              "Circular Dynamics"
+            ],
+            "importance": "high",
+            "estimatedHours": 20,
+            "jeeMainRelevance": "Frequent questions on block-on-block friction and pulley constraints.",
+            "jeeAdvancedRelevance": "Intricate multi-body frictional threshold analysis and non-inertial frame dynamics.",
+            "practiceTasks": [
+              "Solve 25 two-block friction problems",
+              "Derive critical velocity in vertical loop"
+            ]
+          },
+          {
+            "title": "Work, Energy, Power & Collisions",
+            "description": "Work-energy theorem, conservative forces, potential energy functions, power, elastic and inelastic collisions in 1D/2D.",
+            "subtopics": [
+              "Variable force work integration",
+              "Potential energy curve stability (stable/unstable equilibrium)",
+              "Coefficient of restitution (e)",
+              "Direct and oblique collisions"
+            ],
+            "skills": [
+              "Work-Energy Theorem",
+              "Conservation of Momentum",
+              "Equilibrium Analysis"
+            ],
+            "importance": "high",
+            "estimatedHours": 18,
+            "jeeMainRelevance": "Standard applications of conservation laws and power equations.",
+            "jeeAdvancedRelevance": "Coupled spring-mass-collision problems requiring simultaneous conservation of momentum and energy.",
+            "practiceTasks": [
+              "Solve 25 collision problems with varying restitution",
+              "Analyze potential energy U(x) graphs for equilibrium"
+            ]
+          },
+          {
+            "title": "Rotational Mechanics & Rigid Body Dynamics",
+            "description": "Center of mass, moment of inertia theorems, torque, angular momentum conservation, rolling without slipping.",
+            "subtopics": [
+              "Center of mass of standard bodies",
+              "Parallel & perpendicular axis theorems",
+              "Torque and angular acceleration (tau = I*alpha)",
+              "Conservation of angular momentum",
+              "Pure rolling on flat & inclined planes"
+            ],
+            "skills": [
+              "Moment of Inertia",
+              "Angular Momentum",
+              "Rolling Dynamics"
+            ],
+            "importance": "high",
+            "estimatedHours": 25,
+            "jeeMainRelevance": "Moment of inertia calculations and direct torque equations.",
+            "jeeAdvancedRelevance": "Top-tier chapter in JEE Advanced: combined translation + rotation, instantaneous center of rotation, toppling vs sliding.",
+            "practiceTasks": [
+              "Calculate moment of inertia for composite geometries",
+              "Solve 20 pure rolling dynamics problems on rough inclines"
+            ]
+          },
+          {
+            "title": "Gravitation & Mechanical Properties of Solids and Fluids",
+            "description": "Kepler's laws, gravitational potential & orbital velocity, Hooke's law, hydrostatic pressure, Pascal's law, Archimedes principle, Bernoulli theorem, viscosity, surface tension.",
+            "subtopics": [
+              "Escape velocity and satellite orbits",
+              "Stress-strain curve and Young's modulus",
+              "Pascal law and manometer problems",
+              "Equation of continuity and Bernoulli equation",
+              "Surface tension, capillarity and terminal velocity"
+            ],
+            "skills": [
+              "Gravitational Field",
+              "Fluid Dynamics",
+              "Surface Tension"
+            ],
+            "importance": "high",
+            "estimatedHours": 18,
+            "jeeMainRelevance": "Direct scoring questions on satellite energy, Bernoulli theorem, and Young modulus.",
+            "jeeAdvancedRelevance": "Fluid acceleration in moving tanks, capillary rise thermodynamics, and variable mass orbits.",
+            "practiceTasks": [
+              "Solve 20 satellite orbital energy problems",
+              "Apply Bernoulli theorem to siphon and draining tanks"
+            ]
+          }
+        ],
+        "milestoneOutcome": "Complete mastery over classical mechanics and fluid principles, unlocking 35-40% of the JEE Physics syllabus."
+      },
+      {
+        "stageNumber": 2,
+        "title": "Physics: Electrodynamics & Magnetism",
+        "shortSummary": "Electrostatics, Gauss's Law, Capacitance, Current Electricity, Magnetic Effects, EMI & Alternating Current.",
+        "estimatedHours": 80,
+        "dependencies": [
+          1
+        ],
+        "subject": "Physics",
+        "topics": [
+          {
+            "title": "Electrostatics, Electric Field & Gauss's Law",
+            "description": "Coulomb's law, electric field intensity and potential, electric dipoles, flux through closed surfaces, applications of Gauss's law.",
+            "subtopics": [
+              "Field due to continuous charge distributions (ring, disc, wire, sphere)",
+              "Electric potential and field gradient (E = -grad V)",
+              "Gauss's law for symmetric configurations",
+              "Conductors in electrostatic equilibrium & shielding"
+            ],
+            "skills": [
+              "Coulomb Force",
+              "Electric Flux",
+              "Conductor Properties"
+            ],
+            "importance": "high",
+            "estimatedHours": 20,
+            "jeeMainRelevance": "High-yield topic with 2-3 questions covering dipole moment, flux, and spherical potentials.",
+            "jeeAdvancedRelevance": "Conductor cavity problems with induced charges, earthing of concentric shells, and electrical energy integration.",
+            "practiceTasks": [
+              "Solve concentric spherical conducting shell problems with earthing",
+              "Calculate electric field of uniformly charged hemisphere"
+            ]
+          },
+          {
+            "title": "Capacitors & Dielectrics",
+            "description": "Parallel plate capacitor, combination in series/parallel, energy stored, dielectric insertion effects, and RC charging/discharging circuits.",
+            "subtopics": [
+              "Capacitance with multiple dielectric slabs",
+              "Force between capacitor plates",
+              "Energy density in electrostatic field",
+              "Transient analysis in RC circuits (charging & discharging)"
+            ],
+            "skills": [
+              "Capacitance Networks",
+              "Dielectric Polarization",
+              "RC Circuit Time Constants"
+            ],
+            "importance": "high",
+            "estimatedHours": 15,
+            "jeeMainRelevance": "Standard equivalent capacitance networks and dielectric insertion questions.",
+            "jeeAdvancedRelevance": "Variable capacitance systems with mechanical springs, and differential equation based RC networks.",
+            "practiceTasks": [
+              "Solve 15 bridge capacitor circuits with dielectric boundaries",
+              "Derive time-dependent charge q(t) in RC circuit"
+            ]
+          },
+          {
+            "title": "Current Electricity & Electrical Instruments",
+            "description": "Ohm's law, drift velocity, resistivity, temperature dependence, Kirchhoff's rules, Wheatstone bridge, meter bridge, and potentiometer.",
+            "subtopics": [
+              "Microscopic model of conduction (I = n*e*A*v_d)",
+              "Kirchhoff's current and voltage laws (KCL/KVL)",
+              "Symmetry-based circuit simplification (cubic and infinite ladders)",
+              "Galvanometer conversion to ammeter and voltmeter",
+              "Potentiometer sensitivity and comparisons"
+            ],
+            "skills": [
+              "Circuit Analysis",
+              "Kirchhoff Laws",
+              "Instrument Measurement"
+            ],
+            "importance": "high",
+            "estimatedHours": 18,
+            "jeeMainRelevance": "Consistently tested with 2 questions on instrument error analysis and equivalent resistance.",
+            "jeeAdvancedRelevance": "Non-linear circuit elements, nodal analysis, and temperature-dependent resistance integration.",
+            "practiceTasks": [
+              "Solve 20 resistor cube and infinite grid networks",
+              "Calculate shunt and multiplier values for galvanometer conversion"
+            ]
+          },
+          {
+            "title": "Magnetic Effects of Current & Magnetism",
+            "description": "Biot-Savart law, Ampere's circuital law, Lorentz force on moving charges, torque on magnetic dipoles, Earth's magnetism, and magnetic materials.",
+            "subtopics": [
+              "Magnetic field of circular loop, straight wire and solenoid",
+              "Motion of charged particles in uniform E and B fields (helical paths)",
+              "Force between parallel currents",
+              "Moving coil galvanometer",
+              "Dia, para, and ferromagnetic material classification"
+            ],
+            "skills": [
+              "Biot-Savart Law",
+              "Lorentz Force",
+              "Magnetic Dipole"
+            ],
+            "importance": "high",
+            "estimatedHours": 18,
+            "jeeMainRelevance": "Magnetic field formulas for standard geometries and cyclotron frequency calculations.",
+            "jeeAdvancedRelevance": "Helical motion in non-uniform fields, magnetic pressure, and magnetic boundary conditions.",
+            "practiceTasks": [
+              "Calculate B-field on axis of Helmholtz coils",
+              "Solve 15 magnetic torque and magnetic dipole oscillation problems"
+            ]
+          },
+          {
+            "title": "Electromagnetic Induction (EMI) & Alternating Current (AC)",
+            "description": "Faraday's laws, Lenz's law, motional EMF, self and mutual inductance, AC circuits (LCR series), resonance, power factor, and transformers.",
+            "subtopics": [
+              "Motional EMF in rotating and sliding rods",
+              "Induced electric field (non-conservative)",
+              "LCR series AC circuit phasor diagrams",
+              "Resonance frequency, Quality factor (Q) and power factor",
+              "LR and LC oscillation circuits"
+            ],
+            "skills": [
+              "Faraday Law",
+              "Lenz Law",
+              "AC Phasors & Resonance"
+            ],
+            "importance": "high",
+            "estimatedHours": 20,
+            "jeeMainRelevance": "LCR circuit impedance, resonance frequency, and transformer turns ratio.",
+            "jeeAdvancedRelevance": "Motional EMF with mechanical resistance and terminal velocity, non-conservative electric field loops, and mutual inductance coefficients.",
+            "practiceTasks": [
+              "Solve sliding conducting rod on rails in magnetic field with resistor",
+              "Draw phasor diagrams and calculate resonance frequency for series LCR"
+            ]
+          }
+        ],
+        "milestoneOutcome": "Mastery of Maxwellian classical electrodynamics and circuit analysis, forming 30% of the JEE Physics exam weightage."
+      },
+      {
+        "stageNumber": 3,
+        "title": "Physics: Thermodynamics, Oscillations, Optics & Modern Physics",
+        "shortSummary": "Thermal Expansion, Kinetic Theory, First & Second Laws of Thermodynamics, SHM, Sound Waves, Ray Optics, Wave Optics, Modern Physics & Semiconductors.",
+        "estimatedHours": 90,
+        "dependencies": [
+          1
+        ],
+        "subject": "Physics",
+        "topics": [
+          {
+            "title": "Thermal Physics & Thermodynamics",
+            "description": "Thermal expansion, calorimetry, heat transfer (conduction, convection, radiation, Stefan-Boltzmann law), kinetic theory of gases, first and second laws of thermodynamics.",
+            "subtopics": [
+              "Calorimetry water equivalent & phase changes",
+              "Conduction through composite slabs & Wien displacement law",
+              "Kinetic theory of gases (rms speed, degrees of freedom, equipartition)",
+              "First law of thermodynamics (Q = delta U + W) for PV cycles",
+              "Carnot engine efficiency and PV/TS cycle analysis"
+            ],
+            "skills": [
+              "Thermodynamic Cycles",
+              "Heat Transfer",
+              "Kinetic Theory"
+            ],
+            "importance": "high",
+            "estimatedHours": 20,
+            "jeeMainRelevance": "Extremely high yield: 2-3 direct questions on PV diagrams, efficiency, and conduction.",
+            "jeeAdvancedRelevance": "Piston-cylinder setups coupled with springs, adiabatic gas mixture expansions, and entropy change calculations.",
+            "practiceTasks": [
+              "Calculate work done and efficiency in triangular and elliptical PV cycles",
+              "Solve composite bar heat conduction problems"
+            ]
+          },
+          {
+            "title": "Oscillations (SHM) & Mechanical Waves",
+            "description": "Simple harmonic motion kinematics and dynamics, spring-mass systems, simple and physical pendulums, wave equation, sound speed, standing waves, beats, Doppler effect.",
+            "subtopics": [
+              "SHM differential equation and energy conservation",
+              "Series and parallel spring combinations",
+              "Wave equation y = A*sin(kx - omega*t)",
+              "Standing waves in strings and organ pipes",
+              "Beats and Doppler effect for moving source/observer"
+            ],
+            "skills": [
+              "SHM Equations",
+              "Wave Superposition",
+              "Doppler Effect"
+            ],
+            "importance": "high",
+            "estimatedHours": 18,
+            "jeeMainRelevance": "Standard Doppler frequency shifts, organ pipe resonance lengths, and time periods.",
+            "jeeAdvancedRelevance": "Coupled oscillators, physical pendulum center of oscillation, and acoustic reflection phase shifts.",
+            "practiceTasks": [
+              "Solve 20 Doppler effect scenarios with wind velocity",
+              "Calculate resonance frequencies in closed and open organ pipes"
+            ]
+          },
+          {
+            "title": "Ray Optics & Optical Instruments",
+            "description": "Reflection, refraction at plane and spherical surfaces, total internal reflection, thin lenses, lens maker's formula, prisms, microscopes, and telescopes.",
+            "subtopics": [
+              "Snell's law and critical angle",
+              "Refraction at single spherical interface",
+              "Lens maker's formula and combination of lenses/mirrors",
+              "Prism dispersion and minimum deviation angle",
+              "Magnifying power of astronomical telescope and compound microscope"
+            ],
+            "skills": [
+              "Ray Tracing",
+              "Lens Maker Formula",
+              "Optical Instruments"
+            ],
+            "importance": "high",
+            "estimatedHours": 20,
+            "jeeMainRelevance": "Direct scoring questions on lens-mirror combinations, silvered lenses, and prism deviation.",
+            "jeeAdvancedRelevance": "Variable refractive index media ray tracing, aberration considerations, and multi-component optical matrices.",
+            "practiceTasks": [
+              "Solve 20 silvered lens-mirror combination problems",
+              "Calculate minimum deviation and dispersive power for standard prisms"
+            ]
+          },
+          {
+            "title": "Wave Optics",
+            "description": "Huygens' principle, interference of light, Young's double slit experiment (YDSE), diffraction at a single slit, and polarization.",
+            "subtopics": [
+              "Coherent sources and optical path difference",
+              "YDSE fringe width and intensity distribution",
+              "YDSE with mica sheet in one beam path",
+              "Single slit Fraunhofer diffraction minima and central maxima width",
+              "Brewster's law and Malus's law of polarization"
+            ],
+            "skills": [
+              "Huygens Principle",
+              "Interference & Diffraction",
+              "Polarization"
+            ],
+            "importance": "high",
+            "estimatedHours": 14,
+            "jeeMainRelevance": "YDSE fringe shift with thin transparent slab and Brewster angle calculations.",
+            "jeeAdvancedRelevance": "YDSE with multiple slits, non-monochromatic source interference, and intensity distribution integrals.",
+            "practiceTasks": [
+              "Calculate fringe shift upon inserting thin glass sheet in YDSE",
+              "Solve single-slit diffraction intensity ratio problems"
+            ]
+          },
+          {
+            "title": "Modern Physics & Semiconductor Devices",
+            "description": "Photoelectric effect, de Broglie wavelength, Bohr model of hydrogen atom, atomic spectra, nuclear physics (binding energy, radioactivity), semiconductors (p-n junction, diodes, logic gates).",
+            "subtopics": [
+              "Einstein's photoelectric equation & stopping potential graphs",
+              "Bohr orbital radius, velocity, and energy transitions (Lyman, Balmer)",
+              "Mass defect, binding energy per nucleon curve, alpha/beta decay laws",
+              "p-n junction diode forward/reverse bias, Zener diode as voltage regulator",
+              "Logic gates (AND, OR, NOT, NAND, NOR, XOR) truth tables"
+            ],
+            "skills": [
+              "Photoelectric Effect",
+              "Bohr Atomic Model",
+              "Semiconductor Diodes",
+              "Logic Gates"
+            ],
+            "importance": "high",
+            "estimatedHours": 20,
+            "jeeMainRelevance": "The single highest return-on-time topic: 3-4 straightforward questions guaranteed in every JEE Main session.",
+            "jeeAdvancedRelevance": "Recoil of atom upon photon emission, X-ray Moseley's law, and relativistic mass-energy conservation.",
+            "practiceTasks": [
+              "Solve 25 Bohr transition and de Broglie wavelength problems",
+              "Design circuit using Zener diode for regulated voltage output"
+            ]
+          }
+        ],
+        "milestoneOutcome": "Completion of 100% of the JEE Physics curriculum, establishing high-accuracy scoring across classical and modern modules."
+      },
+      {
+        "stageNumber": 4,
+        "title": "Chemistry: Physical Chemistry Foundations & Equilibrium",
+        "shortSummary": "Mole Concept, Atomic Structure, Chemical Thermodynamics, Chemical & Ionic Equilibrium, Solutions, Electrochemistry & Kinetics.",
+        "estimatedHours": 85,
+        "dependencies": [],
+        "subject": "Chemistry",
+        "topics": [
+          {
+            "title": "Some Basic Concepts of Chemistry (Mole Concept & Stoichiometry)",
+            "description": "Atomic and molecular mass, mole concept, molar mass, percentage composition, empirical and molecular formula, stoichiometry, limiting reagent, and concentration terms.",
+            "subtopics": [
+              "Molarity, Molality, Mole fraction, Normality, ppm",
+              "Balancing redox equations by ion-electron method",
+              "Limiting reagent and percentage yield calculations",
+              "Volumetric titration fundamentals (acid-base & redox)"
+            ],
+            "skills": [
+              "Stoichiometry",
+              "Limiting Reagent",
+              "Concentration Conversions"
+            ],
+            "importance": "high",
+            "estimatedHours": 12,
+            "jeeMainRelevance": "Fundamental bedrock for all numerical Physical Chemistry questions.",
+            "jeeAdvancedRelevance": "Complex multi-step sequential and parallel reaction yield calculations.",
+            "practiceTasks": [
+              "Solve 25 limiting reagent problems with sequential reactions",
+              "Convert between molarity, molality, and mole fraction for binary solutions"
+            ]
+          },
+          {
+            "title": "Atomic Structure (Quantum Mechanical Model)",
+            "description": "Bohr's model and its limitations, dual nature of matter (de Broglie), Heisenberg uncertainty principle, quantum numbers, atomic orbitals, Pauli exclusion principle, Hund's rule, Aufbau principle.",
+            "subtopics": [
+              "Wave particle duality and de Broglie wavelength",
+              "Heisenberg uncertainty principle equations",
+              "Quantum numbers (n, l, m, s) and orbital shapes",
+              "Radial and angular wave functions, radial probability distribution curves and nodes"
+            ],
+            "skills": [
+              "Quantum Numbers",
+              "Radial Probability Graphs",
+              "Electronic Configuration"
+            ],
+            "importance": "high",
+            "estimatedHours": 14,
+            "jeeMainRelevance": "Direct questions on quantum numbers, nodes, and electronic configuration anomalies (Cr, Cu).",
+            "jeeAdvancedRelevance": "Interpretation of radial probability distribution curves psi^2 vs r, and multi-electron orbital screening.",
+            "practiceTasks": [
+              "Calculate total, radial, and angular nodes for 3d, 4p, and 5f orbitals",
+              "Solve Heisenberg uncertainty problems for subatomic particles"
+            ]
+          },
+          {
+            "title": "Chemical Thermodynamics & Energetics",
+            "description": "System and surroundings, extensive and intensive properties, state functions, first law of thermodynamics, enthalpy, Hess's law, entropy, Gibbs free energy, and spontaneity criteria.",
+            "subtopics": [
+              "Work done in reversible and irreversible isothermal/adiabatic expansions",
+              "Enthalpy of formation, combustion, neutralization, and bond dissociation",
+              "Second law of thermodynamics and entropy change calculation (delta S)",
+              "Gibbs free energy change (delta G = delta H - T*delta S) and equilibrium constant relation"
+            ],
+            "skills": [
+              "Enthalpy Calculation",
+              "Entropy of Systems",
+              "Gibbs Free Energy Spontaneity"
+            ],
+            "importance": "high",
+            "estimatedHours": 16,
+            "jeeMainRelevance": "Calculation of delta H from bond enthalpies and spontaneous reaction temperature limits.",
+            "jeeAdvancedRelevance": "Rigorous delta G vs temperature plots (Ellingham diagram principles) and non-PV work thermodynamics.",
+            "practiceTasks": [
+              "Calculate work in multi-stage reversible gas cycles",
+              "Determine temperature above which non-spontaneous endothermic reaction becomes spontaneous"
+            ]
+          },
+          {
+            "title": "Chemical Equilibrium & Ionic Equilibrium",
+            "description": "Law of mass action, equilibrium constants (Kp and Kc), Le Chatelier's principle, pH scale, ionization of acids and bases, common ion effect, buffer solutions, salt hydrolysis, and solubility product (Ksp).",
+            "subtopics": [
+              "Relation between Kp and Kc (Kp = Kc*(RT)^delta_n)",
+              "Le Chatelier's principle shifts with pressure, temperature, and inert gas addition",
+              "pH calculations of weak acids, polyprotic acids, and salt hydrolysis formulas",
+              "Acidic and basic buffer capacity (Henderson-Hasselbalch equation)",
+              "Solubility product Ksp and selective precipitation of cations"
+            ],
+            "skills": [
+              "Le Chatelier Principle",
+              "pH & Buffer Calculation",
+              "Ksp Solubility Products"
+            ],
+            "importance": "high",
+            "estimatedHours": 22,
+            "jeeMainRelevance": "High weightage: 2 numerical questions on buffer pH and precipitation conditions.",
+            "jeeAdvancedRelevance": "Simultaneous equilibrium, complex salt hydrolysis with amphiprotic anions, and indicator titration curves.",
+            "practiceTasks": [
+              "Calculate pH of mixture of weak acid and strong base at equivalence point",
+              "Solve selective precipitation problems for mixed halides using Ksp"
+            ]
+          },
+          {
+            "title": "Electrochemistry & Redox Reactions",
+            "description": "Galvanic cells, standard electrode potential, Nernst equation, Gibbs free energy of cell reaction, electrolytic conductance, Kohlrausch's law, electrolysis laws, batteries, and corrosion.",
+            "subtopics": [
+              "EMF of galvanic cell and Nernst equation for non-standard concentrations",
+              "Kohlrausch's law of independent migration of ions",
+              "Molar conductivity vs concentration graphs for strong and weak electrolytes",
+              "Faraday's laws of electrolysis (mass deposited = Z*I*t)",
+              "Commercial cells (Lead storage, fuel cells)"
+            ],
+            "skills": [
+              "Nernst Equation",
+              "Molar Conductivity",
+              "Electrolysis Calculations"
+            ],
+            "importance": "high",
+            "estimatedHours": 18,
+            "jeeMainRelevance": "Guaranteed question on Nernst equation cell potential and Kohlrausch law calculations.",
+            "jeeAdvancedRelevance": "Concentration cells with and without transference, potentiometric titration endpoints, and Gibbs-Helmholtz cell relations.",
+            "practiceTasks": [
+              "Calculate cell potential E_cell for concentration cell with varying ion activities",
+              "Apply Kohlrausch law to find limiting molar conductivity of weak electrolyte"
+            ]
+          },
+          {
+            "title": "Chemical Kinetics & Surface Chemistry Fundamentals",
+            "description": "Rate of reaction, factors affecting rate, order and molecularity, zero and first order integrated rate laws, half-life, Arrhenius equation, activation energy, and catalysis.",
+            "subtopics": [
+              "Differential and integrated rate laws for 0th and 1st order",
+              "Half-life period (t_1/2) calculations and radioactive decay analogy",
+              "Temperature dependence of rate constant (Arrhenius equation ln(k2/k1))",
+              "Catalysis mechanism and adsorption isotherms (Freundlich isotherm)"
+            ],
+            "skills": [
+              "Integrated Rate Laws",
+              "Half-Life Calculations",
+              "Arrhenius Equation"
+            ],
+            "importance": "high",
+            "estimatedHours": 15,
+            "jeeMainRelevance": "Direct numericals on first order half-life and activation energy calculations.",
+            "jeeAdvancedRelevance": "Pseudo-first order kinetics with mechanism proposal, parallel and consecutive reaction rates.",
+            "practiceTasks": [
+              "Derive integrated rate law for 1st order reaction",
+              "Calculate activation energy given rate constants at two temperatures"
+            ]
+          }
+        ],
+        "milestoneOutcome": "Complete mastery over numerical Physical Chemistry principles, delivering rapid, error-free accuracy in Section B."
+      },
+      {
+        "stageNumber": 5,
+        "title": "Chemistry: Inorganic Chemistry & Coordination Compounds",
+        "shortSummary": "Periodic Table Trends, Chemical Bonding, p-Block, d-Block & f-Block Elements, Coordination Compounds & Metallurgy Principles.",
+        "estimatedHours": 70,
+        "dependencies": [
+          4
+        ],
+        "subject": "Chemistry",
+        "topics": [
+          {
+            "title": "Periodic Classification & Periodicity in Properties",
+            "description": "Modern periodic law, long form periodic table, periodic trends in atomic/ionic radii, ionization enthalpy, electron gain enthalpy, electronegativity, and valence.",
+            "subtopics": [
+              "Screening effect and effective nuclear charge (Slater's rules basics)",
+              "Anomalies in ionization enthalpy (Be vs B, N vs O)",
+              "Electron gain enthalpy trends (F vs Cl, O vs S)",
+              "Diagonal relationships and electronegativity scales (Pauling)"
+            ],
+            "skills": [
+              "Periodic Trends",
+              "Ionization Enthalpy",
+              "Electronegativity"
+            ],
+            "importance": "high",
+            "estimatedHours": 10,
+            "jeeMainRelevance": "Straightforward memory and concept-based questions with zero ambiguity.",
+            "jeeAdvancedRelevance": "Subtle electronic configuration justifications and ionic radii of isoelectronic species.",
+            "practiceTasks": [
+              "Rank 15 isoelectronic species by ionic radius",
+              "Explain first and second ionization enthalpy anomalies across period 2 and 3"
+            ]
+          },
+          {
+            "title": "Chemical Bonding & Molecular Structure",
+            "description": "Ionic bond, lattice energy, Born-Haber cycle, covalent bond, Lewis dot structures, VSEPR theory, hybridization, dipole moment, Molecular Orbital Theory (MOT), and hydrogen bonding.",
+            "subtopics": [
+              "VSEPR geometry and shape predictions for molecules with lone pairs",
+              "Hybridization (sp, sp2, sp3, sp3d, sp3d2) and steric number",
+              "Molecular Orbital Theory: bond order, magnetic properties of B2, C2, N2, O2, O2-, O2+",
+              "Intermolecular and intramolecular hydrogen bonding and physical property impacts"
+            ],
+            "skills": [
+              "VSEPR Geometry",
+              "Hybridization",
+              "MOT Bond Order & Magnetism"
+            ],
+            "importance": "high",
+            "estimatedHours": 20,
+            "jeeMainRelevance": "Highest yield Inorganic chapter: 2-3 questions covering MOT bond order, dipole moments, and shapes.",
+            "jeeAdvancedRelevance": "Bent's rule, Berry pseudorotation, multi-center bonding (3c-2e in diborane), and back-bonding (p_pi-d_pi).",
+            "practiceTasks": [
+              "Determine molecular geometry of SF4, XeF4, I3-, and ClF3 using VSEPR",
+              "Calculate bond orders and unpaired electrons for O2, O2+, O2-, O2(2-) using MOT"
+            ]
+          },
+          {
+            "title": "p-Block Elements (Groups 13 to 18)",
+            "description": "Electronic configuration, general trends in physical and chemical properties, inert pair effect, allotropy, structures of oxides, halides, oxoacids of phosphorus, sulfur, and chlorine, noble gas compounds.",
+            "subtopics": [
+              "Inert pair effect in heavier p-block elements (Tl, Pb, Bi)",
+              "Structure and anomalous properties of Boron and Diborane",
+              "Oxoacids of Phosphorus and Sulfur (basicity and oxidation states)",
+              "Xenon fluorides (XeF2, XeF4, XeF6) preparation, structures and hydrolysis"
+            ],
+            "skills": [
+              "Inert Pair Effect",
+              "Oxoacid Structures",
+              "Xenon Chemistry"
+            ],
+            "importance": "high",
+            "estimatedHours": 18,
+            "jeeMainRelevance": "Direct questions on oxidation states, acidic strength of oxoacids, and geometry of noble gas fluorides.",
+            "jeeAdvancedRelevance": "In-depth reaction conditions, hydrolysis mechanisms of halides, and disproportionation reaction pathways.",
+            "practiceTasks": [
+              "Draw structures and determine P-H, P-OH bonds in H3PO2, H3PO3, and H3PO4",
+              "Complete hydrolysis reactions of XeF4 and XeF6"
+            ]
+          },
+          {
+            "title": "d- and f-Block Elements & Coordination Compounds",
+            "description": "General properties of transition elements, oxidation states, catalytic properties, magnetic properties, colored ions, potassium permanganate (KMnO4) and potassium dichromate (K2Cr2O7) preparation and reactions, Werner's theory, IUPAC nomenclature of coordination compounds, isomerism, crystal field theory (CFT), and bonding.",
+            "subtopics": [
+              "Lanthanoid contraction and its consequences on 4d/5d elements",
+              "Oxidizing actions of KMnO4 and K2Cr2O7 in acidic, basic and neutral media",
+              "IUPAC nomenclature of coordination complexes",
+              "Geometrical and optical isomerism in coordination complexes",
+              "Crystal Field Theory (CFT): splitting in octahedral (delta_o) and tetrahedral (delta_t) fields, spectrochemical series, CFSE and high/low spin complexes"
+            ],
+            "skills": [
+              "Crystal Field Splitting",
+              "Coordination Nomenclature",
+              "Isomerism in Complexes"
+            ],
+            "importance": "high",
+            "estimatedHours": 22,
+            "jeeMainRelevance": "Very high weightage: 2-3 questions on IUPAC naming, magnetic moment (spin-only formula), and isomerism.",
+            "jeeAdvancedRelevance": "Jahn-Teller distortion, inner vs outer orbital complexes, trans-effect, and synergistic bonding in metal carbonyls.",
+            "practiceTasks": [
+              "Calculate CFSE and spin-only magnetic moment for [Fe(CN)6]4- vs [Fe(H2O)6]2+",
+              "Identify geometrical and optical isomers of [Co(en)2Cl2]+"
+            ]
+          }
+        ],
+        "milestoneOutcome": "Complete mastery over NCERT Inorganic facts and Coordination Chemistry theory, enabling 100% precision in under 15 minutes."
+      },
+      {
+        "stageNumber": 6,
+        "title": "Chemistry: Organic Chemistry Mechanisms & Functional Groups",
+        "shortSummary": "IUPAC, Isomerism, GOC (Inductive, Resonance, Hyperconjugation, Aromaticity), Hydrocarbons, Alkyl Halides, Alcohols, Carbonyl Compounds, Amines & Biomolecules.",
+        "estimatedHours": 85,
+        "dependencies": [
+          4
+        ],
+        "subject": "Chemistry",
+        "topics": [
+          {
+            "title": "General Organic Chemistry (GOC) & Reaction Mechanisms",
+            "description": "Inductive effect, electromeric effect, resonance, mesomeric effect, hyperconjugation, aromaticity (Huckel's rule), carbocations, carbanions, free radicals stability, and nucleophiles/electrophiles.",
+            "subtopics": [
+              "Resonance structures stability rules",
+              "Huckel's 4n+2 rule for aromatic, antiaromatic, and non-aromatic systems",
+              "Acidic and basic strength order of organic compounds (alcohols, phenols, carboxylic acids, amines)",
+              "Reaction intermediates stability and generation"
+            ],
+            "skills": [
+              "Electronic Effects",
+              "Aromaticity Evaluation",
+              "Acidity/Basicity Ordering"
+            ],
+            "importance": "high",
+            "estimatedHours": 20,
+            "jeeMainRelevance": "The foundation of all Organic Chemistry: 2 questions on acidity order, carbocation stability, and aromaticity.",
+            "jeeAdvancedRelevance": "Non-benzenoid aromatic ions, hyperconjugation vs inductive dominance in steric environments, and reactive intermediate lifetimes.",
+            "practiceTasks": [
+              "Rank 20 substituted phenols and benzoic acids by acidic strength",
+              "Classify 15 ring systems as aromatic, anti-aromatic, or non-aromatic"
+            ]
+          },
+          {
+            "title": "Isomerism & Stereochemistry",
+            "description": "Structural isomerism (chain, position, functional, metamerism, tautomerism) and stereoisomerism (geometrical isomerism cis/trans/E-Z, optical isomerism, enantiomers, diastereomers, meso compounds, and R/S configuration).",
+            "subtopics": [
+              "Keto-enol tautomerism stability factors",
+              "Geometrical isomerism conditions and E/Z designation",
+              "Chirality, optical activity, plane of symmetry and center of inversion",
+              "Enantiomers, diastereomers, and calculation of total stereoisomers"
+            ],
+            "skills": [
+              "Stereochemistry",
+              "Optical Isomerism",
+              "Tautomerism"
+            ],
+            "importance": "high",
+            "estimatedHours": 15,
+            "jeeMainRelevance": "Direct questions identifying meso compounds, chiral centers, and number of stereoisomers.",
+            "jeeAdvancedRelevance": "Conformational analysis of cyclohexanes (chair conformations, 1,3-diaxial interactions) and stereospecific addition reactions.",
+            "practiceTasks": [
+              "Calculate total stereoisomers for tartaric acid and 2,3-dichlorobutane",
+              "Draw most stable chair conformation of cis-1,4-di-tert-butylcyclohexane"
+            ]
+          },
+          {
+            "title": "Hydrocarbons (Alkanes, Alkenes, Alkynes & Arenes)",
+            "description": "Preparation and reactions of alkanes (Wurtz, free radical halogenation), alkenes (electrophilic addition, Markovnikov's rule, ozonolysis), alkynes (acidity, hydration), and electrophilic aromatic substitution in benzene.",
+            "subtopics": [
+              "Free radical halogenation mechanism and selectivity (bromination vs chlorination)",
+              "Electrophilic addition of HX and H2O to alkenes with carbocation rearrangement",
+              "Ozonolysis (reductive vs oxidative) for structural elucidation",
+              "Electrophilic aromatic substitution (nitration, halogenation, Friedel-Crafts alkylation and acylation)"
+            ],
+            "skills": [
+              "Markovnikov Addition",
+              "Ozonolysis Elucidation",
+              "Electrophilic Aromatic Substitution"
+            ],
+            "importance": "high",
+            "estimatedHours": 18,
+            "jeeMainRelevance": "Ozonolysis products for identifying unknown alkenes, and Friedel-Crafts limitations.",
+            "jeeAdvancedRelevance": "Carbocation rearrangements (ring expansion/contraction), anti-Markovnikov peroxide addition, and activating/deactivating directing groups in di-substituted benzenes.",
+            "practiceTasks": [
+              "Deduce alkene structure given ozonolysis products acetone and glyoxal",
+              "Predict major product of Friedel-Crafts alkylation of benzene with 1-chloropropane"
+            ]
+          },
+          {
+            "title": "Haloalkanes, Haloarenes, Alcohols, Phenols & Ethers",
+            "description": "SN1 and SN2 substitution mechanisms, E1 and E2 elimination mechanisms, Saytzeff vs Hofmann elimination, preparation and properties of alcohols, phenols (Kolbe, Reimer-Tiemann), and ethers (Williamson synthesis).",
+            "subtopics": [
+              "SN1 vs SN2 kinetics, stereochemical inversion (Walden inversion), and solvent effects",
+              "Lucas reagent test for distinguishing 1, 2, 3 degree alcohols",
+              "Reactions of Phenol: Kolbe-Schmitt reaction and Reimer-Tiemann reaction",
+              "Williamson ether synthesis mechanism and cleavage of ethers with excess HI"
+            ],
+            "skills": [
+              "SN1/SN2 Substitution",
+              "E1/E2 Elimination",
+              "Name Reactions (Reimer-Tiemann, Williamson)"
+            ],
+            "importance": "high",
+            "estimatedHours": 20,
+            "jeeMainRelevance": "High-yield testing of SN1 vs SN2 reactivity orders and cleavage of unsymmetrical ethers with HI.",
+            "jeeAdvancedRelevance": "Neighboring group participation (NGP), E1cB mechanisms, and stereospecific elimination pathways.",
+            "practiceTasks": [
+              "Rank 10 alkyl halides by SN2 reactivity in polar aprotic solvents",
+              "Determine products when methyl tert-butyl ether reacts with cold vs hot HI"
+            ]
+          },
+          {
+            "title": "Aldehydes, Ketones, Carboxylic Acids, Amines & Biomolecules",
+            "description": "Nucleophilic addition to carbonyls, Aldol condensation, Cannizzaro reaction, Haloform reaction, carboxylic acid derivatives, reduction with NaBH4 and LiAlH4, Gabriel phthalimide synthesis, Carbylamine test, Diazonium salts, carbohydrates (glucose, fructose), and proteins.",
+            "subtopics": [
+              "Nucleophilic addition mechanism of HCN, NaHSO3, and Grignard reagents",
+              "Aldol and cross-aldol condensation mechanisms",
+              "Cannizzaro reaction and iodoform test for CH3-C=O and CH3-CH(OH)- groups",
+              "Diazonium salt replacement reactions (Sandmeyer, Gattermann, azo dye coupling)",
+              "Carbohydrates (reducing vs non-reducing sugars) and peptide bond linkages"
+            ],
+            "skills": [
+              "Aldol & Cannizzaro",
+              "Grignard Synthesis",
+              "Diazonium Coupling",
+              "Carbohydrate Structures"
+            ],
+            "importance": "high",
+            "estimatedHours": 22,
+            "jeeMainRelevance": "Dominant topic in Organic: Aldol, Cannizzaro, Iodoform tests, and Gabriel phthalimide synthesis.",
+            "jeeAdvancedRelevance": "Multi-step organic synthesis pathways, protective groups in peptide synthesis, and mutarotation of glucose.",
+            "practiceTasks": [
+              "Write complete mechanism for cross-aldol between benzaldehyde and acetaldehyde",
+              "Complete 5-step synthetic conversion starting from benzene to m-nitrobenzoic acid"
+            ]
+          }
+        ],
+        "milestoneOutcome": "Full mastery of Organic reaction mechanisms, named reactions, and synthesis pathways for flawless execution in the Organic section."
+      },
+      {
+        "stageNumber": 7,
+        "title": "Mathematics: Algebra & Trigonometry",
+        "shortSummary": "Sets, Relations, Functions, Quadratic Equations, Complex Numbers, Matrices, Determinants, Permutations & Combinations, Binomial Theorem, Sequences & Series, and Trigonometric Equations.",
+        "estimatedHours": 85,
+        "dependencies": [],
+        "subject": "Mathematics",
+        "topics": [
+          {
+            "title": "Sets, Relations & Functions",
+            "description": "Types of relations (reflexive, symmetric, transitive, equivalence), domain, range, codomain of functions, one-one, onto, composite functions, and inverse functions.",
+            "subtopics": [
+              "Equivalence classes and partitions",
+              "Domain and range determination for algebraic, logarithmic, and trigonometric functions",
+              "Injectivity (one-one) and surjectivity (onto) checks",
+              "Functional equations f(x+y) = f(x)f(y) and composition f(g(x))"
+            ],
+            "skills": [
+              "Domain/Range Finding",
+              "Injective/Surjective Proofs",
+              "Functional Equations"
+            ],
+            "importance": "high",
+            "estimatedHours": 15,
+            "jeeMainRelevance": "Guaranteed question on domain/range and equivalence relations.",
+            "jeeAdvancedRelevance": "Composite function continuity analysis and intricate functional equation solutions.",
+            "practiceTasks": [
+              "Find domain and range of f(x) = sqrt(log_10((5x - x^2)/4))",
+              "Solve functional equation f(x) + 2f(1/x) = 3x"
+            ]
+          },
+          {
+            "title": "Complex Numbers & Quadratic Equations",
+            "description": "Algebra of complex numbers, modulus, argument, polar and Euler forms, triangle inequalities, cube roots of unity, roots of quadratic equations, relation between roots and coefficients, and location of roots.",
+            "subtopics": [
+              "Geometrical interpretation of complex numbers (|z - z1| = r, circles, perpendicular bisectors)",
+              "De Moivre's theorem and nth roots of unity",
+              "Roots of quadratic equations in symmetric expressions (alpha^n + beta^n)",
+              "Location of roots with respect to real numbers k1, k2"
+            ],
+            "skills": [
+              "Complex Plane Geometry",
+              "Roots of Unity",
+              "Location of Roots"
+            ],
+            "importance": "high",
+            "estimatedHours": 20,
+            "jeeMainRelevance": "Direct numericals on quadratic root relations and modulus-argument evaluation.",
+            "jeeAdvancedRelevance": "Complex numbers as vectors and transformations (rotation in Argand plane), and multi-condition root location inequalities.",
+            "practiceTasks": [
+              "Find locus of point z satisfying |z - 3| / |z + 3| = 2",
+              "Find range of parameter 'a' for which both roots of x^2 - 2ax + a^2 - 1 = 0 exceed 2"
+            ]
+          },
+          {
+            "title": "Matrices & Determinants",
+            "description": "Matrix operations, transpose, symmetric and skew-symmetric matrices, properties of determinants, adjoint and inverse of a square matrix, and solving systems of linear equations using Cramer's rule and matrix inverse.",
+            "subtopics": [
+              "Properties of determinant row/column operations",
+              "Adjoint properties: adj(AB) = adj(B)adj(A), |adj(A)| = |A|^(n-1)",
+              "System of linear equations consistency: unique, infinite, or no solution",
+              "Characteristic equation and Cayley-Hamilton theorem basics"
+            ],
+            "skills": [
+              "Determinant Properties",
+              "Adjoint Identities",
+              "Cramer's Rule for Systems"
+            ],
+            "importance": "high",
+            "estimatedHours": 16,
+            "jeeMainRelevance": "Almost 100% certainty of 1-2 questions on system of linear equations (Cramer's rule).",
+            "jeeAdvancedRelevance": "Non-trivial matrix polynomials, eigenvalues/eigenvectors properties, and high-order determinant reductions.",
+            "practiceTasks": [
+              "Determine values of lambda and mu for which system has infinite solutions",
+              "Evaluate determinant of skew-symmetric matrix of odd and even orders"
+            ]
+          },
+          {
+            "title": "Permutations, Combinations & Binomial Theorem",
+            "description": "Fundamental principles of counting, permutations and combinations with or without repetitions, circular permutations, division into groups, derangements, binomial expansion for positive integral index, general and middle terms, and binomial coefficients properties.",
+            "subtopics": [
+              "Arrangement of letters with repetitions and dictionary rank of words",
+              "Selection with conditions and distribution into identical/distinct boxes",
+              "Derangements formula D_n = n! * sum((-1)^k / k!)",
+              "Binomial coefficient identities and summation of series",
+              "Binomial theorem for any rational index approximations"
+            ],
+            "skills": [
+              "Combinatorial Counting",
+              "Derangements",
+              "Binomial Coefficient Sums"
+            ],
+            "importance": "high",
+            "estimatedHours": 18,
+            "jeeMainRelevance": "Standard dictionary rank calculations and middle term evaluations.",
+            "jeeAdvancedRelevance": "Inclusion-exclusion principle applications, multinomial theorem expansions, and calculus-based binomial identities.",
+            "practiceTasks": [
+              "Find dictionary rank of the word 'MOTHER' with and without repetition",
+              "Calculate coefficient of x^5 in expansion of (1 + x + x^2)^8"
+            ]
+          },
+          {
+            "title": "Sequence & Series and Trigonometry",
+            "description": "Arithmetic, geometric, and harmonic progressions, arithmetic and geometric means, relation between AM and GM, sum of n terms, arithmetico-geometric series, trigonometric identities, trigonometric equations, and inverse trigonometric functions.",
+            "subtopics": [
+              "Sum of special series (sigma n, sigma n^2, sigma n^3)",
+              "AM >= GM inequality applications for finding minima and maxima",
+              "General solutions of trigonometric equations sin(x) = sin(alpha)",
+              "Inverse trigonometric functions principal values and addition formulas"
+            ],
+            "skills": [
+              "AP/GP Summations",
+              "AM-GM Inequality",
+              "Inverse Trigonometric Identities"
+            ],
+            "importance": "high",
+            "estimatedHours": 16,
+            "jeeMainRelevance": "High-frequency questions on sum to n terms and AM-GM inequality minimum values.",
+            "jeeAdvancedRelevance": "Telescoping series with inverse trigonometric functions and non-standard trigonometric inequalities.",
+            "practiceTasks": [
+              "Evaluate sum to infinity of series: 1/2 + 2/4 + 3/8 + 4/16 + ...",
+              "Find range of f(x) = sin^2(x) - 4sin(x) + 5"
+            ]
+          }
+        ],
+        "milestoneOutcome": "Rock-solid mastery over algebraic structures and trigonometric equations, building speed and accurate scoring in Section A."
+      },
+      {
+        "stageNumber": 8,
+        "title": "Mathematics: Coordinate Geometry & Vectors/3D",
+        "shortSummary": "Straight Lines, Circles, Parabola, Ellipse, Hyperbola, Vector Algebra, and Three-Dimensional Geometry.",
+        "estimatedHours": 80,
+        "dependencies": [
+          7
+        ],
+        "subject": "Mathematics",
+        "topics": [
+          {
+            "title": "Straight Lines & Pair of Straight Lines",
+            "description": "Slope of a line, various forms of line equations, angle between two lines, distance of a point from a line, distance between parallel lines, concurrent lines, and angle bisectors.",
+            "subtopics": [
+              "Intercept, normal, and parametric forms of straight line",
+              "Centroid, incenter, orthocenter, and circumcenter coordinates",
+              "Equation of angle bisectors and distinguishing acute/obtuse bisectors",
+              "Family of lines L1 + lambda*L2 = 0 passing through intersection"
+            ],
+            "skills": [
+              "Line Equations",
+              "Triangle Centers",
+              "Distance & Bisector Formulas"
+            ],
+            "importance": "high",
+            "estimatedHours": 14,
+            "jeeMainRelevance": "Straightforward distance formulas, locus of points, and family of lines.",
+            "jeeAdvancedRelevance": "Homogenization of 2nd degree curves to find angle subtended at origin, and reflection matrix transformations.",
+            "practiceTasks": [
+              "Find distance between parallel lines 3x + 4y - 9 = 0 and 6x + 8y + 15 = 0",
+              "Find equation of angle bisector containing origin between two given lines"
+            ]
+          },
+          {
+            "title": "Circles",
+            "description": "Standard and general equations of a circle, radius and center, equation of a circle with given endpoints of a diameter, tangent and normal to a circle, length of tangent, chord of contact, and common tangents to two circles.",
+            "subtopics": [
+              "Condition for line y = mx + c to be tangent to circle",
+              "Director circle and angle between tangents from external point",
+              "Radical axis and common chord of two intersecting circles",
+              "Internal and external common tangents to two separate circles"
+            ],
+            "skills": [
+              "Circle Tangents",
+              "Common Tangents",
+              "Chord of Contact"
+            ],
+            "importance": "high",
+            "estimatedHours": 16,
+            "jeeMainRelevance": "Direct questions on length of common tangents and chord of contact equation T = 0.",
+            "jeeAdvancedRelevance": "Family of circles passing through intersection of line and circle, and orthogonal circle intersections.",
+            "practiceTasks": [
+              "Find number of common tangents to circles x^2 + y^2 = 9 and (x-5)^2 + y^2 = 4",
+              "Find equation of director circle of circle x^2 + y^2 - 4x + 6y - 12 = 0"
+            ]
+          },
+          {
+            "title": "Conic Sections: Parabola, Ellipse & Hyperbola",
+            "description": "Standard equations, focus, directrix, eccentricity, latus rectum, equation of tangents, normals, and focal properties for parabola, ellipse, and hyperbola.",
+            "subtopics": [
+              "Parabola y^2 = 4ax: parametric coordinates (at^2, 2at) and focal chord properties",
+              "Ellipse x^2/a^2 + y^2/b^2 = 1: eccentricity e = sqrt(1 - b^2/a^2), auxiliary circle and eccentric angle",
+              "Hyperbola standard and conjugate forms: asymptotes and rectangular hyperbola xy = c^2",
+              "Tangent equations in slope and point form for all three conics"
+            ],
+            "skills": [
+              "Conic Standard Forms",
+              "Focal Properties",
+              "Parametric Tangent/Normal"
+            ],
+            "importance": "high",
+            "estimatedHours": 24,
+            "jeeMainRelevance": "Massive weightage: 3 questions covering parabola normals, ellipse eccentricity, and hyperbola asymptotes.",
+            "jeeAdvancedRelevance": "Common tangents between circle and parabola, reflection properties of conics, and locus of intersection of perpendicular tangents.",
+            "practiceTasks": [
+              "Find common tangent to parabola y^2 = 8x and circle x^2 + y^2 = 2",
+              "Find eccentricity of hyperbola whose conjugate axis equals distance between foci"
+            ]
+          },
+          {
+            "title": "Vector Algebra & Three-Dimensional Geometry",
+            "description": "Vectors and scalars, addition of vectors, components, scalar product, vector product, scalar triple product, direction cosines and direction ratios, equation of line in space, skew lines and shortest distance, and planes in 3D.",
+            "subtopics": [
+              "Dot product and angle between vectors; Cross product and area of triangle/parallelogram",
+              "Scalar triple product [a b c] and coplanarity condition",
+              "Vector triple product a x (b x c) expansion",
+              "Cartesian and vector equations of line; Shortest distance between skew lines",
+              "Equation of plane passing through three points and intersection of two planes"
+            ],
+            "skills": [
+              "Vector Products",
+              "3D Line Equations",
+              "Shortest Distance Between Lines"
+            ],
+            "importance": "high",
+            "estimatedHours": 26,
+            "jeeMainRelevance": "Extremely high yield: 3-4 questions in every single JEE Main paper covering vectors and 3D geometry.",
+            "jeeAdvancedRelevance": "Volume of tetrahedron, projection of lines on planes, and vector geometry proofs of classical theorems.",
+            "practiceTasks": [
+              "Find shortest distance between skew lines in vector form",
+              "Determine coplanarity of four given points in 3D Cartesian coordinates"
+            ]
+          }
+        ],
+        "milestoneOutcome": "Comprehensive proficiency across 2D and 3D geometric reasoning, securing high-yield marks in coordinate questions."
+      },
+      {
+        "stageNumber": 9,
+        "title": "Mathematics: Differential & Integral Calculus",
+        "shortSummary": "Limits, Continuity, Differentiability, Applications of Derivatives, Indefinite Integrals, Definite Integrals, Area Under Curves, and Differential Equations.",
+        "estimatedHours": 90,
+        "dependencies": [
+          7
+        ],
+        "subject": "Mathematics",
+        "topics": [
+          {
+            "title": "Limits, Continuity & Differentiability",
+            "description": "Evaluation of limits (L'Hopital's rule, standard expansions, 1^infinity form), continuity of functions, types of discontinuities, differentiability, and relation between continuity and differentiability.",
+            "subtopics": [
+              "Standard limits: sin(x)/x, (a^x - 1)/x, and e-limits (1 + f(x))^(1/g(x))",
+              "Left-hand and right-hand limits and existence of limit",
+              "Continuity on closed intervals and intermediate value theorem (IVT)",
+              "Differentiability tests using first principles and graphical corners"
+            ],
+            "skills": [
+              "L'Hopital Rule",
+              "1^Infinity Limits",
+              "Differentiability Checks"
+            ],
+            "importance": "high",
+            "estimatedHours": 18,
+            "jeeMainRelevance": "Direct numericals on 1^infinity form and finding constants for continuous/differentiable functions.",
+            "jeeAdvancedRelevance": "Differentiability of max/min functions, discontinuous derivative behavior, and squeeze theorem applications.",
+            "practiceTasks": [
+              "Evaluate limit as x approaches 0 of (cos x)^(1/x^2)",
+              "Determine values of 'a' and 'b' so that piece-wise function is differentiable everywhere"
+            ]
+          },
+          {
+            "title": "Application of Derivatives (AOD)",
+            "description": "Derivative as rate of change, tangents and normals, increasing and decreasing functions, Rolle's and Lagrange's mean value theorems, and maxima and minima of functions.",
+            "subtopics": [
+              "Rate of change problems (spheres expanding, ladder sliding)",
+              "Equations of tangent and normal to curve at point",
+              "Monotonicity intervals and strictly increasing/decreasing conditions",
+              "First and second derivative tests for local and global extrema",
+              "LMVT and Rolle's theorem existence proofs"
+            ],
+            "skills": [
+              "Rate of Change",
+              "Monotonicity Analysis",
+              "Maxima and Minima"
+            ],
+            "importance": "high",
+            "estimatedHours": 20,
+            "jeeMainRelevance": "Very high weightage: 2 questions covering local maxima/minima and LMVT.",
+            "jeeAdvancedRelevance": "Optimization geometry problems, root separation theorems using Rolle's theorem, and concave/convex inflection curves.",
+            "practiceTasks": [
+              "Find dimensions of cylinder of maximum volume inscribed in cone of radius R",
+              "Verify LMVT for f(x) = x*(x-1)*(x-2) on interval [0, 1/2]"
+            ]
+          },
+          {
+            "title": "Indefinite & Definite Integrals",
+            "description": "Integration by substitution, parts, and partial fractions, integration of special algebraic and trigonometric functions, Fundamental Theorem of Calculus, and definite integral properties.",
+            "subtopics": [
+              "Standard integration forms (1/(x^2 + a^2), sqrt(a^2 - x^2), etc.)",
+              "Integration by parts: ILATE rule and reduction formulas",
+              "Definite integral properties: King's property (integral f(x) = integral f(a+b-x))",
+              "Periodic property of definite integrals and Queen's property",
+              "Leibniz rule for differentiation under integral sign"
+            ],
+            "skills": [
+              "Integration Techniques",
+              "King's Property",
+              "Leibniz Integral Rule"
+            ],
+            "importance": "high",
+            "estimatedHours": 24,
+            "jeeMainRelevance": "Essential: King's rule definite integrals are tested in nearly every paper.",
+            "jeeAdvancedRelevance": "Definite integral as limit of a Riemann sum, fractional part integral evaluations, and symmetry simplifications.",
+            "practiceTasks": [
+              "Evaluate definite integral from 0 to pi/2 of (sin^n(x))/(sin^n(x) + cos^n(x)) dx",
+              "Differentiate integral from x to x^2 of log(t) dt using Leibniz rule"
+            ]
+          },
+          {
+            "title": "Area Under Curves & Differential Equations",
+            "description": "Area bounded by simple curves, area between two curves, order and degree of differential equations, formation of differential equations, and solution of variable separable, homogeneous, and linear differential equations.",
+            "subtopics": [
+              "Area calculation bounded by parabola and line, or two parabolas",
+              "Area involving modulus functions |x| and |y|",
+              "Order and degree of differential equations",
+              "Variable separable method and reducible to variable separable",
+              "First order linear differential equation (dy/dx + P*y = Q) with integrating factor IF = exp(integral P dx)"
+            ],
+            "skills": [
+              "Area Integration",
+              "Linear Differential Equations",
+              "Integrating Factor"
+            ],
+            "importance": "high",
+            "estimatedHours": 18,
+            "jeeMainRelevance": "Direct scoring question on linear differential equations and area between parabola and straight line.",
+            "jeeAdvancedRelevance": "Orthogonal trajectories, non-linear Bernoulli equations, and geometric curves with specified tangent properties.",
+            "practiceTasks": [
+              "Find area bounded by curves y = x^2 and y = 2x - x^2",
+              "Solve differential equation (1 + x^2) dy/dx + 2xy = 4x^3"
+            ]
+          },
+          {
+            "title": "Probability & Statistics",
+            "description": "Measures of dispersion (mean, variance, standard deviation), calculation of variance for grouped and ungrouped data, conditional probability, multiplication rule, Bayes' theorem, and independent events.",
+            "subtopics": [
+              "Mean, variance, and standard deviation formulas and shift of origin/scale effects",
+              "Conditional probability P(A|B) and independent events condition",
+              "Bayes' theorem for total probability and posterior probabilities",
+              "Bernoulli trials and binomial distribution basics"
+            ],
+            "skills": [
+              "Variance & SD",
+              "Conditional Probability",
+              "Bayes' Theorem"
+            ],
+            "importance": "high",
+            "estimatedHours": 10,
+            "jeeMainRelevance": "Guaranteed 1 question on variance calculation and 1 question on Bayes' theorem.",
+            "jeeAdvancedRelevance": "Combinatorial probability with indistinguishable objects and conditional expectation.",
+            "practiceTasks": [
+              "Calculate variance of first n natural numbers",
+              "Apply Bayes' theorem to diagnostic test accuracy problem with false positive rate"
+            ]
+          }
+        ],
+        "milestoneOutcome": "Complete mastery over Calculus and Probability, unlocking the final 35% of the JEE Mathematics syllabus."
+      },
+      {
+        "stageNumber": 10,
+        "title": "Full-Length Exam Simulation, National Mock Tests & PYQ Drills",
+        "shortSummary": "Integrated 3-Hour Computer Based Tests (CBTs), Previous 10 Years Questions, Speed & Accuracy Drills, Error Log Audits, and JoSAA Admissions Preparation.",
+        "estimatedHours": 60,
+        "dependencies": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "subject": "PCM Integrated",
+        "topics": [
+          {
+            "title": "JEE Main Previous 10 Years Comprehensive PYQ Drills",
+            "description": "Timed chapter-wise and full-paper testing of official NTA JEE Main papers from 2016 through 2025.",
+            "subtopics": [
+              "Full paper 3-hour timing drills (300 marks)",
+              "Section B numerical question selection strategy (5 out of 10)",
+              "Speed benchmarking: target 60-70 minutes per subject",
+              "Detailed post-test analytics and error categorization"
+            ],
+            "skills": [
+              "Time Allocation",
+              "Question Filtering",
+              "Accuracy Under Pressure"
+            ],
+            "importance": "high",
+            "estimatedHours": 25,
+            "jeeMainRelevance": "Primary key to crossing 99+ percentile in JEE Main.",
+            "jeeAdvancedRelevance": "Secures qualification threshold and guarantees NIT/IIIT seats as backup.",
+            "practiceTasks": [
+              "Complete 5 official recent JEE Main shift papers under strict 3-hour timer",
+              "Log and rework every incorrect numerical answer"
+            ]
+          },
+          {
+            "title": "JEE Advanced Comprehensive Multi-Concept Paper Drills",
+            "description": "Solving official JEE Advanced Paper 1 and Paper 2 exams with mixed-marking schemes, negative markings, and partial marking strategies.",
+            "subtopics": [
+              "Handling partial marking in multi-correct questions",
+              "Matrix match and paragraph comprehension techniques",
+              "Sustaining mental stamina across two consecutive 3-hour sessions (9 AM to 12 PM, 2:30 PM to 5:30 PM)",
+              "Subjective numerical rounding and precision rules"
+            ],
+            "skills": [
+              "Paper 1 & 2 Stamina",
+              "Partial Marking Strategy",
+              "Multi-Concept Synthesis"
+            ],
+            "importance": "high",
+            "estimatedHours": 25,
+            "jeeMainRelevance": "Deepens conceptual intuition so JEE Main questions feel straightforward.",
+            "jeeAdvancedRelevance": "The decisive stage for securing top 1,000 All India Rank in IITs.",
+            "practiceTasks": [
+              "Complete 3 pairs of official JEE Advanced Paper 1 + Paper 2 exams",
+              "Analyze partial marking trade-offs on multi-correct sets"
+            ]
+          },
+          {
+            "title": "JoSAA Admissions & Engineering Branch Decision Framework",
+            "description": "Understanding JoSAA counselling stages, opening/closing ranks, choice filling strategy, branch vs institute prioritization, and document verification readiness.",
+            "subtopics": [
+              "JoSAA 6-round seat allocation algorithm mechanics",
+              "Float, Freeze, and Slide option strategy",
+              "Evaluating branch curriculum (Computer Science, EE, Mechanical, Chemical, Math & Computing)",
+              "Reporting center document checklist and fee processing"
+            ],
+            "skills": [
+              "JoSAA Counselling",
+              "Branch Evaluation",
+              "Decision Strategy"
+            ],
+            "importance": "high",
+            "estimatedHours": 10,
+            "jeeMainRelevance": "Crucial for converting exam percentile into your dream institute seat.",
+            "jeeAdvancedRelevance": "Decisive guidance for choosing between IIT departments and programs.",
+            "practiceTasks": [
+              "Create a draft 50-choice JoSAA preference list based on historical closing ranks",
+              "Review core curriculum syllabus for target engineering branches"
+            ]
+          }
+        ],
+        "milestoneOutcome": "Peak competitive readiness, mental stamina, and strategic confidence to convert your preparation into a top All India Rank."
+      }
+    ]
+  },
+  "resources": [
+    {
+      "stageNumber": 1,
+      "topicTitle": "Vectors & Kinematics (1D, 2D & Relative Motion)",
+      "title": "Physics Galaxy: Mechanics & Kinematics Video Masterclass",
+      "description": "Complete foundational and advanced video lecture series by Ashish Arora covering 1D/2D motion, projectile trajectories, and relative motion.",
+      "url": "https://www.physicsgalaxy.com/",
+      "type": "youtube_playlist",
+      "difficulty": "intermediate",
+      "provider": "Physics Galaxy / Ashish Arora",
+      "author": "Ashish Arora",
+      "rating": 4.96,
+      "reviewsCount": 1420,
+      "estimatedHours": 12,
+      "isVerified": true,
+      "subject": "Physics",
+      "examLevel": "Both Main & Advanced",
+      "tags": [
+        "Physics Galaxy",
+        "Ashish Arora",
+        "Kinematics",
+        "Mechanics",
+        "Verified"
+      ]
+    },
+    {
+      "stageNumber": 1,
+      "topicTitle": "Rotational Mechanics & Rigid Body Dynamics",
+      "title": "Physics Galaxy: Advanced Illustrations in Rotational Dynamics",
+      "description": "Deep dive into multi-concept rotational physics, pure rolling, toppling, and angular momentum conservation with Ashish Arora.",
+      "url": "https://www.physicsgalaxy.com/",
+      "type": "youtube_playlist",
+      "difficulty": "advanced",
+      "provider": "Physics Galaxy / Ashish Arora",
+      "author": "Ashish Arora",
+      "rating": 4.98,
+      "reviewsCount": 2150,
+      "estimatedHours": 15,
+      "isVerified": true,
+      "subject": "Physics",
+      "examLevel": "JEE Advanced",
+      "tags": [
+        "Physics Galaxy",
+        "Ashish Arora",
+        "Rotation",
+        "Advanced Illustrations",
+        "Verified"
+      ]
+    },
+    {
+      "stageNumber": 2,
+      "topicTitle": "Electrostatics, Electric Field & Gauss's Law",
+      "title": "Physics Galaxy: Electrodynamics & Electrostatics Booster Checklist",
+      "description": "Concept revision and high-level problem solving for Coulomb's law, Gauss's theorem, and conductor cavity problems.",
+      "url": "https://www.physicsgalaxy.com/",
+      "type": "youtube_playlist",
+      "difficulty": "advanced",
+      "provider": "Physics Galaxy / Ashish Arora",
+      "author": "Ashish Arora",
+      "rating": 4.95,
+      "reviewsCount": 1890,
+      "estimatedHours": 14,
+      "isVerified": true,
+      "subject": "Physics",
+      "examLevel": "Both Main & Advanced",
+      "tags": [
+        "Physics Galaxy",
+        "Electrostatics",
+        "Ashish Arora",
+        "Verified"
+      ]
+    },
+    {
+      "stageNumber": 2,
+      "topicTitle": "Electromagnetic Induction (EMI) & Alternating Current (AC)",
+      "title": "Physics Galaxy: EMI & Alternating Current Lecture Series",
+      "description": "Comprehensive breakdown of Faraday's laws, motional EMF, mutual inductance, and series LCR resonance circuits.",
+      "url": "https://www.physicsgalaxy.com/",
+      "type": "youtube_playlist",
+      "difficulty": "intermediate",
+      "provider": "Physics Galaxy / Ashish Arora",
+      "author": "Ashish Arora",
+      "rating": 4.94,
+      "reviewsCount": 1320,
+      "estimatedHours": 12,
+      "isVerified": true,
+      "subject": "Physics",
+      "examLevel": "Both Main & Advanced",
+      "tags": [
+        "Physics Galaxy",
+        "EMI",
+        "AC Circuits",
+        "Ashish Arora",
+        "Verified"
+      ]
+    },
+    {
+      "stageNumber": 3,
+      "topicTitle": "Thermal Physics & Thermodynamics",
+      "title": "Physics Galaxy: Thermodynamics & Heat Transfer Complete Module",
+      "description": "First & second laws of thermodynamics, PV indicator diagrams, cyclic processes, heat engines, and Stefan's radiation law.",
+      "url": "https://www.physicsgalaxy.com/",
+      "type": "youtube_playlist",
+      "difficulty": "intermediate",
+      "provider": "Physics Galaxy / Ashish Arora",
+      "author": "Ashish Arora",
+      "rating": 4.92,
+      "reviewsCount": 1100,
+      "estimatedHours": 10,
+      "isVerified": true,
+      "subject": "Physics",
+      "examLevel": "Both Main & Advanced",
+      "tags": [
+        "Physics Galaxy",
+        "Thermodynamics",
+        "Heat Transfer",
+        "Verified"
+      ]
+    },
+    {
+      "stageNumber": 3,
+      "topicTitle": "Ray Optics & Optical Instruments",
+      "title": "Physics Galaxy: Optics & Wave Optics Comprehensive Lecture Series",
+      "description": "Ashish Arora's exhaustive walkthrough of spherical mirrors, lens-makers formula, silvered lenses, prisms, and YDSE interference.",
+      "url": "https://www.physicsgalaxy.com/",
+      "type": "youtube_playlist",
+      "difficulty": "intermediate",
+      "provider": "Physics Galaxy / Ashish Arora",
+      "author": "Ashish Arora",
+      "rating": 4.95,
+      "reviewsCount": 1650,
+      "estimatedHours": 14,
+      "isVerified": true,
+      "subject": "Physics",
+      "examLevel": "Both Main & Advanced",
+      "tags": [
+        "Physics Galaxy",
+        "Optics",
+        "Prisms",
+        "Ashish Arora",
+        "Verified"
+      ]
+    },
+    {
+      "stageNumber": 3,
+      "topicTitle": "Modern Physics & Semiconductor Devices",
+      "title": "Physics Galaxy: Modern Physics Booster & Revision Checklist",
+      "description": "Photoelectric effect, Bohr's atomic spectrum transitions, nuclear binding energy, half-life radioactivity, and logic gates.",
+      "url": "https://www.physicsgalaxy.com/",
+      "type": "youtube_playlist",
+      "difficulty": "beginner",
+      "provider": "Physics Galaxy / Ashish Arora",
+      "author": "Ashish Arora",
+      "rating": 4.97,
+      "reviewsCount": 2400,
+      "estimatedHours": 8,
+      "isVerified": true,
+      "subject": "Physics",
+      "examLevel": "JEE Main",
+      "tags": [
+        "Physics Galaxy",
+        "Modern Physics",
+        "Semiconductors",
+        "High Yield",
+        "Verified"
+      ]
+    },
+    {
+      "stageNumber": 4,
+      "topicTitle": "Some Basic Concepts of Chemistry (Mole Concept & Stoichiometry)",
+      "title": "NCERT Official: Class 11 Chemistry Chapter 1 (Mole Concept & Stoichiometry)",
+      "description": "Official NCERT e-book portal covering fundamental units, molarity, molality, stoichiometry, and limiting reagents directly from the authoritative source.",
+      "url": "https://ncert.nic.in/textbook.php",
+      "type": "doc",
+      "difficulty": "beginner",
+      "provider": "National Council of Educational Research and Training (NCERT)",
+      "author": "NCERT",
+      "rating": 4.95,
+      "reviewsCount": 3500,
+      "estimatedHours": 6,
+      "isVerified": true,
+      "subject": "Chemistry",
+      "examLevel": "JEE Main",
+      "tags": [
+        "NCERT",
+        "Official",
+        "Physical Chemistry",
+        "Mole Concept",
+        "Free"
+      ]
+    },
+    {
+      "stageNumber": 4,
+      "topicTitle": "Chemical Thermodynamics & Energetics",
+      "title": "NCERT Official: Class 11 Chemistry Chapter 6 (Chemical Thermodynamics)",
+      "description": "First & second laws, standard enthalpies of reaction, entropy, and Gibbs free energy equations straight from official NCERT text.",
+      "url": "https://ncert.nic.in/textbook.php",
+      "type": "doc",
+      "difficulty": "intermediate",
+      "provider": "NCERT",
+      "author": "NCERT",
+      "rating": 4.93,
+      "reviewsCount": 2800,
+      "estimatedHours": 8,
+      "isVerified": true,
+      "subject": "Chemistry",
+      "examLevel": "Both Main & Advanced",
+      "tags": [
+        "NCERT",
+        "Official",
+        "Thermodynamics",
+        "Free"
+      ]
+    },
+    {
+      "stageNumber": 4,
+      "topicTitle": "Chemical Equilibrium & Ionic Equilibrium",
+      "title": "NCERT Official: Class 11 Chemistry Chapter 7 (Equilibrium)",
+      "description": "Detailed textbook chapters on homogeneous and heterogeneous equilibrium, Le Chatelier principle, pH calculations, buffer solutions, and Ksp.",
+      "url": "https://ncert.nic.in/textbook.php",
+      "type": "doc",
+      "difficulty": "intermediate",
+      "provider": "NCERT",
+      "author": "NCERT",
+      "rating": 4.91,
+      "reviewsCount": 3100,
+      "estimatedHours": 10,
+      "isVerified": true,
+      "subject": "Chemistry",
+      "examLevel": "Both Main & Advanced",
+      "tags": [
+        "NCERT",
+        "Ionic Equilibrium",
+        "Official",
+        "Free"
+      ]
+    },
+    {
+      "stageNumber": 5,
+      "topicTitle": "Periodic Classification & Periodicity in Properties",
+      "title": "NCERT Official: Class 11 Chemistry Chapter 3 (Classification of Elements)",
+      "description": "The gold standard reference for ionization enthalpy, electronegativity, electron gain enthalpy trends, and anomaly justifications.",
+      "url": "https://ncert.nic.in/textbook.php",
+      "type": "doc",
+      "difficulty": "beginner",
+      "provider": "NCERT",
+      "author": "NCERT",
+      "rating": 4.98,
+      "reviewsCount": 4200,
+      "estimatedHours": 5,
+      "isVerified": true,
+      "subject": "Chemistry",
+      "examLevel": "JEE Main",
+      "tags": [
+        "NCERT",
+        "Inorganic",
+        "Periodic Table",
+        "Essential",
+        "Free"
+      ]
+    },
+    {
+      "stageNumber": 5,
+      "topicTitle": "Chemical Bonding & Molecular Structure",
+      "title": "NCERT Official: Class 11 Chemistry Chapter 4 (Chemical Bonding)",
+      "description": "Authoritative explanations of VSEPR geometries, hybridizations, dipole moments, and Molecular Orbital Theory diagrams.",
+      "url": "https://ncert.nic.in/textbook.php",
+      "type": "doc",
+      "difficulty": "intermediate",
+      "provider": "NCERT",
+      "author": "NCERT",
+      "rating": 4.99,
+      "reviewsCount": 5100,
+      "estimatedHours": 10,
+      "isVerified": true,
+      "subject": "Chemistry",
+      "examLevel": "Both Main & Advanced",
+      "tags": [
+        "NCERT",
+        "Chemical Bonding",
+        "MOT",
+        "VSEPR",
+        "Free"
+      ]
+    },
+    {
+      "stageNumber": 5,
+      "topicTitle": "d- and f-Block Elements & Coordination Compounds",
+      "title": "NCERT Official: Class 12 Chemistry Chapters on d-Block & Coordination Chemistry",
+      "description": "Complete NCERT reading covering Werner's theory, IUPAC naming, geometrical/optical isomerism, and crystal field theory splitting.",
+      "url": "https://ncert.nic.in/textbook.php",
+      "type": "doc",
+      "difficulty": "intermediate",
+      "provider": "NCERT",
+      "author": "NCERT",
+      "rating": 4.96,
+      "reviewsCount": 3900,
+      "estimatedHours": 12,
+      "isVerified": true,
+      "subject": "Chemistry",
+      "examLevel": "Both Main & Advanced",
+      "tags": [
+        "NCERT",
+        "Coordination Compounds",
+        "d-Block",
+        "Free"
+      ]
+    },
+    {
+      "stageNumber": 6,
+      "topicTitle": "General Organic Chemistry (GOC) & Reaction Mechanisms",
+      "title": "NCERT Official: Class 11 Organic Chemistry Basics & Hydrocarbons",
+      "description": "Foundational NCERT text on inductive effects, hyperconjugation, resonance, aromaticity, and basic reaction mechanisms.",
+      "url": "https://ncert.nic.in/textbook.php",
+      "type": "doc",
+      "difficulty": "beginner",
+      "provider": "NCERT",
+      "author": "NCERT",
+      "rating": 4.94,
+      "reviewsCount": 3400,
+      "estimatedHours": 8,
+      "isVerified": true,
+      "subject": "Chemistry",
+      "examLevel": "Both Main & Advanced",
+      "tags": [
+        "NCERT",
+        "Organic",
+        "GOC",
+        "Free"
+      ]
+    },
+    {
+      "stageNumber": 6,
+      "topicTitle": "Aldehydes, Ketones, Carboxylic Acids, Amines & Biomolecules",
+      "title": "NCERT Official: Class 12 Organic Chemistry Full Reference",
+      "description": "Detailed reaction pathways for Aldol, Cannizzaro, Sandmeyer, Gabriel phthalimide synthesis, and biomolecule structures.",
+      "url": "https://ncert.nic.in/textbook.php",
+      "type": "doc",
+      "difficulty": "intermediate",
+      "provider": "NCERT",
+      "author": "NCERT",
+      "rating": 4.97,
+      "reviewsCount": 4500,
+      "estimatedHours": 14,
+      "isVerified": true,
+      "subject": "Chemistry",
+      "examLevel": "Both Main & Advanced",
+      "tags": [
+        "NCERT",
+        "Named Reactions",
+        "Aldehydes Ketones",
+        "Free"
+      ]
+    },
+    {
+      "stageNumber": 7,
+      "topicTitle": "Sets, Relations & Functions",
+      "title": "Mohit Tyagi (Competishun): Complete Functions & Relations Lecture Series",
+      "description": "Exhaustive IIT-JEE classroom video lectures by Mohit Tyagi covering domain, range, one-one, onto, and functional equations.",
+      "url": "https://www.youtube.com/@MohitTyagi",
+      "type": "youtube_playlist",
+      "difficulty": "intermediate",
+      "provider": "Mohit Tyagi / Competishun",
+      "author": "Mohit Tyagi",
+      "rating": 4.96,
+      "reviewsCount": 3100,
+      "estimatedHours": 15,
+      "isVerified": true,
+      "subject": "Mathematics",
+      "examLevel": "Both Main & Advanced",
+      "tags": [
+        "Mohit Tyagi",
+        "Competishun",
+        "Functions",
+        "Free",
+        "Verified"
+      ]
+    },
+    {
+      "stageNumber": 7,
+      "topicTitle": "Complex Numbers & Quadratic Equations",
+      "title": "MathonGo: Quadratic Equations & Complex Numbers Chapterwise PYQs",
+      "description": "Dedicated chapter-wise questions from recent JEE Main and Advanced papers with step-by-step video solutions by Anup Sir.",
+      "url": "https://www.mathongo.com/",
+      "type": "practice_platform",
+      "difficulty": "intermediate",
+      "provider": "MathonGo",
+      "author": "Anup Gupta (MathonGo)",
+      "rating": 4.95,
+      "reviewsCount": 2800,
+      "estimatedHours": 10,
+      "isVerified": true,
+      "subject": "Mathematics",
+      "examLevel": "Both Main & Advanced",
+      "tags": [
+        "MathonGo",
+        "PYQs",
+        "Quadratic Equations",
+        "Complex Numbers",
+        "Verified"
+      ]
+    },
+    {
+      "stageNumber": 7,
+      "topicTitle": "Matrices & Determinants",
+      "title": "MathonGo: Matrices and Determinants Chapterwise Question Bank",
+      "description": "Cramer's rule, adjoint matrix properties, and determinant reduction problems from all recent JEE shifts.",
+      "url": "https://www.mathongo.com/",
+      "type": "practice_platform",
+      "difficulty": "beginner",
+      "provider": "MathonGo",
+      "author": "MathonGo",
+      "rating": 4.93,
+      "reviewsCount": 2100,
+      "estimatedHours": 8,
+      "isVerified": true,
+      "subject": "Mathematics",
+      "examLevel": "JEE Main",
+      "tags": [
+        "MathonGo",
+        "Matrices",
+        "Determinants",
+        "PYQs",
+        "Verified"
+      ]
+    },
+    {
+      "stageNumber": 8,
+      "topicTitle": "Conic Sections: Parabola, Ellipse & Hyperbola",
+      "title": "Mohit Tyagi: Conic Sections (Parabola, Ellipse, Hyperbola) Masterclass",
+      "description": "Pure analytical coordinate geometry lectures with rigorous focal property derivations and tangent/normal equations.",
+      "url": "https://www.youtube.com/@MohitTyagi",
+      "type": "youtube_playlist",
+      "difficulty": "advanced",
+      "provider": "Mohit Tyagi / Competishun",
+      "author": "Mohit Tyagi",
+      "rating": 4.97,
+      "reviewsCount": 3800,
+      "estimatedHours": 20,
+      "isVerified": true,
+      "subject": "Mathematics",
+      "examLevel": "JEE Advanced",
+      "tags": [
+        "Mohit Tyagi",
+        "Conics",
+        "Parabola",
+        "Ellipse",
+        "Hyperbola",
+        "Verified"
+      ]
+    },
+    {
+      "stageNumber": 8,
+      "topicTitle": "Vector Algebra & Three-Dimensional Geometry",
+      "title": "MathonGo: Vectors & 3D Geometry High-Yield PYQ Pack",
+      "description": "Comprehensive coverage of line equations, shortest distance between skew lines, scalar triple products, and planes.",
+      "url": "https://www.mathongo.com/",
+      "type": "practice_platform",
+      "difficulty": "intermediate",
+      "provider": "MathonGo",
+      "author": "Anup Gupta (MathonGo)",
+      "rating": 4.98,
+      "reviewsCount": 4500,
+      "estimatedHours": 12,
+      "isVerified": true,
+      "subject": "Mathematics",
+      "examLevel": "Both Main & Advanced",
+      "tags": [
+        "MathonGo",
+        "Vectors",
+        "3D Geometry",
+        "High Yield",
+        "Verified"
+      ]
+    },
+    {
+      "stageNumber": 9,
+      "topicTitle": "Limits, Continuity & Differentiability",
+      "title": "Mohit Tyagi: Differential Calculus Foundation Series",
+      "description": "Rigorous mathematical treatment of limits (standard expansions, L'Hopital, 1^infinity), continuity, and differentiability.",
+      "url": "https://www.youtube.com/@MohitTyagi",
+      "type": "youtube_playlist",
+      "difficulty": "intermediate",
+      "provider": "Mohit Tyagi / Competishun",
+      "author": "Mohit Tyagi",
+      "rating": 4.96,
+      "reviewsCount": 2900,
+      "estimatedHours": 14,
+      "isVerified": true,
+      "subject": "Mathematics",
+      "examLevel": "Both Main & Advanced",
+      "tags": [
+        "Mohit Tyagi",
+        "Calculus",
+        "Limits",
+        "Differentiability",
+        "Verified"
+      ]
+    },
+    {
+      "stageNumber": 9,
+      "topicTitle": "Indefinite & Definite Integrals",
+      "title": "MathonGo: Definite Integration & Area Under Curves PYQ Master Series",
+      "description": "King's property, periodic integral shortcuts, Leibniz rule differentiations, and area bounding problems.",
+      "url": "https://www.mathongo.com/",
+      "type": "practice_platform",
+      "difficulty": "advanced",
+      "provider": "MathonGo",
+      "author": "MathonGo",
+      "rating": 4.97,
+      "reviewsCount": 3600,
+      "estimatedHours": 14,
+      "isVerified": true,
+      "subject": "Mathematics",
+      "examLevel": "Both Main & Advanced",
+      "tags": [
+        "MathonGo",
+        "Definite Integrals",
+        "Area Under Curves",
+        "Calculus",
+        "Verified"
+      ]
+    },
+    {
+      "stageNumber": 10,
+      "topicTitle": "JEE Main Previous 10 Years Comprehensive PYQ Drills",
+      "title": "Official NTA JEE Main Portal: Question Papers & Answer Keys",
+      "description": "Official repository of computer-based test session papers and question archives maintained by the National Testing Agency.",
+      "url": "https://jeemain.nta.nic.in/",
+      "type": "practice_platform",
+      "difficulty": "intermediate",
+      "provider": "National Testing Agency (NTA)",
+      "author": "NTA",
+      "rating": 4.99,
+      "reviewsCount": 9800,
+      "estimatedHours": 30,
+      "isVerified": true,
+      "subject": "PCM Integrated",
+      "examLevel": "JEE Main",
+      "tags": [
+        "NTA",
+        "Official",
+        "JEE Main",
+        "PYQs",
+        "Free"
+      ]
+    },
+    {
+      "stageNumber": 10,
+      "topicTitle": "JEE Advanced Comprehensive Multi-Concept Paper Drills",
+      "title": "Official JEE Advanced Portal: Past Years Question Papers & Archive",
+      "description": "Authoritative past 15 years official question papers (Paper 1 & Paper 2) with official solutions released by organizing IITs.",
+      "url": "https://jeeadv.ac.in/",
+      "type": "practice_platform",
+      "difficulty": "advanced",
+      "provider": "Indian Institutes of Technology (IITs)",
+      "author": "Organizing IIT",
+      "rating": 5,
+      "reviewsCount": 12500,
+      "estimatedHours": 35,
+      "isVerified": true,
+      "subject": "PCM Integrated",
+      "examLevel": "JEE Advanced",
+      "tags": [
+        "JEE Advanced",
+        "IITs",
+        "Official",
+        "Archive",
+        "Free"
+      ]
+    },
+    {
+      "stageNumber": 10,
+      "topicTitle": "JoSAA Admissions & Engineering Branch Decision Framework",
+      "title": "Official JoSAA Counselling & Seat Allocation Portal",
+      "description": "Authoritative counselling guidelines, opening/closing rank cutoffs, seat matrices, and choice filling rules for IITs, NITs, IIITs, and GFTIs.",
+      "url": "https://josaa.nic.in/",
+      "type": "doc",
+      "difficulty": "beginner",
+      "provider": "Joint Seat Allocation Authority (JoSAA)",
+      "author": "JoSAA / Ministry of Education",
+      "rating": 4.95,
+      "reviewsCount": 8400,
+      "estimatedHours": 10,
+      "isVerified": true,
+      "subject": "PCM Integrated",
+      "examLevel": "Both Main & Advanced",
+      "tags": [
+        "JoSAA",
+        "Official",
+        "Counselling",
+        "IITs",
+        "NITs",
+        "Admissions",
+        "Free"
+      ]
+    }
+  ],
+  "mentors": [
+    {
+      "_id": "m_jee_1",
+      "name": "Rohan Verma",
+      "avatar": "https://i.pravatar.cc/150?img=52",
+      "headline": "AIR 42 in JEE Advanced | B.Tech CSE IIT Delhi | Academic Coach",
+      "companyOrCollege": "IIT Delhi CSE Alumnus",
+      "expertField": "JEE Strategy, Physics Problem Solving & Math Mastery",
+      "rating": 4.98,
+      "sessionsCompleted": 240,
+      "sessionDurationMinutes": 45,
+      "bio": "Secured All India Rank 42 in JEE Advanced. Has mentored 200+ students into top-1000 IIT ranks. Specializes in advanced problem dissection, error log analysis, and revision loops.",
+      "expertiseAreas": [
+        "JEE Strategy",
+        "Mechanics & Calculus",
+        "Exam Temperament",
+        "JoSAA Choice Filling"
+      ],
+      "whatTheyShare": [
+        "Advanced problem-solving shortcuts in Mechanics and Multivariable Calculus",
+        "Systematic Error Logbook method that eliminates silly mistakes under exam pressure",
+        "Honest, realistic college & branch comparison during JoSAA counselling"
+      ],
+      "postedSlots": [
+        "Today 8:00 PM",
+        "Tomorrow 9:00 AM",
+        "Tomorrow 7:00 PM"
+      ],
+      "availableSlots": [
+        {
+          "dayOfWeek": "Today",
+          "startTime": "08:00 PM",
+          "endTime": "08:45 PM"
+        },
+        {
+          "dayOfWeek": "Tomorrow",
+          "startTime": "09:00 AM",
+          "endTime": "09:45 AM"
+        },
+        {
+          "dayOfWeek": "Tomorrow",
+          "startTime": "07:00 PM",
+          "endTime": "07:45 PM"
+        }
+      ]
+    },
+    {
+      "_id": "m_jee_2",
+      "name": "Dr. Arvind Kumar",
+      "avatar": "https://i.pravatar.cc/150?img=60",
+      "headline": "Ex-Senior Chemistry Faculty, Kota | IIT Roorkee Alumnus",
+      "companyOrCollege": "IIT Roorkee Alumnus & Master Chemistry Educator",
+      "expertField": "Inorganic & Organic Chemistry Mastery for JEE Advanced",
+      "rating": 4.96,
+      "sessionsCompleted": 185,
+      "sessionDurationMinutes": 45,
+      "bio": "14+ years coaching students in Kota for IIT-JEE Chemistry. Author of competitive Chemistry study modules with a focus on NCERT precision and stereochemistry.",
+      "expertiseAreas": [
+        "Organic Mechanisms",
+        "Coordination Compounds",
+        "NCERT Inorganic Drills",
+        "Reaction Roadmaps"
+      ],
+      "whatTheyShare": [
+        "How to score 90+ percentile in JEE Chemistry with zero guesswork",
+        "Complete reaction mechanisms for Aldol, Cannizzaro, and diazonium conversions",
+        "Inorganic memory maps that make periodic trends stick permanently"
+      ],
+      "postedSlots": [
+        "Today 6:00 PM",
+        "Wednesday 4:00 PM",
+        "Friday 7:00 PM"
+      ],
+      "availableSlots": [
+        {
+          "dayOfWeek": "Today",
+          "startTime": "06:00 PM",
+          "endTime": "06:45 PM"
+        },
+        {
+          "dayOfWeek": "Wednesday",
+          "startTime": "04:00 PM",
+          "endTime": "04:45 PM"
+        },
+        {
+          "dayOfWeek": "Friday",
+          "startTime": "07:00 PM",
+          "endTime": "07:45 PM"
+        }
+      ]
+    },
+    {
+      "_id": "m_jee_3",
+      "name": "S. Ramanathan",
+      "avatar": "https://i.pravatar.cc/150?img=68",
+      "headline": "Senior Physics Faculty | IIT Madras M.Tech | Physics Olympiad Mentor",
+      "companyOrCollege": "IIT Madras Alumnus",
+      "expertField": "JEE Advanced Physics, Electrodynamics & Rotation",
+      "rating": 4.99,
+      "sessionsCompleted": 310,
+      "sessionDurationMinutes": 45,
+      "bio": "Mentored multiple Top 100 JEE Advanced achievers. Passionate about visualizing physical systems, free-body diagrams, and electromagnetic induction intuition.",
+      "expertiseAreas": [
+        "Rotational Dynamics",
+        "Electromagnetism",
+        "Optics",
+        "Physics Galaxy Illustrations"
+      ],
+      "whatTheyShare": [
+        "Breaking down complex rotation and constraint problems visually",
+        "Calculus-driven intuition for non-uniform magnetic and electric field problems",
+        "How to systematically eliminate incorrect options in multi-correct questions"
+      ],
+      "postedSlots": [
+        "🔴 LIVE NOW",
+        "Tomorrow 3:00 PM",
+        "Thursday 6:00 PM"
+      ],
+      "availableSlots": [
+        {
+          "dayOfWeek": "Today (Live)",
+          "startTime": "03:00 PM",
+          "endTime": "03:45 PM"
+        },
+        {
+          "dayOfWeek": "Tomorrow",
+          "startTime": "03:00 PM",
+          "endTime": "03:45 PM"
+        },
+        {
+          "dayOfWeek": "Thursday",
+          "startTime": "06:00 PM",
+          "endTime": "06:45 PM"
+        }
+      ]
+    },
+    {
+      "_id": "m_jee_4",
+      "name": "Ananya Sen",
+      "avatar": "https://i.pravatar.cc/150?img=49",
+      "headline": "AIR 118 in JEE Advanced | B.Tech Electrical IIT Bombay | Academic Mentor",
+      "companyOrCollege": "IIT Bombay Electrical Alumna",
+      "expertField": "Time Management, Calculus Accuracy & JoSAA Counselling",
+      "rating": 4.97,
+      "sessionsCompleted": 160,
+      "sessionDurationMinutes": 45,
+      "bio": "Cracked JEE Advanced with top rank from a tier-3 city with self-study and online resources. Helps students structure daily timetables, conquer anxiety, and make informed branch choices.",
+      "expertiseAreas": [
+        "Study Planning",
+        "Calculus & Algebra",
+        "Girls in STEM / IITian Mentorship",
+        "JoSAA Seat Allocation"
+      ],
+      "whatTheyShare": [
+        "12-month and 6-month daily study schedule breakdowns that prevent burnout",
+        "Calculus integration techniques (King's rule, Leibniz theorem, Riemann sums)",
+        "Realistic insider perspective on IIT Bombay campus life and branch curricula"
+      ],
+      "postedSlots": [
+        "Today 5:00 PM",
+        "Thursday 10:00 AM",
+        "Saturday 4:00 PM"
+      ],
+      "availableSlots": [
+        {
+          "dayOfWeek": "Today",
+          "startTime": "05:00 PM",
+          "endTime": "05:45 PM"
+        },
+        {
+          "dayOfWeek": "Thursday",
+          "startTime": "10:00 AM",
+          "endTime": "10:45 AM"
+        },
+        {
+          "dayOfWeek": "Saturday",
+          "startTime": "04:00 PM",
+          "endTime": "04:45 PM"
+        }
+      ]
+    }
+  ],
+  "engineeringBranches": [
+    {
+      "branchCode": "CSE",
+      "title": "Computer Science & Engineering",
+      "icon": "Code",
+      "badgeColor": "blue",
+      "whatYouStudy": "Data structures, algorithms, operating systems, compiler design, database architecture, distributed systems, machine learning, and computational theory.",
+      "typicalSkills": [
+        "Algorithmic Problem Solving",
+        "Software Architecture",
+        "System Design",
+        "Cloud Infrastructure"
+      ],
+      "exampleCareers": [
+        "Software Development Engineer (SDE)",
+        "AI/ML Engineer",
+        "Systems Architect",
+        "Cybersecurity Specialist"
+      ],
+      "relevantAreas": [
+        "High-Scale Web Services",
+        "Cloud Platforms (AWS/GCP)",
+        "Autonomous Systems",
+        "Financial Tech Algorithms"
+      ],
+      "exampleProjects": [
+        "Distributed key-value store with Raft consensus",
+        "Deep learning computer vision classifier",
+        "Custom compiler for subset of C"
+      ]
+    },
+    {
+      "branchCode": "ECE",
+      "title": "Electronics & Communication Engineering",
+      "icon": "Cpu",
+      "badgeColor": "indigo",
+      "whatYouStudy": "Semiconductor physics, VLSI design, digital signal processing (DSP), microprocessors, analog/digital circuits, and wireless communication.",
+      "typicalSkills": [
+        "Hardware Description Languages (Verilog/VHDL)",
+        "Circuit Simulation (SPICE)",
+        "Signal Processing",
+        "Embedded C"
+      ],
+      "exampleCareers": [
+        "VLSI Design Engineer",
+        "Hardware Systems Engineer",
+        "Robotics Engineer",
+        "RF & Wireless Specialist"
+      ],
+      "relevantAreas": [
+        "Silicon Chip Design (NVIDIA/Intel/Qualcomm)",
+        "5G/6G Networks",
+        "Consumer Hardware",
+        "Satellite Communications"
+      ],
+      "exampleProjects": [
+        "FPGA implementation of neural network accelerator",
+        "Digital audio filtering engine in DSP",
+        "RISC-V 32-bit core processor"
+      ]
+    },
+    {
+      "branchCode": "EE",
+      "title": "Electrical Engineering",
+      "icon": "Zap",
+      "badgeColor": "amber",
+      "whatYouStudy": "Electric machines, power systems, power electronics, control theory, electromagnetic fields, smart grids, and renewable energy conversion.",
+      "typicalSkills": [
+        "Control Systems Design",
+        "Power Electronics Inverters",
+        "MATLAB / Simulink",
+        "Smart Grid Automation"
+      ],
+      "exampleCareers": [
+        "Power Systems Engineer",
+        "EV Powertrain Architect",
+        "Control Systems Specialist",
+        "Energy Transition Analyst"
+      ],
+      "relevantAreas": [
+        "Electric Vehicles (Tesla/Rivian/Tata)",
+        "Renewable Solar & Wind Farms",
+        "Industrial Automation",
+        "High-Voltage Power Grids"
+      ],
+      "exampleProjects": [
+        "BMS (Battery Management System) for EV pack",
+        "PID controller for inverted pendulum",
+        "Grid-tied solar inverter simulation"
+      ]
+    },
+    {
+      "branchCode": "MECH",
+      "title": "Mechanical Engineering",
+      "icon": "Settings",
+      "badgeColor": "rose",
+      "whatYouStudy": "Thermodynamics, fluid mechanics, heat transfer, solid mechanics, kinematics of machines, manufacturing processes, and finite element analysis (FEA).",
+      "typicalSkills": [
+        "CAD Modeling (SolidWorks)",
+        "FEA / CFD Simulations (ANSYS)",
+        "Thermodynamic Modeling",
+        "Robotics & CNC"
+      ],
+      "exampleCareers": [
+        "Thermal Design Engineer",
+        "Aerospace Propulsion Engineer",
+        "Automotive R&D Engineer",
+        "Manufacturing Lead"
+      ],
+      "relevantAreas": [
+        "Automotive & Electric Mobility",
+        "Aerospace Rocket Propulsion",
+        "Renewable Energy Turbines",
+        "Heavy Machinery Robotics"
+      ],
+      "exampleProjects": [
+        "Aerodynamic CFD drag optimization for FSAE car",
+        "Thermal management jacket for high-discharge battery",
+        "4-bar robotic arm kinematics"
+      ]
+    },
+    {
+      "branchCode": "MnC",
+      "title": "Mathematics & Computing",
+      "icon": "Binary",
+      "badgeColor": "purple",
+      "whatYouStudy": "Abstract algebra, scientific computing, numerical analysis, stochastic calculus, probability theory, algorithms, and cryptography.",
+      "typicalSkills": [
+        "Mathematical Modeling",
+        "Quantitative Finance",
+        "Algorithm Design",
+        "Cryptography"
+      ],
+      "exampleCareers": [
+        "Quantitative Researcher",
+        "Data Scientist / Modeler",
+        "Cryptographer",
+        "Machine Learning Theorist"
+      ],
+      "relevantAreas": [
+        "High-Frequency Trading & Hedge Funds",
+        "AI Research Labs",
+        "Blockchain Cryptography",
+        "Scientific Supercomputing"
+      ],
+      "exampleProjects": [
+        "Black-Scholes option pricing model with Monte Carlo simulation",
+        "Post-quantum lattice cryptography implementation",
+        "Non-linear PDE solver"
+      ]
+    },
+    {
+      "branchCode": "AERO",
+      "title": "Aerospace Engineering",
+      "icon": "Navigation",
+      "badgeColor": "cyan",
+      "whatYouStudy": "Aerodynamics, flight mechanics, orbital dynamics, propulsion systems (jet/rocket engines), aircraft structures, and avionics.",
+      "typicalSkills": [
+        "Compressible Flow Analysis",
+        "Orbital Trajectory Simulation",
+        "Propulsion Thermodynamics",
+        "Lightweight Composites"
+      ],
+      "exampleCareers": [
+        "Propulsion Specialist",
+        "Aerodynamicist",
+        "Satellite Flight Dynamics Engineer",
+        "Defense Systems Architect"
+      ],
+      "relevantAreas": [
+        "Space Exploration (ISRO/NASA/SpaceX)",
+        "Commercial Aviation",
+        "Defense Missiles & Drones",
+        "Hypersonic Vehicles"
+      ],
+      "exampleProjects": [
+        "Supersonic convergent-divergent nozzle simulation",
+        "Hohmann transfer satellite orbit trajectory calculator",
+        "Carbon fiber wing spar stress analysis"
+      ]
+    }
+  ]
+}

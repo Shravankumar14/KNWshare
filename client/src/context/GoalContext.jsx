@@ -1,26 +1,61 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import api from '../services/api';
 import { useAuth } from './AuthContext';
+import {
+  DEFAULT_GOAL_SLUG,
+  GOAL_REGISTRY,
+  PREDEFINED_GOALS,
+  getGoalDataByIdOrSlug,
+} from '../data/goalRegistry';
 
 const GoalContext = createContext(null);
 
 export const GoalProvider = ({ children }) => {
   const { user, isAuthenticated, refreshUser } = useAuth();
-  const [allGoals, setAllGoals] = useState([]);
+
+  const getInitialActiveGoal = () => {
+    const savedSlug = localStorage.getItem('knwshare_active_goal_slug') || DEFAULT_GOAL_SLUG;
+    const goalData = getGoalDataByIdOrSlug(savedSlug);
+    return goalData?.goal || PREDEFINED_GOALS[0];
+  };
+
+  const [allGoals, setAllGoals] = useState(PREDEFINED_GOALS);
   const [myGoals, setMyGoals] = useState([]);
   const [activeUserGoal, setActiveUserGoal] = useState(null);
-  const [activeGoal, setActiveGoal] = useState(null);
+  const [activeGoal, setActiveGoal] = useState(getInitialActiveGoal);
   const [loading, setLoading] = useState(true);
 
   // Fetch all predefined & community goals
   const fetchAllGoals = async () => {
     try {
       const res = await api.get('/goals');
-      setAllGoals(res.data.data);
-      return res.data.data;
+      const apiGoals = res.data?.data || [];
+
+      // Combine API goals with PREDEFINED_GOALS so JEE and Full Stack are always present
+      const map = new Map();
+      PREDEFINED_GOALS.forEach(g => map.set(g.slug, g));
+      apiGoals.forEach(g => {
+        const existing = map.get(g.slug);
+        if (existing) {
+          map.set(g.slug, { ...existing, ...g });
+        } else {
+          map.set(g.slug || g._id, g);
+        }
+      });
+
+      const combined = Array.from(map.values());
+      // Ensure JEE Mains & Advanced is prioritized at the top
+      combined.sort((a, b) => {
+        if (a.slug === DEFAULT_GOAL_SLUG) return -1;
+        if (b.slug === DEFAULT_GOAL_SLUG) return 1;
+        return 0;
+      });
+
+      setAllGoals(combined);
+      return combined;
     } catch (err) {
       console.error('Error fetching all goals:', err);
-      return [];
+      return PREDEFINED_GOALS;
     }
   };
 
@@ -32,13 +67,25 @@ export const GoalProvider = ({ children }) => {
     }
     try {
       const res = await api.get('/goals/my-goals');
-      setMyGoals(res.data.data);
+      const enrolled = res.data?.data || [];
+      setMyGoals(enrolled);
 
-      if (res.data.data.length > 0) {
-        // If user has activeGoal ref, find it; otherwise fallback to first enrolled
-        const active = res.data.data.find(g => g.status === 'active') || res.data.data[0];
+      if (enrolled.length > 0) {
+        const savedSlug = localStorage.getItem('knwshare_active_goal_slug');
+        // Prioritize matching saved selected slug
+        const matchingSavedGoal = savedSlug
+          ? enrolled.find(g => (g.goalId?.slug === savedSlug || g.goalId?._id === savedSlug || g.slug === savedSlug))
+          : null;
+
+        const active = matchingSavedGoal || enrolled.find(g => g.status === 'active') || enrolled[0];
         setActiveUserGoal(active);
-        setActiveGoal(active.goalId);
+
+        if (active?.goalId) {
+          setActiveGoal(active.goalId);
+          if (active.goalId.slug) {
+            localStorage.setItem('knwshare_active_goal_slug', active.goalId.slug);
+          }
+        }
       }
     } catch (err) {
       console.error('Error fetching my goals:', err);
@@ -51,10 +98,11 @@ export const GoalProvider = ({ children }) => {
       const goals = await fetchAllGoals();
       if (isAuthenticated) {
         await fetchMyGoals();
-      } else if (goals.length > 0) {
-        // For guests / landing page visitors: default preview goal is Full Stack Development
-        const defaultGoal = goals.find(g => g.slug === 'full-stack-development') || goals[0];
-        setActiveGoal(defaultGoal);
+      } else {
+        // For guests / visitors: check localStorage first, or default to JEE Mains & Advanced
+        const savedSlug = localStorage.getItem('knwshare_active_goal_slug') || DEFAULT_GOAL_SLUG;
+        const matched = goals.find(g => g.slug === savedSlug) || PREDEFINED_GOALS[0];
+        setActiveGoal(matched);
       }
       setLoading(false);
     };
@@ -63,19 +111,39 @@ export const GoalProvider = ({ children }) => {
 
   // Select/Enroll in a Goal
   const selectGoal = async ({ goalId, targetDate, hoursPerDay, currentLevel, currentKnowledge }) => {
-    const res = await api.post('/goals/select', {
-      goalId,
-      targetDate,
-      hoursPerDay,
-      currentLevel,
-      currentKnowledge,
-    });
-    const updatedUserGoal = res.data.data;
-    setActiveUserGoal(updatedUserGoal);
-    setActiveGoal(updatedUserGoal.goalId);
-    await fetchMyGoals();
-    await refreshUser();
-    return updatedUserGoal;
+    const targetGoal = allGoals.find(g => g._id === goalId || g.slug === goalId);
+    if (targetGoal?.slug) {
+      localStorage.setItem('knwshare_active_goal_slug', targetGoal.slug);
+    }
+
+    try {
+      const res = await api.post('/goals/select', {
+        goalId,
+        targetDate,
+        hoursPerDay,
+        currentLevel,
+        currentKnowledge,
+      });
+      const updatedUserGoal = res.data?.data;
+      setActiveUserGoal(updatedUserGoal);
+      if (updatedUserGoal?.goalId) {
+        setActiveGoal(updatedUserGoal.goalId);
+        if (updatedUserGoal.goalId.slug) {
+          localStorage.setItem('knwshare_active_goal_slug', updatedUserGoal.goalId.slug);
+        }
+      } else if (targetGoal) {
+        setActiveGoal(targetGoal);
+      }
+      await fetchMyGoals();
+      await refreshUser();
+      return updatedUserGoal;
+    } catch (apiErr) {
+      console.warn('API selectGoal failed, maintaining active goal locally:', apiErr);
+      if (targetGoal) {
+        setActiveGoal(targetGoal);
+      }
+      throw apiErr;
+    }
   };
 
   // Create a Custom Goal with AI decomposition
@@ -89,6 +157,9 @@ export const GoalProvider = ({ children }) => {
     const createdUserGoal = res.data.data;
     setActiveUserGoal(createdUserGoal);
     setActiveGoal(createdUserGoal.goalId);
+    if (createdUserGoal?.goalId?.slug) {
+      localStorage.setItem('knwshare_active_goal_slug', createdUserGoal.goalId.slug);
+    }
     await fetchAllGoals();
     await fetchMyGoals();
     await refreshUser();
@@ -100,7 +171,12 @@ export const GoalProvider = ({ children }) => {
     const res = await api.post('/goals/switch', { userGoalId });
     const switched = res.data.data;
     setActiveUserGoal(switched);
-    setActiveGoal(switched.goalId);
+    if (switched?.goalId) {
+      setActiveGoal(switched.goalId);
+      if (switched.goalId.slug) {
+        localStorage.setItem('knwshare_active_goal_slug', switched.goalId.slug);
+      }
+    }
     await fetchMyGoals();
     await refreshUser();
     return switched;
@@ -108,7 +184,11 @@ export const GoalProvider = ({ children }) => {
 
   // Direct goal preview switch (for browsing before enrolling)
   const setPreviewGoal = (goal) => {
+    if (!goal) return;
     setActiveGoal(goal);
+    if (goal.slug) {
+      localStorage.setItem('knwshare_active_goal_slug', goal.slug);
+    }
   };
 
   return (

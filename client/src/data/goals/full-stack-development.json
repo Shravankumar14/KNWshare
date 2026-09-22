@@ -1,0 +1,560 @@
+{
+  "goal": {
+    "title": "Full Stack Development",
+    "slug": "full-stack-development",
+    "category": "web_dev",
+    "tagline": "Master modern frontend, scalable backend architectures, and production deployment",
+    "description": "From JavaScript basics to architecting full-scale web applications, cloud hosting, and cracking software engineering technical interviews.",
+    "icon": "Layers",
+    "badgeColor": "blue",
+    "estimatedMonths": 6,
+    "targetRoles": [
+      "Full Stack Engineer",
+      "Frontend React Developer",
+      "Backend Node.js Developer",
+      "Software Development Engineer (SDE)"
+    ],
+    "careerPath": [
+      {
+        "stepNumber": 1,
+        "title": "Beginner Foundations",
+        "subtitle": "Web Fundamentals & Programming Mindset",
+        "description": "Build core literacy in HTML semantic structure, CSS modern layout models (Flexbox/Grid), and JavaScript core execution context.",
+        "milestones": [
+          "Build 3 static responsive landing pages",
+          "Write clean ES6+ JavaScript code",
+          "Understand DOM manipulation and event loop"
+        ],
+        "icon": "Compass"
+      },
+      {
+        "stepNumber": 2,
+        "title": "Interactive Frontend Mastery",
+        "subtitle": "React Ecosystem & State Management",
+        "description": "Build reactive user interfaces, custom hooks, component hierarchies, and clean client-side routing.",
+        "milestones": [
+          "Create multi-page React SPA with Vite",
+          "Integrate REST APIs with Axios",
+          "Implement client-side state handling"
+        ],
+        "icon": "Code"
+      },
+      {
+        "stepNumber": 3,
+        "title": "Robust Backend & Persistence",
+        "subtitle": "Node.js, Express & MongoDB Database",
+        "description": "Design RESTful APIs, relational/document schemas, JWT authorization, and middleware pipelines.",
+        "milestones": [
+          "Build CRUD API with Express & Mongoose",
+          "Implement secure bcrypt + JWT auth",
+          "Implement validation and error handling"
+        ],
+        "icon": "Database"
+      },
+      {
+        "stepNumber": 4,
+        "title": "Full-Stack Portfolio Projects",
+        "subtitle": "Production Applications & System Architecture",
+        "description": "Assemble end-to-end full stack applications with real-time features, secure payments or notifications.",
+        "milestones": [
+          "Deploy 2 complete capstone projects",
+          "Write comprehensive README documentation",
+          "Maintain clean Git commit history on GitHub"
+        ],
+        "icon": "FolderGit2"
+      },
+      {
+        "stepNumber": 5,
+        "title": "Technical Interview Preparation",
+        "subtitle": "Data Structures, System Design & Behavioral",
+        "description": "Solve 100+ LeetCode problems (Arrays, Hashmaps, Trees), practice system design fundamentals, and mock interviews.",
+        "milestones": [
+          "Master top 75 interview coding patterns",
+          "Conduct 3 mock technical interviews",
+          "Target Career: SDE-1 at tech companies"
+        ],
+        "icon": "Award"
+      }
+    ]
+  },
+  "mentors": [
+    {
+      "_id": "m_fs_1",
+      "name": "Priya Sharma",
+      "avatar": "https://i.pravatar.cc/150?img=47",
+      "headline": "Senior SDE at Microsoft | Ex-Amazon | Tech Interview Mentor",
+      "companyOrCollege": "Microsoft Corp",
+      "expertField": "Full Stack Architecture, Distributed Systems & MERN",
+      "rating": 4.95,
+      "sessionsCompleted": 142,
+      "sessionDurationMinutes": 45,
+      "bio": "Over 6 years of experience scaling distributed systems and mentoring 120+ students into top tier tech companies. Specializes in MERN architecture, backend scalability, and behavioral interview coaching.",
+      "expertiseAreas": [
+        "Full Stack Development",
+        "System Design",
+        "React & Node.js",
+        "Mock Interviews"
+      ],
+      "whatTheyShare": [
+        "High-throughput distributed systems & backend architecture review",
+        "Production-grade MERN scalability & microservices breakdown",
+        "Realistic FAANG coding & behavioral mock interview drills"
+      ],
+      "postedSlots": [
+        "Today 3:00 PM",
+        "Today 6:30 PM",
+        "Tomorrow 10:00 AM"
+      ],
+      "availableSlots": [
+        {
+          "dayOfWeek": "Today",
+          "startTime": "03:00 PM",
+          "endTime": "03:45 PM"
+        },
+        {
+          "dayOfWeek": "Today",
+          "startTime": "06:30 PM",
+          "endTime": "07:15 PM"
+        },
+        {
+          "dayOfWeek": "Tomorrow",
+          "startTime": "10:00 AM",
+          "endTime": "10:45 AM"
+        }
+      ]
+    },
+    {
+      "_id": "m_fs_2",
+      "name": "Devika Patel",
+      "avatar": "https://i.pravatar.cc/150?img=44",
+      "headline": "Staff Infrastructure Engineer at Cloudflare | Ex-Meta",
+      "companyOrCollege": "Cloudflare Engineering",
+      "expertField": "Cloud Native DevOps, Kubernetes & High Availability",
+      "rating": 4.97,
+      "sessionsCompleted": 115,
+      "sessionDurationMinutes": 45,
+      "bio": "Specialist in cloud native deployment, containerization, distributed databases, and high availability systems across multi-region networks.",
+      "expertiseAreas": [
+        "Cloud Architecture",
+        "DevOps & Docker",
+        "Backend Systems",
+        "Open Source"
+      ],
+      "whatTheyShare": [
+        "Multi-region Kubernetes cluster deployment & zero-downtime routing",
+        "Database sharding, caching strategies with Redis & CDN internals",
+        "Hands-on Terraform & CI/CD pipeline architectural audits"
+      ],
+      "postedSlots": [
+        "Today 7:00 PM",
+        "Thursday 11:00 AM",
+        "Friday 4:00 PM"
+      ],
+      "availableSlots": [
+        {
+          "dayOfWeek": "Today",
+          "startTime": "07:00 PM",
+          "endTime": "07:45 PM"
+        },
+        {
+          "dayOfWeek": "Thursday",
+          "startTime": "11:00 AM",
+          "endTime": "11:45 AM"
+        },
+        {
+          "dayOfWeek": "Friday",
+          "startTime": "04:00 PM",
+          "endTime": "04:45 PM"
+        }
+      ]
+    }
+  ],
+  "roadmap": {
+    "title": "Full Stack Developer Roadmap",
+    "totalEstimatedHours": 240,
+    "stages": [
+      {
+        "stageNumber": 1,
+        "title": "Stage 1: HTML & Modern CSS Layouts",
+        "shortSummary": "Semantic structure, CSS Flexbox, CSS Grid, and responsive design principles.",
+        "estimatedHours": 20,
+        "dependencies": [],
+        "topics": [
+          {
+            "title": "HTML5 Semantic Architecture",
+            "description": "Semantic tags, accessibility (a11y), forms, and SEO document hierarchy.",
+            "subtopics": [
+              "Semantic markup",
+              "Forms & validations",
+              "Audio/video APIs",
+              "Accessibility (ARIA)"
+            ],
+            "skills": [
+              "Semantic HTML",
+              "Accessibility",
+              "SEO Basics"
+            ],
+            "importance": "high",
+            "estimatedHours": 8,
+            "practiceTasks": [
+              "Build accessible survey form",
+              "Create multi-section landing page"
+            ]
+          },
+          {
+            "title": "Modern CSS Layouts & Responsive Design",
+            "description": "Flexbox, Grid systems, CSS variables, media queries, and mobile-first workflow.",
+            "subtopics": [
+              "CSS Box Model",
+              "Flexbox deep-dive",
+              "CSS Grid 2D layouts",
+              "Media queries"
+            ],
+            "skills": [
+              "Responsive Design",
+              "Flexbox",
+              "CSS Grid"
+            ],
+            "importance": "high",
+            "estimatedHours": 12,
+            "practiceTasks": [
+              "Clone pricing page with Grid",
+              "Build responsive navbar with mobile toggle"
+            ]
+          }
+        ],
+        "milestoneOutcome": "Able to turn any Figma design into a responsive web page."
+      },
+      {
+        "stageNumber": 2,
+        "title": "Stage 2: JavaScript Mastery (ES6+)",
+        "shortSummary": "Execution context, closures, asynchronous JS, DOM manipulation, and modern syntax.",
+        "estimatedHours": 35,
+        "dependencies": [
+          1
+        ],
+        "topics": [
+          {
+            "title": "JS Engine Fundamentals & Scope",
+            "description": "Call stack, execution context, hoisting, closures, and lexical environment.",
+            "subtopics": [
+              "Primitive vs reference types",
+              "Closures & lexical scope",
+              "this keyword binding",
+              "Event loop & microtasks"
+            ],
+            "skills": [
+              "JavaScript Core",
+              "Closures",
+              "Scope Chains"
+            ],
+            "importance": "high",
+            "estimatedHours": 15,
+            "practiceTasks": [
+              "Implement custom debounce and throttle functions",
+              "Build closure-based cache"
+            ]
+          },
+          {
+            "title": "Asynchronous JavaScript & Fetch API",
+            "description": "Promises, async/await, error handling, and fetching data from third-party APIs.",
+            "subtopics": [
+              "Callbacks to Promises",
+              "async/await syntax",
+              "Promise.all / allSettled",
+              "Fetch API & JSON parsing"
+            ],
+            "skills": [
+              "Async/Await",
+              "REST Consumption",
+              "Error Handling"
+            ],
+            "importance": "high",
+            "estimatedHours": 20,
+            "practiceTasks": [
+              "Build weather application consuming public API",
+              "Implement search autocomplete"
+            ]
+          }
+        ],
+        "milestoneOutcome": "Comfortable with vanilla JavaScript, modern ES6+ features, and async operations."
+      },
+      {
+        "stageNumber": 3,
+        "title": "Stage 3: React.js & Single Page Applications",
+        "shortSummary": "Components, JSX, Hooks (useState, useEffect, useMemo, useRef), and React Router.",
+        "estimatedHours": 40,
+        "dependencies": [
+          2
+        ],
+        "topics": [
+          {
+            "title": "React Components, Props & State",
+            "description": "Declarative UI, component lifecycle, JSX compilation, and unidirectional data flow.",
+            "subtopics": [
+              "Functional components",
+              "Props destructuring & children",
+              "useState hook",
+              "Lifting state up"
+            ],
+            "skills": [
+              "React Fundamentals",
+              "State Architecture"
+            ],
+            "importance": "high",
+            "estimatedHours": 18,
+            "practiceTasks": [
+              "Build interactive task tracker with filters",
+              "Create modal component library"
+            ]
+          },
+          {
+            "title": "Advanced Hooks, Effects & React Router",
+            "description": "Side effects with useEffect, dependency arrays, custom hooks, and dynamic client routing.",
+            "subtopics": [
+              "useEffect deep-dive",
+              "useRef for DOM and timers",
+              "Custom hooks creation",
+              "React Router navigation"
+            ],
+            "skills": [
+              "React Hooks",
+              "Client-side Routing",
+              "Custom Hooks"
+            ],
+            "importance": "high",
+            "estimatedHours": 22,
+            "practiceTasks": [
+              "Build multi-page storefront with routing",
+              "Create custom useLocalStorage hook"
+            ]
+          }
+        ],
+        "milestoneOutcome": "Able to architect modern, reactive web frontends with clean component separation."
+      },
+      {
+        "stageNumber": 4,
+        "title": "Stage 4: Node.js Core & Express REST APIs",
+        "shortSummary": "V8 engine, Event Loop, Express routing, middleware chains, controller architecture, and validation.",
+        "estimatedHours": 45,
+        "dependencies": [
+          2
+        ],
+        "topics": [
+          {
+            "title": "Node.js Architecture & Event-Driven I/O",
+            "description": "Non-blocking I/O, libuv thread pool, events emitter, and module formats (ESM vs CJS).",
+            "subtopics": [
+              "Event Loop phases",
+              "EventEmitter pattern",
+              "Buffer and File System",
+              "Process & env vars"
+            ],
+            "skills": [
+              "Node.js Runtime",
+              "Event Loop",
+              "File System"
+            ],
+            "importance": "high",
+            "estimatedHours": 20,
+            "practiceTasks": [
+              "Build CLI file manager in Node.js",
+              "Create custom EventEmitter logger"
+            ]
+          },
+          {
+            "title": "Express Routing & Middleware Architecture",
+            "description": "Application middleware, router middleware, third-party middleware (cors, morgan), and controllers.",
+            "subtopics": [
+              "Express Router pattern",
+              "Custom middleware",
+              "Error-handling middleware",
+              "REST specifications"
+            ],
+            "skills": [
+              "Express.js",
+              "Middleware Design",
+              "API Routing"
+            ],
+            "importance": "high",
+            "estimatedHours": 25,
+            "practiceTasks": [
+              "Create modular CRUD API with Express router",
+              "Implement global error handler and logger"
+            ]
+          }
+        ],
+        "milestoneOutcome": "Capable of writing clean, production-grade REST APIs in Express.js."
+      },
+      {
+        "stageNumber": 5,
+        "title": "Stage 5: MongoDB & Mongoose Persistence",
+        "shortSummary": "NoSQL document design, schemas, indexes, relationships, and aggregation pipelines.",
+        "estimatedHours": 35,
+        "dependencies": [
+          4
+        ],
+        "topics": [
+          {
+            "title": "MongoDB Schema Design & Validation",
+            "description": "Mongoose models, schemas, data types, validators, pre/post middleware hooks.",
+            "subtopics": [
+              "Document database modeling",
+              "Mongoose schema types",
+              "Embedded subdocuments vs references",
+              "Indexes"
+            ],
+            "skills": [
+              "MongoDB",
+              "Mongoose",
+              "Schema Design"
+            ],
+            "importance": "high",
+            "estimatedHours": 18,
+            "practiceTasks": [
+              "Design User, Post, and Comment schemas with referential integrity"
+            ]
+          },
+          {
+            "title": "Mongoose Queries & Aggregations",
+            "description": "Populate, complex filters, update operators, and aggregation pipelines ($match, $group, $sort).",
+            "subtopics": [
+              "CRUD with Mongoose",
+              "populate for joins",
+              "Atomic operators ($inc, $push)",
+              "Aggregation pipelines"
+            ],
+            "skills": [
+              "Aggregation Pipelines",
+              "Query Optimization"
+            ],
+            "importance": "high",
+            "estimatedHours": 17,
+            "practiceTasks": [
+              "Write aggregation pipeline calculating monthly statistics by category"
+            ]
+          }
+        ],
+        "milestoneOutcome": "Confidently model real-world business data with high query efficiency."
+      },
+      {
+        "stageNumber": 6,
+        "title": "Stage 6: Authentication, Security & Deployment",
+        "shortSummary": "JWT authorization, bcrypt, role-based access, Vercel/Render cloud deployment, and CI/CD.",
+        "estimatedHours": 45,
+        "dependencies": [
+          4,
+          5
+        ],
+        "topics": [
+          {
+            "title": "Secure Authentication & JWT Tokens",
+            "description": "Token payload, signature verification, token expiration, and secure HTTP cookies vs bearer headers.",
+            "subtopics": [
+              "Bcrypt salt & hash",
+              "jwt.sign and jwt.verify",
+              "Protect middleware",
+              "Refresh token strategies"
+            ],
+            "skills": [
+              "JWT",
+              "Bcrypt",
+              "Authentication"
+            ],
+            "importance": "high",
+            "estimatedHours": 20,
+            "practiceTasks": [
+              "Implement signup, login, and verifyToken workflow"
+            ]
+          },
+          {
+            "title": "Production Deployment & Full-Stack Integration",
+            "description": "Connecting React with Express backend, Vercel deployment, Render cloud backend, and environment secrets.",
+            "subtopics": [
+              "Vite production build optimization",
+              "Deploying Express to Render",
+              "Deploying React to Vercel",
+              "CORS whitelisting"
+            ],
+            "skills": [
+              "Cloud Deployment",
+              "Environment Configuration",
+              "Full-Stack Integration"
+            ],
+            "importance": "high",
+            "estimatedHours": 25,
+            "practiceTasks": [
+              "Deploy live full-stack app with production MongoDB Atlas cluster"
+            ]
+          }
+        ],
+        "milestoneOutcome": "Full-stack application deployed live on the internet with authenticated workflows."
+      }
+    ]
+  },
+  "resources": [
+    {
+      "stageNumber": 1,
+      "topicTitle": "HTML5 Semantic Architecture",
+      "title": "MDN Web Docs: HTML Elements & Semantic Guide",
+      "description": "The definitive handbook for modern HTML elements, accessibility considerations, and browser support.",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML",
+      "type": "doc",
+      "difficulty": "beginner",
+      "provider": "Mozilla Developer Network",
+      "author": "MDN",
+      "rating": 4.9,
+      "reviewsCount": 3500,
+      "estimatedHours": 5,
+      "isVerified": true,
+      "tags": [
+        "HTML5",
+        "Semantics",
+        "Accessibility",
+        "MDN"
+      ]
+    },
+    {
+      "stageNumber": 2,
+      "topicTitle": "JS Engine Fundamentals & Scope",
+      "title": "JavaScript.info: The Modern JavaScript Tutorial",
+      "description": "Comprehensive guide from basics to advanced topics with clear explanations, closures, and event loop.",
+      "url": "https://javascript.info/",
+      "type": "doc",
+      "difficulty": "intermediate",
+      "provider": "JavaScript.info",
+      "author": "Ilya Kantor",
+      "rating": 4.95,
+      "reviewsCount": 4100,
+      "estimatedHours": 15,
+      "isVerified": true,
+      "tags": [
+        "JavaScript",
+        "Closures",
+        "Event Loop",
+        "ES6+"
+      ]
+    },
+    {
+      "stageNumber": 3,
+      "topicTitle": "React Components, Props & State",
+      "title": "React Official Documentation & Interactive Tutorials",
+      "description": "Learn modern React with function components, hooks, state management, and effects from the official React team.",
+      "url": "https://react.dev/",
+      "type": "doc",
+      "difficulty": "intermediate",
+      "provider": "React Team / Meta",
+      "author": "Meta",
+      "rating": 4.98,
+      "reviewsCount": 5600,
+      "estimatedHours": 20,
+      "isVerified": true,
+      "tags": [
+        "React",
+        "Hooks",
+        "Components",
+        "Official"
+      ]
+    }
+  ]
+}

@@ -35,6 +35,9 @@ export const selectGoal = async (req, res, next) => {
       return res.status(404).json({ success: false, message: 'Goal not found' });
     }
 
+    // Deactivate other user goals so that only this goal is active
+    await UserGoal.updateMany({ userId }, { status: 'inactive' });
+
     // Check if UserGoal already exists
     let userGoal = await UserGoal.findOne({ userId, goalId });
 
@@ -155,6 +158,10 @@ export const switchActiveGoal = async (req, res, next) => {
     if (!userGoal) {
       return res.status(404).json({ success: false, message: 'Goal enrollment not found' });
     }
+
+    await UserGoal.updateMany({ userId: req.user._id }, { status: 'inactive' });
+    userGoal.status = 'active';
+    await userGoal.save();
 
     await User.findByIdAndUpdate(req.user._id, { activeGoal: userGoal._id });
 

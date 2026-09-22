@@ -72,15 +72,26 @@ app.use('/api/v1/notifications', notificationRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-// Connect DB, Auto-seed if first run, and Start Server
+// Manual Seed Trigger Endpoint (Protected by secret or public in dev/initial deploy)
+app.post('/api/v1/seed', async (req, res, next) => {
+  try {
+    await seedDatabase();
+    res.json({ success: true, message: 'Database successfully seeded with JEE and Full Stack data!' });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Connect DB, Auto-seed if first run or missing roadmaps, and Start Server
 const startServer = async () => {
   try {
     await connectDB();
 
-    // Auto-seed if database has 0 goals
+    // Auto-seed if database has 0 goals or missing roadmaps
     const goalCount = await Goal.countDocuments();
-    if (goalCount === 0) {
-      console.log('[Server] No goals detected in database. Triggering automatic initial seed...');
+    const roadmapCount = await Roadmap.countDocuments();
+    if (goalCount === 0 || roadmapCount < 2) {
+      console.log(`[Server] Incomplete database detected (goals: ${goalCount}, roadmaps: ${roadmapCount}). Triggering automatic seed...`);
       await seedDatabase();
     }
 

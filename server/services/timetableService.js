@@ -21,17 +21,11 @@ const formatTime = (hour, minute) => {
   return `${displayHour}:${displayMinute} ${period}`;
 };
 
-const getDayDate = (dayOffset) => {
-  const d = new Date();
-  d.setDate(d.getDate() + dayOffset);
-  return d.toISOString().split('T')[0];
-};
-
 export const generateWeeklyTimetable = async ({
   userId,
   userGoalId,
-  availableDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-  dailyHours = 2,
+  availableDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+  dailyHours = 3,
   preferredSlot = 'morning',
   includeBreaks = true
 }) => {
@@ -45,26 +39,64 @@ export const generateWeeklyTimetable = async ({
     throw new Error('No roadmap found for the selected goal');
   }
 
-  // Determine current active stage
   const completedStageNumbers = userGoal.completedStages || [];
-  const currentStage = roadmap.stages.find(s => !completedStageNumbers.includes(s.stageNumber)) || roadmap.stages[0];
 
-  const topicsPool = currentStage.topics && currentStage.topics.length > 0 
-    ? currentStage.topics 
-    : [{ title: `${userGoal.goalId.title} Core Study`, practiceTasks: ['Read concepts', 'Hands-on practice'] }];
+  // Check if this is a multi-subject curriculum like JEE Mains & Advanced
+  const isMultiSubject = roadmap.stages.some(s => s.subject);
+  let topicsPool = [];
+
+  if (isMultiSubject) {
+    const subjects = ['Physics', 'Chemistry', 'Mathematics'];
+    const subjectStages = subjects.map(sub => {
+      const stagesForSub = roadmap.stages.filter(s => s.subject === sub);
+      return stagesForSub.find(s => !completedStageNumbers.includes(s.stageNumber)) || stagesForSub[0];
+    }).filter(Boolean);
+
+    // Interleave topics from Physics, Chemistry, and Mathematics in cyclical sequence
+    const maxTopics = Math.max(...subjectStages.map(s => (s.topics || []).length));
+    for (let t = 0; t < maxTopics; t++) {
+      subjectStages.forEach(s => {
+        if (s.topics && s.topics[t]) {
+          const raw = s.topics[t].toObject ? s.topics[t].toObject() : s.topics[t];
+          topicsPool.push({
+            ...raw,
+            stageNumber: s.stageNumber,
+            subject: s.subject
+          });
+        }
+      });
+    }
+  } else {
+    const currentStage = roadmap.stages.find(s => !completedStageNumbers.includes(s.stageNumber)) || roadmap.stages[0];
+    topicsPool = (currentStage.topics || []).map(t => {
+      const raw = t.toObject ? t.toObject() : t;
+      return {
+        ...raw,
+        stageNumber: currentStage.stageNumber,
+        subject: null
+      };
+    });
+  }
+
+  if (topicsPool.length === 0) {
+    topicsPool = [{
+      title: `${userGoal.goalId.title} Core Study`,
+      stageNumber: 1,
+      subject: null,
+      practiceTasks: ['Read theory & concepts', 'Solve standard exercises']
+    }];
+  }
 
   const weekStartDate = new Date().toISOString().split('T')[0];
 
-  // Remove existing timetable for this goal
+  // Remove existing timetable and upcoming auto-generated tasks for this goal
   await Timetable.deleteMany({ userId, userGoalId });
 
   const blocks = [];
   const generatedTasks = [];
 
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  const todayDayIndex = new Date().getDay();
 
-  // Create schedule blocks for each selected available day
   let topicIndex = 0;
 
   for (let i = 0; i < 7; i++) {
@@ -79,8 +111,8 @@ export const generateWeeklyTimetable = async ({
     let currentHour = startHour;
     let currentMinute = 0;
 
-    // Split daily hours into realistic sessions: e.g. 45-60 min study + 15 min break + 45-60 min practice
-    const session1Duration = dailyHours >= 2 ? 60 : Math.round(dailyHours * 60);
+    // First Session: Concepts / Learning (60-90 min)
+    const session1Duration = dailyHours >= 3 ? 90 : (dailyHours >= 2 ? 60 : Math.round(dailyHours * 60));
     const session1EndMinute = currentMinute + session1Duration;
     const s1EndHour = currentHour + Math.floor(session1EndMinute / 60);
     const s1FinalMin = session1EndMinute % 60;
@@ -88,26 +120,27 @@ export const generateWeeklyTimetable = async ({
     const topic1 = topicsPool[topicIndex % topicsPool.length];
     topicIndex++;
 
+    const subjectPrefix = topic1.subject ? `${topic1.subject}: ` : '';
+
     const block1 = {
       dayOfWeek: dayName,
       startTime: formatTime(currentHour, currentMinute),
       endTime: formatTime(s1EndHour, s1FinalMin),
       durationMinutes: session1Duration,
-      title: `${topic1.title}: Concept Mastery`,
+      title: `${subjectPrefix}${topic1.title} (Concepts & Theory)`,
       blockType: 'study',
-      stageNumber: currentStage.stageNumber,
+      stageNumber: topic1.stageNumber,
       topicTitle: topic1.title
     };
 
-    // Create synchronized task
     const task1 = await Task.create({
       userId,
       userGoalId,
       goalId: userGoal.goalId._id,
-      stageNumber: currentStage.stageNumber,
+      stageNumber: topic1.stageNumber,
       topicTitle: topic1.title,
-      title: `Study: ${topic1.title} Concepts`,
-      description: `Deep dive into ${topic1.title}. Understand fundamental theory, syntax, and principles.`,
+      title: `Study: ${subjectPrefix}${topic1.title}`,
+      description: `Understand fundamental definitions, derivations, and formulas for ${topic1.title}.`,
       date: dateStr,
       startTime: block1.startTime,
       endTime: block1.endTime,
@@ -121,7 +154,7 @@ export const generateWeeklyTimetable = async ({
     blocks.push(block1);
     generatedTasks.push(task1);
 
-    // If student has 2 or more hours, add a buffer break and practice block
+    // If student has 2 or more hours, schedule breaks and practice
     if (dailyHours >= 2) {
       // Break Block (15 mins)
       if (includeBreaks) {
@@ -138,7 +171,7 @@ export const generateWeeklyTimetable = async ({
           durationMinutes: 15,
           title: 'Mind Refresh & Hydration Break',
           blockType: 'break',
-          stageNumber: currentStage.stageNumber,
+          stageNumber: topic1.stageNumber,
           topicTitle: 'Rest'
         });
 
@@ -149,35 +182,42 @@ export const generateWeeklyTimetable = async ({
         currentMinute = s1FinalMin;
       }
 
-      // Practice / Problem Solving Block
-      const session2Duration = Math.round((dailyHours - 1) * 60);
-      const session2EndMinute = currentMinute + session2Duration;
+      // Session 2: Practice & PYQs (60-90 min)
+      const session2Duration = Math.round((dailyHours * 60) - session1Duration - (includeBreaks ? 15 : 0));
+      const s2DurationFinal = Math.max(session2Duration, 45);
+      const session2EndMinute = currentMinute + s2DurationFinal;
       const s2EndHour = currentHour + Math.floor(session2EndMinute / 60);
       const s2FinalMin = session2EndMinute % 60;
+
+      // In multi-subject curriculum, pick next subject for afternoon/evening practice!
+      const topic2 = isMultiSubject ? topicsPool[topicIndex % topicsPool.length] : topic1;
+      if (isMultiSubject) topicIndex++;
+
+      const subject2Prefix = topic2.subject ? `${topic2.subject}: ` : '';
 
       const block2 = {
         dayOfWeek: dayName,
         startTime: formatTime(currentHour, currentMinute),
         endTime: formatTime(s2EndHour, s2FinalMin),
-        durationMinutes: session2Duration,
-        title: `${topic1.title}: Hands-on Practice`,
+        durationMinutes: s2DurationFinal,
+        title: `${subject2Prefix}${topic2.title} (Practice & PYQs)`,
         blockType: 'practice',
-        stageNumber: currentStage.stageNumber,
-        topicTitle: topic1.title
+        stageNumber: topic2.stageNumber,
+        topicTitle: topic2.title
       };
 
       const task2 = await Task.create({
         userId,
         userGoalId,
         goalId: userGoal.goalId._id,
-        stageNumber: currentStage.stageNumber,
-        topicTitle: topic1.title,
-        title: `Practice & Exercises: ${topic1.title}`,
-        description: `Solve exercises and build miniature implementations for ${topic1.title}.`,
+        stageNumber: topic2.stageNumber,
+        topicTitle: topic2.title,
+        title: `Solve: ${subject2Prefix}${topic2.title} Problems & PYQs`,
+        description: `Solve 15-20 timed problems and previous year questions (PYQs) for ${topic2.title}.`,
         date: dateStr,
         startTime: block2.startTime,
         endTime: block2.endTime,
-        durationMinutes: session2Duration,
+        durationMinutes: s2DurationFinal,
         priority: 'medium',
         status: 'pending',
         originalDate: dateStr

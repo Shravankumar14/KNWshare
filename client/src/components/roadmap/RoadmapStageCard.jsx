@@ -21,14 +21,29 @@ export const RoadmapStageCard = ({
   const [expanded, setExpanded] = useState(true);
 
   const isStageCompleted = completedStages.includes(stage.stageNumber);
-  const totalTopicsCount = stage.topics.length;
-  const completedTopicsCount = stage.topics.filter(t =>
+  const totalTopicsCount = stage.topics?.length || 0;
+  const completedTopicsCount = stage.topics?.filter(t =>
     completedTopics.includes(`${stage.stageNumber}:${t.title}`)
-  ).length;
+  ).length || 0;
 
   const stageProgressPercent = totalTopicsCount > 0
     ? Math.round((completedTopicsCount / totalTopicsCount) * 100)
     : 0;
+
+  const getSubjectBadge = (subject) => {
+    switch (subject) {
+      case 'Physics':
+        return 'bg-blue-950/40 text-blue-400 border-blue-700/40';
+      case 'Chemistry':
+        return 'bg-emerald-950/40 text-emerald-400 border-emerald-700/40';
+      case 'Mathematics':
+        return 'bg-purple-950/40 text-purple-400 border-purple-700/40';
+      case 'Integrated Revision':
+        return 'bg-amber-950/40 text-amber-400 border-amber-700/40';
+      default:
+        return 'bg-white/5 text-knw-muted border-white/10';
+    }
+  };
 
   return (
     <div
@@ -56,11 +71,19 @@ export const RoadmapStageCard = ({
               <span className="text-xs font-bold uppercase tracking-wider text-knw-red font-mono">
                 Stage {stage.stageNumber}
               </span>
+
+              {stage.subject && (
+                <span className={`text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider font-mono border ${getSubjectBadge(stage.subject)}`}>
+                  {stage.subject}
+                </span>
+              )}
+
               {stage.dependencies && stage.dependencies.length > 0 && (
                 <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-knw-muted border border-white/10 font-mono">
                   Requires: Stage {stage.dependencies.join(', ')}
                 </span>
               )}
+
               {isStageCompleted && (
                 <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-900/30 text-emerald-400 font-semibold border border-emerald-700/40 font-mono">
                   Stage Mastered ✓
@@ -68,7 +91,7 @@ export const RoadmapStageCard = ({
               )}
             </div>
 
-            <h3 className="text-lg font-bold text-white mt-0.5">{stage.title}</h3>
+            <h3 className="text-lg font-bold text-white mt-1">{stage.title}</h3>
             {stage.shortSummary && (
               <p className="text-xs text-knw-muted mt-1 leading-relaxed">{stage.shortSummary}</p>
             )}
@@ -100,7 +123,7 @@ export const RoadmapStageCard = ({
       {expanded && (
         <div className="p-5 sm:p-6 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {stage.topics.map((topic, idx) => {
+            {stage.topics?.map((topic, idx) => {
               const isTopicDone = completedTopics.includes(`${stage.stageNumber}:${topic.title}`);
 
               return (
@@ -135,6 +158,22 @@ export const RoadmapStageCard = ({
                         <p className="text-xs text-knw-muted mt-1 leading-relaxed">
                           {topic.description}
                         </p>
+
+                        {/* Relevance Pills for JEE */}
+                        {(topic.jeeMainRelevance || topic.jeeAdvancedRelevance) && (
+                          <div className="mt-2 flex flex-wrap gap-1.5 font-mono text-[10px]">
+                            {topic.jeeMainRelevance && (
+                              <span className="px-2 py-0.5 rounded bg-yellow-950/40 text-yellow-300 border border-yellow-800/40">
+                                Main: {topic.jeeMainRelevance}
+                              </span>
+                            )}
+                            {topic.jeeAdvancedRelevance && (
+                              <span className="px-2 py-0.5 rounded bg-red-950/40 text-red-300 border border-red-800/40">
+                                Adv: {topic.jeeAdvancedRelevance}
+                              </span>
+                            )}
+                          </div>
+                        )}
 
                         {/* Subtopics */}
                         {topic.subtopics && topic.subtopics.length > 0 && (

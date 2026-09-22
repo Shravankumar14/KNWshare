@@ -13,7 +13,8 @@ import {
   TrendingUp,
   Layers,
   Clock,
-  Briefcase
+  Briefcase,
+  Filter
 } from 'lucide-react';
 import { useGoal } from '../context/GoalContext';
 import { useAuth } from '../context/AuthContext';
@@ -24,163 +25,87 @@ import { CareerPathGuidance } from '../components/roadmap/CareerPathGuidance';
 import { ExpertCard } from '../components/expert/ExpertCard';
 import { BookingModal } from '../components/expert/BookingModal';
 import { Link } from 'react-router-dom';
-
-// Rich verified mentors with real-life positions, fields, and live slot postings
-const FEATURED_INDUSTRY_MENTORS = [
-  {
-    _id: 'm1',
-    name: 'Priya Sharma',
-    avatar: 'https://i.pravatar.cc/150?img=47',
-    headline: 'Senior SDE at Microsoft | Ex-Amazon | Tech Interview Mentor',
-    realLifePositions: 'Senior SDE at Microsoft | Ex-Amazon | Tech Lead',
-    companyOrCollege: 'Microsoft Corp',
-    expertField: 'Full Stack Architecture, Distributed Systems & MERN',
-    rating: 4.95,
-    sessionsCompleted: 142,
-    sessionDurationMinutes: 45,
-    bio: 'Over 6 years of experience scaling distributed systems and mentoring 120+ students into top tier tech companies. Specializes in MERN architecture, backend scalability, and behavioral interview coaching.',
-    expertiseAreas: ['Full Stack Development', 'System Design', 'React & Node.js', 'Mock Interviews'],
-    whatTheyShare: [
-      'High-throughput distributed systems & backend architecture review',
-      'Production-grade MERN scalability & microservices breakdown',
-      'Realistic FAANG coding & behavioral mock interview drills'
-    ],
-    postedSlots: ['Today 3:00 PM', 'Today 6:30 PM', 'Tomorrow 10:00 AM'],
-    availableSlots: [
-      { dayOfWeek: 'Today', startTime: '3:00 PM', endTime: '3:45 PM' },
-      { dayOfWeek: 'Today', startTime: '6:30 PM', endTime: '7:15 PM' },
-      { dayOfWeek: 'Tomorrow', startTime: '10:00 AM', endTime: '10:45 AM' }
-    ]
-  },
-  {
-    _id: 'm2',
-    name: 'Arjun Mehta',
-    avatar: 'https://i.pravatar.cc/150?img=33',
-    headline: 'AI Research Engineer at DeepMind | Former Researcher in OpenAI',
-    realLifePositions: 'AI Research Engineer at Google DeepMind | Ex-OpenAI',
-    companyOrCollege: 'Google DeepMind & IIT Bombay Alumnus',
-    expertField: 'Generative AI, Transformer LLMs & PyTorch',
-    rating: 4.98,
-    sessionsCompleted: 89,
-    sessionDurationMinutes: 45,
-    bio: 'Researches foundational models and transformer architectures. Mentors students transitioning into Applied AI, ML research, and competitive mathematics.',
-    expertiseAreas: ['Machine Learning', 'Deep Learning & PyTorch', 'LLMs & RAG', 'Research Papers'],
-    whatTheyShare: [
-      'Transformer attention mechanism implementations & tuning',
-      'RAG pipeline defense topology & production vector search',
-      'Publishing in NeurIPS/ICLR and breaking into AI research labs'
-    ],
-    postedSlots: ['🔴 LIVE NOW', 'Tomorrow 2:00 PM', 'Tomorrow 5:00 PM'],
-    availableSlots: [
-      { dayOfWeek: 'Today (Live)', startTime: '2:00 PM', endTime: '2:45 PM' },
-      { dayOfWeek: 'Tomorrow', startTime: '2:00 PM', endTime: '2:45 PM' },
-      { dayOfWeek: 'Tomorrow', startTime: '5:00 PM', endTime: '5:45 PM' }
-    ]
-  },
-  {
-    _id: 'm3',
-    name: 'Rohan Verma',
-    avatar: 'https://i.pravatar.cc/150?img=52',
-    headline: 'AIR 42 in JEE Advanced | B.Tech CSE IIT Delhi | Ex-Unacademy',
-    realLifePositions: 'AIR 42 in JEE Advanced | IIT Delhi CSE Graduate',
-    companyOrCollege: 'IIT Delhi Alumnus & Academic Coach',
-    expertField: 'Competitive Exams (JEE/GATE), Physics & Math Mastery',
-    rating: 4.92,
-    sessionsCompleted: 210,
-    sessionDurationMinutes: 45,
-    bio: 'Cracked JEE Advanced in the top 50 ranks. Has guided hundreds of aspirants in mastering study discipline, revision loops, and overcoming exam anxiety.',
-    expertiseAreas: ['JEE Strategy', 'Physics Problem Solving', 'Calculus Mastery', 'Exam Psychology'],
-    whatTheyShare: [
-      'High-yield revision strategies & daily milestone timetables',
-      'Advanced problem breakdown for mechanics & multivariable calculus',
-      'Time management and psychological resilience under pressure'
-    ],
-    postedSlots: ['Today 8:00 PM', 'Tomorrow 9:00 AM', 'Tomorrow 7:00 PM'],
-    availableSlots: [
-      { dayOfWeek: 'Today', startTime: '8:00 PM', endTime: '8:45 PM' },
-      { dayOfWeek: 'Tomorrow', startTime: '9:00 AM', endTime: '9:45 AM' },
-      { dayOfWeek: 'Tomorrow', startTime: '7:00 PM', endTime: '7:45 PM' }
-    ]
-  },
-  {
-    _id: 'm4',
-    name: 'Devika Patel',
-    avatar: 'https://i.pravatar.cc/150?img=44',
-    headline: 'Staff Infrastructure Engineer at Cloudflare | Ex-Meta',
-    realLifePositions: 'Staff Infrastructure Engineer at Cloudflare | Ex-Meta',
-    companyOrCollege: 'Cloudflare Engineering',
-    expertField: 'Cloud Native DevOps, Kubernetes & High Availability',
-    rating: 4.97,
-    sessionsCompleted: 115,
-    sessionDurationMinutes: 45,
-    bio: 'Specialist in cloud native deployment, containerization, distributed databases, and high availability systems across multi-region networks.',
-    expertiseAreas: ['Cloud Architecture', 'DevOps & Docker', 'Backend Systems', 'Open Source'],
-    whatTheyShare: [
-      'Multi-region Kubernetes cluster deployment & zero-downtime routing',
-      'Database sharding, caching strategies with Redis & CDN internals',
-      'Hands-on Terraform & CI/CD pipeline architectural audits'
-    ],
-    postedSlots: ['Today 7:00 PM', 'Thursday 11:00 AM', 'Friday 4:00 PM'],
-    availableSlots: [
-      { dayOfWeek: 'Today', startTime: '7:00 PM', endTime: '7:45 PM' },
-      { dayOfWeek: 'Thursday', startTime: '11:00 AM', endTime: '11:45 AM' },
-      { dayOfWeek: 'Friday', startTime: '4:00 PM', endTime: '4:45 PM' }
-    ]
-  }
-];
+import { getGoalDataByIdOrSlug } from '../data/goalRegistry';
 
 export const RoadmapCareerPage = () => {
-  const { activeGoal, activeUserGoal } = useGoal();
+  const { activeGoal, activeUserGoal, allGoals } = useGoal();
   const { isAuthenticated } = useAuth();
   const { addToast } = useNotification();
 
-  const [roadmapData, setRoadmapData] = useState(null);
-  const [mentors, setMentors] = useState(FEATURED_INDUSTRY_MENTORS);
+  // Resolved goal registry fallback
+  const goalStaticData = getGoalDataByIdOrSlug(activeGoal, allGoals);
+
+  const [roadmapData, setRoadmapData] = useState(goalStaticData?.roadmap || null);
+  const [mentors, setMentors] = useState(goalStaticData?.mentors || []);
   const [completedTopics, setCompletedTopics] = useState([]);
   const [completedStages, setCompletedStages] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('roadmap'); // 'roadmap' | 'career' | 'experts'
   const [selectedExpertForBooking, setSelectedExpertForBooking] = useState(null);
+  const [selectedSubject, setSelectedSubject] = useState('All Subjects');
 
   // Fetch roadmap, user progress, and mentors for active goal
   const fetchRoadmap = async () => {
-    if (!activeGoal?._id) return;
+    const staticData = getGoalDataByIdOrSlug(activeGoal, allGoals);
+
+    if (!activeGoal?._id) {
+      if (staticData?.roadmap) {
+        setRoadmapData(staticData.roadmap);
+        setMentors(staticData.mentors || []);
+      }
+      return;
+    }
+
     setLoading(true);
     try {
       const res = await api.get(`/roadmaps/${activeGoal._id}`);
-      setRoadmapData(res.data.data.roadmap);
-      const apiMentors = res.data.data.mentors || [];
-      // If API mentors exist, enrich with positions and slots
-      if (apiMentors.length > 0) {
-        const enriched = apiMentors.map((m, idx) => ({
-          ...m,
-          realLifePositions: m.headline || FEATURED_INDUSTRY_MENTORS[idx % FEATURED_INDUSTRY_MENTORS.length].realLifePositions,
-          expertField: m.expertiseAreas?.[0] || FEATURED_INDUSTRY_MENTORS[idx % FEATURED_INDUSTRY_MENTORS.length].expertField,
-          whatTheyShare: FEATURED_INDUSTRY_MENTORS[idx % FEATURED_INDUSTRY_MENTORS.length].whatTheyShare,
-          postedSlots: FEATURED_INDUSTRY_MENTORS[idx % FEATURED_INDUSTRY_MENTORS.length].postedSlots,
-          availableSlots: FEATURED_INDUSTRY_MENTORS[idx % FEATURED_INDUSTRY_MENTORS.length].availableSlots,
-        }));
-        setMentors(enriched);
-      } else {
-        setMentors(FEATURED_INDUSTRY_MENTORS);
+      const fetchedRoadmap = res.data?.data?.roadmap;
+      const apiMentors = res.data?.data?.mentors;
+
+      if (fetchedRoadmap && fetchedRoadmap.stages?.length > 0) {
+        setRoadmapData(fetchedRoadmap);
+      } else if (staticData?.roadmap) {
+        setRoadmapData(staticData.roadmap);
       }
-      setCompletedTopics(res.data.data.userProgress?.completedTopics || []);
-      setCompletedStages(res.data.data.userProgress?.completedStages || []);
+
+      if (apiMentors && apiMentors.length > 0) {
+        setMentors(apiMentors);
+      } else if (staticData?.mentors) {
+        setMentors(staticData.mentors);
+      }
+
+      setCompletedTopics(res.data?.data?.userProgress?.completedTopics || []);
+      setCompletedStages(res.data?.data?.userProgress?.completedStages || []);
     } catch (err) {
-      console.error('Error loading roadmap:', err);
-      setMentors(FEATURED_INDUSTRY_MENTORS);
+      console.warn('Roadmap API returned error, activating high-fidelity fallback:', err.message);
+      if (staticData?.roadmap) {
+        setRoadmapData(staticData.roadmap);
+      }
+      if (staticData?.mentors) {
+        setMentors(staticData.mentors);
+      }
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
+    // Reset subject filter when switching goals
+    setSelectedSubject('All Subjects');
     fetchRoadmap();
   }, [activeGoal]);
 
   const handleToggleTopic = async (stageNumber, topicTitle) => {
+    const topicKey = `${stageNumber}:${topicTitle}`;
+    const nextCompleted = completedTopics.includes(topicKey)
+      ? completedTopics.filter(t => t !== topicKey)
+      : [...completedTopics, topicKey];
+
+    // Optimistically update UI
+    setCompletedTopics(nextCompleted);
+
     if (!isAuthenticated) {
-      addToast('Please sign in to track and save your progress!', 'info');
+      addToast('Progress updated locally! Sign in to sync across devices.', 'info');
       return;
     }
 
@@ -191,12 +116,15 @@ export const RoadmapCareerPage = () => {
         topicTitle,
       });
 
-      setCompletedTopics(res.data.data.completedTopics);
-      setCompletedStages(res.data.data.completedStages);
+      if (res.data?.data?.completedTopics) {
+        setCompletedTopics(res.data.data.completedTopics);
+      }
+      if (res.data?.data?.completedStages) {
+        setCompletedStages(res.data.data.completedStages);
+      }
       addToast('Topic progress updated!', 'success');
     } catch (err) {
-      console.error(err);
-      addToast('Failed to update progress', 'error');
+      console.warn('Could not sync progress to server:', err.message);
     }
   };
 
@@ -219,7 +147,15 @@ export const RoadmapCareerPage = () => {
     );
   }
 
-  const totalStagesCount = roadmapData?.stages?.length || 0;
+  const stagesList = roadmapData?.stages || [];
+  const subjectsAvailable = Array.from(new Set(stagesList.map(s => s.subject).filter(Boolean)));
+  const hasSubjects = subjectsAvailable.length > 1;
+
+  const filteredStages = selectedSubject === 'All Subjects'
+    ? stagesList
+    : stagesList.filter(s => s.subject === selectedSubject);
+
+  const totalStagesCount = stagesList.length;
   const stagesMasteredCount = completedStages.length;
   const overallRoadmapPercent = totalStagesCount > 0
     ? Math.round((stagesMasteredCount / totalStagesCount) * 100)
@@ -230,7 +166,7 @@ export const RoadmapCareerPage = () => {
       {/* Top Banner: Goal Overview & Tabs (Netflix Black + Red Theme) */}
       <div className="knw-card rounded-3xl p-6 sm:p-8 relative overflow-hidden">
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-knw-red via-red-500 to-knw-redDark shadow-red" />
-        
+
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
@@ -239,7 +175,7 @@ export const RoadmapCareerPage = () => {
               </span>
               <span className="text-xs text-knw-subtle">•</span>
               <span className="text-xs text-knw-muted font-medium font-mono">
-                ~{activeGoal.estimatedMonths || 6} Months Blueprint
+                ~{activeGoal.estimatedMonths || 12} Months Blueprint
               </span>
             </div>
 
@@ -303,7 +239,7 @@ export const RoadmapCareerPage = () => {
             }`}
           >
             <TrendingUp className="w-4 h-4" />
-            <span>Career Path Guidance Ladder</span>
+            <span>Post-Goal Career & Admissions</span>
           </button>
 
           <button
@@ -325,14 +261,14 @@ export const RoadmapCareerPage = () => {
       {/* 1. ROADMAP TIMELINE */}
       {activeTab === 'roadmap' && (
         <div className="space-y-6">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h2 className="text-lg font-bold text-white flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-knw-red animate-pulse" />
                 Stage-by-Stage Curriculum
               </h2>
               <p className="text-xs text-knw-muted">
-                Check off topics as you learn. Stages adapt as you complete prior prerequisites.
+                Check off topics as you study. Verified resources and practice questions are tagged on each item.
               </p>
             </div>
 
@@ -345,15 +281,38 @@ export const RoadmapCareerPage = () => {
             </Link>
           </div>
 
-          {loading ? (
+          {/* Subject Filter Tabs (Physics / Chemistry / Mathematics) */}
+          {hasSubjects && (
+            <div className="flex items-center gap-2 overflow-x-auto pb-1">
+              <span className="text-xs font-mono text-knw-muted mr-1 flex items-center gap-1">
+                <Filter className="w-3.5 h-3.5 text-knw-red" />
+                Subject:
+              </span>
+              {['All Subjects', ...subjectsAvailable].map((subject) => (
+                <button
+                  key={subject}
+                  onClick={() => setSelectedSubject(subject)}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition-all ${
+                    selectedSubject === subject
+                      ? 'bg-knw-red text-white shadow-red'
+                      : 'bg-knw-surface border border-white/10 text-knw-muted hover:text-white'
+                  }`}
+                >
+                  {subject} {subject !== 'All Subjects' && `(${stagesList.filter(s => s.subject === subject).length})`}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {loading && !roadmapData ? (
             <div className="space-y-4">
               {[1, 2, 3].map((n) => (
                 <div key={n} className="h-44 knw-skeleton rounded-3xl" />
               ))}
             </div>
-          ) : roadmapData?.stages?.length > 0 ? (
+          ) : filteredStages.length > 0 ? (
             <div className="space-y-6">
-              {roadmapData.stages.map((stage) => (
+              {filteredStages.map((stage) => (
                 <RoadmapStageCard
                   key={stage.stageNumber}
                   stage={stage}
@@ -375,27 +334,29 @@ export const RoadmapCareerPage = () => {
       {/* 2. CAREER PATH GUIDANCE LADDER */}
       {activeTab === 'career' && (
         <CareerPathGuidance
-          careerPath={activeGoal.careerPath}
-          targetRoles={activeGoal.targetRoles}
+          careerPath={activeGoal.careerPath || goalStaticData?.goal?.careerPath || []}
+          targetRoles={activeGoal.targetRoles || goalStaticData?.goal?.targetRoles || []}
           goalTitle={activeGoal.title}
+          engineeringBranches={goalStaticData?.engineeringBranches || []}
+          counselingLadder={goalStaticData?.counselingLadder || []}
         />
       )}
 
-      {/* 3. EXPERT GUIDANCE & ONE-TO-ONE SESSIONS (Netflix Style With Slots & Real Positions) */}
+      {/* 3. EXPERT GUIDANCE & ONE-TO-ONE SESSIONS */}
       {activeTab === 'experts' && (
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-2">
                 <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-knw-red/15 text-red-400 border border-knw-red/30 uppercase tracking-wider font-mono">
-                  Verified Industry Mentors
+                  Verified Mentors & Top Rankers
                 </span>
               </div>
               <h2 className="text-xl font-black text-white mt-1">
-                Connect with Real Industry Mentors
+                Connect with Real Mentors for {activeGoal.title}
               </h2>
               <p className="text-xs text-knw-muted">
-                Book 1-on-1 video slots for architecture reviews, FAANG interview drills, and personalized doubt resolution.
+                Book 1-on-1 sessions for concept clarity, revision scheduling, doubt clearance, and strategic guidance.
               </p>
             </div>
           </div>
@@ -403,7 +364,7 @@ export const RoadmapCareerPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {mentors.map((expert) => (
               <ExpertCard
-                key={expert._id}
+                key={expert._id || expert.name}
                 expert={expert}
                 onBook={(exp) => setSelectedExpertForBooking(exp)}
               />
