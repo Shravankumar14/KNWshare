@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
 
 export const LoginPage = () => {
-  const { login, demoLogin } = useAuth();
+  const { login, demoLogin, demoTeacherLogin } = useAuth();
   const { addToast } = useNotification();
   const navigate = useNavigate();
 
@@ -19,9 +19,13 @@ export const LoginPage = () => {
     setError('');
     setLoading(true);
     try {
-      await login(email, password);
+      const userData = await login(email, password);
       addToast('Welcome back to InfoNest!', 'success');
-      navigate('/');
+      if (userData?.role === 'teacher') {
+        navigate('/teacher/dashboard');
+      } else {
+        navigate('/');
+      }
     } catch (err) {
       setError(err.message || 'Login failed');
     } finally {
@@ -42,6 +46,19 @@ export const LoginPage = () => {
     }
   };
 
+  const handleTeacherDemo = async () => {
+    setLoading(true);
+    try {
+      await demoTeacherLogin();
+      addToast('Logged in as Faculty Mentor (Dr. Arvind Kumar)!', 'success');
+      navigate('/teacher/dashboard');
+    } catch (err) {
+      setError(err.message || 'Demo teacher login failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="max-w-md mx-auto py-12 px-4">
       <div className="knw-card rounded-3xl p-8 space-y-6 relative overflow-hidden border border-knw-red/30 shadow-red-lg">
@@ -56,16 +73,28 @@ export const LoginPage = () => {
           <p className="text-xs text-knw-muted">Pick up right where you left off on your goal journey</p>
         </div>
 
-        {/* 1-Click Demo Login Banner */}
-        <button
-          type="button"
-          onClick={handleDemo}
-          disabled={loading}
-          className="w-full btn-red flex items-center justify-center gap-2 py-3 rounded-2xl text-xs font-bold shadow-red"
-        >
-          <Zap className="w-4 h-4 fill-current" />
-          <span>Instant 1-Click Demo Student Login</span>
-        </button>
+        {/* 1-Click Demo Logins */}
+        <div className="space-y-2">
+          <button
+            type="button"
+            onClick={handleDemo}
+            disabled={loading}
+            className="w-full btn-red flex items-center justify-center gap-2 py-2.5 rounded-2xl text-xs font-bold shadow-red"
+          >
+            <Zap className="w-4 h-4 fill-current" />
+            <span>1-Click Demo Student Login</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={handleTeacherDemo}
+            disabled={loading}
+            className="w-full border border-white/10 bg-white/5 hover:border-knw-red/40 hover:bg-white/10 flex items-center justify-center gap-2 py-2.5 rounded-2xl text-xs font-bold text-zinc-300 transition-all"
+          >
+            <Zap className="w-4 h-4 text-knw-red fill-current" />
+            <span>1-Click Demo Faculty Login (Dr. Arvind Kumar)</span>
+          </button>
+        </div>
 
         <div className="relative flex items-center justify-center">
           <div className="border-t border-white/10 w-full" />

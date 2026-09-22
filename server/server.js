@@ -18,6 +18,9 @@ import taskRoutes from './routes/taskRoutes.js';
 import progressRoutes from './routes/progressRoutes.js';
 import expertRoutes from './routes/expertRoutes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
+import teacherRoutes from './routes/teacherRoutes.js';
+import bookingRoutes from './routes/bookingRoutes.js';
+import chatRoutes from './routes/chatRoutes.js';
 
 dotenv.config();
 
@@ -67,10 +70,9 @@ app.use('/api/v1/tasks', taskRoutes);
 app.use('/api/v1/progress', progressRoutes);
 app.use('/api/v1/experts', expertRoutes);
 app.use('/api/v1/notifications', notificationRoutes);
-
-// Error Middlewares
-app.use(notFound);
-app.use(errorHandler);
+app.use('/api/v1/teachers', teacherRoutes);
+app.use('/api/v1/bookings', bookingRoutes);
+app.use('/api/v1/chat', chatRoutes);
 
 // Manual Seed Trigger Endpoint (Protected by secret or public in dev/initial deploy)
 app.post('/api/v1/seed', async (req, res, next) => {
@@ -81,6 +83,10 @@ app.post('/api/v1/seed', async (req, res, next) => {
     next(err);
   }
 });
+
+// Error Middlewares
+app.use(notFound);
+app.use(errorHandler);
 
 // Connect DB, Auto-seed if first run or missing roadmaps, and Start Server
 const startServer = async () => {

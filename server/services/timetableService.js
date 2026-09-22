@@ -2,6 +2,7 @@ import Timetable from '../models/Timetable.js';
 import Task from '../models/Task.js';
 import Roadmap from '../models/Roadmap.js';
 import UserGoal from '../models/UserGoal.js';
+import { getOrProvisionRoadmap } from './roadmapService.js';
 
 // Helper to convert slot preference to default start hour
 const getSlotStartHour = (preferredSlot) => {
@@ -34,7 +35,10 @@ export const generateWeeklyTimetable = async ({
     throw new Error('User goal not found');
   }
 
-  const roadmap = await Roadmap.findOne({ goalId: userGoal.goalId._id });
+  // Use getOrProvisionRoadmap to resolve by goalId, slug, or provision from disk
+  const goalIdentifier = userGoal.goalId?._id || userGoal.goalId?.slug || userGoal.goalId;
+  const roadmap = await getOrProvisionRoadmap(goalIdentifier);
+
   if (!roadmap || !roadmap.stages || roadmap.stages.length === 0) {
     throw new Error('No roadmap found for the selected goal');
   }
@@ -53,7 +57,7 @@ export const generateWeeklyTimetable = async ({
     }).filter(Boolean);
 
     // Interleave topics from Physics, Chemistry, and Mathematics in cyclical sequence
-    const maxTopics = Math.max(...subjectStages.map(s => (s.topics || []).length));
+    const maxTopics = Math.max(...subjectStages.map(s => (s.topics || []).length), 1);
     for (let t = 0; t < maxTopics; t++) {
       subjectStages.forEach(s => {
         if (s.topics && s.topics[t]) {
@@ -73,173 +77,163 @@ export const generateWeeklyTimetable = async ({
       return {
         ...raw,
         stageNumber: currentStage.stageNumber,
-        subject: null
       };
     });
   }
 
+  // If topics pool is still empty, populate fallback topics from all stages
   if (topicsPool.length === 0) {
-    topicsPool = [{
-      title: `${userGoal.goalId.title} Core Study`,
-      stageNumber: 1,
-      subject: null,
-      practiceTasks: ['Read theory & concepts', 'Solve standard exercises']
-    }];
+    roadmap.stages.forEach(s => {
+      (s.topics || []).forEach(t => {
+        const raw = t.toObject ? t.toObject() : t;
+        topicsPool.push({
+          ...raw,
+          stageNumber: s.stageNumber,
+          subject: s.subject
+        });
+      });
+    });
   }
 
-  const weekStartDate = new Date().toISOString().split('T')[0];
-
-  // Remove existing timetable and upcoming auto-generated tasks for this goal
-  await Timetable.deleteMany({ userId, userGoalId });
-
-  const blocks = [];
-  const generatedTasks = [];
-
-  const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const studyBlockMinutes = 60; // 1 hour focused sprint
+  const breakMinutes = 15;
 
   let topicIndex = 0;
+  const blocks = [];
+  const createdTasks = [];
 
-  for (let i = 0; i < 7; i++) {
-    const calendarDate = new Date();
-    calendarDate.setDate(calendarDate.getDate() + i);
-    const dayName = daysOfWeek[calendarDate.getDay()];
-    const dateStr = calendarDate.toISOString().split('T')[0];
+  // Clear previous pending timetable tasks for this goal
+  await Task.deleteMany({
+    userId,
+    userGoalId,
+    status: 'pending'
+  });
 
-    if (!availableDays.includes(dayName)) continue;
+  // Calculate current week Monday date
+  const now = new Date();
+  const dayOfWeek = now.getDay();
+  const diffToMonday = (dayOfWeek === 0 ? -6 : 1) - dayOfWeek;
+  const mondayDate = new Date(now);
+  mondayDate.setDate(now.getDate() + diffToMonday);
+
+  const daysMap = {
+    'Monday': 0,
+    'Tuesday': 1,
+    'Wednesday': 2,
+    'Thursday': 3,
+    'Friday': 4,
+    'Saturday': 5,
+    'Sunday': 6
+  };
+
+  for (const day of availableDays) {
+    const dayOffset = daysMap[day] ?? 0;
+    const blockDate = new Date(mondayDate);
+    blockDate.setDate(mondayDate.getDate() + dayOffset);
+    const dateStr = blockDate.toISOString().split('T')[0];
 
     const startHour = getSlotStartHour(preferredSlot);
-    let currentHour = startHour;
-    let currentMinute = 0;
+    let currentMinutes = startHour * 60;
+    const dailyTargetMinutes = dailyHours * 60;
+    let accumulatedMinutes = 0;
 
-    // First Session: Concepts / Learning (60-90 min)
-    const session1Duration = dailyHours >= 3 ? 90 : (dailyHours >= 2 ? 60 : Math.round(dailyHours * 60));
-    const session1EndMinute = currentMinute + session1Duration;
-    const s1EndHour = currentHour + Math.floor(session1EndMinute / 60);
-    const s1FinalMin = session1EndMinute % 60;
+    while (accumulatedMinutes + studyBlockMinutes <= dailyTargetMinutes && topicsPool.length > 0) {
+      const currentTopic = topicsPool[topicIndex % topicsPool.length];
+      topicIndex++;
 
-    const topic1 = topicsPool[topicIndex % topicsPool.length];
-    topicIndex++;
+      const isPractice = (accumulatedMinutes / studyBlockMinutes) % 2 === 1;
+      const type = isPractice ? 'practice' : 'study';
 
-    const subjectPrefix = topic1.subject ? `${topic1.subject}: ` : '';
+      const startH = Math.floor(currentMinutes / 60);
+      const startM = currentMinutes % 60;
+      const endMinutes = currentMinutes + studyBlockMinutes;
+      const endH = Math.floor(endMinutes / 60);
+      const endM = endMinutes % 60;
 
-    const block1 = {
-      dayOfWeek: dayName,
-      startTime: formatTime(currentHour, currentMinute),
-      endTime: formatTime(s1EndHour, s1FinalMin),
-      durationMinutes: session1Duration,
-      title: `${subjectPrefix}${topic1.title} (Concepts & Theory)`,
-      blockType: 'study',
-      stageNumber: topic1.stageNumber,
-      topicTitle: topic1.title
-    };
+      const subjectPrefix = currentTopic.subject ? `[${currentTopic.subject}] ` : '';
+      const taskTitle = isPractice
+        ? `${subjectPrefix}Practice: ${currentTopic.title}`
+        : `${subjectPrefix}Study: ${currentTopic.title}`;
 
-    const task1 = await Task.create({
-      userId,
-      userGoalId,
-      goalId: userGoal.goalId._id,
-      stageNumber: topic1.stageNumber,
-      topicTitle: topic1.title,
-      title: `Study: ${subjectPrefix}${topic1.title}`,
-      description: `Understand fundamental definitions, derivations, and formulas for ${topic1.title}.`,
-      date: dateStr,
-      startTime: block1.startTime,
-      endTime: block1.endTime,
-      durationMinutes: session1Duration,
-      priority: 'high',
-      status: 'pending',
-      originalDate: dateStr
-    });
+      const taskDescription = isPractice
+        ? `Solve standard & PYQ problems for ${currentTopic.title}. Focus on formula application and accuracy.`
+        : `Deep dive into concepts, derivations and NCERT/notes for ${currentTopic.title}.`;
 
-    block1.taskId = task1._id;
-    blocks.push(block1);
-    generatedTasks.push(task1);
-
-    // If student has 2 or more hours, schedule breaks and practice
-    if (dailyHours >= 2) {
-      // Break Block (15 mins)
-      if (includeBreaks) {
-        const breakStartHour = s1EndHour;
-        const breakStartMin = s1FinalMin;
-        const breakEndMinTotal = breakStartMin + 15;
-        const breakEndHour = breakStartHour + Math.floor(breakEndMinTotal / 60);
-        const breakFinalMin = breakEndMinTotal % 60;
-
-        blocks.push({
-          dayOfWeek: dayName,
-          startTime: formatTime(breakStartHour, breakStartMin),
-          endTime: formatTime(breakEndHour, breakFinalMin),
-          durationMinutes: 15,
-          title: 'Mind Refresh & Hydration Break',
-          blockType: 'break',
-          stageNumber: topic1.stageNumber,
-          topicTitle: 'Rest'
-        });
-
-        currentHour = breakEndHour;
-        currentMinute = breakFinalMin;
-      } else {
-        currentHour = s1EndHour;
-        currentMinute = s1FinalMin;
-      }
-
-      // Session 2: Practice & PYQs (60-90 min)
-      const session2Duration = Math.round((dailyHours * 60) - session1Duration - (includeBreaks ? 15 : 0));
-      const s2DurationFinal = Math.max(session2Duration, 45);
-      const session2EndMinute = currentMinute + s2DurationFinal;
-      const s2EndHour = currentHour + Math.floor(session2EndMinute / 60);
-      const s2FinalMin = session2EndMinute % 60;
-
-      // In multi-subject curriculum, pick next subject for afternoon/evening practice!
-      const topic2 = isMultiSubject ? topicsPool[topicIndex % topicsPool.length] : topic1;
-      if (isMultiSubject) topicIndex++;
-
-      const subject2Prefix = topic2.subject ? `${topic2.subject}: ` : '';
-
-      const block2 = {
-        dayOfWeek: dayName,
-        startTime: formatTime(currentHour, currentMinute),
-        endTime: formatTime(s2EndHour, s2FinalMin),
-        durationMinutes: s2DurationFinal,
-        title: `${subject2Prefix}${topic2.title} (Practice & PYQs)`,
-        blockType: 'practice',
-        stageNumber: topic2.stageNumber,
-        topicTitle: topic2.title
-      };
-
-      const task2 = await Task.create({
+      // Create Task document in MongoDB
+      const task = await Task.create({
         userId,
         userGoalId,
-        goalId: userGoal.goalId._id,
-        stageNumber: topic2.stageNumber,
-        topicTitle: topic2.title,
-        title: `Solve: ${subject2Prefix}${topic2.title} Problems & PYQs`,
-        description: `Solve 15-20 timed problems and previous year questions (PYQs) for ${topic2.title}.`,
+        goalId: userGoal.goalId._id || userGoal.goalId,
+        stageNumber: currentTopic.stageNumber,
+        topicTitle: currentTopic.title,
+        title: taskTitle,
+        description: taskDescription,
         date: dateStr,
-        startTime: block2.startTime,
-        endTime: block2.endTime,
-        durationMinutes: s2DurationFinal,
-        priority: 'medium',
-        status: 'pending',
-        originalDate: dateStr
+        startTime: formatTime(startH, startM),
+        endTime: formatTime(endH, endM),
+        durationMinutes: studyBlockMinutes,
+        priority: currentTopic.importance === 'high' ? 'high' : 'medium',
+        status: 'pending'
       });
 
-      block2.taskId = task2._id;
-      blocks.push(block2);
-      generatedTasks.push(task2);
+      createdTasks.push(task);
+
+      // Push to timetable blocks
+      blocks.push({
+        dayOfWeek: day,
+        startTime: formatTime(startH, startM),
+        endTime: formatTime(endH, endM),
+        durationMinutes: studyBlockMinutes,
+        type,
+        stageNumber: currentTopic.stageNumber,
+        topicTitle: currentTopic.title,
+        title: taskTitle,
+        description: taskDescription,
+        taskId: task._id
+      });
+
+      currentMinutes = endMinutes;
+      accumulatedMinutes += studyBlockMinutes;
+
+      // Add rest break if enabled and remaining time allows
+      if (includeBreaks && accumulatedMinutes + breakMinutes + studyBlockMinutes <= dailyTargetMinutes) {
+        const bStartH = Math.floor(currentMinutes / 60);
+        const bStartM = currentMinutes % 60;
+        const bEndMinutes = currentMinutes + breakMinutes;
+        const bEndH = Math.floor(bEndMinutes / 60);
+        const bEndM = bEndMinutes % 60;
+
+        blocks.push({
+          dayOfWeek: day,
+          startTime: formatTime(bStartH, bStartM),
+          endTime: formatTime(bEndH, bEndM),
+          durationMinutes: breakMinutes,
+          type: 'break',
+          title: 'Rest & Mental Reset',
+          description: 'Hydrate, stretch, step away from screens for peak cognitive retention.'
+        });
+
+        currentMinutes = bEndMinutes;
+        accumulatedMinutes += breakMinutes;
+      }
     }
   }
 
-  const timetable = await Timetable.create({
-    userId,
-    userGoalId,
-    goalId: userGoal.goalId._id,
-    weekStartDate,
-    availableDays,
-    dailyHours,
-    preferredSlot,
-    includeBreaks,
-    blocks
-  });
+  // Save or replace active timetable in MongoDB
+  const timetable = await Timetable.findOneAndUpdate(
+    { userId, userGoalId },
+    {
+      userId,
+      userGoalId,
+      availableDays,
+      dailyHours,
+      preferredSlot,
+      includeBreaks,
+      totalWeeklyHours: Math.round((blocks.filter(b => b.type !== 'break').length * studyBlockMinutes) / 60),
+      blocks
+    },
+    { upsert: true, new: true, setDefaultsOnInsert: true }
+  );
 
-  return { timetable, tasks: generatedTasks };
+  return { timetable, tasks: createdTasks };
 };

@@ -7,7 +7,13 @@ import {
   ChevronUp,
   BookOpen,
   ArrowRight,
-  Sparkles
+  Sparkles,
+  ExternalLink,
+  ShieldCheck,
+  AlertCircle,
+  GraduationCap,
+  Layers,
+  Check
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -19,6 +25,9 @@ export const RoadmapStageCard = ({
   goalId,
 }) => {
   const [expanded, setExpanded] = useState(true);
+  const [activeTopicDetails, setActiveTopicDetails] = useState(null); // title of expanded topic
+  const [prepLayerTab, setPrepLayerTab] = useState('main'); // 'main' | 'advanced'
+  const [checkedSteps, setCheckedSteps] = useState({}); // `${stageNumber}:${topicTitle}:${stepId}` -> boolean
 
   const isStageCompleted = completedStages.includes(stage.stageNumber);
   const totalTopicsCount = stage.topics?.length || 0;
@@ -38,11 +47,32 @@ export const RoadmapStageCard = ({
         return 'bg-emerald-950/40 text-emerald-400 border-emerald-700/40';
       case 'Mathematics':
         return 'bg-purple-950/40 text-purple-400 border-purple-700/40';
+      case 'PCM Integrated':
       case 'Integrated Revision':
         return 'bg-amber-950/40 text-amber-400 border-amber-700/40';
       default:
         return 'bg-white/5 text-knw-muted border-white/10';
     }
+  };
+
+  const toggleStep = (topicTitle, stepId) => {
+    const key = `${stage.stageNumber}:${topicTitle}:${stepId}`;
+    setCheckedSteps(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }));
+  };
+
+  const getTopicProgressStatus = (topic) => {
+    const isDone = completedTopics.includes(`${stage.stageNumber}:${topic.title}`);
+    if (isDone) return { label: 'Completed', icon: CheckCircle2, color: 'text-emerald-400', bg: 'bg-emerald-950/40 border-emerald-700/40' };
+
+    const steps = topic.learningSteps || [];
+    const doneCount = steps.filter(s => checkedSteps[`${stage.stageNumber}:${topic.title}:${s.id}`]).length;
+    if (doneCount > 0) {
+      return { label: `In Progress (${doneCount}/${steps.length})`, icon: Circle, color: 'text-amber-400', bg: 'bg-amber-950/40 border-amber-700/40' };
+    }
+    return { label: 'Not Started', icon: Circle, color: 'text-knw-muted', bg: 'bg-white/5 border-white/10' };
   };
 
   return (
@@ -122,24 +152,29 @@ export const RoadmapStageCard = ({
       {/* Stage Topics Body */}
       {expanded && (
         <div className="p-5 sm:p-6 space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             {stage.topics?.map((topic, idx) => {
               const isTopicDone = completedTopics.includes(`${stage.stageNumber}:${topic.title}`);
+              const isDetailOpen = activeTopicDetails === topic.title;
+              const statusInfo = getTopicProgressStatus(topic);
 
               return (
                 <div
                   key={idx}
-                  className={`p-4 rounded-2xl border transition-all ${
+                  className={`rounded-2xl border transition-all ${
                     isTopicDone
-                      ? 'border-emerald-500/30 bg-emerald-950/20 text-emerald-100'
-                      : 'border-white/5 bg-knw-surface hover:border-knw-red/40 hover:bg-white/[0.02]'
+                      ? 'border-emerald-500/30 bg-emerald-950/15'
+                      : isDetailOpen
+                        ? 'border-knw-red/50 bg-[#120000]/60 shadow-red-lg'
+                        : 'border-white/5 bg-knw-surface hover:border-knw-red/40 hover:bg-white/[0.02]'
                   }`}
                 >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex items-start gap-3">
+                  {/* Topic Bar */}
+                  <div className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="flex items-start gap-3 flex-1 min-w-0">
                       <button
                         onClick={() => onToggleTopic(stage.stageNumber, topic.title)}
-                        className={`mt-0.5 shrink-0 transition-colors ${
+                        className={`mt-1 shrink-0 transition-colors ${
                           isTopicDone ? 'text-emerald-400' : 'text-knw-subtle hover:text-knw-red'
                         }`}
                         title={isTopicDone ? 'Mark topic incomplete' : 'Mark topic completed'}
@@ -151,17 +186,33 @@ export const RoadmapStageCard = ({
                         )}
                       </button>
 
-                      <div>
-                        <h4 className={`text-sm font-bold ${isTopicDone ? 'line-through text-knw-subtle' : 'text-white'}`}>
-                          {topic.title}
-                        </h4>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <h4 className={`text-sm sm:text-base font-bold truncate ${isTopicDone ? 'line-through text-knw-subtle' : 'text-white'}`}>
+                            {topic.title}
+                          </h4>
+
+                          <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${statusInfo.bg} ${statusInfo.color}`}>
+                            {statusInfo.label}
+                          </span>
+                        </div>
+
                         <p className="text-xs text-knw-muted mt-1 leading-relaxed">
                           {topic.description}
                         </p>
 
-                        {/* Relevance Pills for JEE */}
+                        {/* Prerequisites Badge */}
+                        {topic.prerequisites && topic.prerequisites.length > 0 && (
+                          <div className="mt-2 flex items-center gap-1.5 text-[11px] font-mono text-amber-300/90">
+                            <AlertCircle className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                            <span className="text-knw-muted">Prerequisite:</span>
+                            <span className="font-semibold underline decoration-amber-500/50">{topic.prerequisites.join(', ')}</span>
+                          </div>
+                        )}
+
+                        {/* Main / Advanced Relevance Tags */}
                         {(topic.jeeMainRelevance || topic.jeeAdvancedRelevance) && (
-                          <div className="mt-2 flex flex-wrap gap-1.5 font-mono text-[10px]">
+                          <div className="mt-2.5 flex flex-wrap gap-1.5 font-mono text-[10px]">
                             {topic.jeeMainRelevance && (
                               <span className="px-2 py-0.5 rounded bg-yellow-950/40 text-yellow-300 border border-yellow-800/40">
                                 Main: {topic.jeeMainRelevance}
@@ -174,43 +225,206 @@ export const RoadmapStageCard = ({
                             )}
                           </div>
                         )}
-
-                        {/* Subtopics */}
-                        {topic.subtopics && topic.subtopics.length > 0 && (
-                          <div className="mt-2.5 flex flex-wrap gap-1.5">
-                            {topic.subtopics.map((sub, sIdx) => (
-                              <span
-                                key={sIdx}
-                                className="px-2 py-0.5 bg-black/40 border border-white/10 rounded-md text-[10px] text-knw-muted font-mono"
-                              >
-                                {sub}
-                              </span>
-                            ))}
-                          </div>
-                        )}
                       </div>
                     </div>
 
-                    <span className="text-[10px] font-mono font-semibold text-knw-subtle shrink-0">
-                      ~{topic.estimatedHours}h
-                    </span>
+                    {/* Actions on the right */}
+                    <div className="flex items-center gap-3 shrink-0 self-end sm:self-center font-mono">
+                      <span className="text-xs text-knw-muted">
+                        ~{topic.estimatedHours}h est.
+                      </span>
+
+                      <button
+                        onClick={() => setActiveTopicDetails(isDetailOpen ? null : topic.title)}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+                          isDetailOpen
+                            ? 'bg-knw-red text-white shadow-red'
+                            : 'bg-white/5 text-knw-muted hover:text-white border border-white/10'
+                        }`}
+                      >
+                        <Layers className="w-3.5 h-3.5" />
+                        <span>{isDetailOpen ? 'Close Unit' : 'Interactive Unit'}</span>
+                        {isDetailOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                      </button>
+                    </div>
                   </div>
 
-                  {/* Resource link shortcut */}
-                  <div className="mt-3 pt-2.5 border-t border-white/5 flex items-center justify-between">
-                    <span className="text-[10px] font-mono text-knw-subtle">
-                      Importance: <strong className="text-knw-red capitalize">{topic.importance}</strong>
-                    </span>
+                  {/* Expanded Interactive Learning Unit Panel */}
+                  {isDetailOpen && (
+                    <div className="p-5 border-t border-white/10 bg-black/40 space-y-6">
+                      {/* Section 1: 7-Step Learning Cycle */}
+                      <div>
+                        <div className="flex items-center justify-between mb-3">
+                          <h5 className="text-xs font-mono font-bold uppercase tracking-wider text-red-400 flex items-center gap-1.5">
+                            <Sparkles className="w-3.5 h-3.5 text-knw-red" />
+                            <span>Structured Learning Cycle (Step-by-Step Mastery)</span>
+                          </h5>
+                          <span className="text-[10px] font-mono text-knw-muted">Click step to mark completed</span>
+                        </div>
 
-                    <Link
-                      to={`/resources?stage=${stage.stageNumber}&topic=${encodeURIComponent(topic.title)}`}
-                      className="inline-flex items-center gap-1 text-[11px] font-bold text-knw-red hover:text-red-400 font-mono"
-                    >
-                      <BookOpen className="w-3 h-3" />
-                      <span>Resources</span>
-                      <ArrowRight className="w-3 h-3" />
-                    </Link>
-                  </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5">
+                          {(topic.learningSteps || []).map((step) => {
+                            const isStepDone = checkedSteps[`${stage.stageNumber}:${topic.title}:${step.id}`];
+
+                            return (
+                              <button
+                                key={step.id}
+                                type="button"
+                                onClick={() => toggleStep(topic.title, step.id)}
+                                className={`p-3 rounded-xl border text-left transition-all ${
+                                  isStepDone
+                                    ? 'border-emerald-500/40 bg-emerald-950/30 text-emerald-200'
+                                    : 'border-white/10 bg-knw-surface hover:border-white/20 text-knw-muted'
+                                }`}
+                              >
+                                <div className="flex items-center justify-between">
+                                  <span className="text-xs font-bold text-white font-mono">{step.label}</span>
+                                  {isStepDone ? (
+                                    <Check className="w-3.5 h-3.5 text-emerald-400" />
+                                  ) : (
+                                    <Circle className="w-3.5 h-3.5 text-knw-subtle" />
+                                  )}
+                                </div>
+                                <p className="text-[10px] text-knw-muted mt-1 leading-snug">{step.desc}</p>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Section 2: Differentiated JEE Main vs JEE Advanced Preparation Layers */}
+                      <div className="p-4 rounded-2xl bg-knw-surface border border-white/10 space-y-3">
+                        <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                          <span className="text-xs font-mono font-bold uppercase tracking-wider text-white">
+                            Preparation Depth Focus
+                          </span>
+
+                          <div className="flex items-center gap-1 bg-black/40 p-1 rounded-xl border border-white/10 font-mono text-xs">
+                            <button
+                              onClick={() => setPrepLayerTab('main')}
+                              className={`px-3 py-1 rounded-lg font-bold transition-all ${
+                                prepLayerTab === 'main'
+                                  ? 'bg-knw-red text-white shadow-red'
+                                  : 'text-knw-muted hover:text-white'
+                              }`}
+                            >
+                              JEE Main Layer
+                            </button>
+                            <button
+                              onClick={() => setPrepLayerTab('advanced')}
+                              className={`px-3 py-1 rounded-lg font-bold transition-all ${
+                                prepLayerTab === 'advanced'
+                                  ? 'bg-gradient-to-r from-red-600 to-amber-600 text-white shadow-red'
+                                  : 'text-knw-muted hover:text-white'
+                              }`}
+                            >
+                              JEE Advanced Layer
+                            </button>
+                          </div>
+                        </div>
+
+                        {prepLayerTab === 'main' ? (
+                          <div className="space-y-2">
+                            <span className="text-[11px] font-mono text-yellow-300 font-bold block">
+                              🎯 JEE Main Objectives & Numerical Accuracy:
+                            </span>
+                            <ul className="space-y-1.5 text-xs text-knw-muted">
+                              {(topic.jeeMainLayer || [
+                                'Master formula application and definitions without edge-case gaps',
+                                'Solve 40-50 single-concept numerical and MCQ questions',
+                                'Complete last 5 years of JEE Main chapter PYQs under 1.5 min per question',
+                                'Condition 100% accuracy on standard direct-application questions'
+                              ]).map((item, mIdx) => (
+                                <li key={mIdx} className="flex items-start gap-2">
+                                  <Check className="w-3.5 h-3.5 text-yellow-400 shrink-0 mt-0.5" />
+                                  <span>{item}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ) : (
+                          <div className="space-y-2">
+                            <span className="text-[11px] font-mono text-red-400 font-bold block">
+                              ⚡ JEE Advanced Depth & Analytical Problem Solving:
+                            </span>
+                            <ul className="space-y-1.5 text-xs text-knw-muted">
+                              {(topic.jeeAdvancedLayer || [
+                                'Multi-concept synthesis with cross-chapter coupling',
+                                'Solve Physics Galaxy Advanced Illustrations and multi-correct assertion problems',
+                                'Practice subjective derivations and matrix-match questions from 15-year Advanced archives',
+                                'Condition analytical problem-solving resilience under pressure'
+                              ]).map((item, aIdx) => (
+                                <li key={aIdx} className="flex items-start gap-2">
+                                  <Check className="w-3.5 h-3.5 text-red-500 shrink-0 mt-0.5" />
+                                  <span>{item}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Section 3: Verified Topic Resources */}
+                      <div>
+                        <div className="flex items-center justify-between mb-3">
+                          <h5 className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+                            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                            <span>Verified External Learning Materials for this Topic</span>
+                          </h5>
+                          <Link
+                            to={`/resources?stage=${stage.stageNumber}&topic=${encodeURIComponent(topic.title)}`}
+                            className="text-[11px] font-mono font-bold text-knw-red hover:text-red-300 flex items-center gap-1"
+                          >
+                            <span>Open in Resource Hub</span>
+                            <ArrowRight className="w-3 h-3" />
+                          </Link>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          {(topic.resources || []).map((res, rIdx) => (
+                            <div
+                              key={rIdx}
+                              className="p-3.5 rounded-2xl bg-knw-surface border border-white/10 hover:border-knw-red/40 transition-all flex flex-col justify-between"
+                            >
+                              <div>
+                                <div className="flex items-center justify-between gap-2">
+                                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-black/40 text-knw-muted border border-white/10">
+                                    {res.provider}
+                                  </span>
+                                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950/40 text-emerald-400 border border-emerald-700/50">
+                                    {res.isFree ? '100% Free' : 'Freemium'}
+                                  </span>
+                                </div>
+
+                                <h6 className="text-xs font-bold text-white mt-2 leading-snug">
+                                  {res.name}
+                                </h6>
+                                <p className="text-[11px] text-knw-muted mt-1 leading-relaxed">
+                                  {res.description}
+                                </p>
+                              </div>
+
+                              <div className="mt-3 pt-2.5 border-t border-white/5 flex items-center justify-between">
+                                <span className="text-[10px] font-mono text-red-300">
+                                  {res.examLevel || 'Both Main & Advanced'}
+                                </span>
+
+                                <a
+                                  href={res.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="btn-red-outline text-[11px] px-2.5 py-1 flex items-center gap-1 font-mono"
+                                >
+                                  <span>Open Resource</span>
+                                  <ExternalLink className="w-3 h-3" />
+                                </a>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               );
             })}

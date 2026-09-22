@@ -41,6 +41,9 @@ export const TasksPage = () => {
     setLoading(true);
     try {
       const params = {};
+      if (activeGoal?._id) {
+        params.goalId = activeGoal._id;
+      }
       if (activeFilter === 'today') {
         params.date = todayStr;
       } else if (activeFilter !== 'all') {

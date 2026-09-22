@@ -49,6 +49,8 @@ export const TimetableGeneratorModal = ({ isOpen, onClose, onGenerated }) => {
 
       const res = await api.post('/timetable/generate', {
         userGoalId: activeUserGoal?._id,
+        goalId: activeGoal?._id,
+        goalSlug: activeGoal?.slug || 'jee-mains-advanced',
         availableDays,
         dailyHours: Number(dailyHours),
         preferredSlot,

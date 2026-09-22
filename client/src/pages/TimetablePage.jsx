@@ -38,7 +38,13 @@ export const TimetablePage = () => {
     }
     setLoading(true);
     try {
-      const res = await api.get('/timetable/current');
+      const res = await api.get('/timetable/current', {
+        params: {
+          goalId: activeGoal?._id,
+          goalSlug: activeGoal?.slug,
+          userGoalId: activeUserGoal?._id
+        }
+      });
       setTimetable(res.data.data);
     } catch (err) {
       console.error('Error fetching timetable:', err);

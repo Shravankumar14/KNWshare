@@ -1,38 +1,73 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Compass, User, Mail, Lock, ArrowRight, AlertCircle, Zap } from 'lucide-react';
+import { Compass, User, Mail, Lock, ArrowRight, AlertCircle, Zap, Sparkles, GraduationCap, Briefcase } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
 
 export const RegisterPage = () => {
-  const { register, demoLogin } = useAuth();
+  const { register, demoLogin, demoTeacherLogin } = useAuth();
   const { addToast } = useNotification();
   const navigate = useNavigate();
 
+  const [role, setRole] = useState('student'); // 'student' | 'teacher'
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [qualification, setQualification] = useState('');
+  const [experienceYears, setExperienceYears] = useState(5);
+  const [selectedSubjects, setSelectedSubjects] = useState(['Physics']);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const toggleSubject = (sub) => {
+    setSelectedSubjects(prev =>
+      prev.includes(sub) ? prev.filter(s => s !== sub) : [...prev, sub]
+    );
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
     try {
-      await register(name, email, password);
-      addToast('Welcome to InfoNest! Select your goal to begin.', 'success');
-      navigate('/');
+      const extra = role === 'teacher' ? {
+        role: 'teacher',
+        qualification,
+        experienceYears,
+        subjects: selectedSubjects,
+      } : { role: 'student' };
+
+      await register(name, email, password, extra);
+      if (role === 'teacher') {
+        addToast('Teacher account created! Welcome to your Faculty Workspace.', 'success');
+        navigate('/teacher/dashboard');
+      } else {
+        addToast('Welcome to InfoNest! Select your goal to begin.', 'success');
+        navigate('/');
+      }
     } catch (err) {
-      setError(err.message || 'Registration failed');
+      setError(err.response?.data?.message || err.message || 'Registration failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDemoTeacher = async () => {
+    setLoading(true);
+    try {
+      await demoTeacherLogin();
+      addToast('Logged in as Faculty Mentor (Dr. Arvind Kumar)!', 'success');
+      navigate('/teacher/dashboard');
+    } catch (err) {
+      setError(err.message || 'Demo teacher login failed');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto py-12 px-4">
-      <div className="knw-card rounded-3xl p-8 space-y-6 relative overflow-hidden border border-knw-red/30 shadow-red-lg">
+    <div className="max-w-lg mx-auto py-12 px-4">
+      <div className="knw-card rounded-3xl p-6 sm:p-8 space-y-6 relative overflow-hidden border border-knw-red/30 shadow-red-lg">
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-knw-red via-red-500 to-knw-redDark shadow-red" />
 
         {/* Header */}
@@ -41,7 +76,35 @@ export const RegisterPage = () => {
             <Compass className="w-6 h-6" />
           </div>
           <h1 className="text-2xl font-black text-white tracking-tight">Create Your Account</h1>
-          <p className="text-xs text-knw-muted">Embark on your personalized learning journey</p>
+          <p className="text-xs text-knw-muted">Join InfoNest as an ambitious student or academic faculty mentor</p>
+        </div>
+
+        {/* Account Role Selector */}
+        <div className="grid grid-cols-2 gap-3 p-1 rounded-2xl bg-white/5 border border-white/10">
+          <button
+            type="button"
+            onClick={() => setRole('student')}
+            className={`py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all ${
+              role === 'student'
+                ? 'bg-knw-red text-white shadow-red'
+                : 'text-knw-muted hover:text-white'
+            }`}
+          >
+            <GraduationCap className="w-4 h-4" />
+            <span>I am a Student</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setRole('teacher')}
+            className={`py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all ${
+              role === 'teacher'
+                ? 'bg-knw-red text-white shadow-red'
+                : 'text-knw-muted hover:text-white'
+            }`}
+          >
+            <Sparkles className="w-4 h-4" />
+            <span>I am a Teacher / Mentor</span>
+          </button>
         </div>
 
         {error && (
@@ -63,7 +126,7 @@ export const RegisterPage = () => {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Alex Rivera"
+                placeholder={role === 'teacher' ? 'Dr. Priya Sharma' : 'Alex Rivera'}
                 className="w-full bg-knw-surface border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-knw-subtle focus:outline-none focus:border-knw-red"
               />
             </div>
@@ -80,7 +143,7 @@ export const RegisterPage = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="alex@university.edu"
+                placeholder={role === 'teacher' ? 'mentor@infonest.dev' : 'student@university.edu'}
                 className="w-full bg-knw-surface border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-knw-subtle focus:outline-none focus:border-knw-red"
               />
             </div>
@@ -103,15 +166,91 @@ export const RegisterPage = () => {
             </div>
           </div>
 
+          {/* Conditional Teacher Fields */}
+          {role === 'teacher' && (
+            <div className="p-4 rounded-2xl bg-white/5 border border-knw-red/20 space-y-3.5">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-knw-red font-bold block flex items-center gap-1.5">
+                <Briefcase className="w-3.5 h-3.5" /> Faculty Mentor Profile Details
+              </span>
+
+              <div>
+                <label className="block text-[11px] font-mono text-zinc-300 mb-1">
+                  Highest Qualification / Institute
+                </label>
+                <input
+                  type="text"
+                  required={role === 'teacher'}
+                  value={qualification}
+                  onChange={(e) => setQualification(e.target.value)}
+                  placeholder="M.Tech (IIT Kanpur), Ph.D, B.Tech"
+                  className="w-full bg-knw-surface border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder-knw-subtle focus:outline-none focus:border-knw-red"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-mono text-zinc-300 mb-1">
+                  Mentoring Experience (Years)
+                </label>
+                <input
+                  type="number"
+                  min="1"
+                  max="40"
+                  required={role === 'teacher'}
+                  value={experienceYears}
+                  onChange={(e) => setExperienceYears(Number(e.target.value))}
+                  className="w-full bg-knw-surface border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-knw-red"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-mono text-zinc-300 mb-1.5">
+                  Subjects Taught:
+                </label>
+                <div className="flex flex-wrap gap-1.5">
+                  {['Physics', 'Chemistry', 'Mathematics', 'Computer Science'].map((sub) => {
+                    const active = selectedSubjects.includes(sub);
+                    return (
+                      <button
+                        type="button"
+                        key={sub}
+                        onClick={() => toggleSubject(sub)}
+                        className={`px-2.5 py-1 rounded-lg text-xs font-semibold border transition-all ${
+                          active
+                            ? 'bg-knw-red border-knw-red text-white'
+                            : 'bg-white/5 border-white/10 text-zinc-400 hover:border-white/20'
+                        }`}
+                      >
+                        {sub} {active && '✓'}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+
           <button
             type="submit"
             disabled={loading}
             className="w-full btn-red py-3 rounded-xl text-xs font-bold shadow-red flex items-center justify-center gap-1.5"
           >
-            <span>{loading ? 'Creating Account...' : 'Get Started Free'}</span>
+            <span>{loading ? 'Creating Account...' : `Get Started as ${role === 'teacher' ? 'Faculty Mentor' : 'Student'}`}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
+
+        {/* 1-Click Demo for Teacher */}
+        <div className="pt-2 border-t border-white/5 space-y-2">
+          <button
+            type="button"
+            onClick={handleDemoTeacher}
+            disabled={loading}
+            className="w-full py-2.5 rounded-xl border border-white/10 bg-white/5 hover:border-knw-red/40 hover:bg-white/10 text-xs font-bold text-zinc-300 flex items-center justify-center gap-2 transition-all"
+          >
+            <Sparkles className="w-4 h-4 text-knw-red" />
+            <span>Instant Demo Faculty Login (Dr. Arvind Kumar)</span>
+          </button>
+        </div>
 
         <div className="text-center text-xs text-knw-muted pt-2 border-t border-white/5">
           <span>Already have an account? </span>
@@ -123,3 +262,5 @@ export const RegisterPage = () => {
     </div>
   );
 };
+
+export default RegisterPage;

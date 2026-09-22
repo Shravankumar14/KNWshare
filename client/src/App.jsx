@@ -15,6 +15,7 @@ import { ProgressPage } from './pages/ProgressPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
+import { TeacherDashboardPage } from './pages/TeacherDashboardPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
 export function App() {
@@ -45,6 +46,7 @@ export function App() {
 
                 {/* Profile & Settings */}
                 <Route path="profile" element={<ProfilePage />} />
+                <Route path="teacher/dashboard" element={<TeacherDashboardPage />} />
 
                 {/* Auth */}
                 <Route path="login" element={<LoginPage />} />

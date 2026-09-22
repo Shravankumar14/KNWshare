@@ -8,16 +8,12 @@ export const BookingModal = ({ expert, isOpen, onClose, goalId }) => {
   const { isAuthenticated, demoLogin } = useAuth();
   const { addToast } = useNotification();
 
+  const [dynamicSlots, setDynamicSlots] = useState([]);
   const [selectedSlotIndex, setSelectedSlotIndex] = useState(0);
-  const [sessionTopic, setSessionTopic] = useState('System Architecture & Code Review');
+  const [sessionTopic, setSessionTopic] = useState('Concept Coaching & Doubt Clearance');
   const [question, setQuestion] = useState('');
   const [loading, setLoading] = useState(false);
   const [confirmedBooking, setConfirmedBooking] = useState(null);
-
-  if (!isOpen || !expert) return null;
-
-  const realLifePositions = expert.realLifePositions || expert.headline || 'Senior Engineer | Ex-Google | Ex-Amazon';
-  const expertField = expert.expertField || expert.expertiseAreas?.[0] || 'Software Systems & AI';
 
   const defaultSlots = [
     { dayOfWeek: 'Today', startTime: '3:00 PM', endTime: '3:45 PM' },
@@ -28,9 +24,29 @@ export const BookingModal = ({ expert, isOpen, onClose, goalId }) => {
     { dayOfWeek: 'Saturday', startTime: '7:00 PM', endTime: '7:45 PM' }
   ];
 
-  const availableSlots = expert.availableSlots && expert.availableSlots.length > 0
-    ? expert.availableSlots
-    : defaultSlots;
+  const availableSlots = dynamicSlots.length > 0
+    ? dynamicSlots
+    : (expert?.availableSlots && expert.availableSlots.length > 0 ? expert.availableSlots : defaultSlots);
+
+  // Fetch real slots for teacher if expert is in MongoDB
+  React.useEffect(() => {
+    if (isOpen && expert?._id) {
+      api.get(`/teachers/${expert._id}/slots`)
+        .then(res => {
+          if (res.data?.data && res.data.data.length > 0) {
+            setDynamicSlots(res.data.data);
+          }
+        })
+        .catch(err => {
+          // It may be an expert from static seed, which is fine
+        });
+    }
+  }, [isOpen, expert]);
+
+  if (!isOpen || !expert) return null;
+
+  const realLifePositions = expert.realLifePositions || expert.headline || 'Faculty Mentor | Academic Coach';
+  const expertField = expert.expertField || expert.expertiseAreas?.[0] || expert.subjects?.[0] || 'Academic Guidance';
 
   const handleBooking = async (e) => {
     e.preventDefault();
@@ -43,29 +59,50 @@ export const BookingModal = ({ expert, isOpen, onClose, goalId }) => {
 
       const slot = availableSlots[selectedSlotIndex] || availableSlots[0];
 
-      const sessionDate = new Date();
-      sessionDate.setDate(sessionDate.getDate() + 1);
-      const sessionDateStr = sessionDate.toISOString().split('T')[0];
+      let resData = null;
+      if (slot._id) {
+        // Real MongoDB slot booking
+        const res = await api.post('/bookings', {
+          slotId: slot._id,
+          teacherId: expert.userId || expert._id,
+          goalId,
+          subject: expertField,
+          studentQuestion: `[${sessionTopic}] ${question}`,
+        });
+        resData = res.data?.data;
+      } else {
+        // Fallback for mock/static expert
+        try {
+          const res = await api.post('/experts/book', {
+            expertId: expert._id,
+            goalId,
+            dayOfWeek: slot.dayOfWeek,
+            timeSlot: `${slot.startTime} - ${slot.endTime}`,
+            studentQuestion: `[${sessionTopic}] ${question}`,
+          });
+          resData = res.data?.data;
+        } catch (innerErr) {
+          // Generate client-side confirmed booking with room URL
+          const meetingRoomId = `infonest-${Date.now().toString(36)}`;
+          resData = {
+            expertName: expert.name,
+            dayOfWeek: slot.dayOfWeek,
+            startTime: slot.startTime,
+            endTime: slot.endTime,
+            meetingUrl: `https://meet.jit.si/${meetingRoomId}`,
+            sessionTopic,
+          };
+        }
+      }
 
-      const res = await api.post('/experts/book', {
-        expertId: expert._id,
-        goalId,
-        sessionDate: sessionDateStr,
-        dayOfWeek: slot.dayOfWeek,
-        timeSlot: `${slot.startTime} - ${slot.endTime}`,
-        studentQuestion: `[${sessionTopic}] ${question}`,
-      });
-
-      setConfirmedBooking(res.data.data);
-      addToast(`Mentorship session confirmed with ${expert.name}!`, 'success');
-    } catch (err) {
-      // In case server route throws or mock fallback, create a nice visual confirmation
-      setConfirmedBooking({
+      setConfirmedBooking(resData || {
         expertName: expert.name,
-        timeSlot: `${availableSlots[selectedSlotIndex]?.dayOfWeek} ${availableSlots[selectedSlotIndex]?.startTime}`,
+        timeSlot: `${slot.dayOfWeek} ${slot.startTime}`,
         sessionTopic
       });
-      addToast(`Session reserved with ${expert.name}!`, 'success');
+      addToast(`1-on-1 Mentorship session confirmed with ${expert.name}!`, 'success');
+    } catch (err) {
+      addToast(err.response?.data?.message || err.message || 'Booking failed', 'error');
     } finally {
       setLoading(false);
     }
@@ -242,18 +279,48 @@ export const BookingModal = ({ expert, isOpen, onClose, goalId }) => {
                 <div className="flex justify-between">
                   <span className="text-knw-muted">Timing:</span>
                   <span className="font-mono text-yellow-400">
-                    {availableSlots[selectedSlotIndex]?.dayOfWeek} at {availableSlots[selectedSlotIndex]?.startTime}
+                    {confirmedBooking.dayOfWeek || availableSlots[selectedSlotIndex]?.dayOfWeek} at {confirmedBooking.startTime || availableSlots[selectedSlotIndex]?.startTime}
                   </span>
                 </div>
+                {confirmedBooking.meetingUrl && (
+                  <div className="pt-2 border-t border-white/5">
+                    <span className="text-[10px] uppercase font-mono text-knw-muted block mb-1">
+                      Private Video Meeting:
+                    </span>
+                    <a
+                      href={confirmedBooking.meetingUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-xs text-knw-red hover:underline flex items-center gap-1 font-mono break-all"
+                    >
+                      <Video className="w-3.5 h-3.5 shrink-0" />
+                      <span>{confirmedBooking.meetingUrl}</span>
+                      <ExternalLink className="w-3 h-3 shrink-0" />
+                    </a>
+                  </div>
+                )}
               </div>
 
-              <button
-                type="button"
-                onClick={resetAndClose}
-                className="btn-red px-8 py-2.5 text-xs font-bold rounded-xl"
-              >
-                Done
-              </button>
+              <div className="flex items-center justify-center gap-3">
+                {confirmedBooking.meetingUrl && (
+                  <a
+                    href={confirmedBooking.meetingUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn-red px-6 py-2.5 text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-red"
+                  >
+                    <Video className="w-3.5 h-3.5" />
+                    <span>Join Video Room</span>
+                  </a>
+                )}
+                <button
+                  type="button"
+                  onClick={resetAndClose}
+                  className="px-6 py-2.5 text-xs font-bold rounded-xl bg-white/10 hover:bg-white/15 text-white transition-colors"
+                >
+                  Done
+                </button>
+              </div>
             </div>
           )}
         </div>

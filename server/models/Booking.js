@@ -6,15 +6,33 @@ const bookingSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
+  teacherId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: false,
+  },
   expertId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'ExpertProfile',
-    required: true,
+    required: false,
+  },
+  slotId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'AvailabilitySlot',
+    required: false,
   },
   goalId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Goal',
-    required: true,
+    required: false,
+  },
+  goalSlug: {
+    type: String,
+    default: 'jee-mains-advanced',
+  },
+  subject: {
+    type: String,
+    default: 'General Guidance',
   },
   sessionDate: {
     type: String, // YYYY-MM-DD
@@ -25,20 +43,40 @@ const bookingSchema = new mongoose.Schema({
     required: true,
   },
   timeSlot: {
-    type: String, // "05:00 PM - 05:45 PM"
-    required: true,
+    type: String, // e.g. "10:00 AM - 10:45 AM"
+    default: '',
+  },
+  startTime: {
+    type: String,
+    default: '10:00 AM',
+  },
+  endTime: {
+    type: String,
+    default: '10:45 AM',
+  },
+  durationMinutes: {
+    type: Number,
+    default: 45,
   },
   studentQuestion: {
     type: String,
     default: '',
   },
-  meetingLink: {
+  studentNotes: {
     type: String,
-    default: 'https://meet.jit.si/knwshare-guidance-session',
+    default: '',
+  },
+  teacherNotes: {
+    type: String,
+    default: '',
+  },
+  meetingUrl: {
+    type: String,
+    default: 'https://meet.jit.si/infonest-guidance-session',
   },
   status: {
     type: String,
-    enum: ['confirmed', 'completed', 'cancelled'],
+    enum: ['pending', 'confirmed', 'cancelled', 'completed', 'rejected'],
     default: 'confirmed',
   }
 }, {

@@ -35,8 +35,8 @@ export const AuthProvider = ({ children }) => {
     return userData;
   };
 
-  const register = async (name, email, password) => {
-    const res = await api.post('/auth/register', { name, email, password });
+  const register = async (name, email, password, extra = {}) => {
+    const res = await api.post('/auth/register', { name, email, password, ...extra });
     const { token: newToken, ...userData } = res.data.data;
     localStorage.setItem('knwshare_token', newToken);
     setToken(newToken);
@@ -46,6 +46,15 @@ export const AuthProvider = ({ children }) => {
 
   const demoLogin = async () => {
     const res = await api.post('/auth/demo-login');
+    const { token: newToken, ...userData } = res.data.data;
+    localStorage.setItem('knwshare_token', newToken);
+    setToken(newToken);
+    setUser(userData);
+    return userData;
+  };
+
+  const demoTeacherLogin = async () => {
+    const res = await api.post('/auth/demo-teacher-login');
     const { token: newToken, ...userData } = res.data.data;
     localStorage.setItem('knwshare_token', newToken);
     setToken(newToken);
@@ -77,6 +86,7 @@ export const AuthProvider = ({ children }) => {
         login,
         register,
         demoLogin,
+        demoTeacherLogin,
         logout,
         refreshUser,
         isAuthenticated: !!token && !!user,

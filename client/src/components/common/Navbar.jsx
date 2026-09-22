@@ -57,6 +57,14 @@ export const Navbar = () => {
     { name: 'Progress',         path: '/progress',  icon: BarChart2  },
   ];
 
+  const teacherLinks = [
+    { name: 'Teacher Dashboard', path: '/teacher/dashboard', icon: Sparkles },
+    { name: 'Curriculum & Roadmap', path: '/roadmap', icon: Map },
+    { name: 'Resources', path: '/resources', icon: BookOpen },
+  ];
+
+  const activeNavLinks = user?.role === 'teacher' ? teacherLinks : navLinks;
+
   const handleGoalSwitch = async (userGoalId) => {
     await switchActiveGoal(userGoalId);
     setShowGoalDropdown(false);
@@ -175,7 +183,7 @@ export const Navbar = () => {
 
           {/* ── MIDDLE: Desktop Nav Links ── */}
           <nav className="hidden lg:flex items-center gap-0.5">
-            {navLinks.map((link) => {
+            {activeNavLinks.map((link) => {
               const Icon = link.icon;
               const isActive =
                 link.path === '/'
@@ -324,6 +332,18 @@ export const Navbar = () => {
                       </div>
 
                       <div className="py-1">
+                        {user?.role === 'teacher' && (
+                          <Link
+                            to="/teacher/dashboard"
+                            onClick={() => setShowUserDropdown(false)}
+                            className="w-full text-left px-4 py-2 text-xs text-knw-red font-bold
+                                       hover:bg-knw-red/10 flex items-center gap-2.5 transition-colors"
+                          >
+                            <Sparkles className="w-3.5 h-3.5 text-knw-red" />
+                            Teacher Workspace
+                          </Link>
+                        )}
+
                         <Link
                           to="/profile"
                           onClick={() => setShowUserDropdown(false)}
@@ -419,7 +439,7 @@ export const Navbar = () => {
             )}
 
             {/* Nav links */}
-            {navLinks.map((link) => {
+            {activeNavLinks.map((link) => {
               const Icon = link.icon;
               const isActive =
                 link.path === '/'
