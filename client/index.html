@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
       (function() {
-        var saved = localStorage.getItem('knwshare_theme');
+        var saved = localStorage.getItem('theme') || localStorage.getItem('knwshare_theme');
         if (saved === 'light' || saved === 'dark') {
           document.documentElement.setAttribute('data-theme', saved);
         } else {

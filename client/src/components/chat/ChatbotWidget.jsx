@@ -69,17 +69,22 @@ export const ChatbotWidget = () => {
     setLoading(true);
 
     try {
-      const endpoint = isAuthenticated ? '/ai/chat' : '/chat';
-      const res = await api.post(endpoint, {
+      const res = await api.post('/ai/chat', {
         message: text,
-        history: messages.slice(-6).map(m => ({
-          role: m.sender === 'user' ? 'user' : 'assistant',
-          content: m.text
-        })),
+        history: messages
+          .filter(m => m.id !== 'welcome' && !m.isError)
+          .slice(-8)
+          .map(m => ({
+            role: m.sender === 'user' ? 'user' : 'model',
+            content: m.text
+          })),
         conversationId: 'student-assistant-session'
       });
 
-      const botReply = res.data?.data?.reply || 'I am here to help you navigate KNWshare and master your learning goals!';
+      const botReply = res.data?.data?.reply || res.data?.reply;
+      if (!botReply) {
+        throw new Error('No reply received');
+      }
 
       setMessages(prev => [
         ...prev,
@@ -97,7 +102,8 @@ export const ChatbotWidget = () => {
         {
           id: `reply-${Date.now()}`,
           sender: 'bot',
-          text: 'I can help you navigate the platform! Open **Roadmap** to explore topics, **Timetable** to generate a balanced schedule, or **1-on-1 Mentors** to book a session.',
+          isError: true,
+          text: 'AI assistant is temporarily unavailable. Please try again.',
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }
       ]);
@@ -184,7 +190,9 @@ export const ChatbotWidget = () => {
                   className={`max-w-[82%] p-3.5 rounded-2xl ${
                     msg.sender === 'user'
                       ? 'bg-gradient-to-tr from-knw-red to-knw-redDark text-white rounded-tr-none shadow-red'
-                      : 'bg-knw-surface border border-white/10 text-gray-200 rounded-tl-none'
+                      : msg.isError
+                        ? 'bg-red-950/25 border border-red-500/40 text-red-200 rounded-tl-none'
+                        : 'bg-knw-surface border border-white/10 text-gray-200 rounded-tl-none'
                   }`}
                 >
                   <p className="whitespace-pre-line">{msg.text}</p>

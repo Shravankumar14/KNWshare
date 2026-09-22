@@ -3,7 +3,7 @@ import Goal from '../models/Goal.js';
 import UserGoal from '../models/UserGoal.js';
 import UserGoalProfile from '../models/UserGoalProfile.js';
 import Task from '../models/Task.js';
-import { geminiService } from '../services/ai/geminiService.js';
+import { geminiService } from '../services/geminiService.js';
 import { sanitizeAiContext } from '../services/ai/sanitizeAiContext.js';
 
 export const handleAiChat = async (req, res, next) => {
@@ -38,7 +38,7 @@ export const handleAiChat = async (req, res, next) => {
       }
     }
 
-    // 2. Strictly assemble safe whitelist context
+    // 2. Assemble safe whitelist context (no passwords, JWTs, or secrets)
     const safeContext = sanitizeAiContext({
       user: req.user,
       activeGoal: activeGoalDoc,
@@ -47,7 +47,7 @@ export const handleAiChat = async (req, res, next) => {
       tasks: pendingTasks
     });
 
-    // 3. Generate response via Gemini Service (with automated graceful fallback)
+    // 3. Generate response via Gemini Service
     const reply = await geminiService.generateReply({
       message: message.trim(),
       history: Array.isArray(history) ? history : [],
@@ -63,6 +63,10 @@ export const handleAiChat = async (req, res, next) => {
       }
     });
   } catch (err) {
-    next(err);
+    console.error('AI Chat Service Error:', err.message);
+    res.status(500).json({
+      success: false,
+      message: 'AI assistant is temporarily unavailable. Please try again.'
+    });
   }
 };

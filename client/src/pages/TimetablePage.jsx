@@ -92,6 +92,30 @@ export const TimetablePage = () => {
     }
   };
 
+  if (!activeGoal) {
+    return (
+      <div className="knw-card rounded-3xl p-12 text-center max-w-md mx-auto space-y-5 my-12 border border-knw-border">
+        <div className="w-16 h-16 rounded-3xl bg-knw-surface border border-knw-border flex items-center justify-center mx-auto">
+          <CalendarIcon className="w-8 h-8 text-knw-red" />
+        </div>
+        <div className="space-y-2">
+          <div className="text-xs font-mono font-bold uppercase tracking-wider text-knw-muted">0% Progress</div>
+          <h2 className="text-2xl font-black text-white">Choose your goal to begin.</h2>
+          <p className="text-xs text-knw-muted max-w-sm mx-auto">
+            Select a target goal to customize your weekly hours, study slots, and balance your preparation agenda.
+          </p>
+        </div>
+        <Link
+          to="/goal-select"
+          className="btn-red inline-flex items-center gap-2 px-6 py-3 text-xs font-bold shadow-red"
+        >
+          <span>Select a Goal</span>
+          <ArrowRight className="w-4 h-4" />
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
       {/* Header Banner */}

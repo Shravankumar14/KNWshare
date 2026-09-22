@@ -76,10 +76,12 @@ export const GoalProvider = ({ children }) => {
         setAllGoals(merged);
 
         // Re-sync activeGoal
-        const currentSavedSlug = localStorage.getItem('knwshare_active_goal_slug') || DEFAULT_GOAL_SLUG;
-        const matched = merged.find((g) => resolveCanonicalGoalSlug(g.slug) === resolveCanonicalGoalSlug(currentSavedSlug));
-        if (matched) {
-          setActiveGoal(matched);
+        const currentSavedSlug = localStorage.getItem('knwshare_active_goal_slug');
+        if (currentSavedSlug) {
+          const matched = merged.find((g) => resolveCanonicalGoalSlug(g.slug) === resolveCanonicalGoalSlug(currentSavedSlug));
+          if (matched) {
+            setActiveGoal(matched);
+          }
         }
         return merged;
       }

@@ -8,7 +8,7 @@ const ThemeContext = createContext({
 
 export const ThemeProvider = ({ children }) => {
   const [theme, setThemeState] = useState(() => {
-    const saved = localStorage.getItem('knwshare_theme');
+    const saved = localStorage.getItem('theme') || localStorage.getItem('knwshare_theme');
     if (saved === 'light' || saved === 'dark') return saved;
     // Default is dark matching the existing aesthetic
     return 'dark';
@@ -16,6 +16,7 @@ export const ThemeProvider = ({ children }) => {
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
     localStorage.setItem('knwshare_theme', theme);
   }, [theme]);
 
