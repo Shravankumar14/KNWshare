@@ -9,5 +9,7 @@ router.use(protect);
 router.post('/generate', generateTimetable);
 router.get('/current', getCurrentTimetable);
 router.put('/block', updateScheduleBlock);
+router.put('/block/:blockId', updateScheduleBlock);
+router.put('/schedule/:blockId', updateScheduleBlock);
 
 export default router;

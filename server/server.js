@@ -6,6 +6,7 @@ import { connectDB } from './config/db.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import { seedDatabase } from './seeds/seedData.js';
 import Goal from './models/Goal.js';
+import Roadmap from './models/Roadmap.js';
 
 
 // Route imports
@@ -51,7 +52,7 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 // Health Check
-app.get('/api/health', (req, res) => {
+app.get(['/health', '/api/health', '/api/v1/health'], (req, res) => {
   res.json({
     status: 'ok',
     timestamp: new Date().toISOString(),

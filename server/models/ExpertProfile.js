@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const availabilitySlotSchema = new mongoose.Schema({
   dayOfWeek: {
     type: String,
-    enum: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    enum: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Today', 'Tomorrow'],
     required: true,
   },
   startTime: { type: String, required: true }, // "05:00 PM"
