@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
-  Compass,
   Target,
   Map,
   BookOpen,
@@ -13,9 +12,7 @@ import {
   User,
   LogOut,
   Sparkles,
-  Zap,
   Menu,
-  X,
   Briefcase,
   Award,
   FileText,
@@ -25,41 +22,27 @@ import { useAuth } from '../../context/AuthContext';
 import { useGoal } from '../../context/GoalContext';
 import { ThemeToggle } from './ThemeToggle';
 import { useNotification } from '../../context/NotificationContext';
-
-/* ─────────────────────────────────────────────
-   KNWshare Netflix-dark Navbar
-   Colours driven by tailwind.config.js:
-     knw-bg       → #080808
-     knw-surface  → #111111
-     knw-red      → #E50914
-     knw-border   → #1f1f1f
-     knw-muted    → #6b7280
-     knw-offWhite → #f5f5f5
-   CSS helpers in index.css:
-     .knw-glass-nav   – dark glass header
-     .text-gradient-red – KNW gradient logo text
-     .btn-red         – solid red CTA button
-───────────────────────────────────────────── */
+import { HamburgerMenu } from './HamburgerMenu';
 
 export const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, isAuthenticated, logout, demoLogin } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
   const { activeGoal, activeUserGoal, myGoals, switchActiveGoal } = useGoal();
   const { notifications, unreadCount, markAllAsRead } = useNotification();
 
-  const [showGoalDropdown, setShowGoalDropdown]     = useState(false);
-  const [showNotifications, setShowNotifications]   = useState(false);
-  const [showUserDropdown, setShowUserDropdown]     = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen]         = useState(false);
+  const [showGoalDropdown, setShowGoalDropdown]   = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [showUserDropdown, setShowUserDropdown]   = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen]       = useState(false);
 
-  const navLinks = [
-    { name: 'Goals',            path: '/',         icon: Target      },
-    { name: 'Roadmap & Career', path: '/roadmap',  icon: Map         },
-    { name: 'Resources',        path: '/resources', icon: BookOpen   },
-    { name: 'Timetable',        path: '/timetable', icon: Calendar   },
+  const studentLinks = [
+    { name: 'Goals',            path: '/dashboard', icon: Target      },
+    { name: 'Roadmap & Career', path: '/roadmap',   icon: Map         },
+    { name: 'Resources',        path: '/resources', icon: BookOpen    },
+    { name: 'Timetable',        path: '/timetable', icon: Calendar    },
     { name: 'Tasks',            path: '/tasks',     icon: CheckSquare },
-    { name: 'Progress',         path: '/progress',  icon: BarChart2  },
+    { name: 'Progress',         path: '/progress',  icon: BarChart2   },
   ];
 
   const teacherLinks = [
@@ -72,7 +55,7 @@ export const Navbar = () => {
     { name: 'Profile',                  path: '/teacher/dashboard?tab=profile',      icon: User },
   ];
 
-  const activeNavLinks = user?.role === 'teacher' ? teacherLinks : navLinks;
+  const activeNavLinks = user?.role === 'teacher' ? teacherLinks : studentLinks;
 
   const handleGoalSwitch = async (userGoalId) => {
     await switchActiveGoal(userGoalId);
@@ -83,153 +66,166 @@ export const Navbar = () => {
     setShowGoalDropdown(false);
     setShowNotifications(false);
     setShowUserDropdown(false);
-    setMobileMenuOpen(false);
   };
 
+  // ── 1. Unauthenticated State: Show ONLY InfoNest logo/wordmark ──
+  if (!isAuthenticated) {
+    return (
+      <header className="navbar w-full bg-[#050505] border-b border-[#222222] sticky top-0 z-40">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center text-[#D4AF37] font-black text-sm">
+              ❖
+            </div>
+            <div className="leading-tight">
+              <span className="text-lg font-black tracking-tight text-white">
+                Info<span className="text-[#D4AF37]">Nest</span>
+              </span>
+            </div>
+          </Link>
+        </div>
+      </header>
+    );
+  }
+
+  // ── 2. Authenticated State: Full nav with responsive hamburger ──
   return (
-    <header className="knw-glass-nav sticky top-0 z-40 border-b border-knw-border">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <>
+      <header className="navbar knw-glass-nav sticky top-0 z-40 border-b border-knw-border">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
 
-          {/* ── LEFT: Logo + Active-Goal Badge ── */}
-          <div className="flex items-center gap-5">
+            {/* ── LEFT: Logo + Active-Goal Badge ── */}
+            <div className="flex items-center gap-5">
+              <Link
+                to={user?.role === 'teacher' ? '/teacher/dashboard' : '/dashboard'}
+                className="flex items-center gap-2.5 group shrink-0"
+              >
+                <div className="w-9 h-9 rounded-lg bg-knw-red flex items-center justify-center shadow-lg shadow-knw-red/30 group-hover:shadow-knw-red/50 group-hover:scale-105 transition-all duration-200">
+                  <span className="text-white font-black text-base leading-none">I</span>
+                </div>
+                <div className="leading-tight">
+                  <span className="text-lg font-black tracking-tight">
+                    <span className="text-white">Info</span>
+                    <span className="text-knw-red">Nest</span>
+                  </span>
+                  <span className="block text-[9px] font-mono font-semibold uppercase tracking-[0.18em] text-knw-muted -mt-0.5">
+                    GOAL → EXECUTION
+                  </span>
+                </div>
+              </Link>
 
-            {/* Logo */}
-            <Link to={user?.role === 'teacher' ? '/teacher/dashboard' : '/'} className="flex items-center gap-2.5 group shrink-0">
-              {/* I icon */}
-              <div className="w-9 h-9 rounded-lg bg-knw-red flex items-center justify-center shadow-lg shadow-knw-red/30 group-hover:shadow-knw-red/50 group-hover:scale-105 transition-all duration-200">
-                <span className="text-white font-black text-base leading-none">I</span>
-              </div>
-              {/* Wordmark */}
-              <div className="leading-tight">
-                <span className="text-lg font-black tracking-tight">
-                  <span className="text-white">Info</span>
-                  <span className="text-knw-red">Nest</span>
-                </span>
-                <span className="block text-[9px] font-mono font-semibold uppercase tracking-[0.18em] text-knw-muted -mt-0.5">
-                  GOAL → EXECUTION
-                </span>
-              </div>
-            </Link>
-
-            {/* Persistent Active Goal Badge (desktop) - only for students */}
-            {activeGoal && user?.role !== 'teacher' && (
-              <div className="relative hidden md:block">
-                <button
-                  onClick={() => setShowGoalDropdown(!showGoalDropdown)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-full
-                             bg-white/5 border border-knw-border
-                             text-knw-offWhite hover:border-knw-red/60
-                             hover:bg-knw-red/10 transition-all duration-200
-                             text-xs font-semibold"
-                  title="Click to switch active goal"
-                >
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-                  <span className="text-knw-muted font-normal">Active:</span>
-                  <span className="max-w-[160px] truncate">{activeGoal.title}</span>
-                  <ChevronDown
-                    className={`w-3.5 h-3.5 text-knw-red transition-transform duration-200 ${
-                      showGoalDropdown ? 'rotate-180' : ''
-                    }`}
-                  />
-                </button>
-
-                {/* Goal Switch Dropdown */}
-                {showGoalDropdown && (
-                  <>
-                    {/* Backdrop */}
-                    <div
-                      className="fixed inset-0 z-40"
-                      onClick={() => setShowGoalDropdown(false)}
+              {/* Active Goal Badge (desktop only) */}
+              {activeGoal && user?.role !== 'teacher' && (
+                <div className="relative hidden md:block">
+                  <button
+                    onClick={() => setShowGoalDropdown(!showGoalDropdown)}
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-full
+                               bg-white/5 border border-knw-border
+                               text-knw-offWhite hover:border-knw-red/60
+                               hover:bg-knw-red/10 transition-all duration-200
+                               text-xs font-semibold"
+                    title="Click to switch active goal"
+                  >
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                    <span className="text-knw-muted font-normal">Active:</span>
+                    <span className="max-w-[160px] truncate">{activeGoal.title}</span>
+                    <ChevronDown
+                      className={`w-3.5 h-3.5 text-knw-red transition-transform duration-200 ${
+                        showGoalDropdown ? 'rotate-180' : ''
+                      }`}
                     />
-                    <div className="absolute left-0 mt-2 w-76 z-50
-                                    bg-[#111] border border-knw-border
-                                    rounded-xl shadow-2xl shadow-black/60
-                                    animate-in fade-in zoom-in-95 duration-150">
-                      <div className="px-4 py-2.5 border-b border-knw-border flex items-center justify-between">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-knw-muted">
-                          Your Goals
-                        </span>
-                        <Link
-                          to="/"
-                          onClick={closeAll}
-                          className="text-[11px] font-semibold text-knw-red hover:text-knw-redBright transition-colors"
-                        >
-                          + New Goal
-                        </Link>
-                      </div>
+                  </button>
 
-                      <div className="max-h-60 overflow-y-auto py-1 divide-y divide-knw-border">
-                        {myGoals && myGoals.length > 0 ? (
-                          myGoals.map((ug) => (
-                            <button
-                              key={ug._id}
-                              onClick={() => handleGoalSwitch(ug._id)}
-                              className={`w-full text-left px-4 py-2.5 text-xs flex items-center justify-between transition-colors ${
-                                activeUserGoal?._id === ug._id
-                                  ? 'bg-knw-red/10 text-knw-red font-bold'
-                                  : 'text-knw-offWhite/80 hover:bg-white/5'
-                              }`}
-                            >
-                              <span className="truncate pr-2">{ug.goalId?.title || ug.customTitle}</span>
-                              <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/10 text-knw-muted font-medium shrink-0">
-                                {ug.overallProgress || 0}%
-                              </span>
-                            </button>
-                          ))
-                        ) : (
-                          <div className="px-4 py-4 text-xs text-knw-muted text-center">
-                            Viewing preview mode. Select a goal on the home page to track progress!
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </>
-                )}
-              </div>
-            )}
-          </div>
+                  {/* Goal Switch Dropdown */}
+                  {showGoalDropdown && (
+                    <>
+                      <div className="fixed inset-0 z-40" onClick={() => setShowGoalDropdown(false)} />
+                      <div className="absolute left-0 mt-2 w-76 z-50
+                                      bg-[#111] border border-knw-border
+                                      rounded-xl shadow-2xl shadow-black/60
+                                      animate-in fade-in zoom-in-95 duration-150">
+                        <div className="px-4 py-2.5 border-b border-knw-border flex items-center justify-between">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-knw-muted">
+                            Your Goals
+                          </span>
+                          <Link
+                            to="/dashboard"
+                            onClick={closeAll}
+                            className="text-[11px] font-semibold text-knw-red hover:text-knw-redBright transition-colors"
+                          >
+                            + New Goal
+                          </Link>
+                        </div>
 
-          {/* ── MIDDLE: Desktop Nav Links ── */}
-          <nav className="hidden lg:flex items-center gap-0.5">
-            {activeNavLinks.map((link) => {
-              const Icon = link.icon;
-              const currentFull = location.pathname + location.search;
-              const isActive =
-                user?.role === 'teacher'
-                  ? currentFull === link.path || (link.path.includes('tab=overview') && location.pathname === '/teacher/dashboard' && !location.search)
-                  : link.path === '/'
-                  ? location.pathname === '/'
-                  : location.pathname.startsWith(link.path);
-              return (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  className={`relative flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold transition-all duration-200 ${
-                    isActive
-                      ? 'text-knw-red'
-                      : 'text-knw-muted hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  <Icon className={`w-3.5 h-3.5 shrink-0 ${isActive ? 'text-knw-red' : ''}`} />
-                  {link.name}
-                  {/* Active underline dot */}
-                  {isActive && (
-                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-knw-red" />
+                        <div className="max-h-60 overflow-y-auto py-1 divide-y divide-knw-border">
+                          {myGoals && myGoals.length > 0 ? (
+                            myGoals.map((ug) => (
+                              <button
+                                key={ug._id}
+                                onClick={() => handleGoalSwitch(ug._id)}
+                                className={`w-full text-left px-4 py-2.5 text-xs flex items-center justify-between transition-colors ${
+                                  activeUserGoal?._id === ug._id
+                                    ? 'bg-knw-red/10 text-knw-red font-bold'
+                                    : 'text-knw-offWhite/80 hover:bg-white/5'
+                                }`}
+                              >
+                                <span className="truncate pr-2">{ug.goalId?.title || ug.customTitle}</span>
+                                <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/10 text-knw-muted font-medium shrink-0">
+                                  {ug.overallProgress || 0}%
+                                </span>
+                              </button>
+                            ))
+                          ) : (
+                            <div className="px-4 py-4 text-xs text-knw-muted text-center">
+                              No active goals. Select a goal on the dashboard!
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </>
                   )}
-                </Link>
-              );
-            })}
-          </nav>
+                </div>
+              )}
+            </div>
 
-          {/* ── RIGHT: Bell + User / Auth ── */}
-          <div className="flex items-center gap-2">
+            {/* ── MIDDLE: Desktop Nav Links (Hidden below 1024px) ── */}
+            <nav className="hidden lg:flex items-center gap-0.5">
+              {activeNavLinks.map((link) => {
+                const Icon = link.icon;
+                const currentFull = location.pathname + location.search;
+                const isActive =
+                  user?.role === 'teacher'
+                    ? currentFull === link.path || (link.path.includes('tab=overview') && location.pathname === '/teacher/dashboard' && !location.search)
+                    : link.path === '/dashboard' || link.path === '/'
+                    ? location.pathname === '/dashboard' || location.pathname === '/'
+                    : location.pathname.startsWith(link.path);
 
-            {/* Theme Toggle Button */}
-            <ThemeToggle />
+                return (
+                  <Link
+                    key={link.name}
+                    to={link.path}
+                    className={`relative flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold transition-all duration-200 ${
+                      isActive
+                        ? 'text-knw-red'
+                        : 'text-knw-muted hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    <Icon className={`w-3.5 h-3.5 shrink-0 ${isActive ? 'text-knw-red' : ''}`} />
+                    {link.name}
+                    {isActive && (
+                      <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-knw-red" />
+                    )}
+                  </Link>
+                );
+              })}
+            </nav>
 
-            {/* Notification Bell */}
-            {isAuthenticated && (
+            {/* ── RIGHT: ThemeToggle + Notifications + User Avatar + Mobile Hamburger ── */}
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+
+              {/* Notification Bell */}
               <div className="relative">
                 <button
                   onClick={() => {
@@ -300,25 +296,20 @@ export const Navbar = () => {
                   </>
                 )}
               </div>
-            )}
 
-            {/* ── User Profile OR Auth Buttons ── */}
-            {isAuthenticated ? (
-              <div className="relative">
+              {/* User Dropdown (desktop) */}
+              <div className="relative hidden sm:block">
                 <button
                   onClick={() => {
                     setShowUserDropdown(!showUserDropdown);
                     setShowNotifications(false);
                   }}
-                  className="flex items-center gap-2 pl-2 pr-2.5 py-1.5 rounded-lg
-                             hover:bg-white/5 transition-colors"
+                  className="flex items-center gap-2 pl-2 pr-2.5 py-1.5 rounded-lg hover:bg-white/5 transition-colors"
                 >
-                  {/* Avatar */}
-                  <div className="w-7 h-7 rounded-md bg-knw-red/20 border border-knw-red/40
-                                  text-knw-red font-bold flex items-center justify-center text-xs uppercase">
-                    {user?.name?.[0]?.toUpperCase() || 'S'}
+                  <div className="w-7 h-7 rounded-md bg-knw-red/20 border border-knw-red/40 text-knw-red font-bold flex items-center justify-center text-xs uppercase">
+                    {user?.name?.[0]?.toUpperCase() || 'U'}
                   </div>
-                  <span className="text-xs font-semibold text-knw-offWhite hidden sm:inline max-w-[100px] truncate">
+                  <span className="text-xs font-semibold text-knw-offWhite hidden md:inline max-w-[100px] truncate">
                     {user?.name}
                   </span>
                   <ChevronDown
@@ -328,7 +319,6 @@ export const Navbar = () => {
                   />
                 </button>
 
-                {/* User Dropdown */}
                 {showUserDropdown && (
                   <>
                     <div className="fixed inset-0 z-40" onClick={() => setShowUserDropdown(false)} />
@@ -336,7 +326,6 @@ export const Navbar = () => {
                                     bg-[#111] border border-knw-border
                                     rounded-xl shadow-2xl shadow-black/60
                                     animate-in fade-in zoom-in-95 duration-150">
-                      {/* User info header */}
                       <div className="px-4 py-3 border-b border-knw-border">
                         <p className="text-xs font-bold text-knw-offWhite truncate">{user?.name}</p>
                         <p className="text-[11px] text-knw-muted truncate mt-0.5">{user?.email}</p>
@@ -347,38 +336,33 @@ export const Navbar = () => {
                       </div>
 
                       <div className="py-1">
-                        {user?.role === 'teacher' && (
+                        {user?.role === 'teacher' ? (
                           <Link
                             to="/teacher/dashboard"
                             onClick={() => setShowUserDropdown(false)}
-                            className="w-full text-left px-4 py-2 text-xs text-knw-red font-bold
-                                       hover:bg-knw-red/10 flex items-center gap-2.5 transition-colors"
+                            className="w-full text-left px-4 py-2 text-xs text-knw-red font-bold hover:bg-knw-red/10 flex items-center gap-2.5 transition-colors"
                           >
                             <Sparkles className="w-3.5 h-3.5 text-knw-red" />
                             Teacher Workspace
                           </Link>
+                        ) : (
+                          <Link
+                            to="/profile"
+                            onClick={() => setShowUserDropdown(false)}
+                            className="w-full text-left px-4 py-2 text-xs text-knw-offWhite/80 hover:text-white hover:bg-white/5 flex items-center gap-2.5 transition-colors"
+                          >
+                            <User className="w-3.5 h-3.5 text-knw-muted" />
+                            Profile & Settings
+                          </Link>
                         )}
-
-                        <Link
-                          to="/profile"
-                          onClick={() => setShowUserDropdown(false)}
-                          className="w-full text-left px-4 py-2 text-xs text-knw-offWhite/80
-                                     hover:text-white hover:bg-white/5
-                                     flex items-center gap-2.5 transition-colors"
-                        >
-                          <User className="w-3.5 h-3.5 text-knw-muted" />
-                          Profile & Settings
-                        </Link>
 
                         <button
                           onClick={() => {
                             logout();
                             setShowUserDropdown(false);
+                            navigate('/');
                           }}
-                          className="w-full text-left px-4 py-2 text-xs text-knw-red
-                                     hover:bg-knw-red/10
-                                     flex items-center gap-2.5 transition-colors
-                                     border-t border-knw-border mt-1"
+                          className="w-full text-left px-4 py-2 text-xs text-knw-red hover:bg-knw-red/10 flex items-center gap-2.5 transition-colors border-t border-knw-border mt-1"
                         >
                           <LogOut className="w-3.5 h-3.5" />
                           Sign Out
@@ -388,116 +372,28 @@ export const Navbar = () => {
                   </>
                 )}
               </div>
-            ) : (
-              /* ── Not authenticated: Demo / Sign In / Get Started ── */
-              <div className="flex items-center gap-2">
-                {/* 1-Click Demo */}
-                <button
-                  onClick={() => demoLogin()}
-                  title="Instant demo student login with pre-populated goals"
-                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg
-                             border border-knw-red/60 text-knw-red text-xs font-bold
-                             hover:bg-knw-red/10 hover:border-knw-red transition-all duration-200"
-                >
-                  <Zap className="w-3.5 h-3.5 fill-current" />
-                  1-Click Demo
-                </button>
 
-                <Link
-                  to="/login"
-                  className="px-3.5 py-1.5 rounded-lg border border-knw-border
-                             text-xs font-semibold text-knw-muted
-                             hover:text-white hover:border-white/20 transition-colors"
-                >
-                  Sign In
-                </Link>
-
-                <Link
-                  to="/register"
-                  className="px-3.5 py-1.5 rounded-lg bg-knw-red
-                             text-xs font-bold text-white
-                             shadow-lg shadow-knw-red/25
-                             hover:bg-knw-redDark transition-colors"
-                >
-                  Get Started
-                </Link>
-              </div>
-            )}
-
-            {/* Mobile hamburger */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-lg text-knw-muted hover:text-white hover:bg-white/5 transition-colors"
-              aria-label="Toggle menu"
-            >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
+              {/* Hamburger Button (Below 1024px) */}
+              <button
+                onClick={() => setMobileMenuOpen(true)}
+                className="lg:hidden w-11 h-11 min-w-[44px] min-h-[44px] bg-black text-[#D4AF37] border border-[#2A2A2A] rounded-lg flex items-center justify-center hover:border-[#D4AF37] transition-colors"
+                aria-label="Toggle navigation menu"
+              >
+                <Menu className="w-6 h-6 text-[#D4AF37]" />
+              </button>
+            </div>
           </div>
         </div>
+      </header>
 
-        {/* ── Mobile Navigation Drawer ── */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden py-3 border-t border-knw-border space-y-1 animate-in fade-in slide-in-from-top-2 duration-150">
-
-            {/* Active goal pill in mobile - only for students */}
-            {activeGoal && user?.role !== 'teacher' && (
-              <div className="px-3 py-2 mb-2 bg-knw-red/10 border border-knw-red/20 rounded-lg
-                              flex items-center justify-between text-xs font-semibold">
-                <div className="flex items-center gap-2 min-w-0">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-                  <span className="truncate text-knw-offWhite">Active: {activeGoal.title}</span>
-                </div>
-                <span className="text-[10px] bg-knw-red/20 text-knw-red px-2 py-0.5 rounded-full shrink-0 ml-2">
-                  {activeUserGoal?.overallProgress || 0}%
-                </span>
-              </div>
-            )}
-
-            {/* Nav links */}
-            {activeNavLinks.map((link) => {
-              const Icon = link.icon;
-              const currentFull = location.pathname + location.search;
-              const isActive =
-                user?.role === 'teacher'
-                  ? currentFull === link.path || (link.path.includes('tab=overview') && location.pathname === '/teacher/dashboard' && !location.search)
-                  : link.path === '/'
-                  ? location.pathname === '/'
-                  : location.pathname.startsWith(link.path);
-              return (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-semibold transition-colors ${
-                    isActive
-                      ? 'bg-knw-red/10 text-knw-red border border-knw-red/20'
-                      : 'text-knw-muted hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-knw-red' : ''}`} />
-                  {link.name}
-                </Link>
-              );
-            })}
-
-            {/* Demo login in mobile */}
-            {!isAuthenticated && (
-              <button
-                onClick={() => {
-                  demoLogin();
-                  setMobileMenuOpen(false);
-                }}
-                className="w-full mt-2 flex items-center justify-center gap-2 py-2.5 rounded-lg
-                           border border-knw-red/60 text-knw-red text-xs font-bold
-                           hover:bg-knw-red/10 transition-colors"
-              >
-                <Zap className="w-4 h-4 fill-current" />
-                1-Click Instant Demo Login
-              </button>
-            )}
-          </div>
-        )}
-      </div>
-    </header>
+      {/* Hamburger Drawer Component */}
+      <HamburgerMenu
+        isOpen={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
+        navLinks={activeNavLinks}
+      />
+    </>
   );
 };
+
+export default Navbar;

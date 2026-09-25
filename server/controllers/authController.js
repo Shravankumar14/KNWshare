@@ -2,6 +2,7 @@ import User from '../models/User.js';
 import TeacherProfile from '../models/TeacherProfile.js';
 import AvailabilitySlot from '../models/AvailabilitySlot.js';
 import { generateToken } from '../utils/jwt.js';
+import { OAuth2Client } from 'google-auth-library';
 
 export const register = async (req, res, next) => {
   try {
@@ -83,13 +84,87 @@ export const login = async (req, res, next) => {
 
     const user = await User.findOne({ email }).select('+password').populate('activeGoal');
     if (!user || !(await user.matchPassword(password))) {
-      return res.status(401).json({ success: false, message: 'Invalid email or password' });
+      return res.status(401).json({ success: false, message: 'Invalid email or password.' });
     }
 
     const token = generateToken(user._id, user.role);
 
     res.json({
       success: true,
+      token,
+      user: {
+        id: user._id,
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        activeGoal: user.activeGoal,
+      },
+      data: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        activeGoal: user.activeGoal,
+        token,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const googleAuth = async (req, res, next) => {
+  try {
+    const { credential } = req.body;
+    if (!credential) {
+      return res.status(400).json({ success: false, message: 'Google credential is required' });
+    }
+
+    const googleClientId = process.env.GOOGLE_CLIENT_ID;
+    const client = new OAuth2Client(googleClientId);
+
+    let payload;
+    try {
+      const ticket = await client.verifyIdToken({
+        idToken: credential,
+        audience: googleClientId,
+      });
+      payload = ticket.getPayload();
+    } catch (verifyErr) {
+      console.warn('Google token verification failed:', verifyErr.message);
+      return res.status(401).json({ success: false, message: 'Invalid Google token' });
+    }
+
+    const { email, name, picture } = payload;
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Google account has no email' });
+    }
+
+    let user = await User.findOne({ email }).populate('activeGoal');
+    if (!user) {
+      user = await User.create({
+        name: name || 'Student',
+        email,
+        password: Math.random().toString(36).slice(-12) + 'Ab1!',
+        role: 'student',
+        avatar: picture || '',
+      });
+    }
+
+    const token = generateToken(user._id, user.role);
+
+    return res.json({
+      success: true,
+      token,
+      user: {
+        id: user._id,
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        activeGoal: user.activeGoal,
+      },
       data: {
         _id: user._id,
         name: user.name,
@@ -111,119 +186,6 @@ export const getMe = async (req, res, next) => {
       populate: { path: 'goalId' }
     });
     res.json({ success: true, data: user });
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const demoLogin = async (req, res, next) => {
-  try {
-    let demoUser = await User.findOne({ email: 'student@knwshare.dev' }).select('+password');
-    if (!demoUser) {
-      demoUser = await User.create({
-        name: 'Alex Rivera',
-        email: 'student@knwshare.dev',
-        password: 'password123',
-        role: 'student',
-        bio: 'Passionate student aiming for competitive exam excellence and structured study routines.',
-      });
-    }
-
-    const token = generateToken(demoUser._id, demoUser.role);
-
-    res.json({
-      success: true,
-      data: {
-        _id: demoUser._id,
-        name: demoUser.name,
-        email: demoUser.email,
-        role: demoUser.role,
-        activeGoal: demoUser.activeGoal,
-        token,
-      },
-    });
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const demoTeacherLogin = async (req, res, next) => {
-  try {
-    let teacherUser = await User.findOne({ email: 'teacher@knwshare.dev' }).select('+password');
-    if (!teacherUser) {
-      teacherUser = await User.create({
-        name: 'Dr. Arvind Kumar',
-        email: 'teacher@knwshare.dev',
-        password: 'password123',
-        role: 'teacher',
-        avatar: 'https://i.pravatar.cc/150?img=68',
-        bio: 'Ex-FIITJEE Sr. Faculty with 14+ years mentoring students into top 100 All India Ranks in IIT-JEE.',
-      });
-    } else if (teacherUser.role !== 'teacher') {
-      teacherUser.role = 'teacher';
-      await teacherUser.save();
-    }
-
-    // Ensure teacher profile exists
-    let profile = await TeacherProfile.findOne({ userId: teacherUser._id });
-    if (!profile) {
-      profile = await TeacherProfile.create({
-        userId: teacherUser._id,
-        name: 'Dr. Arvind Kumar',
-        email: teacherUser.email,
-        photo: 'https://i.pravatar.cc/150?img=68',
-        headline: 'Ph.D. Physical Chemistry IIT Kanpur | Ex-FIITJEE Sr. Faculty',
-        bio: 'Guided over 2,400 students into IITs with 12 students in the All India Top 50. Expert in Physical & Inorganic Chemistry and time-tested numerical shortcuts.',
-        subjects: ['Chemistry', 'Physics'],
-        expertise: ['JEE Main', 'JEE Advanced'],
-        qualification: 'Ph.D. IIT Kanpur | B.Sc Gold Medalist',
-        experienceYears: 14,
-        teachingAreas: ['Physical Chemistry', 'Thermodynamics & Equilibrium', 'Electrochemistry', 'Organic Reaction Mechanisms'],
-        goalsSupported: ['jee-mains-advanced'],
-        preferredLanguage: 'English & Hindi',
-        rating: 4.98,
-        studentsHelped: 2420
-      });
-    }
-
-    // Ensure demo slots exist
-    const slotCount = await AvailabilitySlot.countDocuments({ teacherId: teacherUser._id, isActive: true });
-    if (slotCount === 0) {
-      const demoSlots = [
-        { dayOfWeek: 'Monday', startTime: '10:00 AM', endTime: '10:45 AM', durationMinutes: 45 },
-        { dayOfWeek: 'Monday', startTime: '03:00 PM', endTime: '03:45 PM', durationMinutes: 45 },
-        { dayOfWeek: 'Tuesday', startTime: '11:00 AM', endTime: '11:45 AM', durationMinutes: 45 },
-        { dayOfWeek: 'Wednesday', startTime: '05:00 PM', endTime: '05:45 PM', durationMinutes: 45 },
-        { dayOfWeek: 'Thursday', startTime: '02:00 PM', endTime: '02:45 PM', durationMinutes: 45 },
-        { dayOfWeek: 'Friday', startTime: '06:00 PM', endTime: '06:45 PM', durationMinutes: 45 },
-        { dayOfWeek: 'Saturday', startTime: '10:00 AM', endTime: '10:45 AM', durationMinutes: 45 }
-      ];
-
-      for (const s of demoSlots) {
-        await AvailabilitySlot.create({
-          teacherId: teacherUser._id,
-          ...s,
-          isRecurring: true,
-          isBooked: false,
-          isActive: true
-        });
-      }
-    }
-
-    const token = generateToken(teacherUser._id, teacherUser.role);
-
-    res.json({
-      success: true,
-      data: {
-        _id: teacherUser._id,
-        name: teacherUser.name,
-        email: teacherUser.email,
-        role: teacherUser.role,
-        activeGoal: teacherUser.activeGoal,
-        token,
-      },
-      message: 'Logged in as Demo Teacher (Dr. Arvind Kumar)!'
-    });
   } catch (err) {
     next(err);
   }

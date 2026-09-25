@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 export const CustomGoalModal = ({ isOpen, onClose }) => {
   const { createCustomGoal } = useGoal();
-  const { isAuthenticated, demoLogin } = useAuth();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const [title, setTitle] = useState('');
@@ -23,10 +23,6 @@ export const CustomGoalModal = ({ isOpen, onClose }) => {
 
     setLoading(true);
     try {
-      if (!isAuthenticated) {
-        await demoLogin();
-      }
-
       await createCustomGoal({
         title: title.trim(),
         currentLevel: level,
@@ -44,8 +40,8 @@ export const CustomGoalModal = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-      <div className="knw-glass rounded-3xl max-w-lg w-full border border-knw-red/40 shadow-red-lg overflow-hidden relative">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md flex items-center justify-center p-0 sm:p-4">
+      <div className="knw-modal-mobile-fullscreen knw-glass sm:rounded-3xl max-w-lg w-full border border-knw-red/40 shadow-red-lg overflow-hidden relative flex flex-col">
         <div className="h-1.5 w-full bg-gradient-to-r from-knw-red via-knw-redBright to-knw-redDark shadow-red" />
 
         {/* Header */}

@@ -5,7 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useNotification } from '../../context/NotificationContext';
 
 export const BookingModal = ({ expert, isOpen, onClose, goalId }) => {
-  const { isAuthenticated, demoLogin } = useAuth();
+  const { isAuthenticated } = useAuth();
   const { addToast } = useNotification();
 
   const [dynamicSlots, setDynamicSlots] = useState([]);
@@ -53,10 +53,6 @@ export const BookingModal = ({ expert, isOpen, onClose, goalId }) => {
     setLoading(true);
 
     try {
-      if (!isAuthenticated) {
-        await demoLogin();
-      }
-
       const slot = availableSlots[selectedSlotIndex] || availableSlots[0];
 
       let resData = null;
@@ -115,11 +111,11 @@ export const BookingModal = ({ expert, isOpen, onClose, goalId }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4">
       {/* Backdrop */}
       <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={resetAndClose} />
 
-      <div className="relative w-full max-w-xl knw-glass rounded-3xl overflow-hidden border border-knw-red/40 shadow-red-lg z-10">
+      <div className="knw-modal-mobile-fullscreen relative w-full max-w-xl knw-glass sm:rounded-3xl overflow-hidden border border-knw-red/40 shadow-red-lg z-10 flex flex-col">
         {/* Netflix red neon header stripe */}
         <div className="h-1.5 w-full bg-gradient-to-r from-knw-red via-knw-redBright to-knw-redDark shadow-red" />
 

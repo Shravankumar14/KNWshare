@@ -16,7 +16,7 @@ import api from '../services/api';
 
 export const GoalSelectionPage = () => {
   const { allGoals, activeGoal, activeUserGoal, loading, setPreviewGoal } = useGoal();
-  const { isAuthenticated, demoLogin } = useAuth();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -155,36 +155,6 @@ export const GoalSelectionPage = () => {
 
   return (
     <div className="min-h-screen bg-knw-bg text-knw-offWhite">
-      {/* ── Top Hero for Unauthenticated Visitors ── */}
-      {!isAuthenticated && (
-        <div
-          className="hero-banner relative overflow-hidden px-4 py-10 sm:py-14 text-center border-b border-white/5"
-        >
-          <div className="hero-radial absolute inset-0 opacity-25 pointer-events-none" />
-          <div className="relative max-w-2xl mx-auto space-y-3">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-knw-red/40 bg-knw-red/15 text-xs font-mono text-knw-red">
-              <Sparkles className="w-3.5 h-3.5 text-knw-red animate-pulse" />
-              <span>Netflix of Learning · Curated Knowledge & Mentorship</span>
-            </div>
-            <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
-              Turn Ambition Into <span className="text-gradient-red">Mastery</span>
-            </h1>
-            <p className="text-xs sm:text-sm text-knw-muted max-w-lg mx-auto leading-relaxed">
-              Connect directly with verified engineers from Google, OpenAI, Microsoft and IIT. Explore daily educational sparks, structured roadmaps, and book 1-on-1 guidance slots.
-            </p>
-            <div className="pt-2">
-              <button
-                onClick={() => demoLogin()}
-                className="btn-red px-8 py-3 rounded-xl text-xs sm:text-sm font-bold shadow-red inline-flex items-center gap-2"
-              >
-                <Zap className="w-4 h-4 fill-current" />
-                <span>Instant Demo Student Access (Alex Rivera)</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* ── Main Two-Column Layout ── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex flex-col lg:flex-row gap-8">

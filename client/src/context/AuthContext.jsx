@@ -28,7 +28,26 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     const res = await api.post('/auth/login', { email, password });
-    const { token: newToken, ...userData } = res.data.data;
+    const payload = res.data;
+    const newToken = payload.token || payload.data?.token;
+    const userData = payload.user || payload.data?.user || (payload.data ? { ...payload.data } : null);
+    if (userData && userData.token) {
+      delete userData.token;
+    }
+    localStorage.setItem('knwshare_token', newToken);
+    setToken(newToken);
+    setUser(userData);
+    return userData;
+  };
+
+  const googleLogin = async (credential) => {
+    const res = await api.post('/auth/google', { credential });
+    const payload = res.data;
+    const newToken = payload.token || payload.data?.token;
+    const userData = payload.user || payload.data?.user || (payload.data ? { ...payload.data } : null);
+    if (userData && userData.token) {
+      delete userData.token;
+    }
     localStorage.setItem('knwshare_token', newToken);
     setToken(newToken);
     setUser(userData);
@@ -37,25 +56,12 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (name, email, password, extra = {}) => {
     const res = await api.post('/auth/register', { name, email, password, ...extra });
-    const { token: newToken, ...userData } = res.data.data;
-    localStorage.setItem('knwshare_token', newToken);
-    setToken(newToken);
-    setUser(userData);
-    return userData;
-  };
-
-  const demoLogin = async () => {
-    const res = await api.post('/auth/demo-login');
-    const { token: newToken, ...userData } = res.data.data;
-    localStorage.setItem('knwshare_token', newToken);
-    setToken(newToken);
-    setUser(userData);
-    return userData;
-  };
-
-  const demoTeacherLogin = async () => {
-    const res = await api.post('/auth/demo-teacher-login');
-    const { token: newToken, ...userData } = res.data.data;
+    const payload = res.data;
+    const newToken = payload.token || payload.data?.token;
+    const userData = payload.user || payload.data?.user || (payload.data ? { ...payload.data } : null);
+    if (userData && userData.token) {
+      delete userData.token;
+    }
     localStorage.setItem('knwshare_token', newToken);
     setToken(newToken);
     setUser(userData);
@@ -84,9 +90,8 @@ export const AuthProvider = ({ children }) => {
         token,
         loading,
         login,
+        googleLogin,
         register,
-        demoLogin,
-        demoTeacherLogin,
         logout,
         refreshUser,
         isAuthenticated: !!token && !!user,

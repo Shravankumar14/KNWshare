@@ -38,8 +38,8 @@ async function testPhase4() {
     // 1. Verify sanitizeAiContext denylist/whitelist enforcement
     const unsafeUser = {
       _id: new mongoose.Types.ObjectId(),
-      name: 'Alex Rivera',
-      email: 'alex@knwshare.dev',
+      name: 'Test Student',
+      email: 'test@knwshare.dev',
       password: '$2a$10$unhashedSensitivePasswordHashHere',
       role: 'student',
       jwtToken: 'sensitive.jwt.token.here',

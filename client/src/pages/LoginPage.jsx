@@ -1,167 +1,326 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Compass, Mail, Lock, ArrowRight, Zap, AlertCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
+import { useGoogleLogin } from '@react-oauth/google';
+
+const GMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
 
 export const LoginPage = () => {
-  const { login, demoLogin, demoTeacherLogin } = useAuth();
+  const { login, googleLogin, user, isAuthenticated } = useAuth();
   const { addToast } = useNotification();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [serverError, setServerError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
+  // Helper to redirect to role-appropriate dashboard
+  const handleRoleRedirect = (authenticatedUser) => {
+    const role = authenticatedUser?.role;
+    const requestedPath = location.state?.from?.pathname || location.state?.from;
+
+    if (requestedPath && typeof requestedPath === 'string') {
+      if (role === 'teacher' && (requestedPath.startsWith('/student') || requestedPath === '/dashboard')) {
+        navigate('/teacher/dashboard', { replace: true });
+        return;
+      }
+      if (role !== 'teacher' && requestedPath.startsWith('/teacher')) {
+        navigate('/dashboard', { replace: true });
+        return;
+      }
+      navigate(requestedPath, { replace: true });
+      return;
+    }
+
+    if (role === 'teacher') {
+      navigate('/teacher/dashboard', { replace: true });
+    } else {
+      navigate('/dashboard', { replace: true });
+    }
+  };
+
+  // If already authenticated, redirect immediately
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      handleRoleRedirect(user);
+    }
+  }, [isAuthenticated, user]);
+
+  // Validation on blur
+  const handleEmailBlur = () => {
+    if (!email) {
+      setEmailError('Please enter a valid Gmail address.');
+    } else if (!GMAIL_REGEX.test(email)) {
+      setEmailError('Please enter a valid Gmail address.');
+    } else {
+      setEmailError('');
+    }
+  };
+
+  const handlePasswordBlur = () => {
+    if (!password) {
+      setPasswordError('Password is required.');
+    } else {
+      setPasswordError('');
+    }
+  };
+
+  // Form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setServerError('');
+
+    let hasError = false;
+
+    if (!email || !GMAIL_REGEX.test(email)) {
+      setEmailError('Please enter a valid Gmail address.');
+      hasError = true;
+    } else {
+      setEmailError('');
+    }
+
+    if (!password) {
+      setPasswordError('Password is required.');
+      hasError = true;
+    } else {
+      setPasswordError('');
+    }
+
+    if (hasError) return;
+
     setLoading(true);
     try {
-      const userData = await login(email, password);
-      addToast('Welcome back to InfoNest!', 'success');
-      if (userData?.role === 'teacher') {
-        navigate('/teacher/dashboard');
-      } else {
-        navigate('/');
+      const loggedInUser = await login(email, password);
+      addToast('Signed in successfully!', 'success');
+      handleRoleRedirect(loggedInUser);
+    } catch (err) {
+      const msg = err.response?.data?.message || err.message || 'Invalid email or password.';
+      setServerError(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Google OAuth flow
+  let triggerGoogleLogin = null;
+  try {
+    triggerGoogleLogin = useGoogleLogin({
+      onSuccess: async (tokenResponse) => {
+        setGoogleLoading(true);
+        setServerError('');
+        try {
+          // Token response provides access_token or credential
+          const loggedInUser = await googleLogin(tokenResponse.credential || tokenResponse.access_token);
+          addToast('Signed in with Google!', 'success');
+          handleRoleRedirect(loggedInUser);
+        } catch (err) {
+          const msg = err.response?.data?.message || err.message || 'Google authentication failed.';
+          setServerError(msg);
+        } finally {
+          setGoogleLoading(false);
+        }
+      },
+      onError: () => {
+        setServerError('Google Sign-In was cancelled or failed.');
+        setGoogleLoading(false);
+      },
+    });
+  } catch (err) {
+    // If not within GoogleOAuthProvider in edge cases
+    triggerGoogleLogin = () => {
+      setServerError('Google OAuth is not configured yet. Please configure VITE_GOOGLE_CLIENT_ID.');
+    };
+  }
+
+  const handleGoogleClick = () => {
+    if (googleLoading || loading) return;
+    setServerError('');
+    if (triggerGoogleLogin) {
+      try {
+        triggerGoogleLogin();
+      } catch (err) {
+        setServerError('Unable to initialize Google Sign-In.');
       }
-    } catch (err) {
-      setError(err.message || 'Login failed');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDemo = async () => {
-    setLoading(true);
-    try {
-      await demoLogin();
-      addToast('Logged in as demo student (Alex Rivera)!', 'success');
-      navigate('/');
-    } catch (err) {
-      setError(err.message || 'Demo login failed');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleTeacherDemo = async () => {
-    setLoading(true);
-    try {
-      await demoTeacherLogin();
-      addToast('Logged in as Faculty Mentor (Dr. Arvind Kumar)!', 'success');
-      navigate('/teacher/dashboard');
-    } catch (err) {
-      setError(err.message || 'Demo teacher login failed');
-    } finally {
-      setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto py-12 px-4">
-      <div className="knw-card rounded-3xl p-8 space-y-6 relative overflow-hidden border border-knw-red/30 shadow-red-lg">
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-knw-red via-knw-redBright to-knw-redDark shadow-red" />
+    <div className="min-h-[calc(100vh-64px)] w-full flex items-center justify-center p-0 sm:p-4 bg-[#050505]">
+      <div className="login-card w-full flex flex-col justify-center">
 
-        {/* Header */}
-        <div className="text-center space-y-2">
-          <div className="w-12 h-12 rounded-2xl bg-knw-red text-white flex items-center justify-center mx-auto shadow-red">
-            <Compass className="w-6 h-6" />
+        {/* Wordmark */}
+        <div className="text-center">
+          <div className="text-[28px] font-bold text-[#D4AF37] tracking-tight inline-flex items-center gap-2">
+            <span className="text-[24px]">❖</span>
+            <span>InfoNest</span>
           </div>
-          <h1 className="text-2xl font-black text-white tracking-tight">Sign In to InfoNest</h1>
-          <p className="text-xs text-knw-muted">Pick up right where you left off on your goal journey</p>
+          <h1 className="text-white text-[22px] font-semibold mt-3">Welcome back</h1>
+          <p className="text-[#888888] text-[14px] mt-1">Sign in to continue your learning journey</p>
         </div>
 
-        {/* 1-Click Demo Logins */}
-        <div className="space-y-2">
+        {/* Google OAuth Button */}
+        <div className="mt-7">
           <button
             type="button"
-            onClick={handleDemo}
-            disabled={loading}
-            className="w-full btn-red flex items-center justify-center gap-2 py-2.5 rounded-2xl text-xs font-bold shadow-red"
+            onClick={handleGoogleClick}
+            disabled={googleLoading || loading}
+            className="w-full min-h-[48px] px-4 py-3 rounded-xl bg-[#111111] border border-[#2A2A2A] hover:border-[#D4AF37] hover:bg-[#161616] text-white text-[14px] font-medium flex items-center justify-center gap-3 transition-colors disabled:opacity-60"
           >
-            <Zap className="w-4 h-4 fill-current" />
-            <span>1-Click Demo Student Login</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={handleTeacherDemo}
-            disabled={loading}
-            className="w-full border border-white/10 bg-white/5 hover:border-knw-red/40 hover:bg-white/10 flex items-center justify-center gap-2 py-2.5 rounded-2xl text-xs font-bold text-zinc-300 transition-all"
-          >
-            <Zap className="w-4 h-4 text-knw-red fill-current" />
-            <span>1-Click Demo Faculty Login (Dr. Arvind Kumar)</span>
+            {googleLoading ? (
+              <div className="w-5 h-5 border-2 border-[#2A2A2A] border-t-[#D4AF37] rounded-full animate-spin" />
+            ) : (
+              <>
+                <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+                  <path
+                    fill="#4285F4"
+                    d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"
+                  />
+                  <path
+                    fill="#34A853"
+                    d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"
+                  />
+                  <path
+                    fill="#FBBC05"
+                    d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.03 0 12s.45 3.82 1.25 5.42l4.03-3.15z"
+                  />
+                  <path
+                    fill="#EA4335"
+                    d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"
+                  />
+                </svg>
+                <span>Continue with Google</span>
+              </>
+            )}
           </button>
         </div>
 
-        <div className="relative flex items-center justify-center">
-          <div className="border-t border-white/10 w-full" />
-          <span className="bg-knw-surface px-3 text-[10px] uppercase font-mono tracking-widest text-knw-subtle absolute">
-            Or Sign In With Email
-          </span>
+        {/* Divider */}
+        <div className="relative my-6 flex items-center justify-center">
+          <div className="w-full border-t border-[#222222]" />
+          <span className="absolute bg-[#0D0D0D] px-3 text-[14px] text-[#888888]">or</span>
         </div>
 
-        {error && (
-          <div className="p-3 bg-red-950/40 border border-red-700/50 rounded-xl text-xs text-red-400 flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 shrink-0" />
-            <span>{error}</span>
+        {/* Server Error Message */}
+        {serverError && (
+          <div className="mb-4 p-3 rounded-xl bg-[#111111] border border-[#E05252]/40 text-[#E05252] text-[14px]">
+            {serverError}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Login Form */}
+        <form onSubmit={handleSubmit} noValidate className="space-y-4">
+          {/* Email */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-knw-muted mb-1.5">
-              Email Address
+            <label className="block text-white text-[14px] font-medium mb-1.5" htmlFor="login-email">
+              Email
             </label>
-            <div className="relative">
-              <Mail className="w-4 h-4 text-knw-subtle absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="student@university.edu"
-                className="w-full bg-knw-surface border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-knw-subtle focus:outline-none focus:border-knw-red"
-              />
-            </div>
+            <input
+              id="login-email"
+              type="email"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (emailError) setEmailError('');
+                if (serverError) setServerError('');
+              }}
+              onBlur={handleEmailBlur}
+              placeholder="your@gmail.com"
+              className={`w-full min-h-[48px] px-3.5 rounded-xl bg-[#111111] text-white text-[14px] placeholder-[#555555] transition-colors focus:outline-none focus:ring-1 ${
+                emailError
+                  ? 'border border-[#E05252] focus:border-[#E05252] focus:ring-[#E05252]/30'
+                  : 'border border-[#2A2A2A] focus:border-[#D4AF37] focus:ring-[#D4AF37]/30'
+              }`}
+            />
+            {emailError && (
+              <p className="text-[#E05252] text-[14px] mt-1.5">{emailError}</p>
+            )}
           </div>
 
+          {/* Password */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-knw-muted mb-1.5">
+            <label className="block text-white text-[14px] font-medium mb-1.5" htmlFor="login-password">
               Password
             </label>
             <div className="relative">
-              <Lock className="w-4 h-4 text-knw-subtle absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
-                type="password"
-                required
+                id="login-password"
+                type={showPassword ? 'text' : 'password'}
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full bg-knw-surface border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-knw-subtle focus:outline-none focus:border-knw-red"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  if (passwordError) setPasswordError('');
+                  if (serverError) setServerError('');
+                }}
+                onBlur={handlePasswordBlur}
+                placeholder="••••••••••••"
+                className={`w-full min-h-[48px] pl-3.5 pr-12 rounded-xl bg-[#111111] text-white text-[14px] placeholder-[#555555] transition-colors focus:outline-none focus:ring-1 ${
+                  passwordError
+                    ? 'border border-[#E05252] focus:border-[#E05252] focus:ring-[#E05252]/30'
+                    : 'border border-[#2A2A2A] focus:border-[#D4AF37] focus:ring-[#D4AF37]/30'
+                }`}
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                className="absolute right-1 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center text-[#888888] hover:text-white transition-colors"
+              >
+                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              </button>
             </div>
+            {passwordError && (
+              <p className="text-[#E05252] text-[14px] mt-1.5">{passwordError}</p>
+            )}
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full btn-red py-3 rounded-xl text-xs font-bold shadow-red flex items-center justify-center gap-1.5"
-          >
-            <span>{loading ? 'Authenticating...' : 'Sign In'}</span>
-            <ArrowRight className="w-4 h-4" />
-          </button>
+          {/* Submit Button */}
+          <div className="pt-2">
+            <button
+              type="submit"
+              disabled={loading || googleLoading}
+              className="w-full min-h-[48px] px-4 py-3 rounded-xl bg-[#D4AF37] hover:bg-[#E8C84A] text-[#050505] text-[15px] font-bold flex items-center justify-center transition-colors disabled:opacity-60"
+            >
+              {loading ? (
+                <div className="w-5 h-5 border-2 border-[#050505]/30 border-t-[#050505] rounded-full animate-spin" />
+              ) : (
+                'Sign In'
+              )}
+            </button>
+          </div>
+
+          {/* Forgot password */}
+          <div className="text-right pt-1">
+            <button
+              type="button"
+              onClick={() => alert('Password reset instructions will be sent to your Gmail address.')}
+              className="text-[14px] text-[#D4AF37] underline hover:text-[#E8C84A] transition-colors"
+            >
+              Forgot password?
+            </button>
+          </div>
         </form>
 
-        <div className="text-center text-xs text-knw-muted pt-2 border-t border-white/5">
-          <span>Don't have an account yet? </span>
-          <Link to="/register" className="font-bold text-knw-red hover:text-knw-redBright">
-            Create Free Account
+        {/* Card Footer Divider & Register Link */}
+        <div className="border-t border-[#222222] my-6" />
+
+        <div className="text-center text-[14px] text-[#888888]">
+          <span>Don't have an account? </span>
+          <Link to="/register" className="text-[#D4AF37] hover:text-[#E8C84A] font-semibold transition-colors">
+            Create account
           </Link>
         </div>
+
       </div>
     </div>
   );
 };
+
+export default LoginPage;

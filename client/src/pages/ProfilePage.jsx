@@ -6,7 +6,7 @@ import api from '../services/api';
 import { Link, useNavigate } from 'react-router-dom';
 
 export const ProfilePage = () => {
-  const { user, logout, isAuthenticated, demoLogin } = useAuth();
+  const { user, logout, isAuthenticated } = useAuth();
   const { myGoals, activeGoal, switchActiveGoal } = useGoal();
   const navigate = useNavigate();
 
@@ -37,12 +37,12 @@ export const ProfilePage = () => {
         <p className="text-xs text-knw-muted">
           Manage your enrolled goals, session bookings, and daily settings.
         </p>
-        <button
-          onClick={() => demoLogin()}
-          className="btn-red px-5 py-2.5 text-xs font-bold shadow-red"
+        <Link
+          to="/"
+          className="btn-red inline-flex items-center justify-center px-5 py-2.5 text-xs font-bold shadow-red"
         >
-          1-Click Demo Login
-        </button>
+          Sign In
+        </Link>
       </div>
     );
   }

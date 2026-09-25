@@ -207,59 +207,8 @@ export const seedRoadmaps = async () => {
     console.log(`  ✓ Upserted ${resourcesUpserted} curated resources for ${goal.title}.`);
   }
 
-  // 5. DEMO USER & BACKWARD COMPATIBILITY
-  console.log('[Seed] Ensuring Demo Student & Goal Profiles exist...');
-  let demoUser = await User.findOne({ email: 'student@knwshare.dev' });
-  if (!demoUser) {
-    demoUser = await User.create({
-      name: 'Alex Rivera',
-      email: 'student@knwshare.dev',
-      password: 'password123',
-      role: 'student',
-      bio: 'Lifelong learner actively mastering Multi-Goal roadmaps.'
-    });
-    console.log('  ✓ Demo Student user created');
-  }
-
-  const primaryGoal = seededGoals[0]; // JEE Main & Advanced
-  demoUser.currentGoalId = primaryGoal._id;
-  demoUser.currentGoalSlug = primaryGoal.slug;
-  await demoUser.save();
-
-  // Create UserGoalProfile for primary goal
-  await UserGoalProfile.findOneAndUpdate(
-    { userId: demoUser._id, goalId: primaryGoal._id },
-    {
-      userId: demoUser._id,
-      goalId: primaryGoal._id,
-      goalSlug: primaryGoal.slug,
-      level: 'beginner',
-      hoursPerDay: 3,
-      daysPerWeek: 6,
-      targetTimelineWeeks: 24,
-      status: 'active'
-    },
-    { upsert: true, new: true }
-  );
-
-  // Also create UserGoalProfile for Full Stack
-  const fsGoal = seededGoals.find(g => g.slug === 'full-stack-development');
-  if (fsGoal) {
-    await UserGoalProfile.findOneAndUpdate(
-      { userId: demoUser._id, goalId: fsGoal._id },
-      {
-        userId: demoUser._id,
-        goalId: fsGoal._id,
-        goalSlug: fsGoal.slug,
-        level: 'intermediate',
-        hoursPerDay: 2,
-        daysPerWeek: 5,
-        targetTimelineWeeks: 16,
-        status: 'active'
-      },
-      { upsert: true, new: true }
-    );
-  }
+  // Cleanup any old demo user
+  await User.deleteMany({ email: { $in: ['student@knwshare.dev', 'alex@knwshare.dev'] } });
 
   console.log('====================================================');
   console.log('✅ [SeedRoadmaps] Multi-Goal Seed Completed Successfully!');

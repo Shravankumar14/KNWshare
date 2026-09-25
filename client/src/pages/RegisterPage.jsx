@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
 
 export const RegisterPage = () => {
-  const { register, demoLogin, demoTeacherLogin } = useAuth();
+  const { register } = useAuth();
   const { addToast } = useNotification();
   const navigate = useNavigate();
 
@@ -47,19 +47,6 @@ export const RegisterPage = () => {
       }
     } catch (err) {
       setError(err.response?.data?.message || err.message || 'Registration failed');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDemoTeacher = async () => {
-    setLoading(true);
-    try {
-      await demoTeacherLogin();
-      addToast('Logged in as Faculty Mentor (Dr. Arvind Kumar)!', 'success');
-      navigate('/teacher/dashboard');
-    } catch (err) {
-      setError(err.message || 'Demo teacher login failed');
     } finally {
       setLoading(false);
     }
@@ -126,7 +113,7 @@ export const RegisterPage = () => {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder={role === 'teacher' ? 'Dr. Priya Sharma' : 'Alex Rivera'}
+                placeholder={role === 'teacher' ? 'Dr. Priya Sharma' : 'John Doe'}
                 className="w-full bg-knw-surface border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-knw-subtle focus:outline-none focus:border-knw-red"
               />
             </div>
@@ -239,22 +226,9 @@ export const RegisterPage = () => {
           </button>
         </form>
 
-        {/* 1-Click Demo for Teacher */}
-        <div className="pt-2 border-t border-white/5 space-y-2">
-          <button
-            type="button"
-            onClick={handleDemoTeacher}
-            disabled={loading}
-            className="w-full py-2.5 rounded-xl border border-white/10 bg-white/5 hover:border-knw-red/40 hover:bg-white/10 text-xs font-bold text-zinc-300 flex items-center justify-center gap-2 transition-all"
-          >
-            <Sparkles className="w-4 h-4 text-knw-red" />
-            <span>Instant Demo Faculty Login (Dr. Arvind Kumar)</span>
-          </button>
-        </div>
-
         <div className="text-center text-xs text-knw-muted pt-2 border-t border-white/5">
           <span>Already have an account? </span>
-          <Link to="/login" className="font-bold text-knw-red hover:text-knw-redBright">
+          <Link to="/" className="font-bold text-knw-red hover:text-knw-redBright">
             Sign In Here
           </Link>
         </div>
