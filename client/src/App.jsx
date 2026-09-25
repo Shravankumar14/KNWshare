@@ -1,10 +1,12 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { GoalProvider } from './context/GoalContext';
 import { NotificationProvider } from './context/NotificationContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { MainLayout } from './layouts/MainLayout';
-import { RoleProtectedRoute } from './components/auth/RoleProtectedRoute';
+import { ProtectedRoute } from './components/common/ProtectedRoute';
 
 // Pages
 import { GoalSelectionPage } from './pages/GoalSelectionPage';
@@ -19,97 +21,196 @@ import { RegisterPage } from './pages/RegisterPage';
 import { TeacherDashboardPage } from './pages/TeacherDashboardPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
-// Smart Home route: teachers are redirected to teacher dashboard
+// Smart Home route:
+// - Unauthenticated -> LoginPage only
+// - Authenticated -> Role-appropriate dashboard immediately
 const HomeRoute = () => {
-  const { user, isAuthenticated } = useAuth();
-  if (isAuthenticated && user?.role === 'teacher') {
-    return <Navigate to="/teacher/dashboard" replace />;
+  const { user, isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#050505] flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-[#2A2A2A] border-t-[#D4AF37] rounded-full animate-spin" />
+      </div>
+    );
   }
-  return <GoalSelectionPage />;
+
+  if (isAuthenticated && user) {
+    if (user.role === 'teacher') {
+      return <Navigate to="/teacher/dashboard" replace />;
+    }
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return <LoginPage />;
 };
 
 export function App() {
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || 'your_google_client_id';
+
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <GoalProvider>
-          <NotificationProvider>
-            <Routes>
-              <Route path="/" element={<MainLayout />}>
-                {/* PAGE 1: GOAL SELECTION — FRONT PAGE (Teachers redirected to /teacher/dashboard) */}
-                <Route index element={<HomeRoute />} />
-                
-                {/* STUDENT-ONLY PAGES (Teachers redirected to /teacher/dashboard) */}
-                <Route
-                  path="roadmap"
-                  element={
-                    <RoleProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
-                      <RoadmapCareerPage />
-                    </RoleProtectedRoute>
-                  }
-                />
+    <GoogleOAuthProvider clientId={googleClientId}>
+      <ThemeProvider>
+        <BrowserRouter>
+          <AuthProvider>
+            <GoalProvider>
+              <NotificationProvider>
+                <Routes>
+                  <Route path="/" element={<MainLayout />}>
+                    {/* HOME & AUTH: Unauthenticated -> Login page only, Authenticated -> Dashboard */}
+                    <Route index element={<HomeRoute />} />
+                    <Route path="login" element={<HomeRoute />} />
+                    <Route path="register" element={<RegisterPage />} />
 
-                <Route
-                  path="resources"
-                  element={
-                    <RoleProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
-                      <ResourcesPage />
-                    </RoleProtectedRoute>
-                  }
-                />
+                    {/* PROTECTED STUDENT ROUTES */}
+                    <Route
+                      path="dashboard"
+                      element={
+                        <ProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
+                          <GoalSelectionPage />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="goals"
+                      element={
+                        <ProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
+                          <GoalSelectionPage />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="goal-select"
+                      element={
+                        <ProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
+                          <GoalSelectionPage />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="student/*"
+                      element={
+                        <ProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
+                          <GoalSelectionPage />
+                        </ProtectedRoute>
+                      }
+                    />
 
-                <Route
-                  path="timetable"
-                  element={
-                    <RoleProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
-                      <TimetablePage />
-                    </RoleProtectedRoute>
-                  }
-                />
+                    <Route
+                      path="roadmap"
+                      element={
+                        <ProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
+                          <RoadmapCareerPage />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="roadmap/:goalSlug"
+                      element={
+                        <ProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
+                          <RoadmapCareerPage />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="career/:goalSlug"
+                      element={
+                        <ProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
+                          <RoadmapCareerPage initialTab="career" />
+                        </ProtectedRoute>
+                      }
+                    />
 
-                <Route
-                  path="tasks"
-                  element={
-                    <RoleProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
-                      <TasksPage />
-                    </RoleProtectedRoute>
-                  }
-                />
+                    <Route
+                      path="resources"
+                      element={
+                        <ProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
+                          <ResourcesPage />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="resources/:goalSlug"
+                      element={
+                        <ProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
+                          <ResourcesPage />
+                        </ProtectedRoute>
+                      }
+                    />
 
-                <Route
-                  path="progress"
-                  element={
-                    <RoleProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
-                      <ProgressPage />
-                    </RoleProtectedRoute>
-                  }
-                />
+                    <Route
+                      path="timetable"
+                      element={
+                        <ProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
+                          <TimetablePage />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="timetable/:goalSlug"
+                      element={
+                        <ProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
+                          <TimetablePage />
+                        </ProtectedRoute>
+                      }
+                    />
 
-                {/* Profile & Settings */}
-                <Route path="profile" element={<ProfilePage />} />
+                    <Route
+                      path="tasks"
+                      element={
+                        <ProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
+                          <TasksPage />
+                        </ProtectedRoute>
+                      }
+                    />
 
-                {/* TEACHER DASHBOARD (Students redirected to /) */}
-                <Route
-                  path="teacher/dashboard"
-                  element={
-                    <RoleProtectedRoute allowedRoles={['teacher', 'admin']}>
-                      <TeacherDashboardPage />
-                    </RoleProtectedRoute>
-                  }
-                />
+                    <Route
+                      path="progress"
+                      element={
+                        <ProtectedRoute allowedRoles={['student', 'expert', 'admin']}>
+                          <ProgressPage />
+                        </ProtectedRoute>
+                      }
+                    />
 
-                {/* Auth */}
-                <Route path="login" element={<LoginPage />} />
-                <Route path="register" element={<RegisterPage />} />
+                    {/* Profile & Settings (Authenticated users of any role) */}
+                    <Route
+                      path="profile"
+                      element={
+                        <ProtectedRoute>
+                          <ProfilePage />
+                        </ProtectedRoute>
+                      }
+                    />
 
-                {/* 404 Fallback */}
-                <Route path="*" element={<NotFoundPage />} />
-              </Route>
-            </Routes>
-          </NotificationProvider>
-        </GoalProvider>
-      </AuthProvider>
-    </BrowserRouter>
+                    {/* TEACHER DASHBOARD (guarded for teacher & admin only) */}
+                    <Route
+                      path="teacher/*"
+                      element={
+                        <ProtectedRoute allowedRoles={['teacher', 'admin']}>
+                          <TeacherDashboardPage />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="teacher/dashboard"
+                      element={
+                        <ProtectedRoute allowedRoles={['teacher', 'admin']}>
+                          <TeacherDashboardPage />
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    {/* 404 Fallback */}
+                    <Route path="*" element={<NotFoundPage />} />
+                  </Route>
+                </Routes>
+              </NotificationProvider>
+            </GoalProvider>
+          </AuthProvider>
+        </BrowserRouter>
+      </ThemeProvider>
+    </GoogleOAuthProvider>
   );
 }
 

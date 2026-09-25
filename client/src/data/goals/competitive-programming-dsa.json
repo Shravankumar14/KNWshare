@@ -1,0 +1,577 @@
+{
+  "goal": {
+    "title": "Competitive Programming & DSA",
+    "slug": "competitive-programming-dsa",
+    "shortDescription": "Algorithmic problem solving, Big Tech interview patterns, and contest ratings",
+    "category": "competitive_programming",
+    "tagline": "Master algorithms, data structures, dynamic programming, and contest strategy",
+    "description": "Systematic curriculum from complexity analysis and STL to advanced graph algorithms, segment trees, and DP optimization. Designed for cracking FAANG/Tier-1 interviews and achieving Codeforces Candidate Master rating.",
+    "icon": "Terminal",
+    "badgeColor": "amber",
+    "estimatedMonths": 6,
+    "active": true,
+    "order": 3,
+    "targetRoles": [
+      "Software Development Engineer (FAANG / Tier-1)",
+      "Algorithms Engineer",
+      "ICPC Regional Contestant",
+      "Codeforces Candidate Master / Knight"
+    ],
+    "careerPath": [
+      {
+        "stepNumber": 1,
+        "title": "Core DSA Foundations & Complexity Analysis",
+        "subtitle": "Asymptotics, Arrays, Pointers, and STL Containers",
+        "description": "Understand time and space complexity, two pointers, sliding window, and C++ STL / Java Collections efficiency.",
+        "milestones": [
+          "Solve 50 easy LeetCode problems",
+          "Comfortable with amortized complexity and memory layout"
+        ],
+        "icon": "Code"
+      },
+      {
+        "stepNumber": 2,
+        "title": "Search, Sort & Linear Data Structures",
+        "subtitle": "Binary Search, Stacks, Queues, Heaps & Hash Maps",
+        "description": "Implement monotonic stacks, priority queues, and binary search on answer spaces.",
+        "milestones": [
+          "Solve 50 medium problems",
+          "Master binary search on monotonic predicates"
+        ],
+        "icon": "Layers"
+      },
+      {
+        "stepNumber": 3,
+        "title": "Tree & Graph Algorithms",
+        "subtitle": "DFS, BFS, Dijkstra, MST, Topological Sort & Disjoint Set Union",
+        "description": "Traverse trees, calculate lowest common ancestors, and solve shortest path and connected component problems.",
+        "milestones": [
+          "Solve 40 tree and graph challenges",
+          "Implement Union-Find with path compression"
+        ],
+        "icon": "Compass"
+      },
+      {
+        "stepNumber": 4,
+        "title": "Dynamic Programming & Advanced Structures",
+        "subtitle": "1D/2D DP, Knapsack, Digit DP, Segment Trees & Fenwick Trees",
+        "description": "Recognize overlapping subproblems, formulate state transitions, and handle range queries with segment trees.",
+        "milestones": [
+          "Solve 60 DP patterns",
+          "Build segment tree for point and range updates"
+        ],
+        "icon": "Flame"
+      }
+    ]
+  },
+  "roadmap": {
+    "title": "Comprehensive Competitive Programming & DSA Roadmap",
+    "totalEstimatedHours": 280,
+    "version": 1,
+    "stages": [
+      {
+        "stageNumber": 1,
+        "title": "Language Proficiency, STL & Complexity Analysis",
+        "description": "Asymptotic notation, fast I/O, bit manipulation, vectors, sets, maps, and two-pointer techniques.",
+        "subject": "Algorithms",
+        "order": 1,
+        "estimatedHours": 30,
+        "difficulty": "beginner",
+        "learningObjectives": [
+          "Calculate Big-O time and space complexity accurately",
+          "Utilize standard template library containers with optimal operations",
+          "Apply two pointers and sliding window to solve sub-array problems in O(N)"
+        ],
+        "practiceRequirements": [
+          "Solve 25 LeetCode Easy/Medium problems in Arrays and Two Pointers",
+          "Implement custom comparator functions in STL sorting"
+        ],
+        "skippableIfExperienced": true,
+        "topics": [
+          {
+            "title": "Time & Space Complexity and Asymptotic Analysis",
+            "description": "Big-O, Big-Omega, Big-Theta, recurrence relations and Master Theorem.",
+            "order": 1,
+            "estimatedHours": 6,
+            "difficulty": "beginner",
+            "skills": [
+              "Asymptotic Analysis",
+              "Recurrence Relations"
+            ],
+            "subtopics": [
+              "Time complexity bounds",
+              "Space complexity and call stack",
+              "Master Theorem"
+            ],
+            "resources": [
+              {
+                "title": "Time Complexity and Big-O Notation",
+                "provider": "GeeksforGeeks",
+                "type": "documentation",
+                "url": "https://www.geeksforgeeks.org/analysis-of-algorithms-set-1-asymptotic-analysis/",
+                "description": "Comprehensive guide to algorithmic complexity analysis.",
+                "free": true,
+                "language": "English"
+              },
+              {
+                "title": "Asymptotic Analysis & Big-O Notes",
+                "provider": "Stanford CS Education",
+                "type": "documentation",
+                "url": "https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1218/lectures/big-o/",
+                "description": "Rigorous university notes on algorithmic scaling.",
+                "free": true,
+                "language": "English"
+              }
+            ]
+          },
+          {
+            "title": "Standard Template Library (STL) & Collections",
+            "description": "Vectors, deques, unordered_map, set, multiset, priority_queue, and iterators.",
+            "order": 2,
+            "estimatedHours": 8,
+            "difficulty": "beginner",
+            "skills": [
+              "C++ STL",
+              "Data Structures"
+            ],
+            "subtopics": [
+              "Associative containers",
+              "Sequence containers",
+              "Container adapters"
+            ],
+            "resources": [
+              {
+                "title": "C++ STL Containers and Usage Guide",
+                "provider": "CP-Algorithms",
+                "type": "documentation",
+                "url": "https://cp-algorithms.com/",
+                "description": "Algorithms and STL handbook for competitive programmers.",
+                "free": true,
+                "language": "English"
+              }
+            ]
+          },
+          {
+            "title": "Two Pointers, Sliding Window & Prefix Sums",
+            "description": "Linear scan patterns for sub-arrays, intervals, and subarray sums.",
+            "order": 3,
+            "estimatedHours": 10,
+            "difficulty": "beginner",
+            "skills": [
+              "Two Pointers",
+              "Prefix Sums",
+              "Sliding Window"
+            ],
+            "subtopics": [
+              "Fixed window size",
+              "Variable window size",
+              "2D prefix sums"
+            ],
+            "resources": [
+              {
+                "title": "Sliding Window and Two Pointer Techniques",
+                "provider": "LeetCode Explore",
+                "type": "practice",
+                "url": "https://leetcode.com/explore/",
+                "description": "Standard two-pointer interview problem sets.",
+                "free": true,
+                "language": "English"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stageNumber": 2,
+        "title": "Binary Search, Sorting & Linear Data Structures",
+        "description": "Binary search on monotonic spaces, stacks, queues, monotonic stacks, and heaps.",
+        "subject": "Algorithms",
+        "order": 2,
+        "estimatedHours": 40,
+        "difficulty": "intermediate",
+        "learningObjectives": [
+          "Formulate binary search on answer spaces for optimization problems",
+          "Solve Next Greater Element problems with monotonic stacks",
+          "Apply heaps to streaming median and top-K elements"
+        ],
+        "practiceRequirements": [
+          "Solve 30 problems on Binary Search and Monotonic Stacks",
+          "Implement heapify and priority queue operations from scratch"
+        ],
+        "skippableIfExperienced": false,
+        "topics": [
+          {
+            "title": "Binary Search on Answer Spaces",
+            "description": "Predicates, invariant preservation, and searching continuous/discrete domains.",
+            "order": 1,
+            "estimatedHours": 12,
+            "difficulty": "intermediate",
+            "skills": [
+              "Binary Search",
+              "Invariants"
+            ],
+            "subtopics": [
+              "Lower bound / upper bound",
+              "Monotonic predicate design",
+              "Floating point binary search"
+            ],
+            "resources": [
+              {
+                "title": "Binary Search Tutorial & Patterns",
+                "provider": "TopCoder / CP-Algorithms",
+                "type": "documentation",
+                "url": "https://cp-algorithms.com/num_methods/binary_search.html",
+                "description": "Precision binary search methods in competitive programming.",
+                "free": true,
+                "language": "English"
+              }
+            ]
+          },
+          {
+            "title": "Monotonic Stacks & Queues",
+            "description": "Daily Temperatures, Largest Rectangle in Histogram, and Sliding Window Maximum.",
+            "order": 2,
+            "estimatedHours": 12,
+            "difficulty": "intermediate",
+            "skills": [
+              "Monotonic Stacks",
+              "DeQueue"
+            ],
+            "subtopics": [
+              "Next greater element",
+              "Histogram area",
+              "Window extremum"
+            ],
+            "resources": [
+              {
+                "title": "Monotonic Stack Problem Patterns",
+                "provider": "GeeksforGeeks",
+                "type": "documentation",
+                "url": "https://www.geeksforgeeks.org/introduction-to-monotonic-stack-data-structure-and-algorithm-tutorials/",
+                "description": "Detailed analysis of monotonic stack problems.",
+                "free": true,
+                "language": "English"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stageNumber": 3,
+        "title": "Tree & Graph Algorithms",
+        "description": "DFS, BFS, tree diameter, Lowest Common Ancestor, Dijkstra, Disjoint Set Union (DSU).",
+        "subject": "Algorithms",
+        "order": 3,
+        "estimatedHours": 60,
+        "difficulty": "intermediate",
+        "learningObjectives": [
+          "Perform graph traversals and cycle detection in directed/undirected graphs",
+          "Compute single-source shortest paths using Dijkstra and Priority Queues",
+          "Manage dynamically connected components with DSU in near O(1) amortized time"
+        ],
+        "practiceRequirements": [
+          "Solve 35 graph problems on LeetCode and Codeforces",
+          "Implement DSU with union by rank and path compression"
+        ],
+        "skippableIfExperienced": false,
+        "topics": [
+          {
+            "title": "Graph Representation, BFS & DFS",
+            "description": "Adjacency list/matrix, connected components, bipartiteness, cycle detection.",
+            "order": 1,
+            "estimatedHours": 15,
+            "difficulty": "intermediate",
+            "skills": [
+              "DFS",
+              "BFS",
+              "Graph Modeling"
+            ],
+            "subtopics": [
+              "Topological sort",
+              "Bipartite matching",
+              "Flood fill"
+            ],
+            "resources": [
+              {
+                "title": "Breadth First Search & Depth First Search",
+                "provider": "CP-Algorithms",
+                "type": "documentation",
+                "url": "https://cp-algorithms.com/graph/breadth-first-search.html",
+                "description": "Classic BFS/DFS implementations and properties.",
+                "free": true,
+                "language": "English"
+              }
+            ]
+          },
+          {
+            "title": "Shortest Paths & Minimum Spanning Trees",
+            "description": "Dijkstra, Bellman-Ford, Kruskal, Prim, and Floyd-Warshall.",
+            "order": 2,
+            "estimatedHours": 20,
+            "difficulty": "intermediate",
+            "skills": [
+              "Dijkstra",
+              "Kruskal",
+              "MST"
+            ],
+            "subtopics": [
+              "Negative edge weights",
+              "All pairs shortest paths",
+              "Greedy spanning trees"
+            ],
+            "resources": [
+              {
+                "title": "Dijkstra Algorithm Single-Source Shortest Path",
+                "provider": "CP-Algorithms",
+                "type": "documentation",
+                "url": "https://cp-algorithms.com/graph/dijkstra.html",
+                "description": "Optimized Dijkstra with priority queue.",
+                "free": true,
+                "language": "English"
+              }
+            ]
+          },
+          {
+            "title": "Disjoint Set Union (DSU) & Tree LCA",
+            "description": "Union-find, path compression, tree diameter, binary lifting for LCA.",
+            "order": 3,
+            "estimatedHours": 15,
+            "difficulty": "intermediate",
+            "skills": [
+              "DSU",
+              "Binary Lifting",
+              "Trees"
+            ],
+            "subtopics": [
+              "Union by rank/size",
+              "Binary lifting",
+              "Euler tour of trees"
+            ],
+            "resources": [
+              {
+                "title": "Disjoint Set Union with Optimizations",
+                "provider": "CP-Algorithms",
+                "type": "documentation",
+                "url": "https://cp-algorithms.com/data_structures/disjoint_set_union.html",
+                "description": "Full derivation of inverse Ackermann complexity DSU.",
+                "free": true,
+                "language": "English"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stageNumber": 4,
+        "title": "Dynamic Programming Mastery",
+        "description": "Memoization, tabulation, 1D/2D DP, knapsack variations, longest increasing subsequence, digit DP.",
+        "subject": "Algorithms",
+        "order": 4,
+        "estimatedHours": 70,
+        "difficulty": "advanced",
+        "learningObjectives": [
+          "Recognize overlapping subproblems and optimal substructure",
+          "Define states and write correct transition equations",
+          "Optimize space complexity using state compression"
+        ],
+        "practiceRequirements": [
+          "Solve the CSES Dynamic Programming problem set",
+          "Solve 40 medium and hard DP problems on LeetCode"
+        ],
+        "skippableIfExperienced": false,
+        "topics": [
+          {
+            "title": "1D DP & Classic Subsequences",
+            "description": "Climbing stairs, coin change, house robber, longest increasing subsequence in O(N log N).",
+            "order": 1,
+            "estimatedHours": 20,
+            "difficulty": "intermediate",
+            "skills": [
+              "Dynamic Programming",
+              "Memoization"
+            ],
+            "subtopics": [
+              "State identification",
+              "Base cases",
+              "Patience sorting for LIS"
+            ],
+            "resources": [
+              {
+                "title": "CSES Dynamic Programming Problem Set",
+                "provider": "CSES Finland",
+                "type": "practice",
+                "url": "https://cses.fi/problemset/list/",
+                "description": "Gold-standard benchmark dynamic programming problem set.",
+                "free": true,
+                "language": "English"
+              }
+            ]
+          },
+          {
+            "title": "2D & Knapsack Dynamic Programming",
+            "description": "0/1 Knapsack, Unbounded Knapsack, Edit Distance, Longest Common Subsequence, Grid DP.",
+            "order": 2,
+            "estimatedHours": 25,
+            "difficulty": "advanced",
+            "skills": [
+              "2D DP",
+              "Knapsack Variations"
+            ],
+            "subtopics": [
+              "Space optimization in 2D grids",
+              "Subset sum and partition problems"
+            ],
+            "resources": [
+              {
+                "title": "Knapsack Problem and Dynamic Programming",
+                "provider": "GeeksforGeeks",
+                "type": "documentation",
+                "url": "https://www.geeksforgeeks.org/0-1-knapsack-problem-dp-10/",
+                "description": "Classic 0/1 knapsack tutorial and proof.",
+                "free": true,
+                "language": "English"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stageNumber": 5,
+        "title": "Advanced Range Queries & Segment Trees",
+        "description": "Segment trees, lazy propagation, Fenwick trees (Binary Indexed Tree), Trie data structure.",
+        "subject": "Algorithms",
+        "order": 5,
+        "estimatedHours": 50,
+        "difficulty": "advanced",
+        "learningObjectives": [
+          "Build segment trees for associative operations (sum, min, max, gcd)",
+          "Implement lazy propagation for range updates in O(log N)",
+          "Construct prefix trees (Trie) for string matching and bitwise XOR queries"
+        ],
+        "practiceRequirements": [
+          "Solve 20 range query problems on CSES and Codeforces",
+          "Implement Fenwick tree point update and prefix query"
+        ],
+        "skippableIfExperienced": false,
+        "topics": [
+          {
+            "title": "Segment Trees with Point and Range Updates",
+            "description": "Tree construction, range queries, lazy propagation, dynamic segment trees.",
+            "order": 1,
+            "estimatedHours": 25,
+            "difficulty": "advanced",
+            "skills": [
+              "Segment Trees",
+              "Range Queries",
+              "Lazy Propagation"
+            ],
+            "subtopics": [
+              "Build and query recursion",
+              "Lazy tags propagation"
+            ],
+            "resources": [
+              {
+                "title": "Segment Tree Comprehensive Tutorial",
+                "provider": "CP-Algorithms",
+                "type": "documentation",
+                "url": "https://cp-algorithms.com/data_structures/segment_tree.html",
+                "description": "The definitive segment tree guide with C++ examples.",
+                "free": true,
+                "language": "English"
+              }
+            ]
+          },
+          {
+            "title": "Binary Indexed Tree (Fenwick) & Trie",
+            "description": "Fenwick tree BIT operations with lowbit, Trie string and XOR maximum matching.",
+            "order": 2,
+            "estimatedHours": 25,
+            "difficulty": "advanced",
+            "skills": [
+              "Fenwick Tree",
+              "Trie"
+            ],
+            "subtopics": [
+              "Point update range query",
+              "Inversion count",
+              "XOR Trie"
+            ],
+            "resources": [
+              {
+                "title": "Fenwick Tree (Binary Indexed Tree)",
+                "provider": "CP-Algorithms",
+                "type": "documentation",
+                "url": "https://cp-algorithms.com/data_structures/fenwick.html",
+                "description": "Lowbit formula and Fenwick tree operations.",
+                "free": true,
+                "language": "English"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "resources": [
+    {
+      "title": "CSES Problem Set (Algorithms & Data Structures)",
+      "provider": "CSES Finland",
+      "type": "practice",
+      "url": "https://cses.fi/problemset/list/",
+      "description": "Clean, curated collection of standard algorithm problems by Antti Laaksonen.",
+      "stageNumber": 1,
+      "topicTitle": "Time & Space Complexity and Asymptotic Analysis",
+      "free": true,
+      "language": "English",
+      "verified": true
+    },
+    {
+      "title": "CP-Algorithms Handbook & Reference",
+      "provider": "CP-Algorithms",
+      "type": "documentation",
+      "url": "https://cp-algorithms.com/",
+      "description": "English translation of E-Maxx algorithms reference covering graph, math, and structures.",
+      "stageNumber": 1,
+      "topicTitle": "Standard Template Library (STL) & Collections",
+      "free": true,
+      "language": "English",
+      "verified": true
+    },
+    {
+      "title": "LeetCode Interview Study Plan (Top 150)",
+      "provider": "LeetCode",
+      "type": "practice",
+      "url": "https://leetcode.com/studyplan/top-interview-150/",
+      "description": "Curated list of classic coding interview questions for top tech companies.",
+      "stageNumber": 2,
+      "topicTitle": "Binary Search on Answer Spaces",
+      "free": true,
+      "language": "English",
+      "verified": true
+    },
+    {
+      "title": "Codeforces Problemset & Rated Contests",
+      "provider": "Codeforces",
+      "type": "practice",
+      "url": "https://codeforces.com/problemset",
+      "description": "The premier competitive programming portal for rating progression and contest simulation.",
+      "stageNumber": 3,
+      "topicTitle": "Graph Representation, BFS & DFS",
+      "free": true,
+      "language": "English",
+      "verified": true
+    },
+    {
+      "title": "AtCoder Regular Contests & Educational DP Contest",
+      "provider": "AtCoder",
+      "type": "practice",
+      "url": "https://atcoder.jp/contests/dp",
+      "description": "26 benchmark dynamic programming problems from A to Z.",
+      "stageNumber": 4,
+      "topicTitle": "1D DP & Classic Subsequences",
+      "free": true,
+      "language": "English",
+      "verified": true
+    }
+  ]
+}

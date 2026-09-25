@@ -51,13 +51,37 @@ export const ProgressPage = () => {
         <BarChart2 className="w-12 h-12 text-knw-red mx-auto" />
         <h3 className="text-base font-bold text-white">Track Your Progress</h3>
         <p className="text-xs text-knw-muted">
-          Sign in or use 1-click Demo Login to track your goal completion percentage, study hours, and milestones.
+          Sign in to track your goal completion percentage, study hours, and milestones.
         </p>
         <Link
-          to="/login"
+          to="/"
           className="btn-red inline-flex items-center gap-1.5 px-5 py-2.5 text-xs font-bold shadow-red"
         >
-          <span>Sign In / Demo</span>
+          <span>Sign In</span>
+          <ArrowRight className="w-4 h-4" />
+        </Link>
+      </div>
+    );
+  }
+
+  if (!activeGoal) {
+    return (
+      <div className="knw-card rounded-3xl p-12 text-center max-w-md mx-auto space-y-5 my-12 border border-knw-border">
+        <div className="w-16 h-16 rounded-3xl bg-knw-surface border border-knw-border flex items-center justify-center mx-auto">
+          <Compass className="w-8 h-8 text-knw-red" />
+        </div>
+        <div className="space-y-2">
+          <div className="text-xs font-mono font-bold uppercase tracking-wider text-knw-muted">0% Progress</div>
+          <h2 className="text-2xl font-black text-white">Choose your goal to begin.</h2>
+          <p className="text-xs text-knw-muted max-w-sm mx-auto">
+            Select a target goal to unlock your custom curriculum, interactive task board, weekly study timetable, and faculty mentors.
+          </p>
+        </div>
+        <Link
+          to="/goal-select"
+          className="btn-red inline-flex items-center gap-2 px-6 py-3 text-xs font-bold shadow-red"
+        >
+          <span>Select a Goal</span>
           <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
@@ -66,22 +90,22 @@ export const ProgressPage = () => {
 
   const metrics = progressData?.metrics || {
     overallPercentage: activeUserGoal?.overallProgress || 0,
-    totalTasks: 24,
-    completedTasksCount: 6,
-    pendingTasksCount: 18,
+    totalTasks: 0,
+    completedTasksCount: 0,
+    pendingTasksCount: 0,
     overdueTasksCount: 0,
-    totalHoursStudied: 14,
-    streakDays: 4,
+    totalHoursStudied: 0,
+    streakDays: 0,
   };
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
       {/* Header Banner */}
       <div className="knw-card rounded-3xl p-6 sm:p-8 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-knw-red via-red-500 to-knw-redDark shadow-red" />
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-knw-red via-knw-redBright to-knw-redDark shadow-red" />
         <div className="space-y-2 max-w-2xl">
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-knw-red/15 text-red-400 border border-knw-red/30 uppercase tracking-wider font-mono">
+            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-knw-red/15 text-knw-red border border-knw-red/30 uppercase tracking-wider font-mono">
               Goal Tracking & Momentum
             </span>
             <span className="text-xs text-knw-subtle">•</span>
@@ -123,7 +147,7 @@ export const ProgressPage = () => {
             <span className="text-[10px] uppercase font-mono font-bold text-knw-muted block tracking-wider">
               Overall Goal Completion
             </span>
-            <span className="text-sm font-bold text-red-300 font-mono">
+            <span className="text-sm font-bold text-knw-red font-mono">
               {metrics.completedTasksCount} / {metrics.totalTasks} Tasks Done
             </span>
           </div>
@@ -131,7 +155,7 @@ export const ProgressPage = () => {
       </div>
 
       {/* Key Metric Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         {/* Total Hours */}
         <div className="knw-card p-6 rounded-3xl flex items-center gap-4">
           <div className="w-12 h-12 rounded-2xl bg-knw-red/15 border border-knw-red/30 text-knw-red flex items-center justify-center font-bold">

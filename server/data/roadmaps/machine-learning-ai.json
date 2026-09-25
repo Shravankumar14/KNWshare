@@ -1,0 +1,580 @@
+{
+  "goal": {
+    "title": "Machine Learning & AI",
+    "slug": "machine-learning-ai",
+    "shortDescription": "Mathematical foundations, classical ML, Deep Learning with PyTorch, and Generative AI / LLMs",
+    "category": "ai_ml",
+    "tagline": "From linear algebra and scikit-learn to deep neural networks, transformers, and LLM engineering",
+    "description": "A comprehensive journey covering linear algebra, calculus, statistical modeling, supervised/unsupervised machine learning, deep vision, NLP with Transformers, and production LLM application engineering.",
+    "icon": "Brain",
+    "badgeColor": "purple",
+    "estimatedMonths": 8,
+    "active": true,
+    "order": 4,
+    "targetRoles": [
+      "Machine Learning Engineer",
+      "AI Research Engineer",
+      "Data Scientist",
+      "LLM / NLP Applications Engineer"
+    ],
+    "careerPath": [
+      {
+        "stepNumber": 1,
+        "title": "Mathematical & Python Data Science Core",
+        "subtitle": "Linear Algebra, Calculus, Statistics, NumPy & Pandas",
+        "description": "Master vectors, matrices, eigenvalues, partial derivatives, gradient descent, and data manipulation.",
+        "milestones": [
+          "Perform exploratory data analysis on Kaggle",
+          "Implement gradient descent from scratch with NumPy"
+        ],
+        "icon": "Calculator"
+      },
+      {
+        "stepNumber": 2,
+        "title": "Classical Machine Learning with Scikit-Learn",
+        "subtitle": "Regression, Classification, SVMs, Trees & Ensemble Methods",
+        "description": "Build predictive models, prevent overfitting, cross-validate pipelines, and tune hyperparameters.",
+        "milestones": [
+          "Train Random Forest & XGBoost classifiers",
+          "Construct complete preprocessing pipelines with Scikit-Learn"
+        ],
+        "icon": "Cpu"
+      },
+      {
+        "stepNumber": 3,
+        "title": "Deep Learning Foundations with PyTorch",
+        "subtitle": "Tensors, Autograd, Backpropagation, CNNs & RNNs",
+        "description": "Design multi-layer perceptrons, convolutional networks for computer vision, and recurrent architectures.",
+        "milestones": [
+          "Train ResNet image classifier with GPU acceleration",
+          "Understand loss functions and Adam optimizer"
+        ],
+        "icon": "Flame"
+      },
+      {
+        "stepNumber": 4,
+        "title": "Transformers, Generative AI & LLM Systems",
+        "subtitle": "Self-Attention, BERT, GPT, Hugging Face, RAG & Vector DBs",
+        "description": "Fine-tune pre-trained language models, build Retrieval-Augmented Generation (RAG) pipelines, and deploy LLM apps.",
+        "milestones": [
+          "Deploy a production RAG system with LangChain/LlamaIndex",
+          "Fine-tune an open-source LLM using LoRA/QLoRA"
+        ],
+        "icon": "Sparkles"
+      }
+    ]
+  },
+  "roadmap": {
+    "title": "Modern Machine Learning & AI Engineering Roadmap",
+    "totalEstimatedHours": 350,
+    "version": 1,
+    "stages": [
+      {
+        "stageNumber": 1,
+        "title": "Mathematical Foundations for Machine Learning",
+        "description": "Linear Algebra, Vector Spaces, Matrix Decomposition (SVD/PCA), Multivariate Calculus, and Probability.",
+        "subject": "Mathematics",
+        "order": 1,
+        "estimatedHours": 40,
+        "difficulty": "beginner",
+        "learningObjectives": [
+          "Understand dot products, matrix multiplications, norms, and eigenvalues intuitively",
+          "Calculate partial derivatives and Jacobians for gradient descent formulation",
+          "Master probability distributions, Bayes theorem, expected values, and maximum likelihood"
+        ],
+        "practiceRequirements": [
+          "Derive linear regression closed-form normal equations by hand",
+          "Implement gradient descent on 2D loss surfaces"
+        ],
+        "skippableIfExperienced": true,
+        "topics": [
+          {
+            "title": "Linear Algebra: Vectors, Matrices & Eigenvalues",
+            "description": "Vector spaces, matrix transforms, determinants, eigenvalues, eigenvectors, and SVD.",
+            "order": 1,
+            "estimatedHours": 15,
+            "difficulty": "beginner",
+            "skills": [
+              "Linear Algebra",
+              "Matrix Transformations"
+            ],
+            "subtopics": [
+              "Dot products and projections",
+              "Matrix invertibility",
+              "Eigendecomposition"
+            ],
+            "resources": [
+              {
+                "title": "3Blue1Brown: Essence of Linear Algebra",
+                "provider": "3Blue1Brown",
+                "type": "playlist",
+                "url": "https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab",
+                "description": "Geometric intuition behind vector spaces and transformations.",
+                "free": true,
+                "language": "English"
+              },
+              {
+                "title": "Mathematics for Machine Learning (Book & Notes)",
+                "provider": "Cambridge University Press",
+                "type": "book",
+                "url": "https://mml-book.github.io/",
+                "description": "Free open textbook covering linear algebra and calculus for ML.",
+                "free": true,
+                "language": "English"
+              }
+            ]
+          },
+          {
+            "title": "Multivariate Calculus & Gradient Descent",
+            "description": "Derivatives, chain rule, gradients, directional derivatives, convexity, and learning rate schedules.",
+            "order": 2,
+            "estimatedHours": 12,
+            "difficulty": "beginner",
+            "skills": [
+              "Calculus",
+              "Optimization"
+            ],
+            "subtopics": [
+              "Chain rule in higher dimensions",
+              "Gradient vector",
+              "Hessian matrix"
+            ],
+            "resources": [
+              {
+                "title": "Essence of Calculus",
+                "provider": "3Blue1Brown",
+                "type": "playlist",
+                "url": "https://www.youtube.com/playlist?list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr",
+                "description": "Visual intuition for derivatives and the chain rule.",
+                "free": true,
+                "language": "English"
+              }
+            ]
+          },
+          {
+            "title": "Probability, Random Variables & Maximum Likelihood",
+            "description": "Discrete/continuous distributions, Gaussian distribution, conditional probability, Bayes rule, MLE and MAP.",
+            "order": 3,
+            "estimatedHours": 13,
+            "difficulty": "beginner",
+            "skills": [
+              "Probability",
+              "Statistics"
+            ],
+            "subtopics": [
+              "Probability density functions",
+              "Central Limit Theorem",
+              "Log-likelihood"
+            ],
+            "resources": [
+              {
+                "title": "Introduction to Probability & Statistics for Data Science",
+                "provider": "Khan Academy",
+                "type": "course",
+                "url": "https://www.khanacademy.org/math/statistics-probability",
+                "description": "Core concepts in distributions, variance, and hypothesis testing.",
+                "free": true,
+                "language": "English"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stageNumber": 2,
+        "title": "Python Data Science Stack (NumPy, Pandas, Scipy)",
+        "description": "Vectorized array computations with NumPy, dataframe manipulations with Pandas, data visualization.",
+        "subject": "Data Science",
+        "order": 2,
+        "estimatedHours": 35,
+        "difficulty": "beginner",
+        "learningObjectives": [
+          "Perform vectorized broadcast operations in NumPy without slow Python loops",
+          "Clean, transform, merge, and group datasets using Pandas",
+          "Generate publication-quality exploratory data visualizations with Matplotlib & Seaborn"
+        ],
+        "practiceRequirements": [
+          "Complete 2 Kaggle exploratory data analysis notebooks",
+          "Implement vectorized k-nearest neighbors using only NumPy"
+        ],
+        "skippableIfExperienced": true,
+        "topics": [
+          {
+            "title": "NumPy: Vectorization, Broadcasting & Arrays",
+            "description": "N-dimensional arrays, indexing, masking, broadcasting rules, and linear algebra routines.",
+            "order": 1,
+            "estimatedHours": 15,
+            "difficulty": "beginner",
+            "skills": [
+              "NumPy",
+              "Vectorization"
+            ],
+            "subtopics": [
+              "Array indexing and slicing",
+              "Broadcasting mechanisms",
+              "Linear algebra in numpy.linalg"
+            ],
+            "resources": [
+              {
+                "title": "Official NumPy User Guide & Tutorials",
+                "provider": "NumPy.org",
+                "type": "documentation",
+                "url": "https://numpy.org/doc/stable/user/index.html",
+                "description": "Official comprehensive reference and tutorial for NumPy.",
+                "free": true,
+                "language": "English"
+              }
+            ]
+          },
+          {
+            "title": "Pandas: DataFrames, Aggregations & Data Cleaning",
+            "description": "Series, DataFrames, missing data imputation, groupby aggregations, pivots, and time series.",
+            "order": 2,
+            "estimatedHours": 20,
+            "difficulty": "beginner",
+            "skills": [
+              "Pandas",
+              "Data Cleaning"
+            ],
+            "subtopics": [
+              "Data ingestion and parsing",
+              "Missing value handling",
+              "Merge, join and concat"
+            ],
+            "resources": [
+              {
+                "title": "Pandas Getting Started Tutorials",
+                "provider": "Pandas.pydata.org",
+                "type": "documentation",
+                "url": "https://pandas.pydata.org/docs/getting_started/index.html",
+                "description": "Official guides to data wrangling and transformation.",
+                "free": true,
+                "language": "English"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stageNumber": 3,
+        "title": "Classical Machine Learning with Scikit-Learn",
+        "description": "Supervised learning, classification, regression, decision trees, random forests, boosting, metrics.",
+        "subject": "Machine Learning",
+        "order": 3,
+        "estimatedHours": 65,
+        "difficulty": "intermediate",
+        "learningObjectives": [
+          "Formulate and evaluate regression (Linear, Ridge, Lasso) and classification (Logistic, SVM, Trees)",
+          "Diagnose bias vs variance using learning curves and cross-validation",
+          "Build leak-free preprocessing pipelines with transformers and feature scalers"
+        ],
+        "practiceRequirements": [
+          "Train an ensemble model (XGBoost/LightGBM) achieving top 25% on a Kaggle competition",
+          "Calculate ROC-AUC, precision, recall, and F1-score with confusion matrix analysis"
+        ],
+        "skippableIfExperienced": false,
+        "topics": [
+          {
+            "title": "Linear & Logistic Regression with Regularization",
+            "description": "Cost functions, MSE, cross-entropy loss, L1 (Lasso) / L2 (Ridge) regularization.",
+            "order": 1,
+            "estimatedHours": 15,
+            "difficulty": "intermediate",
+            "skills": [
+              "Regression",
+              "Regularization",
+              "Cross-Entropy"
+            ],
+            "subtopics": [
+              "Odds ratio and sigmoid function",
+              "L1 vs L2 feature sparsity",
+              "Multinomial logistic regression"
+            ],
+            "resources": [
+              {
+                "title": "Scikit-Learn Generalized Linear Models",
+                "provider": "Scikit-Learn.org",
+                "type": "documentation",
+                "url": "https://scikit-learn.org/stable/modules/linear_model.html",
+                "description": "Official API and mathematical formulations for linear models.",
+                "free": true,
+                "language": "English"
+              }
+            ]
+          },
+          {
+            "title": "Decision Trees, Random Forests & Gradient Boosting",
+            "description": "Entropy, Gini impurity, bagging, boosting, XGBoost, and LightGBM.",
+            "order": 2,
+            "estimatedHours": 25,
+            "difficulty": "intermediate",
+            "skills": [
+              "Ensemble Methods",
+              "Random Forests",
+              "XGBoost"
+            ],
+            "subtopics": [
+              "Tree splitting criteria",
+              "Bootstrap aggregating",
+              "Gradient boosted decision trees"
+            ],
+            "resources": [
+              {
+                "title": "Scikit-Learn Ensemble Methods Documentation",
+                "provider": "Scikit-Learn.org",
+                "type": "documentation",
+                "url": "https://scikit-learn.org/stable/modules/ensemble.html",
+                "description": "Bagging, forest, and boosting guide with hyperparameter tuning.",
+                "free": true,
+                "language": "English"
+              },
+              {
+                "title": "XGBoost Documentation & Tutorials",
+                "provider": "XGBoost Developers",
+                "type": "documentation",
+                "url": "https://xgboost.readthedocs.io/en/stable/",
+                "description": "Scalable and flexible gradient boosting library manual.",
+                "free": true,
+                "language": "English"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stageNumber": 4,
+        "title": "Deep Learning Foundations with PyTorch",
+        "description": "Tensors, computational graphs, backpropagation, CNNs, regularization (Dropout, BatchNorm), optimizers.",
+        "subject": "Deep Learning",
+        "order": 4,
+        "estimatedHours": 90,
+        "difficulty": "advanced",
+        "learningObjectives": [
+          "Construct neural network architectures using torch.nn.Module",
+          "Implement the training loop with forward pass, loss calculation, backward pass, and optimizer step",
+          "Train convolutional neural networks (CNNs) with transfer learning using torchvision"
+        ],
+        "practiceRequirements": [
+          "Train a CNN on CIFAR-10 achieving >85% accuracy",
+          "Implement custom Dataset and DataLoader with data augmentations"
+        ],
+        "skippableIfExperienced": false,
+        "topics": [
+          {
+            "title": "PyTorch Tensors, Autograd & Building Blocks",
+            "description": "Tensors on CUDA/GPU, gradient tracking, torch.nn.Linear, activations (ReLU, GELU).",
+            "order": 1,
+            "estimatedHours": 25,
+            "difficulty": "intermediate",
+            "skills": [
+              "PyTorch",
+              "Autograd",
+              "Tensors"
+            ],
+            "subtopics": [
+              "Automatic differentiation engine",
+              "Custom nn.Module subclasses",
+              "Loss functions"
+            ],
+            "resources": [
+              {
+                "title": "Deep Learning with PyTorch: A 60 Minute Blitz",
+                "provider": "PyTorch.org",
+                "type": "documentation",
+                "url": "https://pytorch.org/tutorials/beginner/deep_learning_60min_blitz.html",
+                "description": "Official foundational PyTorch tutorial for building neural networks.",
+                "free": true,
+                "language": "English"
+              }
+            ]
+          },
+          {
+            "title": "Convolutional Neural Networks (CNNs) & Computer Vision",
+            "description": "Convolutions, kernels, stride, padding, pooling, ResNet residual connections, transfer learning.",
+            "order": 2,
+            "estimatedHours": 35,
+            "difficulty": "advanced",
+            "skills": [
+              "CNN",
+              "Transfer Learning",
+              "Computer Vision"
+            ],
+            "subtopics": [
+              "Spatial feature maps",
+              "Residual skip connections",
+              "Pretrained model fine-tuning"
+            ],
+            "resources": [
+              {
+                "title": "PyTorch Transfer Learning for Computer Vision",
+                "provider": "PyTorch.org",
+                "type": "documentation",
+                "url": "https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html",
+                "description": "Step-by-step transfer learning with ResNet in PyTorch.",
+                "free": true,
+                "language": "English"
+              },
+              {
+                "title": "Stanford CS231n: Deep Learning for Computer Vision",
+                "provider": "Stanford University",
+                "type": "course",
+                "url": "https://cs231n.github.io/",
+                "description": "Renowned course notes on CNN architectures, backprop, and optimization.",
+                "free": true,
+                "language": "English"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stageNumber": 5,
+        "title": "Transformers, Generative AI & LLM Engineering",
+        "description": "Self-attention mechanism, transformer architecture, BERT, GPT, Hugging Face, RAG, and fine-tuning.",
+        "subject": "Generative AI",
+        "order": 5,
+        "estimatedHours": 120,
+        "difficulty": "advanced",
+        "learningObjectives": [
+          "Understand scaled dot-product attention and multi-head attention mechanisms mathematically",
+          "Utilize Hugging Face Transformers for tokenization, inference, and task fine-tuning",
+          "Architect Retrieval-Augmented Generation (RAG) systems with vector embeddings and similarity search"
+        ],
+        "practiceRequirements": [
+          "Build and deploy an end-to-end document QA assistant using vector search and an open-source LLM",
+          "Fine-tune an open LLM on custom conversational data using parameter-efficient fine-tuning (PEFT/LoRA)"
+        ],
+        "skippableIfExperienced": false,
+        "topics": [
+          {
+            "title": "The Transformer Architecture & Self-Attention",
+            "description": "Query, Key, Value matrices, positional encodings, multi-head attention, encoder-decoder.",
+            "order": 1,
+            "estimatedHours": 35,
+            "difficulty": "advanced",
+            "skills": [
+              "Transformers",
+              "Self-Attention",
+              "NLP"
+            ],
+            "subtopics": [
+              "Scaled dot-product attention",
+              "Feed-forward sublayers",
+              "Encoder vs Decoder-only"
+            ],
+            "resources": [
+              {
+                "title": "The Illustrated Transformer",
+                "provider": "Jay Alammar",
+                "type": "documentation",
+                "url": "https://jalammar.github.io/illustrated-transformer/",
+                "description": "Visual step-by-step guide to understanding the Transformer architecture.",
+                "free": true,
+                "language": "English"
+              },
+              {
+                "title": "Hugging Face NLP Course",
+                "provider": "Hugging Face",
+                "type": "course",
+                "url": "https://huggingface.co/learn/nlp-course/",
+                "description": "Comprehensive free course on transformers, datasets, tokenizers, and pipelines.",
+                "free": true,
+                "language": "English"
+              }
+            ]
+          },
+          {
+            "title": "Retrieval-Augmented Generation (RAG) & Vector Databases",
+            "description": "Embeddings, cosine similarity, Chroma/Pinecone/FAISS, chunking strategies, prompt engineering.",
+            "order": 2,
+            "estimatedHours": 45,
+            "difficulty": "advanced",
+            "skills": [
+              "RAG",
+              "Vector Embeddings",
+              "Prompt Engineering"
+            ],
+            "subtopics": [
+              "Text embeddings with Sentence-Transformers",
+              "Vector indexing and retrieval",
+              "Hallucination mitigation"
+            ],
+            "resources": [
+              {
+                "title": "LangChain Documentation & Architecture Guides",
+                "provider": "LangChain",
+                "type": "documentation",
+                "url": "https://python.langchain.com/docs/introduction/",
+                "description": "Production frameworks for building context-aware reasoning applications.",
+                "free": true,
+                "language": "English"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "resources": [
+    {
+      "title": "Hugging Face NLP & Transformers Course",
+      "provider": "Hugging Face",
+      "type": "course",
+      "url": "https://huggingface.co/learn/nlp-course/",
+      "description": "Hands-on curriculum from tokenizers to training transformers on Hugging Face Hub.",
+      "stageNumber": 5,
+      "topicTitle": "The Transformer Architecture & Self-Attention",
+      "free": true,
+      "language": "English",
+      "verified": true
+    },
+    {
+      "title": "PyTorch Official Documentation & Tutorials",
+      "provider": "PyTorch.org",
+      "type": "documentation",
+      "url": "https://pytorch.org/tutorials/",
+      "description": "Core tutorials for tensor operations, neural network modules, and GPU acceleration.",
+      "stageNumber": 4,
+      "topicTitle": "PyTorch Tensors, Autograd & Building Blocks",
+      "free": true,
+      "language": "English",
+      "verified": true
+    },
+    {
+      "title": "Fast.ai: Practical Deep Learning for Coders",
+      "provider": "Fast.ai",
+      "type": "course",
+      "url": "https://course.fast.ai/",
+      "description": "Renowned top-down deep learning course with state-of-the-art results using PyTorch.",
+      "stageNumber": 4,
+      "topicTitle": "Convolutional Neural Networks (CNNs) & Computer Vision",
+      "free": true,
+      "language": "English",
+      "verified": true
+    },
+    {
+      "title": "Scikit-Learn Machine Learning in Python Guide",
+      "provider": "Scikit-Learn.org",
+      "type": "documentation",
+      "url": "https://scikit-learn.org/stable/user_guide.html",
+      "description": "The definitive handbook for statistical modeling, regression, classification, and clustering.",
+      "stageNumber": 3,
+      "topicTitle": "Linear & Logistic Regression with Regularization",
+      "free": true,
+      "language": "English",
+      "verified": true
+    },
+    {
+      "title": "Kaggle Datasets & Machine Learning Competitions",
+      "provider": "Kaggle",
+      "type": "practice",
+      "url": "https://www.kaggle.com/",
+      "description": "Global data science competition platform with real-world datasets and community notebooks.",
+      "stageNumber": 2,
+      "topicTitle": "Pandas: DataFrames, Aggregations & Data Cleaning",
+      "free": true,
+      "language": "English",
+      "verified": true
+    }
+  ]
+}

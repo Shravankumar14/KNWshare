@@ -1,0 +1,2561 @@
+{
+  "goal": {
+    "title": "JEE Main & Advanced",
+    "slug": "jee-main-advanced",
+    "category": "engineering_exams",
+    "tagline": "Comprehensive Master Plan for Physics, Chemistry & Mathematics Mastery",
+    "description": "Official NTA & IIT JEE Advanced syllabus coverage with deep conceptual rigor, formula derivation, Physics Galaxy illustrations, NCERT Chemistry foundations, MathonGo PYQ drills, and JoSAA admission guidance.",
+    "icon": "Target",
+    "badgeColor": "emerald",
+    "estimatedMonths": 12,
+    "targetRoles": [
+      "Top 1% All India Rank in JEE Main & Advanced",
+      "Admissions to IITs, NITs, IIITs & BITS",
+      "B.Tech in Computer Science / Electrical / Core Engineering",
+      "Research & Frontier Technology Careers"
+    ],
+    "careerPath": [
+      {
+        "stepNumber": 1,
+        "title": "Stage 1: Core Conceptual Foundations & NCERT Mastery",
+        "subtitle": "Class 11 & 12 Fundamentals Across PCM",
+        "description": "Build rigorous foundational concepts in Mechanics, Physical Chemistry, and Algebra. Ensure zero conceptual gaps using NCERT and standard theory.",
+        "milestones": [
+          "Complete all NCERT textbook reading and in-text problems in Chemistry",
+          "Derive every fundamental law in Physics (Kinematics, Newton's Laws, Work-Energy)",
+          "Maintain a dedicated Formula & Theorem Notebook for daily revision"
+        ],
+        "icon": "BookOpen"
+      },
+      {
+        "stepNumber": 2,
+        "title": "Stage 2: Standard Problem Solving & JEE Main Mastery",
+        "subtitle": "Speed, Accuracy & Chapter-wise PYQ Drills",
+        "description": "Develop numerical dexterity and quick dimensional/elimination techniques required to crack JEE Main with 99+ percentile.",
+        "milestones": [
+          "Solve 10+ years of chapter-wise JEE Main Previous Year Questions (PYQs)",
+          "Practice timed 60-minute sectional problem sets for speed and accuracy",
+          "Identify and eliminate repeated negative marking errors"
+        ],
+        "icon": "Activity"
+      },
+      {
+        "stepNumber": 3,
+        "title": "Stage 3: Advanced Problem Solving & Multi-Concept Drills",
+        "subtitle": "JEE Advanced Depth, Mixed Concepts & Rigorous Analysis",
+        "description": "Tackle multi-concept, multi-correct, comprehension, and matrix-match questions designed for JEE Advanced rank maximization.",
+        "milestones": [
+          "Complete Physics Galaxy Advanced Illustrations and challenging problems",
+          "Solve 15 years of JEE Advanced subjective and objective PYQs",
+          "Master multi-chapter synthesis (e.g. Calculus in Mechanics, Thermodynamics in Physical Chemistry)"
+        ],
+        "icon": "Flame"
+      },
+      {
+        "stepNumber": 4,
+        "title": "Stage 4: National Exam Simulation & CBT Conditioning",
+        "subtitle": "Full 3-Hour Computer Based Tests & Error Log Auditing",
+        "description": "Simulate real exam conditions (Paper 1 & Paper 2) to build mental stamina, exam temperament, and time allocation strategy.",
+        "milestones": [
+          "Complete 20+ full-length 3-hour Computer Based Mock Tests (CBTs)",
+          "Maintain an Error Logbook: categorize errors into silly mistakes, conceptual gaps, or time pressure",
+          "Achieve consistent 99+ percentile performance across mock series"
+        ],
+        "icon": "Award"
+      },
+      {
+        "stepNumber": 5,
+        "title": "Stage 5: JoSAA Counselling, Seat Allocation & College Enrollment",
+        "subtitle": "Official JoSAA / CSAB Strategy, Choice Filling & Institute Selection",
+        "description": "Navigate the official Joint Seat Allocation Authority (JoSAA) process, rank analytics, choice prioritization, and document verification.",
+        "milestones": [
+          "Analyze opening and closing ranks for IITs, NITs, IIITs, and GFTIs across prior years",
+          "Lock optimal prioritized choice order based on genuine branch interest and institute tier",
+          "Complete seat acceptance, fee payment, and physical reporting at the allocated institute"
+        ],
+        "icon": "Compass"
+      }
+    ],
+    "shortDescription": "Rigorous 2-year PCM curriculum aligned with official NTA & IIT JEE Advanced syllabus",
+    "active": true,
+    "order": 1
+  },
+  "roadmap": {
+    "title": "JEE Main & Advanced Complete PCM Roadmap",
+    "totalEstimatedHours": 650,
+    "version": 1,
+    "stages": [
+      {
+        "stageNumber": 1,
+        "title": "Physics: Mechanics & Properties of Matter",
+        "description": "Units, Dimensions, Kinematics, Newton's Laws, Work-Energy, Center of Mass, Rotation, Gravitation & Fluids.",
+        "subject": "Physics",
+        "order": 1,
+        "estimatedHours": 85,
+        "difficulty": "beginner",
+        "learningObjectives": [
+          "Master fundamental theory and principles for Physics: Mechanics & Properties of Matter",
+          "Solve standard NCERT exercises and exemplar problems",
+          "Analyze previous 10 years JEE Main and Advanced questions"
+        ],
+        "practiceRequirements": [
+          "Complete 30-50 practice problems with speed drills",
+          "Review and log negative marks in error notebook"
+        ],
+        "skippableIfExperienced": false,
+        "topics": [
+          {
+            "title": "Units, Dimensions, Errors & Practical Physics",
+            "description": "SI units, dimensional analysis, propagation of errors, significant figures, Vernier calipers, and screw gauge.",
+            "order": 1,
+            "estimatedHours": 10,
+            "difficulty": "intermediate",
+            "skills": [
+              "Dimensional Analysis",
+              "Error Propagation",
+              "Instrument Reading"
+            ],
+            "subtopics": [
+              "Dimensional homogeneity",
+              "Error analysis in experiments",
+              "Vernier calipers & micrometer screw gauge",
+              "Least count calculations"
+            ],
+            "subject": "Physics",
+            "resources": [
+              {
+                "name": "Physics Galaxy: Units, Dimensions, Errors & Practical Physics Video Masterclass & Booster",
+                "title": "Physics Galaxy: Units, Dimensions, Errors & Practical Physics Video Masterclass & Booster",
+                "provider": "Physics Galaxy / Ashish Arora",
+                "type": "video",
+                "url": "https://www.physicsgalaxy.com/",
+                "description": "Exhaustive visual concept explanations, derivations, and Advanced Illustrations by Ashish Arora for Units, Dimensions, Errors & Practical Physics.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo / NTA: Units, Dimensions, Errors & Practical Physics JEE Main & Advanced PYQs",
+                "title": "MathonGo / NTA: Units, Dimensions, Errors & Practical Physics JEE Main & Advanced PYQs",
+                "provider": "MathonGo & Official NTA Archives",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Chapter-wise solved previous year questions with step-by-step analysis for Units, Dimensions, Errors & Practical Physics.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Vectors & Kinematics (1D, 2D & Relative Motion)",
+            "description": "Scalar and vector products, motion in a straight line, projectile motion, and relative velocity in 1D/2D.",
+            "order": 2,
+            "estimatedHours": 18,
+            "difficulty": "intermediate",
+            "skills": [
+              "Kinematic Equations",
+              "Graph Interpretation",
+              "Relative Motion Vectors"
+            ],
+            "subtopics": [
+              "1D motion under constant & variable acceleration",
+              "Graph analysis (x-t, v-t, a-t)",
+              "Ground-to-ground and oblique projectiles",
+              "Relative velocity & river-boat / rain-man problems"
+            ],
+            "subject": "Physics",
+            "resources": [
+              {
+                "name": "Physics Galaxy: Vectors & Kinematics (1D, 2D & Relative Motion) Video Masterclass & Booster",
+                "title": "Physics Galaxy: Vectors & Kinematics (1D, 2D & Relative Motion) Video Masterclass & Booster",
+                "provider": "Physics Galaxy / Ashish Arora",
+                "type": "video",
+                "url": "https://www.physicsgalaxy.com/",
+                "description": "Exhaustive visual concept explanations, derivations, and Advanced Illustrations by Ashish Arora for Vectors & Kinematics (1D, 2D & Relative Motion).",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo / NTA: Vectors & Kinematics (1D, 2D & Relative Motion) JEE Main & Advanced PYQs",
+                "title": "MathonGo / NTA: Vectors & Kinematics (1D, 2D & Relative Motion) JEE Main & Advanced PYQs",
+                "provider": "MathonGo & Official NTA Archives",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Chapter-wise solved previous year questions with step-by-step analysis for Vectors & Kinematics (1D, 2D & Relative Motion).",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Newton's Laws of Motion, Constraints & Friction",
+            "description": "Free body diagrams, inertial & non-inertial frames, pseudo force, static & kinetic friction, circular dynamics.",
+            "order": 3,
+            "estimatedHours": 20,
+            "difficulty": "intermediate",
+            "skills": [
+              "Free Body Diagrams",
+              "Friction Analysis",
+              "Circular Dynamics"
+            ],
+            "subtopics": [
+              "String and wedge constraint relations",
+              "Equilibrium of concurrent forces",
+              "Friction on rough inclined surfaces",
+              "Banking of tracks & vertical circular motion"
+            ],
+            "subject": "Physics",
+            "resources": [
+              {
+                "name": "Physics Galaxy: Newton's Laws of Motion, Constraints & Friction Video Masterclass & Booster",
+                "title": "Physics Galaxy: Newton's Laws of Motion, Constraints & Friction Video Masterclass & Booster",
+                "provider": "Physics Galaxy / Ashish Arora",
+                "type": "video",
+                "url": "https://www.physicsgalaxy.com/",
+                "description": "Exhaustive visual concept explanations, derivations, and Advanced Illustrations by Ashish Arora for Newton's Laws of Motion, Constraints & Friction.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo / NTA: Newton's Laws of Motion, Constraints & Friction JEE Main & Advanced PYQs",
+                "title": "MathonGo / NTA: Newton's Laws of Motion, Constraints & Friction JEE Main & Advanced PYQs",
+                "provider": "MathonGo & Official NTA Archives",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Chapter-wise solved previous year questions with step-by-step analysis for Newton's Laws of Motion, Constraints & Friction.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Work, Energy, Power & Collisions",
+            "description": "Work-energy theorem, conservative forces, potential energy functions, power, elastic and inelastic collisions in 1D/2D.",
+            "order": 4,
+            "estimatedHours": 18,
+            "difficulty": "intermediate",
+            "skills": [
+              "Work-Energy Theorem",
+              "Conservation of Momentum",
+              "Equilibrium Analysis"
+            ],
+            "subtopics": [
+              "Variable force work integration",
+              "Potential energy curve stability (stable/unstable equilibrium)",
+              "Coefficient of restitution (e)",
+              "Direct and oblique collisions"
+            ],
+            "subject": "Physics",
+            "resources": [
+              {
+                "name": "Physics Galaxy: Work, Energy, Power & Collisions Video Masterclass & Booster",
+                "title": "Physics Galaxy: Work, Energy, Power & Collisions Video Masterclass & Booster",
+                "provider": "Physics Galaxy / Ashish Arora",
+                "type": "video",
+                "url": "https://www.physicsgalaxy.com/",
+                "description": "Exhaustive visual concept explanations, derivations, and Advanced Illustrations by Ashish Arora for Work, Energy, Power & Collisions.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo / NTA: Work, Energy, Power & Collisions JEE Main & Advanced PYQs",
+                "title": "MathonGo / NTA: Work, Energy, Power & Collisions JEE Main & Advanced PYQs",
+                "provider": "MathonGo & Official NTA Archives",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Chapter-wise solved previous year questions with step-by-step analysis for Work, Energy, Power & Collisions.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Rotational Mechanics & Rigid Body Dynamics",
+            "description": "Center of mass, moment of inertia theorems, torque, angular momentum conservation, rolling without slipping.",
+            "order": 5,
+            "estimatedHours": 25,
+            "difficulty": "intermediate",
+            "skills": [
+              "Moment of Inertia",
+              "Angular Momentum",
+              "Rolling Dynamics"
+            ],
+            "subtopics": [
+              "Center of mass of standard bodies",
+              "Parallel & perpendicular axis theorems",
+              "Torque and angular acceleration (tau = I*alpha)",
+              "Conservation of angular momentum",
+              "Pure rolling on flat & inclined planes"
+            ],
+            "subject": "Physics",
+            "resources": [
+              {
+                "name": "Physics Galaxy: Rotational Mechanics & Rigid Body Dynamics Video Masterclass & Booster",
+                "title": "Physics Galaxy: Rotational Mechanics & Rigid Body Dynamics Video Masterclass & Booster",
+                "provider": "Physics Galaxy / Ashish Arora",
+                "type": "video",
+                "url": "https://www.physicsgalaxy.com/",
+                "description": "Exhaustive visual concept explanations, derivations, and Advanced Illustrations by Ashish Arora for Rotational Mechanics & Rigid Body Dynamics.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo / NTA: Rotational Mechanics & Rigid Body Dynamics JEE Main & Advanced PYQs",
+                "title": "MathonGo / NTA: Rotational Mechanics & Rigid Body Dynamics JEE Main & Advanced PYQs",
+                "provider": "MathonGo & Official NTA Archives",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Chapter-wise solved previous year questions with step-by-step analysis for Rotational Mechanics & Rigid Body Dynamics.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Gravitation & Mechanical Properties of Solids and Fluids",
+            "description": "Kepler's laws, gravitational potential & orbital velocity, Hooke's law, hydrostatic pressure, Pascal's law, Archimedes principle, Bernoulli theorem, viscosity, surface tension.",
+            "order": 6,
+            "estimatedHours": 18,
+            "difficulty": "intermediate",
+            "skills": [
+              "Gravitational Field",
+              "Fluid Dynamics",
+              "Surface Tension"
+            ],
+            "subtopics": [
+              "Escape velocity and satellite orbits",
+              "Stress-strain curve and Young's modulus",
+              "Pascal law and manometer problems",
+              "Equation of continuity and Bernoulli equation",
+              "Surface tension, capillarity and terminal velocity"
+            ],
+            "subject": "Physics",
+            "resources": [
+              {
+                "name": "Physics Galaxy: Gravitation & Mechanical Properties of Solids and Fluids Video Masterclass & Booster",
+                "title": "Physics Galaxy: Gravitation & Mechanical Properties of Solids and Fluids Video Masterclass & Booster",
+                "provider": "Physics Galaxy / Ashish Arora",
+                "type": "video",
+                "url": "https://www.physicsgalaxy.com/",
+                "description": "Exhaustive visual concept explanations, derivations, and Advanced Illustrations by Ashish Arora for Gravitation & Mechanical Properties of Solids and Fluids.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo / NTA: Gravitation & Mechanical Properties of Solids and Fluids JEE Main & Advanced PYQs",
+                "title": "MathonGo / NTA: Gravitation & Mechanical Properties of Solids and Fluids JEE Main & Advanced PYQs",
+                "provider": "MathonGo & Official NTA Archives",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Chapter-wise solved previous year questions with step-by-step analysis for Gravitation & Mechanical Properties of Solids and Fluids.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stageNumber": 2,
+        "title": "Physics: Electrodynamics & Magnetism",
+        "description": "Electrostatics, Gauss's Law, Capacitance, Current Electricity, Magnetic Effects, EMI & Alternating Current.",
+        "subject": "Physics",
+        "order": 2,
+        "estimatedHours": 80,
+        "difficulty": "beginner",
+        "learningObjectives": [
+          "Master fundamental theory and principles for Physics: Electrodynamics & Magnetism",
+          "Solve standard NCERT exercises and exemplar problems",
+          "Analyze previous 10 years JEE Main and Advanced questions"
+        ],
+        "practiceRequirements": [
+          "Complete 30-50 practice problems with speed drills",
+          "Review and log negative marks in error notebook"
+        ],
+        "skippableIfExperienced": false,
+        "topics": [
+          {
+            "title": "Electrostatics, Electric Field & Gauss's Law",
+            "description": "Coulomb's law, electric field intensity and potential, electric dipoles, flux through closed surfaces, applications of Gauss's law.",
+            "order": 1,
+            "estimatedHours": 20,
+            "difficulty": "intermediate",
+            "skills": [
+              "Coulomb Force",
+              "Electric Flux",
+              "Conductor Properties"
+            ],
+            "subtopics": [
+              "Field due to continuous charge distributions (ring, disc, wire, sphere)",
+              "Electric potential and field gradient (E = -grad V)",
+              "Gauss's law for symmetric configurations",
+              "Conductors in electrostatic equilibrium & shielding"
+            ],
+            "subject": "Physics",
+            "resources": [
+              {
+                "name": "Physics Galaxy: Electrostatics, Electric Field & Gauss's Law Video Masterclass & Booster",
+                "title": "Physics Galaxy: Electrostatics, Electric Field & Gauss's Law Video Masterclass & Booster",
+                "provider": "Physics Galaxy / Ashish Arora",
+                "type": "video",
+                "url": "https://www.physicsgalaxy.com/",
+                "description": "Exhaustive visual concept explanations, derivations, and Advanced Illustrations by Ashish Arora for Electrostatics, Electric Field & Gauss's Law.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo / NTA: Electrostatics, Electric Field & Gauss's Law JEE Main & Advanced PYQs",
+                "title": "MathonGo / NTA: Electrostatics, Electric Field & Gauss's Law JEE Main & Advanced PYQs",
+                "provider": "MathonGo & Official NTA Archives",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Chapter-wise solved previous year questions with step-by-step analysis for Electrostatics, Electric Field & Gauss's Law.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Capacitors & Dielectrics",
+            "description": "Parallel plate capacitor, combination in series/parallel, energy stored, dielectric insertion effects, and RC charging/discharging circuits.",
+            "order": 2,
+            "estimatedHours": 15,
+            "difficulty": "intermediate",
+            "skills": [
+              "Capacitance Networks",
+              "Dielectric Polarization",
+              "RC Circuit Time Constants"
+            ],
+            "subtopics": [
+              "Capacitance with multiple dielectric slabs",
+              "Force between capacitor plates",
+              "Energy density in electrostatic field",
+              "Transient analysis in RC circuits (charging & discharging)"
+            ],
+            "subject": "Physics",
+            "resources": [
+              {
+                "name": "Physics Galaxy: Capacitors & Dielectrics Video Masterclass & Booster",
+                "title": "Physics Galaxy: Capacitors & Dielectrics Video Masterclass & Booster",
+                "provider": "Physics Galaxy / Ashish Arora",
+                "type": "video",
+                "url": "https://www.physicsgalaxy.com/",
+                "description": "Exhaustive visual concept explanations, derivations, and Advanced Illustrations by Ashish Arora for Capacitors & Dielectrics.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo / NTA: Capacitors & Dielectrics JEE Main & Advanced PYQs",
+                "title": "MathonGo / NTA: Capacitors & Dielectrics JEE Main & Advanced PYQs",
+                "provider": "MathonGo & Official NTA Archives",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Chapter-wise solved previous year questions with step-by-step analysis for Capacitors & Dielectrics.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Current Electricity & Electrical Instruments",
+            "description": "Ohm's law, drift velocity, resistivity, temperature dependence, Kirchhoff's rules, Wheatstone bridge, meter bridge, and potentiometer.",
+            "order": 3,
+            "estimatedHours": 18,
+            "difficulty": "intermediate",
+            "skills": [
+              "Circuit Analysis",
+              "Kirchhoff Laws",
+              "Instrument Measurement"
+            ],
+            "subtopics": [
+              "Microscopic model of conduction (I = n*e*A*v_d)",
+              "Kirchhoff's current and voltage laws (KCL/KVL)",
+              "Symmetry-based circuit simplification (cubic and infinite ladders)",
+              "Galvanometer conversion to ammeter and voltmeter",
+              "Potentiometer sensitivity and comparisons"
+            ],
+            "subject": "Physics",
+            "resources": [
+              {
+                "name": "Physics Galaxy: Current Electricity & Electrical Instruments Video Masterclass & Booster",
+                "title": "Physics Galaxy: Current Electricity & Electrical Instruments Video Masterclass & Booster",
+                "provider": "Physics Galaxy / Ashish Arora",
+                "type": "video",
+                "url": "https://www.physicsgalaxy.com/",
+                "description": "Exhaustive visual concept explanations, derivations, and Advanced Illustrations by Ashish Arora for Current Electricity & Electrical Instruments.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo / NTA: Current Electricity & Electrical Instruments JEE Main & Advanced PYQs",
+                "title": "MathonGo / NTA: Current Electricity & Electrical Instruments JEE Main & Advanced PYQs",
+                "provider": "MathonGo & Official NTA Archives",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Chapter-wise solved previous year questions with step-by-step analysis for Current Electricity & Electrical Instruments.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Magnetic Effects of Current & Magnetism",
+            "description": "Biot-Savart law, Ampere's circuital law, Lorentz force on moving charges, torque on magnetic dipoles, Earth's magnetism, and magnetic materials.",
+            "order": 4,
+            "estimatedHours": 18,
+            "difficulty": "intermediate",
+            "skills": [
+              "Biot-Savart Law",
+              "Lorentz Force",
+              "Magnetic Dipole"
+            ],
+            "subtopics": [
+              "Magnetic field of circular loop, straight wire and solenoid",
+              "Motion of charged particles in uniform E and B fields (helical paths)",
+              "Force between parallel currents",
+              "Moving coil galvanometer",
+              "Dia, para, and ferromagnetic material classification"
+            ],
+            "subject": "Physics",
+            "resources": [
+              {
+                "name": "Physics Galaxy: Magnetic Effects of Current & Magnetism Video Masterclass & Booster",
+                "title": "Physics Galaxy: Magnetic Effects of Current & Magnetism Video Masterclass & Booster",
+                "provider": "Physics Galaxy / Ashish Arora",
+                "type": "video",
+                "url": "https://www.physicsgalaxy.com/",
+                "description": "Exhaustive visual concept explanations, derivations, and Advanced Illustrations by Ashish Arora for Magnetic Effects of Current & Magnetism.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo / NTA: Magnetic Effects of Current & Magnetism JEE Main & Advanced PYQs",
+                "title": "MathonGo / NTA: Magnetic Effects of Current & Magnetism JEE Main & Advanced PYQs",
+                "provider": "MathonGo & Official NTA Archives",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Chapter-wise solved previous year questions with step-by-step analysis for Magnetic Effects of Current & Magnetism.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Electromagnetic Induction (EMI) & Alternating Current (AC)",
+            "description": "Faraday's laws, Lenz's law, motional EMF, self and mutual inductance, AC circuits (LCR series), resonance, power factor, and transformers.",
+            "order": 5,
+            "estimatedHours": 20,
+            "difficulty": "intermediate",
+            "skills": [
+              "Faraday Law",
+              "Lenz Law",
+              "AC Phasors & Resonance"
+            ],
+            "subtopics": [
+              "Motional EMF in rotating and sliding rods",
+              "Induced electric field (non-conservative)",
+              "LCR series AC circuit phasor diagrams",
+              "Resonance frequency, Quality factor (Q) and power factor",
+              "LR and LC oscillation circuits"
+            ],
+            "subject": "Physics",
+            "resources": [
+              {
+                "name": "Physics Galaxy: Electromagnetic Induction (EMI) & Alternating Current (AC) Video Masterclass & Booster",
+                "title": "Physics Galaxy: Electromagnetic Induction (EMI) & Alternating Current (AC) Video Masterclass & Booster",
+                "provider": "Physics Galaxy / Ashish Arora",
+                "type": "video",
+                "url": "https://www.physicsgalaxy.com/",
+                "description": "Exhaustive visual concept explanations, derivations, and Advanced Illustrations by Ashish Arora for Electromagnetic Induction (EMI) & Alternating Current (AC).",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo / NTA: Electromagnetic Induction (EMI) & Alternating Current (AC) JEE Main & Advanced PYQs",
+                "title": "MathonGo / NTA: Electromagnetic Induction (EMI) & Alternating Current (AC) JEE Main & Advanced PYQs",
+                "provider": "MathonGo & Official NTA Archives",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Chapter-wise solved previous year questions with step-by-step analysis for Electromagnetic Induction (EMI) & Alternating Current (AC).",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stageNumber": 3,
+        "title": "Physics: Thermodynamics, Oscillations, Optics & Modern Physics",
+        "description": "Thermal Expansion, Kinetic Theory, First & Second Laws of Thermodynamics, SHM, Sound Waves, Ray Optics, Wave Optics, Modern Physics & Semiconductors.",
+        "subject": "Physics",
+        "order": 3,
+        "estimatedHours": 90,
+        "difficulty": "beginner",
+        "learningObjectives": [
+          "Master fundamental theory and principles for Physics: Thermodynamics, Oscillations, Optics & Modern Physics",
+          "Solve standard NCERT exercises and exemplar problems",
+          "Analyze previous 10 years JEE Main and Advanced questions"
+        ],
+        "practiceRequirements": [
+          "Complete 30-50 practice problems with speed drills",
+          "Review and log negative marks in error notebook"
+        ],
+        "skippableIfExperienced": false,
+        "topics": [
+          {
+            "title": "Thermal Physics & Thermodynamics",
+            "description": "Thermal expansion, calorimetry, heat transfer (conduction, convection, radiation, Stefan-Boltzmann law), kinetic theory of gases, first and second laws of thermodynamics.",
+            "order": 1,
+            "estimatedHours": 20,
+            "difficulty": "intermediate",
+            "skills": [
+              "Thermodynamic Cycles",
+              "Heat Transfer",
+              "Kinetic Theory"
+            ],
+            "subtopics": [
+              "Calorimetry water equivalent & phase changes",
+              "Conduction through composite slabs & Wien displacement law",
+              "Kinetic theory of gases (rms speed, degrees of freedom, equipartition)",
+              "First law of thermodynamics (Q = delta U + W) for PV cycles",
+              "Carnot engine efficiency and PV/TS cycle analysis"
+            ],
+            "subject": "Physics",
+            "resources": [
+              {
+                "name": "Physics Galaxy: Thermal Physics & Thermodynamics Video Masterclass & Booster",
+                "title": "Physics Galaxy: Thermal Physics & Thermodynamics Video Masterclass & Booster",
+                "provider": "Physics Galaxy / Ashish Arora",
+                "type": "video",
+                "url": "https://www.physicsgalaxy.com/",
+                "description": "Exhaustive visual concept explanations, derivations, and Advanced Illustrations by Ashish Arora for Thermal Physics & Thermodynamics.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo / NTA: Thermal Physics & Thermodynamics JEE Main & Advanced PYQs",
+                "title": "MathonGo / NTA: Thermal Physics & Thermodynamics JEE Main & Advanced PYQs",
+                "provider": "MathonGo & Official NTA Archives",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Chapter-wise solved previous year questions with step-by-step analysis for Thermal Physics & Thermodynamics.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Oscillations (SHM) & Mechanical Waves",
+            "description": "Simple harmonic motion kinematics and dynamics, spring-mass systems, simple and physical pendulums, wave equation, sound speed, standing waves, beats, Doppler effect.",
+            "order": 2,
+            "estimatedHours": 18,
+            "difficulty": "intermediate",
+            "skills": [
+              "SHM Equations",
+              "Wave Superposition",
+              "Doppler Effect"
+            ],
+            "subtopics": [
+              "SHM differential equation and energy conservation",
+              "Series and parallel spring combinations",
+              "Wave equation y = A*sin(kx - omega*t)",
+              "Standing waves in strings and organ pipes",
+              "Beats and Doppler effect for moving source/observer"
+            ],
+            "subject": "Physics",
+            "resources": [
+              {
+                "name": "Physics Galaxy: Oscillations (SHM) & Mechanical Waves Video Masterclass & Booster",
+                "title": "Physics Galaxy: Oscillations (SHM) & Mechanical Waves Video Masterclass & Booster",
+                "provider": "Physics Galaxy / Ashish Arora",
+                "type": "video",
+                "url": "https://www.physicsgalaxy.com/",
+                "description": "Exhaustive visual concept explanations, derivations, and Advanced Illustrations by Ashish Arora for Oscillations (SHM) & Mechanical Waves.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo / NTA: Oscillations (SHM) & Mechanical Waves JEE Main & Advanced PYQs",
+                "title": "MathonGo / NTA: Oscillations (SHM) & Mechanical Waves JEE Main & Advanced PYQs",
+                "provider": "MathonGo & Official NTA Archives",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Chapter-wise solved previous year questions with step-by-step analysis for Oscillations (SHM) & Mechanical Waves.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Ray Optics & Optical Instruments",
+            "description": "Reflection, refraction at plane and spherical surfaces, total internal reflection, thin lenses, lens maker's formula, prisms, microscopes, and telescopes.",
+            "order": 3,
+            "estimatedHours": 20,
+            "difficulty": "intermediate",
+            "skills": [
+              "Ray Tracing",
+              "Lens Maker Formula",
+              "Optical Instruments"
+            ],
+            "subtopics": [
+              "Snell's law and critical angle",
+              "Refraction at single spherical interface",
+              "Lens maker's formula and combination of lenses/mirrors",
+              "Prism dispersion and minimum deviation angle",
+              "Magnifying power of astronomical telescope and compound microscope"
+            ],
+            "subject": "Physics",
+            "resources": [
+              {
+                "name": "Physics Galaxy: Ray Optics & Optical Instruments Video Masterclass & Booster",
+                "title": "Physics Galaxy: Ray Optics & Optical Instruments Video Masterclass & Booster",
+                "provider": "Physics Galaxy / Ashish Arora",
+                "type": "video",
+                "url": "https://www.physicsgalaxy.com/",
+                "description": "Exhaustive visual concept explanations, derivations, and Advanced Illustrations by Ashish Arora for Ray Optics & Optical Instruments.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo / NTA: Ray Optics & Optical Instruments JEE Main & Advanced PYQs",
+                "title": "MathonGo / NTA: Ray Optics & Optical Instruments JEE Main & Advanced PYQs",
+                "provider": "MathonGo & Official NTA Archives",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Chapter-wise solved previous year questions with step-by-step analysis for Ray Optics & Optical Instruments.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Wave Optics",
+            "description": "Huygens' principle, interference of light, Young's double slit experiment (YDSE), diffraction at a single slit, and polarization.",
+            "order": 4,
+            "estimatedHours": 14,
+            "difficulty": "intermediate",
+            "skills": [
+              "Huygens Principle",
+              "Interference & Diffraction",
+              "Polarization"
+            ],
+            "subtopics": [
+              "Coherent sources and optical path difference",
+              "YDSE fringe width and intensity distribution",
+              "YDSE with mica sheet in one beam path",
+              "Single slit Fraunhofer diffraction minima and central maxima width",
+              "Brewster's law and Malus's law of polarization"
+            ],
+            "subject": "Physics",
+            "resources": [
+              {
+                "name": "Physics Galaxy: Wave Optics Video Masterclass & Booster",
+                "title": "Physics Galaxy: Wave Optics Video Masterclass & Booster",
+                "provider": "Physics Galaxy / Ashish Arora",
+                "type": "video",
+                "url": "https://www.physicsgalaxy.com/",
+                "description": "Exhaustive visual concept explanations, derivations, and Advanced Illustrations by Ashish Arora for Wave Optics.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo / NTA: Wave Optics JEE Main & Advanced PYQs",
+                "title": "MathonGo / NTA: Wave Optics JEE Main & Advanced PYQs",
+                "provider": "MathonGo & Official NTA Archives",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Chapter-wise solved previous year questions with step-by-step analysis for Wave Optics.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Modern Physics & Semiconductor Devices",
+            "description": "Photoelectric effect, de Broglie wavelength, Bohr model of hydrogen atom, atomic spectra, nuclear physics (binding energy, radioactivity), semiconductors (p-n junction, diodes, logic gates).",
+            "order": 5,
+            "estimatedHours": 20,
+            "difficulty": "intermediate",
+            "skills": [
+              "Photoelectric Effect",
+              "Bohr Atomic Model",
+              "Semiconductor Diodes",
+              "Logic Gates"
+            ],
+            "subtopics": [
+              "Einstein's photoelectric equation & stopping potential graphs",
+              "Bohr orbital radius, velocity, and energy transitions (Lyman, Balmer)",
+              "Mass defect, binding energy per nucleon curve, alpha/beta decay laws",
+              "p-n junction diode forward/reverse bias, Zener diode as voltage regulator",
+              "Logic gates (AND, OR, NOT, NAND, NOR, XOR) truth tables"
+            ],
+            "subject": "Physics",
+            "resources": [
+              {
+                "name": "Physics Galaxy: Modern Physics & Semiconductor Devices Video Masterclass & Booster",
+                "title": "Physics Galaxy: Modern Physics & Semiconductor Devices Video Masterclass & Booster",
+                "provider": "Physics Galaxy / Ashish Arora",
+                "type": "video",
+                "url": "https://www.physicsgalaxy.com/",
+                "description": "Exhaustive visual concept explanations, derivations, and Advanced Illustrations by Ashish Arora for Modern Physics & Semiconductor Devices.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo / NTA: Modern Physics & Semiconductor Devices JEE Main & Advanced PYQs",
+                "title": "MathonGo / NTA: Modern Physics & Semiconductor Devices JEE Main & Advanced PYQs",
+                "provider": "MathonGo & Official NTA Archives",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Chapter-wise solved previous year questions with step-by-step analysis for Modern Physics & Semiconductor Devices.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stageNumber": 4,
+        "title": "Chemistry: Physical Chemistry Foundations & Equilibrium",
+        "description": "Mole Concept, Atomic Structure, Chemical Thermodynamics, Chemical & Ionic Equilibrium, Solutions, Electrochemistry & Kinetics.",
+        "subject": "Chemistry",
+        "order": 4,
+        "estimatedHours": 85,
+        "difficulty": "intermediate",
+        "learningObjectives": [
+          "Master fundamental theory and principles for Chemistry: Physical Chemistry Foundations & Equilibrium",
+          "Solve standard NCERT exercises and exemplar problems",
+          "Analyze previous 10 years JEE Main and Advanced questions"
+        ],
+        "practiceRequirements": [
+          "Complete 30-50 practice problems with speed drills",
+          "Review and log negative marks in error notebook"
+        ],
+        "skippableIfExperienced": false,
+        "topics": [
+          {
+            "title": "Some Basic Concepts of Chemistry (Mole Concept & Stoichiometry)",
+            "description": "Atomic and molecular mass, mole concept, molar mass, percentage composition, empirical and molecular formula, stoichiometry, limiting reagent, and concentration terms.",
+            "order": 1,
+            "estimatedHours": 12,
+            "difficulty": "intermediate",
+            "skills": [
+              "Stoichiometry",
+              "Limiting Reagent",
+              "Concentration Conversions"
+            ],
+            "subtopics": [
+              "Molarity, Molality, Mole fraction, Normality, ppm",
+              "Balancing redox equations by ion-electron method",
+              "Limiting reagent and percentage yield calculations",
+              "Volumetric titration fundamentals (acid-base & redox)"
+            ],
+            "subject": "Chemistry",
+            "resources": [
+              {
+                "name": "Official NCERT e-Textbook: Some Basic Concepts of Chemistry (Mole Concept & Stoichiometry)",
+                "title": "Official NCERT e-Textbook: Some Basic Concepts of Chemistry (Mole Concept & Stoichiometry)",
+                "provider": "NCERT Official Portal (ncert.nic.in)",
+                "type": "documentation",
+                "url": "https://ncert.nic.in/textbook.php",
+                "description": "Line-by-line official NCERT textbook reading, in-text examples, and exemplar exercises for Some Basic Concepts of Chemistry (Mole Concept & Stoichiometry).",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo Chemistry: Some Basic Concepts of Chemistry (Mole Concept & Stoichiometry) PYQ Bank",
+                "title": "MathonGo Chemistry: Some Basic Concepts of Chemistry (Mole Concept & Stoichiometry) PYQ Bank",
+                "provider": "MathonGo",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Categorized Main and Advanced questions for Some Basic Concepts of Chemistry (Mole Concept & Stoichiometry) with numerical answer solutions.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Atomic Structure (Quantum Mechanical Model)",
+            "description": "Bohr's model and its limitations, dual nature of matter (de Broglie), Heisenberg uncertainty principle, quantum numbers, atomic orbitals, Pauli exclusion principle, Hund's rule, Aufbau principle.",
+            "order": 2,
+            "estimatedHours": 14,
+            "difficulty": "intermediate",
+            "skills": [
+              "Quantum Numbers",
+              "Radial Probability Graphs",
+              "Electronic Configuration"
+            ],
+            "subtopics": [
+              "Wave particle duality and de Broglie wavelength",
+              "Heisenberg uncertainty principle equations",
+              "Quantum numbers (n, l, m, s) and orbital shapes",
+              "Radial and angular wave functions, radial probability distribution curves and nodes"
+            ],
+            "subject": "Chemistry",
+            "resources": [
+              {
+                "name": "Official NCERT e-Textbook: Atomic Structure (Quantum Mechanical Model)",
+                "title": "Official NCERT e-Textbook: Atomic Structure (Quantum Mechanical Model)",
+                "provider": "NCERT Official Portal (ncert.nic.in)",
+                "type": "documentation",
+                "url": "https://ncert.nic.in/textbook.php",
+                "description": "Line-by-line official NCERT textbook reading, in-text examples, and exemplar exercises for Atomic Structure (Quantum Mechanical Model).",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo Chemistry: Atomic Structure (Quantum Mechanical Model) PYQ Bank",
+                "title": "MathonGo Chemistry: Atomic Structure (Quantum Mechanical Model) PYQ Bank",
+                "provider": "MathonGo",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Categorized Main and Advanced questions for Atomic Structure (Quantum Mechanical Model) with numerical answer solutions.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Chemical Thermodynamics & Energetics",
+            "description": "System and surroundings, extensive and intensive properties, state functions, first law of thermodynamics, enthalpy, Hess's law, entropy, Gibbs free energy, and spontaneity criteria.",
+            "order": 3,
+            "estimatedHours": 16,
+            "difficulty": "intermediate",
+            "skills": [
+              "Enthalpy Calculation",
+              "Entropy of Systems",
+              "Gibbs Free Energy Spontaneity"
+            ],
+            "subtopics": [
+              "Work done in reversible and irreversible isothermal/adiabatic expansions",
+              "Enthalpy of formation, combustion, neutralization, and bond dissociation",
+              "Second law of thermodynamics and entropy change calculation (delta S)",
+              "Gibbs free energy change (delta G = delta H - T*delta S) and equilibrium constant relation"
+            ],
+            "subject": "Chemistry",
+            "resources": [
+              {
+                "name": "Official NCERT e-Textbook: Chemical Thermodynamics & Energetics",
+                "title": "Official NCERT e-Textbook: Chemical Thermodynamics & Energetics",
+                "provider": "NCERT Official Portal (ncert.nic.in)",
+                "type": "documentation",
+                "url": "https://ncert.nic.in/textbook.php",
+                "description": "Line-by-line official NCERT textbook reading, in-text examples, and exemplar exercises for Chemical Thermodynamics & Energetics.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo Chemistry: Chemical Thermodynamics & Energetics PYQ Bank",
+                "title": "MathonGo Chemistry: Chemical Thermodynamics & Energetics PYQ Bank",
+                "provider": "MathonGo",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Categorized Main and Advanced questions for Chemical Thermodynamics & Energetics with numerical answer solutions.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Chemical Equilibrium & Ionic Equilibrium",
+            "description": "Law of mass action, equilibrium constants (Kp and Kc), Le Chatelier's principle, pH scale, ionization of acids and bases, common ion effect, buffer solutions, salt hydrolysis, and solubility product (Ksp).",
+            "order": 4,
+            "estimatedHours": 22,
+            "difficulty": "intermediate",
+            "skills": [
+              "Le Chatelier Principle",
+              "pH & Buffer Calculation",
+              "Ksp Solubility Products"
+            ],
+            "subtopics": [
+              "Relation between Kp and Kc (Kp = Kc*(RT)^delta_n)",
+              "Le Chatelier's principle shifts with pressure, temperature, and inert gas addition",
+              "pH calculations of weak acids, polyprotic acids, and salt hydrolysis formulas",
+              "Acidic and basic buffer capacity (Henderson-Hasselbalch equation)",
+              "Solubility product Ksp and selective precipitation of cations"
+            ],
+            "subject": "Chemistry",
+            "resources": [
+              {
+                "name": "Official NCERT e-Textbook: Chemical Equilibrium & Ionic Equilibrium",
+                "title": "Official NCERT e-Textbook: Chemical Equilibrium & Ionic Equilibrium",
+                "provider": "NCERT Official Portal (ncert.nic.in)",
+                "type": "documentation",
+                "url": "https://ncert.nic.in/textbook.php",
+                "description": "Line-by-line official NCERT textbook reading, in-text examples, and exemplar exercises for Chemical Equilibrium & Ionic Equilibrium.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo Chemistry: Chemical Equilibrium & Ionic Equilibrium PYQ Bank",
+                "title": "MathonGo Chemistry: Chemical Equilibrium & Ionic Equilibrium PYQ Bank",
+                "provider": "MathonGo",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Categorized Main and Advanced questions for Chemical Equilibrium & Ionic Equilibrium with numerical answer solutions.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Electrochemistry & Redox Reactions",
+            "description": "Galvanic cells, standard electrode potential, Nernst equation, Gibbs free energy of cell reaction, electrolytic conductance, Kohlrausch's law, electrolysis laws, batteries, and corrosion.",
+            "order": 5,
+            "estimatedHours": 18,
+            "difficulty": "intermediate",
+            "skills": [
+              "Nernst Equation",
+              "Molar Conductivity",
+              "Electrolysis Calculations"
+            ],
+            "subtopics": [
+              "EMF of galvanic cell and Nernst equation for non-standard concentrations",
+              "Kohlrausch's law of independent migration of ions",
+              "Molar conductivity vs concentration graphs for strong and weak electrolytes",
+              "Faraday's laws of electrolysis (mass deposited = Z*I*t)",
+              "Commercial cells (Lead storage, fuel cells)"
+            ],
+            "subject": "Chemistry",
+            "resources": [
+              {
+                "name": "Official NCERT e-Textbook: Electrochemistry & Redox Reactions",
+                "title": "Official NCERT e-Textbook: Electrochemistry & Redox Reactions",
+                "provider": "NCERT Official Portal (ncert.nic.in)",
+                "type": "documentation",
+                "url": "https://ncert.nic.in/textbook.php",
+                "description": "Line-by-line official NCERT textbook reading, in-text examples, and exemplar exercises for Electrochemistry & Redox Reactions.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo Chemistry: Electrochemistry & Redox Reactions PYQ Bank",
+                "title": "MathonGo Chemistry: Electrochemistry & Redox Reactions PYQ Bank",
+                "provider": "MathonGo",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Categorized Main and Advanced questions for Electrochemistry & Redox Reactions with numerical answer solutions.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Chemical Kinetics & Surface Chemistry Fundamentals",
+            "description": "Rate of reaction, factors affecting rate, order and molecularity, zero and first order integrated rate laws, half-life, Arrhenius equation, activation energy, and catalysis.",
+            "order": 6,
+            "estimatedHours": 15,
+            "difficulty": "intermediate",
+            "skills": [
+              "Integrated Rate Laws",
+              "Half-Life Calculations",
+              "Arrhenius Equation"
+            ],
+            "subtopics": [
+              "Differential and integrated rate laws for 0th and 1st order",
+              "Half-life period (t_1/2) calculations and radioactive decay analogy",
+              "Temperature dependence of rate constant (Arrhenius equation ln(k2/k1))",
+              "Catalysis mechanism and adsorption isotherms (Freundlich isotherm)"
+            ],
+            "subject": "Chemistry",
+            "resources": [
+              {
+                "name": "Official NCERT e-Textbook: Chemical Kinetics & Surface Chemistry Fundamentals",
+                "title": "Official NCERT e-Textbook: Chemical Kinetics & Surface Chemistry Fundamentals",
+                "provider": "NCERT Official Portal (ncert.nic.in)",
+                "type": "documentation",
+                "url": "https://ncert.nic.in/textbook.php",
+                "description": "Line-by-line official NCERT textbook reading, in-text examples, and exemplar exercises for Chemical Kinetics & Surface Chemistry Fundamentals.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo Chemistry: Chemical Kinetics & Surface Chemistry Fundamentals PYQ Bank",
+                "title": "MathonGo Chemistry: Chemical Kinetics & Surface Chemistry Fundamentals PYQ Bank",
+                "provider": "MathonGo",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Categorized Main and Advanced questions for Chemical Kinetics & Surface Chemistry Fundamentals with numerical answer solutions.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stageNumber": 5,
+        "title": "Chemistry: Inorganic Chemistry & Coordination Compounds",
+        "description": "Periodic Table Trends, Chemical Bonding, p-Block, d-Block & f-Block Elements, Coordination Compounds & Metallurgy Principles.",
+        "subject": "Chemistry",
+        "order": 5,
+        "estimatedHours": 70,
+        "difficulty": "intermediate",
+        "learningObjectives": [
+          "Master fundamental theory and principles for Chemistry: Inorganic Chemistry & Coordination Compounds",
+          "Solve standard NCERT exercises and exemplar problems",
+          "Analyze previous 10 years JEE Main and Advanced questions"
+        ],
+        "practiceRequirements": [
+          "Complete 30-50 practice problems with speed drills",
+          "Review and log negative marks in error notebook"
+        ],
+        "skippableIfExperienced": false,
+        "topics": [
+          {
+            "title": "Periodic Classification & Periodicity in Properties",
+            "description": "Modern periodic law, long form periodic table, periodic trends in atomic/ionic radii, ionization enthalpy, electron gain enthalpy, electronegativity, and valence.",
+            "order": 1,
+            "estimatedHours": 10,
+            "difficulty": "intermediate",
+            "skills": [
+              "Periodic Trends",
+              "Ionization Enthalpy",
+              "Electronegativity"
+            ],
+            "subtopics": [
+              "Screening effect and effective nuclear charge (Slater's rules basics)",
+              "Anomalies in ionization enthalpy (Be vs B, N vs O)",
+              "Electron gain enthalpy trends (F vs Cl, O vs S)",
+              "Diagonal relationships and electronegativity scales (Pauling)"
+            ],
+            "subject": "Chemistry",
+            "resources": [
+              {
+                "name": "Official NCERT e-Textbook: Periodic Classification & Periodicity in Properties",
+                "title": "Official NCERT e-Textbook: Periodic Classification & Periodicity in Properties",
+                "provider": "NCERT Official Portal (ncert.nic.in)",
+                "type": "documentation",
+                "url": "https://ncert.nic.in/textbook.php",
+                "description": "Line-by-line official NCERT textbook reading, in-text examples, and exemplar exercises for Periodic Classification & Periodicity in Properties.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo Chemistry: Periodic Classification & Periodicity in Properties PYQ Bank",
+                "title": "MathonGo Chemistry: Periodic Classification & Periodicity in Properties PYQ Bank",
+                "provider": "MathonGo",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Categorized Main and Advanced questions for Periodic Classification & Periodicity in Properties with numerical answer solutions.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Chemical Bonding & Molecular Structure",
+            "description": "Ionic bond, lattice energy, Born-Haber cycle, covalent bond, Lewis dot structures, VSEPR theory, hybridization, dipole moment, Molecular Orbital Theory (MOT), and hydrogen bonding.",
+            "order": 2,
+            "estimatedHours": 20,
+            "difficulty": "intermediate",
+            "skills": [
+              "VSEPR Geometry",
+              "Hybridization",
+              "MOT Bond Order & Magnetism"
+            ],
+            "subtopics": [
+              "VSEPR geometry and shape predictions for molecules with lone pairs",
+              "Hybridization (sp, sp2, sp3, sp3d, sp3d2) and steric number",
+              "Molecular Orbital Theory: bond order, magnetic properties of B2, C2, N2, O2, O2-, O2+",
+              "Intermolecular and intramolecular hydrogen bonding and physical property impacts"
+            ],
+            "subject": "Chemistry",
+            "resources": [
+              {
+                "name": "Official NCERT e-Textbook: Chemical Bonding & Molecular Structure",
+                "title": "Official NCERT e-Textbook: Chemical Bonding & Molecular Structure",
+                "provider": "NCERT Official Portal (ncert.nic.in)",
+                "type": "documentation",
+                "url": "https://ncert.nic.in/textbook.php",
+                "description": "Line-by-line official NCERT textbook reading, in-text examples, and exemplar exercises for Chemical Bonding & Molecular Structure.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo Chemistry: Chemical Bonding & Molecular Structure PYQ Bank",
+                "title": "MathonGo Chemistry: Chemical Bonding & Molecular Structure PYQ Bank",
+                "provider": "MathonGo",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Categorized Main and Advanced questions for Chemical Bonding & Molecular Structure with numerical answer solutions.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "p-Block Elements (Groups 13 to 18)",
+            "description": "Electronic configuration, general trends in physical and chemical properties, inert pair effect, allotropy, structures of oxides, halides, oxoacids of phosphorus, sulfur, and chlorine, noble gas compounds.",
+            "order": 3,
+            "estimatedHours": 18,
+            "difficulty": "intermediate",
+            "skills": [
+              "Inert Pair Effect",
+              "Oxoacid Structures",
+              "Xenon Chemistry"
+            ],
+            "subtopics": [
+              "Inert pair effect in heavier p-block elements (Tl, Pb, Bi)",
+              "Structure and anomalous properties of Boron and Diborane",
+              "Oxoacids of Phosphorus and Sulfur (basicity and oxidation states)",
+              "Xenon fluorides (XeF2, XeF4, XeF6) preparation, structures and hydrolysis"
+            ],
+            "subject": "Chemistry",
+            "resources": [
+              {
+                "name": "Official NCERT e-Textbook: p-Block Elements (Groups 13 to 18)",
+                "title": "Official NCERT e-Textbook: p-Block Elements (Groups 13 to 18)",
+                "provider": "NCERT Official Portal (ncert.nic.in)",
+                "type": "documentation",
+                "url": "https://ncert.nic.in/textbook.php",
+                "description": "Line-by-line official NCERT textbook reading, in-text examples, and exemplar exercises for p-Block Elements (Groups 13 to 18).",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo Chemistry: p-Block Elements (Groups 13 to 18) PYQ Bank",
+                "title": "MathonGo Chemistry: p-Block Elements (Groups 13 to 18) PYQ Bank",
+                "provider": "MathonGo",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Categorized Main and Advanced questions for p-Block Elements (Groups 13 to 18) with numerical answer solutions.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "d- and f-Block Elements & Coordination Compounds",
+            "description": "General properties of transition elements, oxidation states, catalytic properties, magnetic properties, colored ions, potassium permanganate (KMnO4) and potassium dichromate (K2Cr2O7) preparation and reactions, Werner's theory, IUPAC nomenclature of coordination compounds, isomerism, crystal field theory (CFT), and bonding.",
+            "order": 4,
+            "estimatedHours": 22,
+            "difficulty": "intermediate",
+            "skills": [
+              "Crystal Field Splitting",
+              "Coordination Nomenclature",
+              "Isomerism in Complexes"
+            ],
+            "subtopics": [
+              "Lanthanoid contraction and its consequences on 4d/5d elements",
+              "Oxidizing actions of KMnO4 and K2Cr2O7 in acidic, basic and neutral media",
+              "IUPAC nomenclature of coordination complexes",
+              "Geometrical and optical isomerism in coordination complexes",
+              "Crystal Field Theory (CFT): splitting in octahedral (delta_o) and tetrahedral (delta_t) fields, spectrochemical series, CFSE and high/low spin complexes"
+            ],
+            "subject": "Chemistry",
+            "resources": [
+              {
+                "name": "Official NCERT e-Textbook: d- and f-Block Elements & Coordination Compounds",
+                "title": "Official NCERT e-Textbook: d- and f-Block Elements & Coordination Compounds",
+                "provider": "NCERT Official Portal (ncert.nic.in)",
+                "type": "documentation",
+                "url": "https://ncert.nic.in/textbook.php",
+                "description": "Line-by-line official NCERT textbook reading, in-text examples, and exemplar exercises for d- and f-Block Elements & Coordination Compounds.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo Chemistry: d- and f-Block Elements & Coordination Compounds PYQ Bank",
+                "title": "MathonGo Chemistry: d- and f-Block Elements & Coordination Compounds PYQ Bank",
+                "provider": "MathonGo",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Categorized Main and Advanced questions for d- and f-Block Elements & Coordination Compounds with numerical answer solutions.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stageNumber": 6,
+        "title": "Chemistry: Organic Chemistry Mechanisms & Functional Groups",
+        "description": "IUPAC, Isomerism, GOC (Inductive, Resonance, Hyperconjugation, Aromaticity), Hydrocarbons, Alkyl Halides, Alcohols, Carbonyl Compounds, Amines & Biomolecules.",
+        "subject": "Chemistry",
+        "order": 6,
+        "estimatedHours": 85,
+        "difficulty": "intermediate",
+        "learningObjectives": [
+          "Master fundamental theory and principles for Chemistry: Organic Chemistry Mechanisms & Functional Groups",
+          "Solve standard NCERT exercises and exemplar problems",
+          "Analyze previous 10 years JEE Main and Advanced questions"
+        ],
+        "practiceRequirements": [
+          "Complete 30-50 practice problems with speed drills",
+          "Review and log negative marks in error notebook"
+        ],
+        "skippableIfExperienced": false,
+        "topics": [
+          {
+            "title": "General Organic Chemistry (GOC) & Reaction Mechanisms",
+            "description": "Inductive effect, electromeric effect, resonance, mesomeric effect, hyperconjugation, aromaticity (Huckel's rule), carbocations, carbanions, free radicals stability, and nucleophiles/electrophiles.",
+            "order": 1,
+            "estimatedHours": 20,
+            "difficulty": "intermediate",
+            "skills": [
+              "Electronic Effects",
+              "Aromaticity Evaluation",
+              "Acidity/Basicity Ordering"
+            ],
+            "subtopics": [
+              "Resonance structures stability rules",
+              "Huckel's 4n+2 rule for aromatic, antiaromatic, and non-aromatic systems",
+              "Acidic and basic strength order of organic compounds (alcohols, phenols, carboxylic acids, amines)",
+              "Reaction intermediates stability and generation"
+            ],
+            "subject": "Chemistry",
+            "resources": [
+              {
+                "name": "Official NCERT e-Textbook: General Organic Chemistry (GOC) & Reaction Mechanisms",
+                "title": "Official NCERT e-Textbook: General Organic Chemistry (GOC) & Reaction Mechanisms",
+                "provider": "NCERT Official Portal (ncert.nic.in)",
+                "type": "documentation",
+                "url": "https://ncert.nic.in/textbook.php",
+                "description": "Line-by-line official NCERT textbook reading, in-text examples, and exemplar exercises for General Organic Chemistry (GOC) & Reaction Mechanisms.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo Chemistry: General Organic Chemistry (GOC) & Reaction Mechanisms PYQ Bank",
+                "title": "MathonGo Chemistry: General Organic Chemistry (GOC) & Reaction Mechanisms PYQ Bank",
+                "provider": "MathonGo",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Categorized Main and Advanced questions for General Organic Chemistry (GOC) & Reaction Mechanisms with numerical answer solutions.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Isomerism & Stereochemistry",
+            "description": "Structural isomerism (chain, position, functional, metamerism, tautomerism) and stereoisomerism (geometrical isomerism cis/trans/E-Z, optical isomerism, enantiomers, diastereomers, meso compounds, and R/S configuration).",
+            "order": 2,
+            "estimatedHours": 15,
+            "difficulty": "intermediate",
+            "skills": [
+              "Stereochemistry",
+              "Optical Isomerism",
+              "Tautomerism"
+            ],
+            "subtopics": [
+              "Keto-enol tautomerism stability factors",
+              "Geometrical isomerism conditions and E/Z designation",
+              "Chirality, optical activity, plane of symmetry and center of inversion",
+              "Enantiomers, diastereomers, and calculation of total stereoisomers"
+            ],
+            "subject": "Chemistry",
+            "resources": [
+              {
+                "name": "Official NCERT e-Textbook: Isomerism & Stereochemistry",
+                "title": "Official NCERT e-Textbook: Isomerism & Stereochemistry",
+                "provider": "NCERT Official Portal (ncert.nic.in)",
+                "type": "documentation",
+                "url": "https://ncert.nic.in/textbook.php",
+                "description": "Line-by-line official NCERT textbook reading, in-text examples, and exemplar exercises for Isomerism & Stereochemistry.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo Chemistry: Isomerism & Stereochemistry PYQ Bank",
+                "title": "MathonGo Chemistry: Isomerism & Stereochemistry PYQ Bank",
+                "provider": "MathonGo",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Categorized Main and Advanced questions for Isomerism & Stereochemistry with numerical answer solutions.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Hydrocarbons (Alkanes, Alkenes, Alkynes & Arenes)",
+            "description": "Preparation and reactions of alkanes (Wurtz, free radical halogenation), alkenes (electrophilic addition, Markovnikov's rule, ozonolysis), alkynes (acidity, hydration), and electrophilic aromatic substitution in benzene.",
+            "order": 3,
+            "estimatedHours": 18,
+            "difficulty": "intermediate",
+            "skills": [
+              "Markovnikov Addition",
+              "Ozonolysis Elucidation",
+              "Electrophilic Aromatic Substitution"
+            ],
+            "subtopics": [
+              "Free radical halogenation mechanism and selectivity (bromination vs chlorination)",
+              "Electrophilic addition of HX and H2O to alkenes with carbocation rearrangement",
+              "Ozonolysis (reductive vs oxidative) for structural elucidation",
+              "Electrophilic aromatic substitution (nitration, halogenation, Friedel-Crafts alkylation and acylation)"
+            ],
+            "subject": "Chemistry",
+            "resources": [
+              {
+                "name": "Official NCERT e-Textbook: Hydrocarbons (Alkanes, Alkenes, Alkynes & Arenes)",
+                "title": "Official NCERT e-Textbook: Hydrocarbons (Alkanes, Alkenes, Alkynes & Arenes)",
+                "provider": "NCERT Official Portal (ncert.nic.in)",
+                "type": "documentation",
+                "url": "https://ncert.nic.in/textbook.php",
+                "description": "Line-by-line official NCERT textbook reading, in-text examples, and exemplar exercises for Hydrocarbons (Alkanes, Alkenes, Alkynes & Arenes).",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo Chemistry: Hydrocarbons (Alkanes, Alkenes, Alkynes & Arenes) PYQ Bank",
+                "title": "MathonGo Chemistry: Hydrocarbons (Alkanes, Alkenes, Alkynes & Arenes) PYQ Bank",
+                "provider": "MathonGo",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Categorized Main and Advanced questions for Hydrocarbons (Alkanes, Alkenes, Alkynes & Arenes) with numerical answer solutions.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Haloalkanes, Haloarenes, Alcohols, Phenols & Ethers",
+            "description": "SN1 and SN2 substitution mechanisms, E1 and E2 elimination mechanisms, Saytzeff vs Hofmann elimination, preparation and properties of alcohols, phenols (Kolbe, Reimer-Tiemann), and ethers (Williamson synthesis).",
+            "order": 4,
+            "estimatedHours": 20,
+            "difficulty": "intermediate",
+            "skills": [
+              "SN1/SN2 Substitution",
+              "E1/E2 Elimination",
+              "Name Reactions (Reimer-Tiemann, Williamson)"
+            ],
+            "subtopics": [
+              "SN1 vs SN2 kinetics, stereochemical inversion (Walden inversion), and solvent effects",
+              "Lucas reagent test for distinguishing 1, 2, 3 degree alcohols",
+              "Reactions of Phenol: Kolbe-Schmitt reaction and Reimer-Tiemann reaction",
+              "Williamson ether synthesis mechanism and cleavage of ethers with excess HI"
+            ],
+            "subject": "Chemistry",
+            "resources": [
+              {
+                "name": "Official NCERT e-Textbook: Haloalkanes, Haloarenes, Alcohols, Phenols & Ethers",
+                "title": "Official NCERT e-Textbook: Haloalkanes, Haloarenes, Alcohols, Phenols & Ethers",
+                "provider": "NCERT Official Portal (ncert.nic.in)",
+                "type": "documentation",
+                "url": "https://ncert.nic.in/textbook.php",
+                "description": "Line-by-line official NCERT textbook reading, in-text examples, and exemplar exercises for Haloalkanes, Haloarenes, Alcohols, Phenols & Ethers.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo Chemistry: Haloalkanes, Haloarenes, Alcohols, Phenols & Ethers PYQ Bank",
+                "title": "MathonGo Chemistry: Haloalkanes, Haloarenes, Alcohols, Phenols & Ethers PYQ Bank",
+                "provider": "MathonGo",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Categorized Main and Advanced questions for Haloalkanes, Haloarenes, Alcohols, Phenols & Ethers with numerical answer solutions.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Aldehydes, Ketones, Carboxylic Acids, Amines & Biomolecules",
+            "description": "Nucleophilic addition to carbonyls, Aldol condensation, Cannizzaro reaction, Haloform reaction, carboxylic acid derivatives, reduction with NaBH4 and LiAlH4, Gabriel phthalimide synthesis, Carbylamine test, Diazonium salts, carbohydrates (glucose, fructose), and proteins.",
+            "order": 5,
+            "estimatedHours": 22,
+            "difficulty": "intermediate",
+            "skills": [
+              "Aldol & Cannizzaro",
+              "Grignard Synthesis",
+              "Diazonium Coupling",
+              "Carbohydrate Structures"
+            ],
+            "subtopics": [
+              "Nucleophilic addition mechanism of HCN, NaHSO3, and Grignard reagents",
+              "Aldol and cross-aldol condensation mechanisms",
+              "Cannizzaro reaction and iodoform test for CH3-C=O and CH3-CH(OH)- groups",
+              "Diazonium salt replacement reactions (Sandmeyer, Gattermann, azo dye coupling)",
+              "Carbohydrates (reducing vs non-reducing sugars) and peptide bond linkages"
+            ],
+            "subject": "Chemistry",
+            "resources": [
+              {
+                "name": "Official NCERT e-Textbook: Aldehydes, Ketones, Carboxylic Acids, Amines & Biomolecules",
+                "title": "Official NCERT e-Textbook: Aldehydes, Ketones, Carboxylic Acids, Amines & Biomolecules",
+                "provider": "NCERT Official Portal (ncert.nic.in)",
+                "type": "documentation",
+                "url": "https://ncert.nic.in/textbook.php",
+                "description": "Line-by-line official NCERT textbook reading, in-text examples, and exemplar exercises for Aldehydes, Ketones, Carboxylic Acids, Amines & Biomolecules.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "MathonGo Chemistry: Aldehydes, Ketones, Carboxylic Acids, Amines & Biomolecules PYQ Bank",
+                "title": "MathonGo Chemistry: Aldehydes, Ketones, Carboxylic Acids, Amines & Biomolecules PYQ Bank",
+                "provider": "MathonGo",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "Categorized Main and Advanced questions for Aldehydes, Ketones, Carboxylic Acids, Amines & Biomolecules with numerical answer solutions.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stageNumber": 7,
+        "title": "Mathematics: Algebra & Trigonometry",
+        "description": "Sets, Relations, Functions, Quadratic Equations, Complex Numbers, Matrices, Determinants, Permutations & Combinations, Binomial Theorem, Sequences & Series, and Trigonometric Equations.",
+        "subject": "Mathematics",
+        "order": 7,
+        "estimatedHours": 85,
+        "difficulty": "intermediate",
+        "learningObjectives": [
+          "Master fundamental theory and principles for Mathematics: Algebra & Trigonometry",
+          "Solve standard NCERT exercises and exemplar problems",
+          "Analyze previous 10 years JEE Main and Advanced questions"
+        ],
+        "practiceRequirements": [
+          "Complete 30-50 practice problems with speed drills",
+          "Review and log negative marks in error notebook"
+        ],
+        "skippableIfExperienced": false,
+        "topics": [
+          {
+            "title": "Sets, Relations & Functions",
+            "description": "Types of relations (reflexive, symmetric, transitive, equivalence), domain, range, codomain of functions, one-one, onto, composite functions, and inverse functions.",
+            "order": 1,
+            "estimatedHours": 15,
+            "difficulty": "intermediate",
+            "skills": [
+              "Domain/Range Finding",
+              "Injective/Surjective Proofs",
+              "Functional Equations"
+            ],
+            "subtopics": [
+              "Equivalence classes and partitions",
+              "Domain and range determination for algebraic, logarithmic, and trigonometric functions",
+              "Injectivity (one-one) and surjectivity (onto) checks",
+              "Functional equations f(x+y) = f(x)f(y) and composition f(g(x))"
+            ],
+            "subject": "Mathematics",
+            "resources": [
+              {
+                "name": "MathonGo Mathematics: Sets, Relations & Functions PYQ & Concept Drill",
+                "title": "MathonGo Mathematics: Sets, Relations & Functions PYQ & Concept Drill",
+                "provider": "MathonGo / Anup Gupta",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "High-yield problem solving, shortcuts, and 10-year question breakdown for Sets, Relations & Functions.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "Official JEE Advanced Archive: Sets, Relations & Functions Challenging Problems",
+                "title": "Official JEE Advanced Archive: Sets, Relations & Functions Challenging Problems",
+                "provider": "IIT JEE Official Archives",
+                "type": "documentation",
+                "url": "https://jeeadv.ac.in/",
+                "description": "Official past year subjective and comprehensive multi-concept problems for Sets, Relations & Functions.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Complex Numbers & Quadratic Equations",
+            "description": "Algebra of complex numbers, modulus, argument, polar and Euler forms, triangle inequalities, cube roots of unity, roots of quadratic equations, relation between roots and coefficients, and location of roots.",
+            "order": 2,
+            "estimatedHours": 20,
+            "difficulty": "intermediate",
+            "skills": [
+              "Complex Plane Geometry",
+              "Roots of Unity",
+              "Location of Roots"
+            ],
+            "subtopics": [
+              "Geometrical interpretation of complex numbers (|z - z1| = r, circles, perpendicular bisectors)",
+              "De Moivre's theorem and nth roots of unity",
+              "Roots of quadratic equations in symmetric expressions (alpha^n + beta^n)",
+              "Location of roots with respect to real numbers k1, k2"
+            ],
+            "subject": "Mathematics",
+            "resources": [
+              {
+                "name": "MathonGo Mathematics: Complex Numbers & Quadratic Equations PYQ & Concept Drill",
+                "title": "MathonGo Mathematics: Complex Numbers & Quadratic Equations PYQ & Concept Drill",
+                "provider": "MathonGo / Anup Gupta",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "High-yield problem solving, shortcuts, and 10-year question breakdown for Complex Numbers & Quadratic Equations.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "Official JEE Advanced Archive: Complex Numbers & Quadratic Equations Challenging Problems",
+                "title": "Official JEE Advanced Archive: Complex Numbers & Quadratic Equations Challenging Problems",
+                "provider": "IIT JEE Official Archives",
+                "type": "documentation",
+                "url": "https://jeeadv.ac.in/",
+                "description": "Official past year subjective and comprehensive multi-concept problems for Complex Numbers & Quadratic Equations.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Matrices & Determinants",
+            "description": "Matrix operations, transpose, symmetric and skew-symmetric matrices, properties of determinants, adjoint and inverse of a square matrix, and solving systems of linear equations using Cramer's rule and matrix inverse.",
+            "order": 3,
+            "estimatedHours": 16,
+            "difficulty": "intermediate",
+            "skills": [
+              "Determinant Properties",
+              "Adjoint Identities",
+              "Cramer's Rule for Systems"
+            ],
+            "subtopics": [
+              "Properties of determinant row/column operations",
+              "Adjoint properties: adj(AB) = adj(B)adj(A), |adj(A)| = |A|^(n-1)",
+              "System of linear equations consistency: unique, infinite, or no solution",
+              "Characteristic equation and Cayley-Hamilton theorem basics"
+            ],
+            "subject": "Mathematics",
+            "resources": [
+              {
+                "name": "MathonGo Mathematics: Matrices & Determinants PYQ & Concept Drill",
+                "title": "MathonGo Mathematics: Matrices & Determinants PYQ & Concept Drill",
+                "provider": "MathonGo / Anup Gupta",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "High-yield problem solving, shortcuts, and 10-year question breakdown for Matrices & Determinants.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "Official JEE Advanced Archive: Matrices & Determinants Challenging Problems",
+                "title": "Official JEE Advanced Archive: Matrices & Determinants Challenging Problems",
+                "provider": "IIT JEE Official Archives",
+                "type": "documentation",
+                "url": "https://jeeadv.ac.in/",
+                "description": "Official past year subjective and comprehensive multi-concept problems for Matrices & Determinants.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Permutations, Combinations & Binomial Theorem",
+            "description": "Fundamental principles of counting, permutations and combinations with or without repetitions, circular permutations, division into groups, derangements, binomial expansion for positive integral index, general and middle terms, and binomial coefficients properties.",
+            "order": 4,
+            "estimatedHours": 18,
+            "difficulty": "intermediate",
+            "skills": [
+              "Combinatorial Counting",
+              "Derangements",
+              "Binomial Coefficient Sums"
+            ],
+            "subtopics": [
+              "Arrangement of letters with repetitions and dictionary rank of words",
+              "Selection with conditions and distribution into identical/distinct boxes",
+              "Derangements formula D_n = n! * sum((-1)^k / k!)",
+              "Binomial coefficient identities and summation of series",
+              "Binomial theorem for any rational index approximations"
+            ],
+            "subject": "Mathematics",
+            "resources": [
+              {
+                "name": "MathonGo Mathematics: Permutations, Combinations & Binomial Theorem PYQ & Concept Drill",
+                "title": "MathonGo Mathematics: Permutations, Combinations & Binomial Theorem PYQ & Concept Drill",
+                "provider": "MathonGo / Anup Gupta",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "High-yield problem solving, shortcuts, and 10-year question breakdown for Permutations, Combinations & Binomial Theorem.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "Official JEE Advanced Archive: Permutations, Combinations & Binomial Theorem Challenging Problems",
+                "title": "Official JEE Advanced Archive: Permutations, Combinations & Binomial Theorem Challenging Problems",
+                "provider": "IIT JEE Official Archives",
+                "type": "documentation",
+                "url": "https://jeeadv.ac.in/",
+                "description": "Official past year subjective and comprehensive multi-concept problems for Permutations, Combinations & Binomial Theorem.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Sequence & Series and Trigonometry",
+            "description": "Arithmetic, geometric, and harmonic progressions, arithmetic and geometric means, relation between AM and GM, sum of n terms, arithmetico-geometric series, trigonometric identities, trigonometric equations, and inverse trigonometric functions.",
+            "order": 5,
+            "estimatedHours": 16,
+            "difficulty": "intermediate",
+            "skills": [
+              "AP/GP Summations",
+              "AM-GM Inequality",
+              "Inverse Trigonometric Identities"
+            ],
+            "subtopics": [
+              "Sum of special series (sigma n, sigma n^2, sigma n^3)",
+              "AM >= GM inequality applications for finding minima and maxima",
+              "General solutions of trigonometric equations sin(x) = sin(alpha)",
+              "Inverse trigonometric functions principal values and addition formulas"
+            ],
+            "subject": "Mathematics",
+            "resources": [
+              {
+                "name": "MathonGo Mathematics: Sequence & Series and Trigonometry PYQ & Concept Drill",
+                "title": "MathonGo Mathematics: Sequence & Series and Trigonometry PYQ & Concept Drill",
+                "provider": "MathonGo / Anup Gupta",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "High-yield problem solving, shortcuts, and 10-year question breakdown for Sequence & Series and Trigonometry.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "Official JEE Advanced Archive: Sequence & Series and Trigonometry Challenging Problems",
+                "title": "Official JEE Advanced Archive: Sequence & Series and Trigonometry Challenging Problems",
+                "provider": "IIT JEE Official Archives",
+                "type": "documentation",
+                "url": "https://jeeadv.ac.in/",
+                "description": "Official past year subjective and comprehensive multi-concept problems for Sequence & Series and Trigonometry.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stageNumber": 8,
+        "title": "Mathematics: Coordinate Geometry & Vectors/3D",
+        "description": "Straight Lines, Circles, Parabola, Ellipse, Hyperbola, Vector Algebra, and Three-Dimensional Geometry.",
+        "subject": "Mathematics",
+        "order": 8,
+        "estimatedHours": 80,
+        "difficulty": "advanced",
+        "learningObjectives": [
+          "Master fundamental theory and principles for Mathematics: Coordinate Geometry & Vectors/3D",
+          "Solve standard NCERT exercises and exemplar problems",
+          "Analyze previous 10 years JEE Main and Advanced questions"
+        ],
+        "practiceRequirements": [
+          "Complete 30-50 practice problems with speed drills",
+          "Review and log negative marks in error notebook"
+        ],
+        "skippableIfExperienced": false,
+        "topics": [
+          {
+            "title": "Straight Lines & Pair of Straight Lines",
+            "description": "Slope of a line, various forms of line equations, angle between two lines, distance of a point from a line, distance between parallel lines, concurrent lines, and angle bisectors.",
+            "order": 1,
+            "estimatedHours": 14,
+            "difficulty": "intermediate",
+            "skills": [
+              "Line Equations",
+              "Triangle Centers",
+              "Distance & Bisector Formulas"
+            ],
+            "subtopics": [
+              "Intercept, normal, and parametric forms of straight line",
+              "Centroid, incenter, orthocenter, and circumcenter coordinates",
+              "Equation of angle bisectors and distinguishing acute/obtuse bisectors",
+              "Family of lines L1 + lambda*L2 = 0 passing through intersection"
+            ],
+            "subject": "Mathematics",
+            "resources": [
+              {
+                "name": "MathonGo Mathematics: Straight Lines & Pair of Straight Lines PYQ & Concept Drill",
+                "title": "MathonGo Mathematics: Straight Lines & Pair of Straight Lines PYQ & Concept Drill",
+                "provider": "MathonGo / Anup Gupta",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "High-yield problem solving, shortcuts, and 10-year question breakdown for Straight Lines & Pair of Straight Lines.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "Official JEE Advanced Archive: Straight Lines & Pair of Straight Lines Challenging Problems",
+                "title": "Official JEE Advanced Archive: Straight Lines & Pair of Straight Lines Challenging Problems",
+                "provider": "IIT JEE Official Archives",
+                "type": "documentation",
+                "url": "https://jeeadv.ac.in/",
+                "description": "Official past year subjective and comprehensive multi-concept problems for Straight Lines & Pair of Straight Lines.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Circles",
+            "description": "Standard and general equations of a circle, radius and center, equation of a circle with given endpoints of a diameter, tangent and normal to a circle, length of tangent, chord of contact, and common tangents to two circles.",
+            "order": 2,
+            "estimatedHours": 16,
+            "difficulty": "intermediate",
+            "skills": [
+              "Circle Tangents",
+              "Common Tangents",
+              "Chord of Contact"
+            ],
+            "subtopics": [
+              "Condition for line y = mx + c to be tangent to circle",
+              "Director circle and angle between tangents from external point",
+              "Radical axis and common chord of two intersecting circles",
+              "Internal and external common tangents to two separate circles"
+            ],
+            "subject": "Mathematics",
+            "resources": [
+              {
+                "name": "MathonGo Mathematics: Circles PYQ & Concept Drill",
+                "title": "MathonGo Mathematics: Circles PYQ & Concept Drill",
+                "provider": "MathonGo / Anup Gupta",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "High-yield problem solving, shortcuts, and 10-year question breakdown for Circles.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "Official JEE Advanced Archive: Circles Challenging Problems",
+                "title": "Official JEE Advanced Archive: Circles Challenging Problems",
+                "provider": "IIT JEE Official Archives",
+                "type": "documentation",
+                "url": "https://jeeadv.ac.in/",
+                "description": "Official past year subjective and comprehensive multi-concept problems for Circles.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Conic Sections: Parabola, Ellipse & Hyperbola",
+            "description": "Standard equations, focus, directrix, eccentricity, latus rectum, equation of tangents, normals, and focal properties for parabola, ellipse, and hyperbola.",
+            "order": 3,
+            "estimatedHours": 24,
+            "difficulty": "intermediate",
+            "skills": [
+              "Conic Standard Forms",
+              "Focal Properties",
+              "Parametric Tangent/Normal"
+            ],
+            "subtopics": [
+              "Parabola y^2 = 4ax: parametric coordinates (at^2, 2at) and focal chord properties",
+              "Ellipse x^2/a^2 + y^2/b^2 = 1: eccentricity e = sqrt(1 - b^2/a^2), auxiliary circle and eccentric angle",
+              "Hyperbola standard and conjugate forms: asymptotes and rectangular hyperbola xy = c^2",
+              "Tangent equations in slope and point form for all three conics"
+            ],
+            "subject": "Mathematics",
+            "resources": [
+              {
+                "name": "MathonGo Mathematics: Conic Sections: Parabola, Ellipse & Hyperbola PYQ & Concept Drill",
+                "title": "MathonGo Mathematics: Conic Sections: Parabola, Ellipse & Hyperbola PYQ & Concept Drill",
+                "provider": "MathonGo / Anup Gupta",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "High-yield problem solving, shortcuts, and 10-year question breakdown for Conic Sections: Parabola, Ellipse & Hyperbola.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "Official JEE Advanced Archive: Conic Sections: Parabola, Ellipse & Hyperbola Challenging Problems",
+                "title": "Official JEE Advanced Archive: Conic Sections: Parabola, Ellipse & Hyperbola Challenging Problems",
+                "provider": "IIT JEE Official Archives",
+                "type": "documentation",
+                "url": "https://jeeadv.ac.in/",
+                "description": "Official past year subjective and comprehensive multi-concept problems for Conic Sections: Parabola, Ellipse & Hyperbola.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Vector Algebra & Three-Dimensional Geometry",
+            "description": "Vectors and scalars, addition of vectors, components, scalar product, vector product, scalar triple product, direction cosines and direction ratios, equation of line in space, skew lines and shortest distance, and planes in 3D.",
+            "order": 4,
+            "estimatedHours": 26,
+            "difficulty": "intermediate",
+            "skills": [
+              "Vector Products",
+              "3D Line Equations",
+              "Shortest Distance Between Lines"
+            ],
+            "subtopics": [
+              "Dot product and angle between vectors; Cross product and area of triangle/parallelogram",
+              "Scalar triple product [a b c] and coplanarity condition",
+              "Vector triple product a x (b x c) expansion",
+              "Cartesian and vector equations of line; Shortest distance between skew lines",
+              "Equation of plane passing through three points and intersection of two planes"
+            ],
+            "subject": "Mathematics",
+            "resources": [
+              {
+                "name": "MathonGo Mathematics: Vector Algebra & Three-Dimensional Geometry PYQ & Concept Drill",
+                "title": "MathonGo Mathematics: Vector Algebra & Three-Dimensional Geometry PYQ & Concept Drill",
+                "provider": "MathonGo / Anup Gupta",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "High-yield problem solving, shortcuts, and 10-year question breakdown for Vector Algebra & Three-Dimensional Geometry.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "Official JEE Advanced Archive: Vector Algebra & Three-Dimensional Geometry Challenging Problems",
+                "title": "Official JEE Advanced Archive: Vector Algebra & Three-Dimensional Geometry Challenging Problems",
+                "provider": "IIT JEE Official Archives",
+                "type": "documentation",
+                "url": "https://jeeadv.ac.in/",
+                "description": "Official past year subjective and comprehensive multi-concept problems for Vector Algebra & Three-Dimensional Geometry.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stageNumber": 9,
+        "title": "Mathematics: Differential & Integral Calculus",
+        "description": "Limits, Continuity, Differentiability, Applications of Derivatives, Indefinite Integrals, Definite Integrals, Area Under Curves, and Differential Equations.",
+        "subject": "Mathematics",
+        "order": 9,
+        "estimatedHours": 90,
+        "difficulty": "advanced",
+        "learningObjectives": [
+          "Master fundamental theory and principles for Mathematics: Differential & Integral Calculus",
+          "Solve standard NCERT exercises and exemplar problems",
+          "Analyze previous 10 years JEE Main and Advanced questions"
+        ],
+        "practiceRequirements": [
+          "Complete 30-50 practice problems with speed drills",
+          "Review and log negative marks in error notebook"
+        ],
+        "skippableIfExperienced": false,
+        "topics": [
+          {
+            "title": "Limits, Continuity & Differentiability",
+            "description": "Evaluation of limits (L'Hopital's rule, standard expansions, 1^infinity form), continuity of functions, types of discontinuities, differentiability, and relation between continuity and differentiability.",
+            "order": 1,
+            "estimatedHours": 18,
+            "difficulty": "intermediate",
+            "skills": [
+              "L'Hopital Rule",
+              "1^Infinity Limits",
+              "Differentiability Checks"
+            ],
+            "subtopics": [
+              "Standard limits: sin(x)/x, (a^x - 1)/x, and e-limits (1 + f(x))^(1/g(x))",
+              "Left-hand and right-hand limits and existence of limit",
+              "Continuity on closed intervals and intermediate value theorem (IVT)",
+              "Differentiability tests using first principles and graphical corners"
+            ],
+            "subject": "Mathematics",
+            "resources": [
+              {
+                "name": "MathonGo Mathematics: Limits, Continuity & Differentiability PYQ & Concept Drill",
+                "title": "MathonGo Mathematics: Limits, Continuity & Differentiability PYQ & Concept Drill",
+                "provider": "MathonGo / Anup Gupta",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "High-yield problem solving, shortcuts, and 10-year question breakdown for Limits, Continuity & Differentiability.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "Official JEE Advanced Archive: Limits, Continuity & Differentiability Challenging Problems",
+                "title": "Official JEE Advanced Archive: Limits, Continuity & Differentiability Challenging Problems",
+                "provider": "IIT JEE Official Archives",
+                "type": "documentation",
+                "url": "https://jeeadv.ac.in/",
+                "description": "Official past year subjective and comprehensive multi-concept problems for Limits, Continuity & Differentiability.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Application of Derivatives (AOD)",
+            "description": "Derivative as rate of change, tangents and normals, increasing and decreasing functions, Rolle's and Lagrange's mean value theorems, and maxima and minima of functions.",
+            "order": 2,
+            "estimatedHours": 20,
+            "difficulty": "intermediate",
+            "skills": [
+              "Rate of Change",
+              "Monotonicity Analysis",
+              "Maxima and Minima"
+            ],
+            "subtopics": [
+              "Rate of change problems (spheres expanding, ladder sliding)",
+              "Equations of tangent and normal to curve at point",
+              "Monotonicity intervals and strictly increasing/decreasing conditions",
+              "First and second derivative tests for local and global extrema",
+              "LMVT and Rolle's theorem existence proofs"
+            ],
+            "subject": "Mathematics",
+            "resources": [
+              {
+                "name": "MathonGo Mathematics: Application of Derivatives (AOD) PYQ & Concept Drill",
+                "title": "MathonGo Mathematics: Application of Derivatives (AOD) PYQ & Concept Drill",
+                "provider": "MathonGo / Anup Gupta",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "High-yield problem solving, shortcuts, and 10-year question breakdown for Application of Derivatives (AOD).",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "Official JEE Advanced Archive: Application of Derivatives (AOD) Challenging Problems",
+                "title": "Official JEE Advanced Archive: Application of Derivatives (AOD) Challenging Problems",
+                "provider": "IIT JEE Official Archives",
+                "type": "documentation",
+                "url": "https://jeeadv.ac.in/",
+                "description": "Official past year subjective and comprehensive multi-concept problems for Application of Derivatives (AOD).",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Indefinite & Definite Integrals",
+            "description": "Integration by substitution, parts, and partial fractions, integration of special algebraic and trigonometric functions, Fundamental Theorem of Calculus, and definite integral properties.",
+            "order": 3,
+            "estimatedHours": 24,
+            "difficulty": "intermediate",
+            "skills": [
+              "Integration Techniques",
+              "King's Property",
+              "Leibniz Integral Rule"
+            ],
+            "subtopics": [
+              "Standard integration forms (1/(x^2 + a^2), sqrt(a^2 - x^2), etc.)",
+              "Integration by parts: ILATE rule and reduction formulas",
+              "Definite integral properties: King's property (integral f(x) = integral f(a+b-x))",
+              "Periodic property of definite integrals and Queen's property",
+              "Leibniz rule for differentiation under integral sign"
+            ],
+            "subject": "Mathematics",
+            "resources": [
+              {
+                "name": "MathonGo Mathematics: Indefinite & Definite Integrals PYQ & Concept Drill",
+                "title": "MathonGo Mathematics: Indefinite & Definite Integrals PYQ & Concept Drill",
+                "provider": "MathonGo / Anup Gupta",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "High-yield problem solving, shortcuts, and 10-year question breakdown for Indefinite & Definite Integrals.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "Official JEE Advanced Archive: Indefinite & Definite Integrals Challenging Problems",
+                "title": "Official JEE Advanced Archive: Indefinite & Definite Integrals Challenging Problems",
+                "provider": "IIT JEE Official Archives",
+                "type": "documentation",
+                "url": "https://jeeadv.ac.in/",
+                "description": "Official past year subjective and comprehensive multi-concept problems for Indefinite & Definite Integrals.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Area Under Curves & Differential Equations",
+            "description": "Area bounded by simple curves, area between two curves, order and degree of differential equations, formation of differential equations, and solution of variable separable, homogeneous, and linear differential equations.",
+            "order": 4,
+            "estimatedHours": 18,
+            "difficulty": "intermediate",
+            "skills": [
+              "Area Integration",
+              "Linear Differential Equations",
+              "Integrating Factor"
+            ],
+            "subtopics": [
+              "Area calculation bounded by parabola and line, or two parabolas",
+              "Area involving modulus functions |x| and |y|",
+              "Order and degree of differential equations",
+              "Variable separable method and reducible to variable separable",
+              "First order linear differential equation (dy/dx + P*y = Q) with integrating factor IF = exp(integral P dx)"
+            ],
+            "subject": "Mathematics",
+            "resources": [
+              {
+                "name": "MathonGo Mathematics: Area Under Curves & Differential Equations PYQ & Concept Drill",
+                "title": "MathonGo Mathematics: Area Under Curves & Differential Equations PYQ & Concept Drill",
+                "provider": "MathonGo / Anup Gupta",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "High-yield problem solving, shortcuts, and 10-year question breakdown for Area Under Curves & Differential Equations.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "Official JEE Advanced Archive: Area Under Curves & Differential Equations Challenging Problems",
+                "title": "Official JEE Advanced Archive: Area Under Curves & Differential Equations Challenging Problems",
+                "provider": "IIT JEE Official Archives",
+                "type": "documentation",
+                "url": "https://jeeadv.ac.in/",
+                "description": "Official past year subjective and comprehensive multi-concept problems for Area Under Curves & Differential Equations.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "Probability & Statistics",
+            "description": "Measures of dispersion (mean, variance, standard deviation), calculation of variance for grouped and ungrouped data, conditional probability, multiplication rule, Bayes' theorem, and independent events.",
+            "order": 5,
+            "estimatedHours": 10,
+            "difficulty": "intermediate",
+            "skills": [
+              "Variance & SD",
+              "Conditional Probability",
+              "Bayes' Theorem"
+            ],
+            "subtopics": [
+              "Mean, variance, and standard deviation formulas and shift of origin/scale effects",
+              "Conditional probability P(A|B) and independent events condition",
+              "Bayes' theorem for total probability and posterior probabilities",
+              "Bernoulli trials and binomial distribution basics"
+            ],
+            "subject": "Mathematics",
+            "resources": [
+              {
+                "name": "MathonGo Mathematics: Probability & Statistics PYQ & Concept Drill",
+                "title": "MathonGo Mathematics: Probability & Statistics PYQ & Concept Drill",
+                "provider": "MathonGo / Anup Gupta",
+                "type": "practice",
+                "url": "https://www.mathongo.com/jee-main/pyq",
+                "description": "High-yield problem solving, shortcuts, and 10-year question breakdown for Probability & Statistics.",
+                "free": true,
+                "language": "English & Hindi"
+              },
+              {
+                "name": "Official JEE Advanced Archive: Probability & Statistics Challenging Problems",
+                "title": "Official JEE Advanced Archive: Probability & Statistics Challenging Problems",
+                "provider": "IIT JEE Official Archives",
+                "type": "documentation",
+                "url": "https://jeeadv.ac.in/",
+                "description": "Official past year subjective and comprehensive multi-concept problems for Probability & Statistics.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stageNumber": 10,
+        "title": "Full-Length Exam Simulation, National Mock Tests & PYQ Drills",
+        "description": "Integrated 3-Hour Computer Based Tests (CBTs), Previous 10 Years Questions, Speed & Accuracy Drills, Error Log Audits, and JoSAA Admissions Preparation.",
+        "subject": "PCM Integrated",
+        "order": 10,
+        "estimatedHours": 60,
+        "difficulty": "advanced",
+        "learningObjectives": [
+          "Master fundamental theory and principles for Full-Length Exam Simulation, National Mock Tests & PYQ Drills",
+          "Solve standard NCERT exercises and exemplar problems",
+          "Analyze previous 10 years JEE Main and Advanced questions"
+        ],
+        "practiceRequirements": [
+          "Complete 30-50 practice problems with speed drills",
+          "Review and log negative marks in error notebook"
+        ],
+        "skippableIfExperienced": false,
+        "topics": [
+          {
+            "title": "JEE Main Previous 10 Years Comprehensive PYQ Drills",
+            "description": "Timed chapter-wise and full-paper testing of official NTA JEE Main papers from 2016 through 2025.",
+            "order": 1,
+            "estimatedHours": 25,
+            "difficulty": "intermediate",
+            "skills": [
+              "Time Allocation",
+              "Question Filtering",
+              "Accuracy Under Pressure"
+            ],
+            "subtopics": [
+              "Full paper 3-hour timing drills (300 marks)",
+              "Section B numerical question selection strategy (5 out of 10)",
+              "Speed benchmarking: target 60-70 minutes per subject",
+              "Detailed post-test analytics and error categorization"
+            ],
+            "subject": "PCM Integrated",
+            "resources": [
+              {
+                "name": "NTA Official National Mock Exam Portal",
+                "title": "NTA Official National Mock Exam Portal",
+                "provider": "National Testing Agency (NTA)",
+                "type": "practice",
+                "url": "https://nta.ac.in/Quiz",
+                "description": "Official online 3-hour Computer Based Test (CBT) interface simulation with real exam scoring.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "JEE Advanced Comprehensive Multi-Concept Paper Drills",
+            "description": "Solving official JEE Advanced Paper 1 and Paper 2 exams with mixed-marking schemes, negative markings, and partial marking strategies.",
+            "order": 2,
+            "estimatedHours": 25,
+            "difficulty": "intermediate",
+            "skills": [
+              "Paper 1 & 2 Stamina",
+              "Partial Marking Strategy",
+              "Multi-Concept Synthesis"
+            ],
+            "subtopics": [
+              "Handling partial marking in multi-correct questions",
+              "Matrix match and paragraph comprehension techniques",
+              "Sustaining mental stamina across two consecutive 3-hour sessions (9 AM to 12 PM, 2:30 PM to 5:30 PM)",
+              "Subjective numerical rounding and precision rules"
+            ],
+            "subject": "PCM Integrated",
+            "resources": [
+              {
+                "name": "NTA Official National Mock Exam Portal",
+                "title": "NTA Official National Mock Exam Portal",
+                "provider": "National Testing Agency (NTA)",
+                "type": "practice",
+                "url": "https://nta.ac.in/Quiz",
+                "description": "Official online 3-hour Computer Based Test (CBT) interface simulation with real exam scoring.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          },
+          {
+            "title": "JoSAA Admissions & Engineering Branch Decision Framework",
+            "description": "Understanding JoSAA counselling stages, opening/closing ranks, choice filling strategy, branch vs institute prioritization, and document verification readiness.",
+            "order": 3,
+            "estimatedHours": 10,
+            "difficulty": "intermediate",
+            "skills": [
+              "JoSAA Counselling",
+              "Branch Evaluation",
+              "Decision Strategy"
+            ],
+            "subtopics": [
+              "JoSAA 6-round seat allocation algorithm mechanics",
+              "Float, Freeze, and Slide option strategy",
+              "Evaluating branch curriculum (Computer Science, EE, Mechanical, Chemical, Math & Computing)",
+              "Reporting center document checklist and fee processing"
+            ],
+            "subject": "PCM Integrated",
+            "resources": [
+              {
+                "name": "NTA Official National Mock Exam Portal",
+                "title": "NTA Official National Mock Exam Portal",
+                "provider": "National Testing Agency (NTA)",
+                "type": "practice",
+                "url": "https://nta.ac.in/Quiz",
+                "description": "Official online 3-hour Computer Based Test (CBT) interface simulation with real exam scoring.",
+                "free": true,
+                "language": "English & Hindi"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "resources": [
+    {
+      "title": "Physics Galaxy: Mechanics & Kinematics Video Masterclass",
+      "provider": "Physics Galaxy / Ashish Arora",
+      "type": "playlist",
+      "url": "https://www.physicsgalaxy.com/",
+      "description": "Complete foundational and advanced video lecture series by Ashish Arora covering 1D/2D motion, projectile trajectories, and relative motion.",
+      "stageNumber": 1,
+      "topicTitle": "Vectors & Kinematics (1D, 2D & Relative Motion)",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    },
+    {
+      "title": "Physics Galaxy: Advanced Illustrations in Rotational Dynamics",
+      "provider": "Physics Galaxy / Ashish Arora",
+      "type": "playlist",
+      "url": "https://www.physicsgalaxy.com/",
+      "description": "Deep dive into multi-concept rotational physics, pure rolling, toppling, and angular momentum conservation with Ashish Arora.",
+      "stageNumber": 1,
+      "topicTitle": "Rotational Mechanics & Rigid Body Dynamics",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    },
+    {
+      "title": "Physics Galaxy: Electrodynamics & Electrostatics Booster Checklist",
+      "provider": "Physics Galaxy / Ashish Arora",
+      "type": "playlist",
+      "url": "https://www.physicsgalaxy.com/",
+      "description": "Concept revision and high-level problem solving for Coulomb's law, Gauss's theorem, and conductor cavity problems.",
+      "stageNumber": 2,
+      "topicTitle": "Electrostatics, Electric Field & Gauss's Law",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    },
+    {
+      "title": "Physics Galaxy: EMI & Alternating Current Lecture Series",
+      "provider": "Physics Galaxy / Ashish Arora",
+      "type": "playlist",
+      "url": "https://www.physicsgalaxy.com/",
+      "description": "Comprehensive breakdown of Faraday's laws, motional EMF, mutual inductance, and series LCR resonance circuits.",
+      "stageNumber": 2,
+      "topicTitle": "Electromagnetic Induction (EMI) & Alternating Current (AC)",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    },
+    {
+      "title": "Physics Galaxy: Thermodynamics & Heat Transfer Complete Module",
+      "provider": "Physics Galaxy / Ashish Arora",
+      "type": "playlist",
+      "url": "https://www.physicsgalaxy.com/",
+      "description": "First & second laws of thermodynamics, PV indicator diagrams, cyclic processes, heat engines, and Stefan's radiation law.",
+      "stageNumber": 3,
+      "topicTitle": "Thermal Physics & Thermodynamics",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    },
+    {
+      "title": "Physics Galaxy: Optics & Wave Optics Comprehensive Lecture Series",
+      "provider": "Physics Galaxy / Ashish Arora",
+      "type": "playlist",
+      "url": "https://www.physicsgalaxy.com/",
+      "description": "Ashish Arora's exhaustive walkthrough of spherical mirrors, lens-makers formula, silvered lenses, prisms, and YDSE interference.",
+      "stageNumber": 3,
+      "topicTitle": "Ray Optics & Optical Instruments",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    },
+    {
+      "title": "Physics Galaxy: Modern Physics Booster & Revision Checklist",
+      "provider": "Physics Galaxy / Ashish Arora",
+      "type": "playlist",
+      "url": "https://www.physicsgalaxy.com/",
+      "description": "Photoelectric effect, Bohr's atomic spectrum transitions, nuclear binding energy, half-life radioactivity, and logic gates.",
+      "stageNumber": 3,
+      "topicTitle": "Modern Physics & Semiconductor Devices",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    },
+    {
+      "title": "NCERT Official: Class 11 Chemistry Chapter 1 (Mole Concept & Stoichiometry)",
+      "provider": "National Council of Educational Research and Training (NCERT)",
+      "type": "documentation",
+      "url": "https://ncert.nic.in/textbook.php",
+      "description": "Official NCERT e-book portal covering fundamental units, molarity, molality, stoichiometry, and limiting reagents directly from the authoritative source.",
+      "stageNumber": 4,
+      "topicTitle": "Some Basic Concepts of Chemistry (Mole Concept & Stoichiometry)",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    },
+    {
+      "title": "NCERT Official: Class 11 Chemistry Chapter 6 (Chemical Thermodynamics)",
+      "provider": "NCERT",
+      "type": "documentation",
+      "url": "https://ncert.nic.in/textbook.php",
+      "description": "First & second laws, standard enthalpies of reaction, entropy, and Gibbs free energy equations straight from official NCERT text.",
+      "stageNumber": 4,
+      "topicTitle": "Chemical Thermodynamics & Energetics",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    },
+    {
+      "title": "NCERT Official: Class 11 Chemistry Chapter 7 (Equilibrium)",
+      "provider": "NCERT",
+      "type": "documentation",
+      "url": "https://ncert.nic.in/textbook.php",
+      "description": "Detailed textbook chapters on homogeneous and heterogeneous equilibrium, Le Chatelier principle, pH calculations, buffer solutions, and Ksp.",
+      "stageNumber": 4,
+      "topicTitle": "Chemical Equilibrium & Ionic Equilibrium",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    },
+    {
+      "title": "NCERT Official: Class 11 Chemistry Chapter 3 (Classification of Elements)",
+      "provider": "NCERT",
+      "type": "documentation",
+      "url": "https://ncert.nic.in/textbook.php",
+      "description": "The gold standard reference for ionization enthalpy, electronegativity, electron gain enthalpy trends, and anomaly justifications.",
+      "stageNumber": 5,
+      "topicTitle": "Periodic Classification & Periodicity in Properties",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    },
+    {
+      "title": "NCERT Official: Class 11 Chemistry Chapter 4 (Chemical Bonding)",
+      "provider": "NCERT",
+      "type": "documentation",
+      "url": "https://ncert.nic.in/textbook.php",
+      "description": "Authoritative explanations of VSEPR geometries, hybridizations, dipole moments, and Molecular Orbital Theory diagrams.",
+      "stageNumber": 5,
+      "topicTitle": "Chemical Bonding & Molecular Structure",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    },
+    {
+      "title": "NCERT Official: Class 12 Chemistry Chapters on d-Block & Coordination Chemistry",
+      "provider": "NCERT",
+      "type": "documentation",
+      "url": "https://ncert.nic.in/textbook.php",
+      "description": "Complete NCERT reading covering Werner's theory, IUPAC naming, geometrical/optical isomerism, and crystal field theory splitting.",
+      "stageNumber": 5,
+      "topicTitle": "d- and f-Block Elements & Coordination Compounds",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    },
+    {
+      "title": "NCERT Official: Class 11 Organic Chemistry Basics & Hydrocarbons",
+      "provider": "NCERT",
+      "type": "documentation",
+      "url": "https://ncert.nic.in/textbook.php",
+      "description": "Foundational NCERT text on inductive effects, hyperconjugation, resonance, aromaticity, and basic reaction mechanisms.",
+      "stageNumber": 6,
+      "topicTitle": "General Organic Chemistry (GOC) & Reaction Mechanisms",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    },
+    {
+      "title": "NCERT Official: Class 12 Organic Chemistry Full Reference",
+      "provider": "NCERT",
+      "type": "documentation",
+      "url": "https://ncert.nic.in/textbook.php",
+      "description": "Detailed reaction pathways for Aldol, Cannizzaro, Sandmeyer, Gabriel phthalimide synthesis, and biomolecule structures.",
+      "stageNumber": 6,
+      "topicTitle": "Aldehydes, Ketones, Carboxylic Acids, Amines & Biomolecules",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    },
+    {
+      "title": "Mohit Tyagi (Competishun): Complete Functions & Relations Lecture Series",
+      "provider": "Mohit Tyagi / Competishun",
+      "type": "playlist",
+      "url": "https://www.youtube.com/@MohitTyagi",
+      "description": "Exhaustive IIT-JEE classroom video lectures by Mohit Tyagi covering domain, range, one-one, onto, and functional equations.",
+      "stageNumber": 7,
+      "topicTitle": "Sets, Relations & Functions",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    },
+    {
+      "title": "MathonGo: Quadratic Equations & Complex Numbers Chapterwise PYQs",
+      "provider": "MathonGo",
+      "type": "practice",
+      "url": "https://www.mathongo.com/",
+      "description": "Dedicated chapter-wise questions from recent JEE Main and Advanced papers with step-by-step video solutions by Anup Sir.",
+      "stageNumber": 7,
+      "topicTitle": "Complex Numbers & Quadratic Equations",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    },
+    {
+      "title": "MathonGo: Matrices and Determinants Chapterwise Question Bank",
+      "provider": "MathonGo",
+      "type": "practice",
+      "url": "https://www.mathongo.com/",
+      "description": "Cramer's rule, adjoint matrix properties, and determinant reduction problems from all recent JEE shifts.",
+      "stageNumber": 7,
+      "topicTitle": "Matrices & Determinants",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    },
+    {
+      "title": "Mohit Tyagi: Conic Sections (Parabola, Ellipse, Hyperbola) Masterclass",
+      "provider": "Mohit Tyagi / Competishun",
+      "type": "playlist",
+      "url": "https://www.youtube.com/@MohitTyagi",
+      "description": "Pure analytical coordinate geometry lectures with rigorous focal property derivations and tangent/normal equations.",
+      "stageNumber": 8,
+      "topicTitle": "Conic Sections: Parabola, Ellipse & Hyperbola",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    },
+    {
+      "title": "MathonGo: Vectors & 3D Geometry High-Yield PYQ Pack",
+      "provider": "MathonGo",
+      "type": "practice",
+      "url": "https://www.mathongo.com/",
+      "description": "Comprehensive coverage of line equations, shortest distance between skew lines, scalar triple products, and planes.",
+      "stageNumber": 8,
+      "topicTitle": "Vector Algebra & Three-Dimensional Geometry",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    },
+    {
+      "title": "Mohit Tyagi: Differential Calculus Foundation Series",
+      "provider": "Mohit Tyagi / Competishun",
+      "type": "playlist",
+      "url": "https://www.youtube.com/@MohitTyagi",
+      "description": "Rigorous mathematical treatment of limits (standard expansions, L'Hopital, 1^infinity), continuity, and differentiability.",
+      "stageNumber": 9,
+      "topicTitle": "Limits, Continuity & Differentiability",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    },
+    {
+      "title": "MathonGo: Definite Integration & Area Under Curves PYQ Master Series",
+      "provider": "MathonGo",
+      "type": "practice",
+      "url": "https://www.mathongo.com/",
+      "description": "King's property, periodic integral shortcuts, Leibniz rule differentiations, and area bounding problems.",
+      "stageNumber": 9,
+      "topicTitle": "Indefinite & Definite Integrals",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    },
+    {
+      "title": "Official NTA JEE Main Portal: Question Papers & Answer Keys",
+      "provider": "National Testing Agency (NTA)",
+      "type": "practice",
+      "url": "https://jeemain.nta.nic.in/",
+      "description": "Official repository of computer-based test session papers and question archives maintained by the National Testing Agency.",
+      "stageNumber": 10,
+      "topicTitle": "JEE Main Previous 10 Years Comprehensive PYQ Drills",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    },
+    {
+      "title": "Official JEE Advanced Portal: Past Years Question Papers & Archive",
+      "provider": "Indian Institutes of Technology (IITs)",
+      "type": "practice",
+      "url": "https://jeeadv.ac.in/",
+      "description": "Authoritative past 15 years official question papers (Paper 1 & Paper 2) with official solutions released by organizing IITs.",
+      "stageNumber": 10,
+      "topicTitle": "JEE Advanced Comprehensive Multi-Concept Paper Drills",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    },
+    {
+      "title": "Official JoSAA Counselling & Seat Allocation Portal",
+      "provider": "Joint Seat Allocation Authority (JoSAA)",
+      "type": "documentation",
+      "url": "https://josaa.nic.in/",
+      "description": "Authoritative counselling guidelines, opening/closing rank cutoffs, seat matrices, and choice filling rules for IITs, NITs, IIITs, and GFTIs.",
+      "stageNumber": 10,
+      "topicTitle": "JoSAA Admissions & Engineering Branch Decision Framework",
+      "free": true,
+      "language": "English & Hindi",
+      "verified": true
+    }
+  ]
+}

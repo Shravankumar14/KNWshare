@@ -1,12 +1,13 @@
 import mongoose from 'mongoose';
 
 const topicResourceSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  provider: { type: String, required: true },
+  name: { type: String, default: 'Resource' },
+  title: { type: String, default: '' },
+  provider: { type: String, default: 'Educational Portal' },
   subject: { type: String },
   topic: { type: String },
   resourceType: { type: String, default: 'concept_video' },
-  url: { type: String, required: true },
+  url: { type: String, default: '#' },
   isFree: { type: Boolean, default: true },
   examLevel: { type: String, default: 'Both Main & Advanced' },
   description: { type: String, default: '' }
@@ -66,6 +67,14 @@ const roadmapSchema = new mongoose.Schema({
   totalEstimatedHours: {
     type: Number,
     default: 200,
+  },
+  stageIds: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'RoadmapStage'
+  }],
+  active: {
+    type: Boolean,
+    default: true
   },
   stages: [roadmapStageSchema]
 }, {

@@ -54,16 +54,16 @@ function SessionTypeCard({ session, selected, onClick }) {
         relative flex flex-col items-start gap-1 p-3 rounded-xl border text-left
         transition-all duration-200 active:scale-[0.97]
         ${selected
-          ? 'border-red-500 bg-red-950/40 shadow-[0_0_16px_rgba(220,38,38,0.30)]'
-          : 'border-zinc-700/60 bg-zinc-800/50 hover:border-red-800/70 hover:bg-zinc-800/80'
+          ? 'border-knw-red bg-knw-red/20 shadow-red'
+          : 'border-zinc-700/60 bg-zinc-800/50 hover:border-knw-red/70 hover:bg-zinc-800/80'
         }
       `}
     >
       {selected && (
-        <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-red-500 shadow-[0_0_6px_rgba(220,38,38,0.8)]" />
+        <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-knw-red shadow-red" />
       )}
       <span className="text-xl leading-none">{session.icon}</span>
-      <span className={`text-xs font-semibold leading-tight ${selected ? 'text-red-300' : 'text-gray-200'}`}>
+      <span className={`text-xs font-semibold leading-tight ${selected ? 'text-knw-red' : 'text-gray-200'}`}>
         {session.label}
       </span>
       <div className="flex items-center gap-2 mt-0.5">
@@ -98,8 +98,8 @@ function TimeSlotButton({ slot, selected, onClick }) {
         flex items-center justify-center px-2 py-2 rounded-lg border
         text-[10px] font-mono transition-all duration-150 active:scale-95
         ${selected
-          ? 'border-red-500 bg-red-900/40 text-red-300 shadow-[0_0_10px_rgba(220,38,38,0.25)]'
-          : 'border-zinc-700/50 bg-zinc-800/40 text-gray-400 hover:border-red-800/70 hover:bg-red-950/30 hover:text-red-400'
+          ? 'border-knw-red bg-knw-red/25 text-knw-red shadow-red'
+          : 'border-zinc-700/50 bg-zinc-800/40 text-gray-400 hover:border-knw-red/70 hover:bg-knw-red/10 hover:text-knw-red'
         }
       `}
     >
@@ -137,7 +137,7 @@ function SuccessView({ mentor, sessionId, slotId, onDone }) {
           <img
             src={mentor.avatar}
             alt={mentor.name}
-            className="w-10 h-10 rounded-full object-cover border-2 border-red-800/60"
+            className="w-10 h-10 rounded-full object-cover border-2 border-knw-red/60"
           />
           <div>
             <p className="text-white text-sm font-semibold">{mentor.name}</p>
@@ -256,8 +256,8 @@ export default function SlotBookingModal({ mentor, onClose }) {
             pointer-events-auto
             relative w-full max-w-lg max-h-[92vh] overflow-y-auto
             rounded-2xl
-            bg-zinc-950/95 border border-red-900/40
-            shadow-[0_0_60px_rgba(220,38,38,0.18)]
+            bg-zinc-950/95 border border-knw-red/40
+            shadow-red-lg
             backdrop-blur-xl
             flex flex-col
             [scrollbar-width:thin]
@@ -265,7 +265,7 @@ export default function SlotBookingModal({ mentor, onClose }) {
           "
         >
           {/* ── Red gradient accent line (top) ───────────────────────── */}
-          <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-red-600 to-transparent flex-shrink-0 rounded-t-2xl" />
+          <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-knw-redBright to-transparent flex-shrink-0 rounded-t-2xl" />
 
           {/* ── Close button ─────────────────────────────────────────── */}
           {!success && (
@@ -301,7 +301,7 @@ export default function SlotBookingModal({ mentor, onClose }) {
               <div className="flex items-center gap-3 pr-8">
                 {/* Avatar */}
                 <div className="relative flex-shrink-0">
-                  <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-red-800/60 ring-1 ring-red-700/20">
+                  <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-knw-red/60 ring-1 ring-knw-red/20">
                     <img
                       src={mentor.avatar}
                       alt={mentor.name}
@@ -314,19 +314,19 @@ export default function SlotBookingModal({ mentor, onClose }) {
                   <div className="flex items-center gap-1.5 flex-wrap">
                     <span className="text-white font-bold text-base leading-tight">{mentor.name}</span>
                     {mentor.verified && (
-                      <svg className="w-4 h-4 text-red-500" viewBox="0 0 24 24" fill="currentColor">
+                      <svg className="w-4 h-4 text-knw-red" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     )}
                   </div>
-                  <p className="text-red-400/80 text-xs font-medium line-clamp-2 leading-tight">
+                  <p className="text-knw-red text-xs font-medium line-clamp-2 leading-tight">
                     {mentor.title}
                   </p>
                   {/* Rating row */}
                   <div className="flex items-center gap-2 mt-1">
                     <div className="flex gap-0.5">
                       {Array.from({ length: 5 }).map((_, i) => (
-                        <svg key={i} className={`w-3 h-3 ${i < Math.round(mentor.rating) ? 'text-red-500' : 'text-gray-700'}`} fill="currentColor" viewBox="0 0 20 20">
+                        <svg key={i} className={`w-3 h-3 ${i < Math.round(mentor.rating) ? 'text-knw-red' : 'text-gray-700'}`} fill="currentColor" viewBox="0 0 20 20">
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
                       ))}
@@ -379,10 +379,10 @@ export default function SlotBookingModal({ mentor, onClose }) {
                 disabled={!canConfirm || loading}
                 className={`
                   btn-red w-full py-3.5 rounded-xl font-bold text-sm tracking-wider
-                  border transition-all duration-200 active:scale-95
+                  transition-all duration-200 active:scale-95
                   ${canConfirm && !loading
-                    ? 'bg-red-700 hover:bg-red-600 border-red-600/80 hover:border-red-500 text-white shadow-[0_0_20px_rgba(220,38,38,0.30)] hover:shadow-[0_0_30px_rgba(220,38,38,0.50)] cursor-pointer'
-                    : 'bg-zinc-800/50 border-zinc-700/40 text-gray-600 cursor-not-allowed shadow-none'
+                    ? 'shadow-red cursor-pointer'
+                    : 'opacity-40 pointer-events-none cursor-not-allowed shadow-none'
                   }
                 `}
               >
@@ -409,7 +409,7 @@ export default function SlotBookingModal({ mentor, onClose }) {
           )}
 
           {/* ── Bottom accent line ──────────────────────────────────────── */}
-          <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-red-900/30 to-transparent flex-shrink-0 rounded-b-2xl" />
+          <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-knw-redDark/30 to-transparent flex-shrink-0 rounded-b-2xl" />
         </div>
       </div>
     </>

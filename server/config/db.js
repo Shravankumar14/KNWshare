@@ -12,7 +12,7 @@ export const connectDB = async () => {
 
   try {
     if (uri) {
-      console.log(`[Database] Attempting connection to MongoDB at: ${uri}`);
+      console.log('[Database] Connecting to MongoDB...');
       await mongoose.connect(uri, {
         serverSelectionTimeoutMS: 4000
       });
@@ -20,7 +20,7 @@ export const connectDB = async () => {
       return;
     }
   } catch (err) {
-    console.warn('[Database] Failed to connect to specified MONGODB_URI. Falling back to embedded in-memory MongoDB...', err.message);
+    console.warn('[Database] Failed to connect to specified MongoDB database. Falling back to embedded in-memory MongoDB...', err.message);
   }
 
   // Graceful fallback to in-memory MongoDB for local dev without external daemon
@@ -32,7 +32,7 @@ export const connectDB = async () => {
     });
     const memoryUri = memoryServer.getUri();
     await mongoose.connect(memoryUri);
-    console.log(`[Database] Connected to embedded MongoDB Memory Server at: ${memoryUri}`);
+    console.log('[Database] Connected to embedded MongoDB Memory Server.');
   } catch (memErr) {
     console.error('[Database] Critical error connecting to in-memory database:', memErr);
     process.exit(1);

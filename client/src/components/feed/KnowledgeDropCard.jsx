@@ -13,8 +13,8 @@ import {
 ───────────────────────────────────────────── */
 const TYPE_CONFIG = {
   "KNOWLEDGE DROP": {
-    dot: "bg-red-500",
-    pill: "bg-red-500/10 text-red-400 border border-red-500/30",
+    dot: "bg-knw-red",
+    pill: "bg-knw-red/10 text-knw-red border border-knw-red/30",
   },
   "LECTURE DROP": {
     dot: "bg-orange-500",
@@ -64,7 +64,6 @@ export default function KnowledgeDropCard({ post, onBook }) {
     <article
       className="knw-card w-full rounded-2xl overflow-hidden flex flex-col gap-0"
       style={{
-        background: "#181818",
         border: "1px solid rgba(255,255,255,0.06)",
         boxShadow: "0 4px 32px rgba(0,0,0,0.55)",
       }}
@@ -87,15 +86,15 @@ export default function KnowledgeDropCard({ post, onBook }) {
           <img
             src={post.advisor.avatar}
             alt={post.advisor.name}
-            className="w-10 h-10 rounded-full object-cover ring-2 ring-red-600/40"
+            className="w-10 h-10 rounded-full object-cover ring-2 ring-knw-red/40"
             onError={(e) => {
               e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(post.advisor.name)}&background=2d0000&color=ff4444`;
             }}
           />
           {post.advisor.verified && (
             <BadgeCheck
-              className="absolute -bottom-0.5 -right-0.5 w-4 h-4 text-red-500"
-              style={{ filter: "drop-shadow(0 0 4px #ef444488)" }}
+              className="absolute -bottom-0.5 -right-0.5 w-4 h-4 text-knw-red"
+              style={{ filter: "drop-shadow(0 0 4px var(--primary-glow))" }}
             />
           )}
         </div>
@@ -108,7 +107,7 @@ export default function KnowledgeDropCard({ post, onBook }) {
             </span>
             <span className="text-[11px] text-white/40 truncate">{post.advisor.handle}</span>
           </div>
-          <span className="text-[10px] font-mono text-red-400/80">{post.advisor.credential}</span>
+          <span className="text-[10px] font-mono text-knw-red">{post.advisor.credential}</span>
         </div>
 
         {/* Follow toggle */}
@@ -116,8 +115,8 @@ export default function KnowledgeDropCard({ post, onBook }) {
           onClick={() => setFollowing((f) => !f)}
           className={`flex-shrink-0 text-[11px] font-semibold px-3 py-1 rounded-full border transition-all duration-200 ${
             following
-              ? "bg-white/5 border-white/20 text-white/60 hover:border-red-500/40 hover:text-red-400"
-              : "bg-red-600/10 border-red-500/50 text-red-400 hover:bg-red-600/20 hover:border-red-500"
+              ? "bg-white/5 border-white/20 text-white/60 hover:border-knw-red/40 hover:text-knw-red"
+              : "bg-knw-red/10 border-knw-red/50 text-knw-red hover:bg-knw-red/20 hover:border-knw-red"
           }`}
         >
           {following ? "Following" : "Follow"}
@@ -151,8 +150,8 @@ export default function KnowledgeDropCard({ post, onBook }) {
                 className="text-[9px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full"
                 style={{
                   background: "rgba(20,0,0,0.75)",
-                  border: "1px solid rgba(239,68,68,0.35)",
-                  color: "rgba(252,165,165,0.9)",
+                  border: "1px solid rgba(var(--primary-rgb), 0.35)",
+                  color: "var(--primary)",
                   backdropFilter: "blur(6px)",
                 }}
               >
@@ -170,11 +169,11 @@ export default function KnowledgeDropCard({ post, onBook }) {
           onClick={handleReact}
           className={`flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1.5 rounded-full transition-all duration-200 ${
             reacted
-              ? "bg-red-500/20 text-red-400 border border-red-500/40"
-              : "bg-white/5 text-white/50 border border-white/10 hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/30"
+              ? "bg-knw-red/20 text-knw-red border border-knw-red/40"
+              : "bg-white/5 text-white/50 border border-white/10 hover:bg-knw-red/10 hover:text-knw-red hover:border-knw-red/30"
           }`}
         >
-          <Flame className={`w-3.5 h-3.5 ${reacted ? "text-red-400" : "text-white/40"}`} />
+          <Flame className={`w-3.5 h-3.5 ${reacted ? "text-knw-red" : "text-white/40"}`} />
           {reactionCount.toLocaleString()}
         </button>
 
@@ -186,20 +185,7 @@ export default function KnowledgeDropCard({ post, onBook }) {
 
         {/* Add to Trail */}
         <button
-          className="flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1.5 rounded-full border transition-all duration-200 ml-0.5"
-          style={{
-            border: "1px solid rgba(239,68,68,0.45)",
-            color: "rgba(252,165,165,0.85)",
-            background: "rgba(239,68,68,0.06)",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = "rgba(239,68,68,0.14)";
-            e.currentTarget.style.borderColor = "rgba(239,68,68,0.7)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = "rgba(239,68,68,0.06)";
-            e.currentTarget.style.borderColor = "rgba(239,68,68,0.45)";
-          }}
+          className="flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1.5 rounded-full border transition-all duration-200 ml-0.5 border-knw-red/45 text-knw-red bg-knw-red/10 hover:bg-knw-red/20 hover:border-knw-red/70"
         >
           <Plus className="w-3 h-3" />
           Add to Trail
@@ -213,11 +199,11 @@ export default function KnowledgeDropCard({ post, onBook }) {
           onClick={handleBook}
           className={`p-1.5 rounded-full transition-all duration-200 ${
             bookmarked
-              ? "text-red-400 bg-red-500/15"
+              ? "text-knw-red bg-knw-red/15"
               : "text-white/30 hover:text-white/60 hover:bg-white/8"
           }`}
         >
-          <Bookmark className={`w-4 h-4 ${bookmarked ? "fill-red-400" : ""}`} />
+          <Bookmark className={`w-4 h-4 ${bookmarked ? "fill-knw-red text-knw-red" : ""}`} />
         </button>
 
         {/* Share */}
@@ -240,7 +226,7 @@ export default function KnowledgeDropCard({ post, onBook }) {
               {"... "}
               <button
                 onClick={() => setExpanded(true)}
-                className="text-red-500 font-semibold hover:text-red-400 transition-colors"
+                className="text-knw-red font-semibold hover:opacity-80 transition-opacity"
               >
                 more
               </button>
@@ -251,7 +237,7 @@ export default function KnowledgeDropCard({ post, onBook }) {
               {" "}
               <button
                 onClick={() => setExpanded(false)}
-                className="text-red-500 font-semibold hover:text-red-400 transition-colors"
+                className="text-knw-red font-semibold hover:opacity-80 transition-opacity"
               >
                 less
               </button>
@@ -266,7 +252,7 @@ export default function KnowledgeDropCard({ post, onBook }) {
           {post.hashtags.map((tag) => (
             <span
               key={tag}
-              className="text-[10px] font-mono text-red-500/70 hover:text-red-400 cursor-pointer transition-colors duration-150"
+              className="text-[10px] font-mono text-knw-red/80 hover:text-knw-red cursor-pointer transition-colors duration-150"
             >
               {tag}
             </span>

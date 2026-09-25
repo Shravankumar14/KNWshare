@@ -40,3 +40,19 @@ export const authorize = (...roles) => {
     next();
   };
 };
+
+export const optionalAuth = async (req, res, next) => {
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    try {
+      const token = req.headers.authorization.split(' ')[1];
+      const decoded = verifyToken(token);
+      req.user = await User.findById(decoded.id).select('-password');
+    } catch {
+      // Ignore token validation error for optional authentication
+    }
+  }
+  next();
+};

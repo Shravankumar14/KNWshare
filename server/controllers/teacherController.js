@@ -5,13 +5,14 @@ import User from '../models/User.js';
 import Notification from '../models/Notification.js';
 import TeacherContent from '../models/TeacherContent.js';
 
-// Helper to convert time string e.g. "09:30 AM" to minutes from midnight
+// Helper to convert time string e.g. "09:30 AM", "10:45AM", or "14:30" to minutes from midnight
 const timeStringToMinutes = (timeStr) => {
   if (!timeStr) return 0;
-  const parts = timeStr.trim().split(/[:\s]/);
-  let hour = parseInt(parts[0], 10);
-  const minute = parseInt(parts[1], 10) || 0;
-  const ampm = parts[2]?.toUpperCase();
+  const match = timeStr.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)?$/i);
+  if (!match) return 0;
+  let hour = parseInt(match[1], 10);
+  const minute = parseInt(match[2], 10) || 0;
+  const ampm = match[3]?.toUpperCase();
 
   if (ampm === 'PM' && hour < 12) hour += 12;
   if (ampm === 'AM' && hour === 12) hour = 0;
@@ -652,3 +653,82 @@ export const getTeacherPublicSlots = async (req, res, next) => {
     next(err);
   }
 };
+
+export const getTeacherPublicProfile = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    let profile = null;
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      profile = await TeacherProfile.findOne({
+        $or: [{ _id: id }, { userId: id }]
+      });
+    }
+    if (!profile) {
+      return res.status(404).json({ success: false, message: 'Teacher profile not found' });
+    }
+
+    const availableSlots = await AvailabilitySlot.find({
+      teacherId: profile.userId,
+      isBooked: false,
+      isActive: true
+    }).sort({ dayOfWeek: 1, startTime: 1 });
+
+    res.json({
+      success: true,
+      data: {
+        ...profile.toObject(),
+        availableSlots
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getAvailableTeachers = async (req, res, next) => {
+  try {
+    const availableSlots = await AvailabilitySlot.find({
+      isBooked: false,
+      isActive: true
+    }).populate('teacherId', 'name email avatar role bio').sort({ dayOfWeek: 1, startTime: 1 });
+
+    const teacherMap = new Map();
+
+    for (const slot of availableSlots) {
+      if (!slot.teacherId) continue;
+      const tId = slot.teacherId._id.toString();
+
+      if (!teacherMap.has(tId)) {
+        teacherMap.set(tId, {
+          user: slot.teacherId,
+          slots: []
+        });
+      }
+      teacherMap.get(tId).slots.push(slot);
+    }
+
+    const results = [];
+    for (const [tId, { user, slots }] of teacherMap.entries()) {
+      const profile = await TeacherProfile.findOne({ userId: tId });
+      results.push({
+        _id: tId,
+        teacherId: tId,
+        name: profile?.name || user.name,
+        email: profile?.email || user.email,
+        avatar: profile?.photo || user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=2d0000&color=ff4444`,
+        headline: profile?.headline || profile?.currentPosition?.jobTitle || 'Academic Coach & Mentor',
+        bio: profile?.bio || user.bio || '',
+        subjects: profile?.subjects || [],
+        ...(profile?.rating ? { rating: profile.rating } : {}),
+        nextAvailableSlot: slots[0] ? `${slots[0].dayOfWeek} ${slots[0].startTime}` : null,
+        slotsCount: slots.length,
+        availableSlots: slots
+      });
+    }
+
+    res.json({ success: true, count: results.length, data: results });
+  } catch (err) {
+    next(err);
+  }
+};
+

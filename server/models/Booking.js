@@ -83,4 +83,15 @@ const bookingSchema = new mongoose.Schema({
   timestamps: true
 });
 
+// Database-level double booking prevention: slotId must be unique among confirmed bookings
+bookingSchema.index(
+  { slotId: 1 },
+  {
+    unique: true,
+    partialFilterExpression: {
+      status: 'confirmed'
+    }
+  }
+);
+
 export default mongoose.model('Booking', bookingSchema);

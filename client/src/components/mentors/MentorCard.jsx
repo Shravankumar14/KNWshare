@@ -11,12 +11,12 @@ function StarRating({ rating }) {
   return (
     <span className="flex items-center gap-0.5">
       {Array.from({ length: full }).map((_, i) => (
-        <svg key={`f${i}`} className="w-3 h-3 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+        <svg key={`f${i}`} className="w-3 h-3 text-knw-red" fill="currentColor" viewBox="0 0 20 20">
           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
         </svg>
       ))}
       {frac > 0 && (
-        <svg key="h" className="w-3 h-3 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+        <svg key="h" className="w-3 h-3 text-knw-red" fill="currentColor" viewBox="0 0 20 20">
           <defs>
             <linearGradient id="halfGrad">
               <stop offset="50%" stopColor="currentColor" />
@@ -60,7 +60,7 @@ function CompanyBadge({ company, logo }) {
 // ---------------------------------------------------------------------------
 function VerifiedBadge() {
   return (
-    <svg className="w-4 h-4 text-red-500 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+    <svg className="w-4 h-4 text-knw-red flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
       <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
     </svg>
   );
@@ -103,13 +103,13 @@ export default function MentorCard({ mentor, onBook }) {
         knw-card
         relative w-full rounded-xl overflow-hidden
         bg-zinc-900/80 border border-zinc-800/80
-        hover:border-red-900/60 hover:shadow-[0_0_30px_rgba(220,38,38,0.12)]
+        hover:border-knw-red/60 hover:shadow-red
         transition-all duration-300
         backdrop-blur-sm
       "
     >
       {/* ── TOP RED ACCENT LINE ─────────────────────────────────────────── */}
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-red-700/60 to-transparent" />
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-knw-redBright/60 to-transparent" />
 
       <div className="p-4 sm:p-5 flex flex-col gap-4">
 
@@ -119,7 +119,7 @@ export default function MentorCard({ mentor, onBook }) {
           <div className="flex items-start gap-3 min-w-0">
             {/* Avatar */}
             <div className="relative flex-shrink-0">
-              <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-red-800/60 ring-1 ring-red-700/30">
+              <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-knw-red/60 ring-1 ring-knw-red/30">
                 <img
                   src={avatar}
                   alt={name}
@@ -139,7 +139,7 @@ export default function MentorCard({ mentor, onBook }) {
                 {verified && <VerifiedBadge />}
               </div>
               {/* Title */}
-              <p className="text-red-400/90 text-[11px] font-medium leading-tight line-clamp-1">
+              <p className="text-knw-red text-[11px] font-medium leading-tight line-clamp-1">
                 {title}
               </p>
               {/* Company + post time */}
@@ -158,8 +158,8 @@ export default function MentorCard({ mentor, onBook }) {
               flex-shrink-0 text-xs font-semibold font-mono tracking-wider
               px-3 py-1.5 rounded-lg border transition-all duration-200
               ${followed
-                ? 'bg-red-900/30 border-red-700/50 text-red-400'
-                : 'border-red-700/60 text-red-400 hover:bg-red-900/30 hover:border-red-600'
+                ? 'bg-knw-red/20 border-knw-red/50 text-knw-red'
+                : 'border-knw-red/60 text-knw-red hover:bg-knw-red/20 hover:border-knw-red'
               }
             `}
           >
@@ -189,9 +189,9 @@ export default function MentorCard({ mentor, onBook }) {
                   key={idx}
                   onClick={() => onBook?.(mentor)}
                   className="
-                    bg-red-900/30 border border-red-700/50 text-red-300
+                    bg-knw-red/15 border border-knw-red/40 text-knw-red
                     text-xs font-mono px-2 py-1 rounded-lg
-                    hover:bg-red-800/40 hover:border-red-600/70 hover:text-red-200
+                    hover:bg-knw-red/25 hover:border-knw-red/60
                     transition-all duration-150 active:scale-95
                   "
                 >
@@ -254,11 +254,9 @@ export default function MentorCard({ mentor, onBook }) {
             className="
               btn-red
               flex-shrink-0 w-full sm:w-auto
-              bg-red-700 hover:bg-red-600
-              text-white text-sm font-bold tracking-wider
-              px-5 py-2.5 rounded-lg
-              border border-red-600/80 hover:border-red-500
-              shadow-[0_0_18px_rgba(220,38,38,0.25)] hover:shadow-[0_0_24px_rgba(220,38,38,0.45)]
+              text-xs sm:text-sm font-bold tracking-wider
+              px-5 py-2.5 rounded-xl
+              shadow-red
               transition-all duration-200 active:scale-95
             "
           >
@@ -268,7 +266,7 @@ export default function MentorCard({ mentor, onBook }) {
       </div>
 
       {/* Bottom red accent line */}
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-red-900/40 to-transparent" />
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-knw-redDark/40 to-transparent" />
     </article>
   );
 }

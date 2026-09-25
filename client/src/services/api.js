@@ -39,4 +39,8 @@ api.interceptors.response.use(
   }
 );
 
+export const googleAuth = (credential) => api.post('/auth/google', { credential });
+export const loginApi = (email, password) => api.post('/auth/login', { email, password });
+export const registerApi = (data) => api.post('/auth/register', data);
+
 export default api;

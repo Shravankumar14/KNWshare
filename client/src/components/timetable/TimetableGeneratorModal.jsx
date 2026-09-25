@@ -7,7 +7,7 @@ import api from '../../services/api';
 
 export const TimetableGeneratorModal = ({ isOpen, onClose, onGenerated }) => {
   const { activeGoal, activeUserGoal } = useGoal();
-  const { isAuthenticated, demoLogin } = useAuth();
+  const { isAuthenticated } = useAuth();
   const { addToast } = useNotification();
 
   const [availableDays, setAvailableDays] = useState([
@@ -43,10 +43,6 @@ export const TimetableGeneratorModal = ({ isOpen, onClose, onGenerated }) => {
     setLoading(true);
 
     try {
-      if (!isAuthenticated) {
-        await demoLogin();
-      }
-
       const res = await api.post('/timetable/generate', {
         userGoalId: activeUserGoal?._id,
         goalId: activeGoal?._id,
@@ -68,9 +64,9 @@ export const TimetableGeneratorModal = ({ isOpen, onClose, onGenerated }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-      <div className="knw-glass rounded-3xl max-w-xl w-full border border-knw-red/40 shadow-red-lg overflow-hidden relative">
-        <div className="h-1.5 w-full bg-gradient-to-r from-knw-red via-red-500 to-knw-redDark shadow-red" />
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md flex items-center justify-center p-0 sm:p-4">
+      <div className="knw-modal-mobile-fullscreen knw-glass sm:rounded-3xl max-w-xl w-full border border-knw-red/40 shadow-red-lg overflow-hidden relative flex flex-col">
+        <div className="h-1.5 w-full bg-gradient-to-r from-knw-red via-knw-redBright to-knw-redDark shadow-red" />
 
         {/* Header */}
         <div className="px-6 py-5 border-b border-white/10 flex items-center justify-between">
@@ -160,7 +156,7 @@ export const TimetableGeneratorModal = ({ isOpen, onClose, onGenerated }) => {
                     <span className="text-xs font-bold text-white">{s.label}</span>
                     {preferredSlot === s.id && <Check className="w-3.5 h-3.5 text-knw-red" />}
                   </div>
-                  <span className="text-[10px] text-red-300 font-mono block mt-0.5">{s.time}</span>
+                  <span className="text-[10px] text-knw-red font-mono block mt-0.5">{s.time}</span>
                   <span className="text-[10px] text-knw-subtle block mt-0.5">{s.desc}</span>
                 </button>
               ))}
