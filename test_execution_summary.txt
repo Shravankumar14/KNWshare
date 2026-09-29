@@ -1,0 +1,21 @@
+================================================================================
+             CSE312 TEST EXECUTION MASTER SUMMARY REPORT
+================================================================================
+Project Title       : InfoNest – Student Goal, Roadmap & Career Platform
+Execution Date      : 2026-09-28
+Faculty Mentor      : Dr. Renu Mary Daniel
+Team Members        : Shravan Kumar (2024BCS0337), Charan Sai (2024BCS0193),
+                      Bhargava Rayudu (2024BCS0017), Jyoshith kumar (2024BCS0197),
+                      Vishnu (2024BCS0205)
+Total Execution Time: 11.04s
+--------------------------------------------------------------------------------
+Test Category / Suite Description                            Status     Duration
+--------------------------------------------------------------------------------
+Pytest Automated Backend API Test Suite (Auth, Goals, Time   PASSED       0.99s
+White-Box Algorithmic Unit Tests with Statement & Branch C   PASSED       0.79s
+Selenium WebDriver UI Browser E2E Tests (Roadmap Navigatio   PASSED       6.00s
+Non-Functional Testing Suite (Performance, Security, Relia   PASSED       2.34s
+Defect Verification (BUG-01, BUG-02) and Regression Testin   PASSED       0.92s
+================================================================================
+=== OVERALL RESULT: ALL TEST SUITES PASSED WITH 100% SUCCESS RATE ===
+================================================================================

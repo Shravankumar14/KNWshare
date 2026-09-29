@@ -13,21 +13,22 @@ export const reschedulePendingTasksIntelligently = async (userId, userGoalId) =>
   // Maximum tolerance before overloading a day (120% of normal capacity)
   const maxCapacityPerDayMinutes = Math.round(dailyMaxMinutes * 1.2);
 
-  // Find all tasks that are pending or overdue from today or before
+  // Find all tasks that are pending, overdue, or previously rescheduled from today or before
   const pendingTasks = await Task.find({
     userId,
     userGoalId,
-    status: { $in: ['pending', 'overdue'] },
+    status: { $in: ['pending', 'overdue', 'rescheduled'] },
     date: { $lte: todayStr }
   }).sort({ priority: -1, date: 1 }); // high priority first, oldest first
 
   if (pendingTasks.length === 0) {
     return {
       rescheduledCount: 0,
-      message: 'No pending or overdue tasks require rescheduling.',
+      message: 'No pending, overdue, or previously rescheduled tasks require rescheduling.',
       rescheduledTasks: []
     };
   }
+
 
   // Look ahead over next 7 days
   const futureDays = [];

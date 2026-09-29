@@ -208,8 +208,8 @@ Visit **`http://localhost:5173`** in your browser.
 
 ## 🧪 Testing & Verification
 
-1. **Front Page Landing**: Navigate to `http://localhost:5173`. Confirm the main header displays *"What do you want to achieve?"* with goal cards.
-2. **1-Click Demo Login**: Click **"1-Click Demo"** in the top navigation bar to instantly log in as student **Alex Rivera**.
+1. **Front Page Landing**: Navigate to `http://localhost:5173`. Unauthenticated visitors see the secure Black + Gold Login portal.
+2. **Sign In / Registration**: Create an account or sign in with your Gmail credentials.
 3. **Select Goal**: Choose **"Full Stack Development"**, adjust daily hours to 2 hrs/day, and click **"Launch My Journey"**.
 4. **Interactive Roadmap**:
    - Inspect Stage 1 through Stage 10.
@@ -229,9 +229,9 @@ Visit **`http://localhost:5173`** in your browser.
 
 | Method | Endpoint | Description | Auth Required |
 |---|---|---|---|
-| `POST` | `/api/v1/auth/register` | Register new student account | No |
-| `POST` | `/api/v1/auth/login` | Login with email & password | No |
-| `POST` | `/api/v1/auth/demo-login` | 1-Click Instant Demo Student session | No |
+| `POST` | `/api/v1/auth/register` | Register new student or teacher account | No |
+| `POST` | `/api/v1/auth/login` | Login with Gmail & password | No |
+| `POST` | `/api/v1/auth/google` | Google OAuth ID token verification & session | No |
 | `GET` | `/api/v1/goals` | Catalog of all active & community goals | No |
 | `POST` | `/api/v1/goals/select` | Enroll/activate a goal for the student | Yes |
 | `POST` | `/api/v1/goals/custom` | Synthesize & decompose a custom goal via AI | Yes |

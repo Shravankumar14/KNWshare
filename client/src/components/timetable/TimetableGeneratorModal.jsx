@@ -53,7 +53,6 @@ export const TimetableGeneratorModal = ({ isOpen, onClose, onGenerated }) => {
     setLoading(true);
 
     try {
-
       const res = await api.post('/timetable/generate', {
         userGoalId: activeUserGoal?._id,
         goalId: activeGoal?._id,
@@ -75,8 +74,8 @@ export const TimetableGeneratorModal = ({ isOpen, onClose, onGenerated }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-      <div className="knw-glass rounded-3xl max-w-xl w-full border border-knw-red/40 shadow-red-lg overflow-hidden relative">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md flex items-center justify-center p-0 sm:p-4">
+      <div className="knw-modal-mobile-fullscreen knw-glass sm:rounded-3xl max-w-xl w-full border border-knw-red/40 shadow-red-lg overflow-hidden relative flex flex-col">
         <div className="h-1.5 w-full bg-gradient-to-r from-knw-red via-knw-redBright to-knw-redDark shadow-red" />
 
         {/* Header */}

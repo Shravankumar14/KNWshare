@@ -15,14 +15,20 @@ build/
 .DS_Store
 Thumbs.db
 
-# Python cache
+# Python & Testing artifacts
 __pycache__/
 *.py[cod]
+*$py.class
 .pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+test_evidence/coverage_html/
+test_evidence/pdf_preview/
+scratch/
+*.tmp
 
 # Editor
 .vscode/
 .idea/
 *.swp
-
-

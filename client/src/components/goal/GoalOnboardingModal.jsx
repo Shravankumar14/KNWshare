@@ -71,7 +71,7 @@ export const GoalOnboardingModal = ({ goal, isOpen, onClose }) => {
       }
       setPreviewGoal(goal);
 
-      // 3. Persist enrollment in server
+      // 2. Persist enrollment in server
       const targetDate = new Date();
       targetDate.setMonth(targetDate.getMonth() + Number(targetMonths));
 
@@ -101,8 +101,8 @@ export const GoalOnboardingModal = ({ goal, isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-      <div className="knw-glass rounded-3xl max-w-xl w-full border border-knw-red/40 shadow-red-lg overflow-hidden relative">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md flex items-center justify-center p-0 sm:p-4">
+      <div className="knw-modal-mobile-fullscreen knw-glass sm:rounded-3xl max-w-xl w-full border border-knw-red/40 shadow-red-lg overflow-hidden relative flex flex-col">
         <div className="h-1.5 w-full bg-gradient-to-r from-knw-red via-knw-redBright to-knw-redDark shadow-red" />
 
         {/* Header */}

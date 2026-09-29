@@ -2,6 +2,7 @@ import User from '../models/User.js';
 import TeacherProfile from '../models/TeacherProfile.js';
 import AvailabilitySlot from '../models/AvailabilitySlot.js';
 import { generateToken } from '../utils/jwt.js';
+import { OAuth2Client } from 'google-auth-library';
 
 export const register = async (req, res, next) => {
   try {
@@ -81,15 +82,90 @@ export const login = async (req, res, next) => {
       return res.status(400).json({ success: false, message: 'Please provide email and password' });
     }
 
-    const user = await User.findOne({ email }).select('+password').populate('activeGoal');
+    const normalizedEmail = email.trim().toLowerCase();
+    const user = await User.findOne({ email: normalizedEmail }).select('+password').populate('activeGoal');
     if (!user || !(await user.matchPassword(password))) {
-      return res.status(401).json({ success: false, message: 'Invalid email or password' });
+      return res.status(401).json({ success: false, message: 'Invalid email or password.' });
     }
 
     const token = generateToken(user._id, user.role);
 
     res.json({
       success: true,
+      token,
+      user: {
+        id: user._id,
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        activeGoal: user.activeGoal,
+      },
+      data: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        activeGoal: user.activeGoal,
+        token,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const googleAuth = async (req, res, next) => {
+  try {
+    const { credential } = req.body;
+    if (!credential) {
+      return res.status(400).json({ success: false, message: 'Google credential is required' });
+    }
+
+    const googleClientId = process.env.GOOGLE_CLIENT_ID;
+    const client = new OAuth2Client(googleClientId);
+
+    let payload;
+    try {
+      const ticket = await client.verifyIdToken({
+        idToken: credential,
+        audience: googleClientId,
+      });
+      payload = ticket.getPayload();
+    } catch (verifyErr) {
+      console.warn('Google token verification failed:', verifyErr.message);
+      return res.status(401).json({ success: false, message: 'Invalid Google token' });
+    }
+
+    const { email, name, picture } = payload;
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Google account has no email' });
+    }
+
+    let user = await User.findOne({ email }).populate('activeGoal');
+    if (!user) {
+      user = await User.create({
+        name: name || 'Student',
+        email,
+        password: Math.random().toString(36).slice(-12) + 'Ab1!',
+        role: 'student',
+        avatar: picture || '',
+      });
+    }
+
+    const token = generateToken(user._id, user.role);
+
+    return res.json({
+      success: true,
+      token,
+      user: {
+        id: user._id,
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        activeGoal: user.activeGoal,
+      },
       data: {
         _id: user._id,
         name: user.name,

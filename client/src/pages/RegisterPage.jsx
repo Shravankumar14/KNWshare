@@ -228,7 +228,7 @@ export const RegisterPage = () => {
 
         <div className="text-center text-xs text-knw-muted pt-2 border-t border-white/5">
           <span>Already have an account? </span>
-          <Link to="/login" className="font-bold text-knw-red hover:text-knw-redBright">
+          <Link to="/" className="font-bold text-knw-red hover:text-knw-redBright">
             Sign In Here
           </Link>
         </div>

@@ -329,3 +329,99 @@
 .hero-radial {
   background-image: var(--hero-radial);
 }
+
+/* ── Mobile-First Global Rules ── */
+/* Prevent horizontal overflow globally */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Better touch experience */
+* {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Better input experience on iOS */
+input, textarea, select {
+  font-size: 16px; /* prevents iOS auto-zoom on focus */
+}
+
+/* Safe area insets for notch phones */
+.navbar {
+  padding-top: env(safe-area-inset-top);
+}
+.mobile-drawer {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* ── Login Card Mobile Breakpoints ── */
+.login-card {
+  background: #0D0D0D;
+  border: 1px solid #2A2A2A;
+  animation: fadeInCard 0.25s ease-out forwards;
+}
+
+@keyframes fadeInCard {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile: 0–767px */
+@media (max-width: 767px) {
+  .login-card {
+    width: 100%;
+    min-height: 100svh;
+    border-radius: 0;
+    padding: 32px 20px;
+    border: none;
+  }
+}
+
+/* Tablet: 768px–1023px */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .login-card {
+    width: 90%;
+    max-width: 480px;
+    border-radius: 16px;
+    padding: 36px 32px;
+  }
+}
+
+/* Desktop: 1024px+ */
+@media (min-width: 1024px) {
+  .login-card {
+    max-width: 440px;
+    padding: 40px;
+    border-radius: 16px;
+  }
+}
+
+/* Modals/dialogs full-screen on mobile */
+@media (max-width: 767px) {
+  .knw-modal-mobile-fullscreen {
+    width: 100vw !important;
+    min-width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100svh !important;
+    min-height: 100svh !important;
+    max-height: 100svh !important;
+    border-radius: 0 !important;
+    border: none !important;
+    margin: 0 !important;
+  }
+}
+
+

@@ -53,7 +53,7 @@ export const ProgressPage = () => {
           Sign in to track your goal completion percentage, study hours, and milestones.
         </p>
         <Link
-          to="/login"
+          to="/"
           className="btn-red inline-flex items-center gap-1.5 px-5 py-2.5 text-xs font-bold shadow-red"
         >
           <span>Sign In</span>
@@ -154,7 +154,7 @@ export const ProgressPage = () => {
       </div>
 
       {/* Key Metric Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         {/* Total Hours */}
         <div className="knw-card p-6 rounded-3xl flex items-center gap-4">
           <div className="w-12 h-12 rounded-2xl bg-knw-red/15 border border-knw-red/30 text-knw-red flex items-center justify-center font-bold">
