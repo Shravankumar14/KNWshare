@@ -11,7 +11,6 @@ import {
   ArrowRight,
   Compass,
   Calendar,
-  Zap
 } from 'lucide-react';
 import { useGoal } from '../context/GoalContext';
 import { useAuth } from '../context/AuthContext';
@@ -51,13 +50,13 @@ export const ProgressPage = () => {
         <BarChart2 className="w-12 h-12 text-knw-red mx-auto" />
         <h3 className="text-base font-bold text-white">Track Your Progress</h3>
         <p className="text-xs text-knw-muted">
-          Sign in or use 1-click Demo Login to track your goal completion percentage, study hours, and milestones.
+          Sign in to track your goal completion percentage, study hours, and milestones.
         </p>
         <Link
           to="/login"
           className="btn-red inline-flex items-center gap-1.5 px-5 py-2.5 text-xs font-bold shadow-red"
         >
-          <span>Sign In / Demo</span>
+          <span>Sign In</span>
           <ArrowRight className="w-4 h-4" />
         </Link>
       </div>

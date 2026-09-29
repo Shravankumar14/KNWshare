@@ -13,7 +13,6 @@ import {
   User,
   LogOut,
   Sparkles,
-  Zap,
   Menu,
   X,
   Briefcase,
@@ -44,7 +43,7 @@ import { useNotification } from '../../context/NotificationContext';
 export const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, isAuthenticated, logout, demoLogin } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
   const { activeGoal, activeUserGoal, myGoals, switchActiveGoal } = useGoal();
   const { notifications, unreadCount, markAllAsRead } = useNotification();
 
@@ -389,20 +388,8 @@ export const Navbar = () => {
                 )}
               </div>
             ) : (
-              /* ── Not authenticated: Demo / Sign In / Get Started ── */
+              /* ── Not authenticated: Sign In / Get Started ── */
               <div className="flex items-center gap-2">
-                {/* 1-Click Demo */}
-                <button
-                  onClick={() => demoLogin()}
-                  title="Instant demo student login with pre-populated goals"
-                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg
-                             border border-knw-red/60 text-knw-red text-xs font-bold
-                             hover:bg-knw-red/10 hover:border-knw-red transition-all duration-200"
-                >
-                  <Zap className="w-3.5 h-3.5 fill-current" />
-                  1-Click Demo
-                </button>
-
                 <Link
                   to="/login"
                   className="px-3.5 py-1.5 rounded-lg border border-knw-border
@@ -480,20 +467,28 @@ export const Navbar = () => {
               );
             })}
 
-            {/* Demo login in mobile */}
+            {/* Auth links in mobile */}
             {!isAuthenticated && (
-              <button
-                onClick={() => {
-                  demoLogin();
-                  setMobileMenuOpen(false);
-                }}
-                className="w-full mt-2 flex items-center justify-center gap-2 py-2.5 rounded-lg
-                           border border-knw-red/60 text-knw-red text-xs font-bold
-                           hover:bg-knw-red/10 transition-colors"
-              >
-                <Zap className="w-4 h-4 fill-current" />
-                1-Click Instant Demo Login
-              </button>
+              <div className="pt-2 border-t border-knw-border space-y-2 mt-2">
+                <Link
+                  to="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="w-full flex items-center justify-center py-2.5 rounded-lg
+                             border border-knw-border text-xs font-semibold text-knw-muted
+                             hover:text-white hover:border-white/20 transition-colors"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/register"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="w-full flex items-center justify-center py-2.5 rounded-lg
+                             bg-knw-red text-xs font-bold text-white shadow-lg shadow-knw-red/25
+                             hover:bg-knw-redDark transition-colors"
+                >
+                  Get Started
+                </Link>
+              </div>
             )}
           </div>
         )}

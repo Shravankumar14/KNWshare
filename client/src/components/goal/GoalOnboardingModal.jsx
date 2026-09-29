@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 export const GoalOnboardingModal = ({ goal, isOpen, onClose }) => {
   const { selectGoal, setPreviewGoal } = useGoal();
-  const { isAuthenticated, demoLogin } = useAuth();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const [level, setLevel] = useState('beginner');
@@ -57,6 +57,12 @@ export const GoalOnboardingModal = ({ goal, isOpen, onClose }) => {
   };
 
   const handleConfirm = async () => {
+    if (!isAuthenticated) {
+      onClose();
+      navigate('/login');
+      return;
+    }
+
     setLoading(true);
     try {
       // 1. Immediately activate goal in client state & local storage
@@ -64,11 +70,6 @@ export const GoalOnboardingModal = ({ goal, isOpen, onClose }) => {
         localStorage.setItem('knwshare_active_goal_slug', goal.slug);
       }
       setPreviewGoal(goal);
-
-      // 2. Ensure user is logged in
-      if (!isAuthenticated) {
-        await demoLogin();
-      }
 
       // 3. Persist enrollment in server
       const targetDate = new Date();

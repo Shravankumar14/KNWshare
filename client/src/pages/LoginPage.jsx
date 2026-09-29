@@ -1,25 +1,32 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Compass, Mail, Lock, ArrowRight, Zap, AlertCircle } from 'lucide-react';
+import { Compass, Mail, Lock, ArrowRight, AlertCircle, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
 
 export const LoginPage = () => {
-  const { login, demoLogin, demoTeacherLogin } = useAuth();
+  const { login } = useAuth();
   const { addToast } = useNotification();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    if (!email.trim() || !password) {
+      setError('Please provide both email and password.');
+      return;
+    }
+
     setLoading(true);
     try {
-      const userData = await login(email, password);
+      const userData = await login(email.trim(), password);
       addToast('Welcome back to InfoNest!', 'success');
       if (userData?.role === 'teacher') {
         navigate('/teacher/dashboard');
@@ -27,33 +34,7 @@ export const LoginPage = () => {
         navigate('/');
       }
     } catch (err) {
-      setError(err.message || 'Login failed');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDemo = async () => {
-    setLoading(true);
-    try {
-      await demoLogin();
-      addToast('Logged in as demo student (Alex Rivera)!', 'success');
-      navigate('/');
-    } catch (err) {
-      setError(err.message || 'Demo login failed');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleTeacherDemo = async () => {
-    setLoading(true);
-    try {
-      await demoTeacherLogin();
-      addToast('Logged in as Faculty Mentor (Dr. Arvind Kumar)!', 'success');
-      navigate('/teacher/dashboard');
-    } catch (err) {
-      setError(err.message || 'Demo teacher login failed');
+      setError(err.response?.data?.message || err.message || 'Invalid email or password');
     } finally {
       setLoading(false);
     }
@@ -70,37 +51,7 @@ export const LoginPage = () => {
             <Compass className="w-6 h-6" />
           </div>
           <h1 className="text-2xl font-black text-white tracking-tight">Sign In to InfoNest</h1>
-          <p className="text-xs text-knw-muted">Pick up right where you left off on your goal journey</p>
-        </div>
-
-        {/* 1-Click Demo Logins */}
-        <div className="space-y-2">
-          <button
-            type="button"
-            onClick={handleDemo}
-            disabled={loading}
-            className="w-full btn-red flex items-center justify-center gap-2 py-2.5 rounded-2xl text-xs font-bold shadow-red"
-          >
-            <Zap className="w-4 h-4 fill-current" />
-            <span>1-Click Demo Student Login</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={handleTeacherDemo}
-            disabled={loading}
-            className="w-full border border-white/10 bg-white/5 hover:border-knw-red/40 hover:bg-white/10 flex items-center justify-center gap-2 py-2.5 rounded-2xl text-xs font-bold text-zinc-300 transition-all"
-          >
-            <Zap className="w-4 h-4 text-knw-red fill-current" />
-            <span>1-Click Demo Faculty Login (Dr. Arvind Kumar)</span>
-          </button>
-        </div>
-
-        <div className="relative flex items-center justify-center">
-          <div className="border-t border-white/10 w-full" />
-          <span className="bg-knw-surface px-3 text-[10px] uppercase font-mono tracking-widest text-knw-subtle absolute">
-            Or Sign In With Email
-          </span>
+          <p className="text-xs text-knw-muted">Enter your registered email and password to access your dashboard</p>
         </div>
 
         {error && (
@@ -122,7 +73,7 @@ export const LoginPage = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="student@university.edu"
+                placeholder="name@example.com"
                 className="w-full bg-knw-surface border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-knw-subtle focus:outline-none focus:border-knw-red"
               />
             </div>
@@ -135,20 +86,29 @@ export const LoginPage = () => {
             <div className="relative">
               <Lock className="w-4 h-4 text-knw-subtle absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full bg-knw-surface border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-knw-subtle focus:outline-none focus:border-knw-red"
+                className="w-full bg-knw-surface border border-white/10 rounded-xl pl-10 pr-10 py-2.5 text-xs text-white placeholder-knw-subtle focus:outline-none focus:border-knw-red"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-knw-subtle hover:text-white transition-colors"
+                title={showPassword ? 'Hide password' : 'Show password'}
+                tabIndex={-1}
+              >
+                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
             </div>
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full btn-red py-3 rounded-xl text-xs font-bold shadow-red flex items-center justify-center gap-1.5"
+            className="w-full btn-red py-3 rounded-xl text-xs font-bold shadow-red flex items-center justify-center gap-1.5 transition-all"
           >
             <span>{loading ? 'Authenticating...' : 'Sign In'}</span>
             <ArrowRight className="w-4 h-4" />

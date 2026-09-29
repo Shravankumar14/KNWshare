@@ -1,0 +1,91 @@
+{
+  "performance": {
+    "Health Check": {
+      "samples": 50,
+      "min_ms": 1.54,
+      "max_ms": 36.08,
+      "mean_ms": 17.1,
+      "median_ms": 16.63,
+      "p95_ms": 26.6,
+      "status": "PASS"
+    },
+    "Goals Catalog": {
+      "samples": 50,
+      "min_ms": 49.93,
+      "max_ms": 476.14,
+      "mean_ms": 95.53,
+      "median_ms": 80.11,
+      "p95_ms": 147.87,
+      "status": "PASS"
+    },
+    "Roadmap PCM": {
+      "samples": 50,
+      "min_ms": 262.18,
+      "max_ms": 820.75,
+      "mean_ms": 418.98,
+      "median_ms": 375.9,
+      "p95_ms": 686.44,
+      "status": "FAIL"
+    }
+  },
+  "security": [
+    {
+      "endpoint": "GET Profile",
+      "missing_token_code": 401,
+      "forged_token_code": 401,
+      "status": "PASS"
+    },
+    {
+      "endpoint": "GET Current Timetable",
+      "missing_token_code": 401,
+      "forged_token_code": 401,
+      "status": "PASS"
+    },
+    {
+      "endpoint": "GET Student Tasks",
+      "missing_token_code": 401,
+      "forged_token_code": 401,
+      "status": "PASS"
+    },
+    {
+      "endpoint": "POST Select Goal",
+      "missing_token_code": 401,
+      "forged_token_code": 401,
+      "status": "PASS"
+    }
+  ],
+  "reliability": [
+    {
+      "scenario": "Malformed JSON Header",
+      "actual_code": 500,
+      "expected_code": "[400]",
+      "has_error_msg": true,
+      "status": "FAIL"
+    },
+    {
+      "scenario": "Invalid ObjectId Format",
+      "actual_code": 404,
+      "expected_code": "[404]",
+      "has_error_msg": true,
+      "status": "PASS"
+    },
+    {
+      "scenario": "Non-existent API Route",
+      "actual_code": 404,
+      "expected_code": "[404]",
+      "has_error_msg": true,
+      "status": "PASS"
+    }
+  ],
+  "usability": {
+    "index_html_size_kb": 1.24,
+    "css_bundle_size_kb": 61.88,
+    "css_gzip_kb": 11.31,
+    "js_bundle_size_kb": 732.9,
+    "js_gzip_kb": 187.51,
+    "total_gzip_transfer_kb": 198.82,
+    "build_time_seconds": 1.49,
+    "acceptance_criterion": "Gzip transfer bundle < 250 KB and build time < 5s",
+    "status": "PASS"
+  }
+}

@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 export const CustomGoalModal = ({ isOpen, onClose }) => {
   const { createCustomGoal } = useGoal();
-  const { isAuthenticated, demoLogin } = useAuth();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const [title, setTitle] = useState('');
@@ -21,11 +21,14 @@ export const CustomGoalModal = ({ isOpen, onClose }) => {
     e.preventDefault();
     if (!title.trim()) return;
 
+    if (!isAuthenticated) {
+      onClose();
+      navigate('/login');
+      return;
+    }
+
     setLoading(true);
     try {
-      if (!isAuthenticated) {
-        await demoLogin();
-      }
 
       await createCustomGoal({
         title: title.trim(),

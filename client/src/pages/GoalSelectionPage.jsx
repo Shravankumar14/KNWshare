@@ -16,7 +16,7 @@ import api from '../services/api';
 
 export const GoalSelectionPage = () => {
   const { allGoals, activeGoal, activeUserGoal, loading, setPreviewGoal } = useGoal();
-  const { isAuthenticated, demoLogin } = useAuth();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -172,14 +172,20 @@ export const GoalSelectionPage = () => {
             <p className="text-xs sm:text-sm text-knw-muted max-w-lg mx-auto leading-relaxed">
               Connect directly with verified engineers from Google, OpenAI, Microsoft and IIT. Explore daily educational sparks, structured roadmaps, and book 1-on-1 guidance slots.
             </p>
-            <div className="pt-2">
-              <button
-                onClick={() => demoLogin()}
-                className="btn-red px-8 py-3 rounded-xl text-xs sm:text-sm font-bold shadow-red inline-flex items-center gap-2"
+            <div className="pt-2 flex items-center justify-center gap-3">
+              <Link
+                to="/register"
+                className="btn-red px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold shadow-red inline-flex items-center gap-2"
               >
-                <Zap className="w-4 h-4 fill-current" />
-                <span>Instant Demo Student Access (Alex Rivera)</span>
-              </button>
+                <span>Get Started</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                to="/login"
+                className="px-6 py-2.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-xs sm:text-sm font-semibold text-white inline-flex items-center transition-colors"
+              >
+                Sign In
+              </Link>
             </div>
           </div>
         </div>

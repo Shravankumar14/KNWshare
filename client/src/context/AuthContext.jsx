@@ -44,24 +44,6 @@ export const AuthProvider = ({ children }) => {
     return userData;
   };
 
-  const demoLogin = async () => {
-    const res = await api.post('/auth/demo-login');
-    const { token: newToken, ...userData } = res.data.data;
-    localStorage.setItem('knwshare_token', newToken);
-    setToken(newToken);
-    setUser(userData);
-    return userData;
-  };
-
-  const demoTeacherLogin = async () => {
-    const res = await api.post('/auth/demo-teacher-login');
-    const { token: newToken, ...userData } = res.data.data;
-    localStorage.setItem('knwshare_token', newToken);
-    setToken(newToken);
-    setUser(userData);
-    return userData;
-  };
-
   const logout = () => {
     localStorage.removeItem('knwshare_token');
     setToken(null);
@@ -85,8 +67,6 @@ export const AuthProvider = ({ children }) => {
         loading,
         login,
         register,
-        demoLogin,
-        demoTeacherLogin,
         logout,
         refreshUser,
         isAuthenticated: !!token && !!user,
