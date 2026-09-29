@@ -17,5 +17,5 @@ Selenium WebDriver UI Browser E2E Tests (Roadmap Navigatio   PASSED       6.00s
 Non-Functional Testing Suite (Performance, Security, Relia   PASSED       2.34s
 Defect Verification (BUG-01, BUG-02) and Regression Testin   PASSED       0.92s
 ================================================================================
->>> OVERALL RESULT: ALL TEST SUITES PASSED WITH 100% SUCCESS RATE <<<
+=== OVERALL RESULT: ALL TEST SUITES PASSED WITH 100% SUCCESS RATE ===
 ================================================================================

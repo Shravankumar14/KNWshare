@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { X, Calendar, Clock, Coffee, Sparkles, Check, ArrowRight } from 'lucide-react';
 import { useGoal } from '../../context/GoalContext';
 import { useAuth } from '../../context/AuthContext';
@@ -9,6 +10,7 @@ export const TimetableGeneratorModal = ({ isOpen, onClose, onGenerated }) => {
   const { activeGoal, activeUserGoal } = useGoal();
   const { isAuthenticated } = useAuth();
   const { addToast } = useNotification();
+  const navigate = useNavigate();
 
   const [availableDays, setAvailableDays] = useState([
     'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'
@@ -40,6 +42,14 @@ export const TimetableGeneratorModal = ({ isOpen, onClose, onGenerated }) => {
 
   const handleGenerate = async (e) => {
     e.preventDefault();
+
+    if (!isAuthenticated) {
+      addToast('Please sign in to generate a personalized timetable.', 'error');
+      onClose();
+      navigate('/login');
+      return;
+    }
+
     setLoading(true);
 
     try {

@@ -21,6 +21,12 @@ export const CustomGoalModal = ({ isOpen, onClose }) => {
     e.preventDefault();
     if (!title.trim()) return;
 
+    if (!isAuthenticated) {
+      onClose();
+      navigate('/login');
+      return;
+    }
+
     setLoading(true);
     try {
       await createCustomGoal({

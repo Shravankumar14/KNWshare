@@ -49,57 +49,89 @@ def driver():
 class TestInfoNestSeleniumUI:
     """
     Automated Selenium UI Test Cases covering:
-    1. Navigation, Goal Selection & Interactive Roadmap UI verification
+    1. Navigation, Goal Selection & Clean UI Verification (No Demo Login)
     2. Student Registration, Role Onboarding & Session State persistence
     """
 
     def test_tc_selenium_01_homepage_and_roadmap_navigation(self, driver):
         """
         Test Case ID: TC-SELENIUM-01 / ATS-04
-        Objective: Verify that a student can launch the InfoNest web application,
-                   verify homepage branding, authenticate via 1-Click Demo login,
-                   and navigate to the Full Stack Development Roadmap, verifying
-                   milestone stage cards and topic checklists in the DOM.
+        Objective: Verify that a user can launch the InfoNest web application,
+                   verify branding, confirm all demo login buttons are absent,
+                   and verify standard authentication controls (email, password, submit)
+                   with no student/teacher demo options.
         Test Level: System / End-to-End Automated Browser Testing
         """
-        print("\n[TC-SELENIUM-01] Launching InfoNest Homepage...")
+        print("\n[TC-SELENIUM-01] Step 1: Launching InfoNest Application...")
         driver.get(f"{BASE_CLIENT_URL}/")
 
-        # Verify page title branding
+        # Step 2: Verify page title and branding
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
         assert "InfoNest" in driver.title, f"Expected 'InfoNest' in title, got: {driver.title}"
 
-        # 1-Click Demo Login
-        demo_btn = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, "//button[contains(., 'Instant Demo Student Access') or contains(., 'Demo')]"))
+        branding = WebDriverWait(driver, 10).until(
+            EC.visibility_of_element_located((By.XPATH, "//*[contains(., 'Info') and contains(., 'Nest')]"))
         )
-        demo_btn.click()
+        assert branding.is_displayed(), "InfoNest brand header is not displayed"
+        print("[TC-SELENIUM-01] Step 2: InfoNest branding and title verified.")
 
-        # Wait for authenticated state in header
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "//header//button[contains(@class, 'pl-2')] | //header//span[contains(text(), 'Alex')]"))
+        # Step 3: Verify that no demo login buttons are displayed on page
+        demo_buttons = driver.find_elements(
+            By.XPATH,
+            "//button[contains(translate(., 'DEMO', 'demo'), 'demo')] | "
+            "//a[contains(translate(., 'DEMO', 'demo'), 'demo')] | "
+            "//*[contains(text(), 'Instant Demo') or contains(text(), '1-Click Demo')]"
         )
-        print("[TC-SELENIUM-01] Demo student authentication confirmed in UI.")
+        assert len(demo_buttons) == 0, f"Expected zero demo login buttons, found {len(demo_buttons)}"
+        print("[TC-SELENIUM-01] Step 3: Verified zero demo buttons on page.")
 
-        # Navigate to Full Stack Web Development Roadmap
-        driver.get(f"{BASE_CLIENT_URL}/roadmap/full-stack-development")
-
-        # Verify Roadmap Heading
-        roadmap_header = WebDriverWait(driver, 10).until(
-            EC.visibility_of_element_located((By.XPATH, "//h1[contains(., 'Full Stack') and contains(., 'Roadmap')]"))
+        # Step 4: Verify on login page
+        login_heading = WebDriverWait(driver, 10).until(
+            EC.visibility_of_element_located((By.XPATH, "//h1[contains(., 'Sign In') or contains(., 'Welcome Back') or contains(., 'Login')]"))
         )
-        assert roadmap_header.is_displayed(), "Roadmap main heading is not visible"
+        assert login_heading.is_displayed(), "Sign in heading is not visible"
+        print("[TC-SELENIUM-01] Step 4: Confirmed login page is active.")
 
-        # Verify Stage 1 milestone card
-        stage1_element = WebDriverWait(driver, 10).until(
-            EC.visibility_of_element_located((By.XPATH, "//*[contains(., 'Stage 1') and contains(., 'CSS Layouts')]"))
+        # Step 5: Verify email, password and login controls are present
+        email_input = WebDriverWait(driver, 10).until(
+            EC.visibility_of_element_located((By.XPATH, "//input[@type='email']"))
         )
-        assert stage1_element.is_displayed(), "Stage 1 curriculum milestone card is not visible"
+        assert email_input.is_displayed(), "Email input field is not displayed"
 
-        # Capture evidence screenshot
-        screenshot_path = os.path.join(SCREENSHOT_DIR, "selenium_roadmap_verified.png")
+        password_input = driver.find_element(By.XPATH, "//input[@type='password' or @type='text']")
+        assert password_input.is_displayed(), "Password input field is not displayed"
+
+        login_btn = driver.find_element(By.XPATH, "//button[@type='submit']")
+        assert login_btn.is_displayed(), "Login submit button is not displayed"
+        assert "Sign In" in login_btn.text or "Authenticating" in login_btn.text
+        print("[TC-SELENIUM-01] Step 5: Verified email, password, and login submit controls.")
+
+        # Step 6: Verify student and teacher demo login options are absent
+        login_demo_elements = driver.find_elements(
+            By.XPATH,
+            "//*[contains(translate(text(), 'DEMO', 'demo'), 'demo') or "
+            "contains(text(), 'Alex Rivera') or "
+            "contains(text(), 'Arvind Kumar')]"
+        )
+        assert len(login_demo_elements) == 0, (
+            f"Expected no demo login options on login page, found {len(login_demo_elements)}"
+        )
+        print("[TC-SELENIUM-01] Step 6: Verified student & teacher demo login options are absent.")
+
+        # Step 7: Verify login page loads without errors
+        error_alerts = driver.find_elements(By.XPATH, "//*[contains(@class, 'bg-red-950') or contains(@class, 'bg-[#E05252]')]")
+        assert len(error_alerts) == 0, "Error alert banner displayed on initial page load"
+
+        try:
+            logs = driver.get_log("browser")
+            severe_errors = [entry for entry in logs if entry.get("level") == "SEVERE"]
+            assert len(severe_errors) == 0, f"Severe console errors detected on login page: {severe_errors}"
+        except Exception:
+            pass  # Some webdriver versions do not expose get_log
+
+        screenshot_path = os.path.join(SCREENSHOT_DIR, "selenium_login_no_demo_verified.png")
         driver.save_screenshot(screenshot_path)
-        print(f"[TC-SELENIUM-01] Screenshot saved to: {screenshot_path}")
+        print(f"[TC-SELENIUM-01] Step 7: Login page loaded cleanly without errors. Screenshot: {screenshot_path}")
 
     def test_tc_selenium_02_student_registration_workflow(self, driver):
         """
@@ -116,6 +148,14 @@ class TestInfoNestSeleniumUI:
         WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.XPATH, "//h1[contains(., 'Create Your Account')]"))
         )
+
+        # Verify demo options absent on registration page
+        reg_demo_elements = driver.find_elements(
+            By.XPATH,
+            "//*[contains(translate(text(), 'DEMO', 'demo'), 'demo') or "
+            "contains(text(), 'Arvind Kumar')]"
+        )
+        assert len(reg_demo_elements) == 0, f"Expected no demo options on registration page, found {len(reg_demo_elements)}"
 
         # Generate unique student credentials
         run_id = uuid.uuid4().hex[:5]
@@ -142,6 +182,8 @@ class TestInfoNestSeleniumUI:
 
         # Submit form
         submit_btn = driver.find_element(By.XPATH, "//button[@type='submit']")
+        driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", submit_btn)
+        time.sleep(0.5)
         submit_btn.click()
 
         # Verify redirect to home / dashboard with authenticated header
@@ -154,4 +196,3 @@ class TestInfoNestSeleniumUI:
         success_shot = os.path.join(SCREENSHOT_DIR, "selenium_registration_success.png")
         driver.save_screenshot(success_shot)
         print(f"[TC-SELENIUM-02] Success screenshot saved: {success_shot}")
-

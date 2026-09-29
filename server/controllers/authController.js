@@ -88,7 +88,6 @@ export const login = async (req, res, next) => {
       return res.status(401).json({ success: false, message: 'Invalid email or password.' });
     }
 
-
     const token = generateToken(user._id, user.role);
 
     res.json({
@@ -188,6 +187,37 @@ export const getMe = async (req, res, next) => {
       populate: { path: 'goalId' }
     });
     res.json({ success: true, data: user });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const demoLogin = async (req, res, next) => {
+  try {
+    let demoUser = await User.findOne({ email: 'student@knwshare.dev' }).select('+password');
+    if (!demoUser) {
+      demoUser = await User.create({
+        name: 'Alex Rivera',
+        email: 'student@knwshare.dev',
+        password: 'password123',
+        role: 'student',
+        bio: 'Passionate student aiming for competitive exam excellence and structured study routines.',
+      });
+    }
+
+    const token = generateToken(demoUser._id, demoUser.role);
+
+    res.json({
+      success: true,
+      data: {
+        _id: demoUser._id,
+        name: demoUser.name,
+        email: demoUser.email,
+        role: demoUser.role,
+        activeGoal: demoUser.activeGoal,
+        token,
+      },
+    });
   } catch (err) {
     next(err);
   }

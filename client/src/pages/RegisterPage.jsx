@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Compass, User, Mail, Lock, ArrowRight, AlertCircle, Zap, Sparkles, GraduationCap, Briefcase } from 'lucide-react';
+import { Compass, User, Mail, Lock, ArrowRight, AlertCircle, Sparkles, GraduationCap, Briefcase } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
 
@@ -113,7 +113,7 @@ export const RegisterPage = () => {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder={role === 'teacher' ? 'Dr. Priya Sharma' : 'John Doe'}
+                placeholder={role === 'teacher' ? 'Dr. Priya Sharma' : 'e.g. Alex Chen'}
                 className="w-full bg-knw-surface border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-knw-subtle focus:outline-none focus:border-knw-red"
               />
             </div>

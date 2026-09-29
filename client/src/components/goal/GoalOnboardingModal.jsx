@@ -57,6 +57,12 @@ export const GoalOnboardingModal = ({ goal, isOpen, onClose }) => {
   };
 
   const handleConfirm = async () => {
+    if (!isAuthenticated) {
+      onClose();
+      navigate('/login');
+      return;
+    }
+
     setLoading(true);
     try {
       // 1. Immediately activate goal in client state & local storage

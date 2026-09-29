@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { X, Calendar, Clock, Video, CheckCircle, ArrowRight, ExternalLink, Sparkles, Briefcase, MessageSquare } from 'lucide-react';
 import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
@@ -7,6 +8,7 @@ import { useNotification } from '../../context/NotificationContext';
 export const BookingModal = ({ expert, isOpen, onClose, goalId }) => {
   const { isAuthenticated } = useAuth();
   const { addToast } = useNotification();
+  const navigate = useNavigate();
 
   const [dynamicSlots, setDynamicSlots] = useState([]);
   const [selectedSlotIndex, setSelectedSlotIndex] = useState(0);
@@ -50,6 +52,14 @@ export const BookingModal = ({ expert, isOpen, onClose, goalId }) => {
 
   const handleBooking = async (e) => {
     e.preventDefault();
+
+    if (!isAuthenticated) {
+      addToast('Please sign in to book a mentoring session.', 'error');
+      onClose();
+      navigate('/login');
+      return;
+    }
+
     setLoading(true);
 
     try {

@@ -11,7 +11,6 @@ import {
   ArrowRight,
   Compass,
   Calendar,
-  Zap
 } from 'lucide-react';
 import { useGoal } from '../context/GoalContext';
 import { useAuth } from '../context/AuthContext';

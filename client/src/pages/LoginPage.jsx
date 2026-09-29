@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Eye, EyeOff } from 'lucide-react';
+import { Compass, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
 import { useGoogleLogin } from '@react-oauth/google';
 
-const GMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export const LoginPage = () => {
   const { login, googleLogin, user, isAuthenticated } = useAuth();
@@ -28,12 +28,12 @@ export const LoginPage = () => {
     const requestedPath = location.state?.from?.pathname || location.state?.from;
 
     if (requestedPath && typeof requestedPath === 'string') {
-      if (role === 'teacher' && (requestedPath.startsWith('/student') || requestedPath === '/dashboard')) {
+      if (role === 'teacher' && (requestedPath.startsWith('/student') || requestedPath === '/')) {
         navigate('/teacher/dashboard', { replace: true });
         return;
       }
       if (role !== 'teacher' && requestedPath.startsWith('/teacher')) {
-        navigate('/dashboard', { replace: true });
+        navigate('/', { replace: true });
         return;
       }
       navigate(requestedPath, { replace: true });
@@ -43,7 +43,7 @@ export const LoginPage = () => {
     if (role === 'teacher') {
       navigate('/teacher/dashboard', { replace: true });
     } else {
-      navigate('/dashboard', { replace: true });
+      navigate('/', { replace: true });
     }
   };
 
@@ -56,10 +56,11 @@ export const LoginPage = () => {
 
   // Validation on blur
   const handleEmailBlur = () => {
-    if (!email) {
-      setEmailError('Please enter a valid Gmail address.');
-    } else if (!GMAIL_REGEX.test(email)) {
-      setEmailError('Please enter a valid Gmail address.');
+    const trimmed = email.trim();
+    if (!trimmed) {
+      setEmailError('Please enter your email address.');
+    } else if (!EMAIL_REGEX.test(trimmed)) {
+      setEmailError('Please enter a valid email address.');
     } else {
       setEmailError('');
     }
@@ -77,28 +78,27 @@ export const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setServerError('');
+    setEmailError('');
+    setPasswordError('');
 
     let hasError = false;
+    const trimmedEmail = email.trim();
 
-    if (!email || !GMAIL_REGEX.test(email)) {
-      setEmailError('Please enter a valid Gmail address.');
+    if (!trimmedEmail || !EMAIL_REGEX.test(trimmedEmail)) {
+      setEmailError('Please enter a valid email address.');
       hasError = true;
-    } else {
-      setEmailError('');
     }
 
     if (!password) {
       setPasswordError('Password is required.');
       hasError = true;
-    } else {
-      setPasswordError('');
     }
 
     if (hasError) return;
 
     setLoading(true);
     try {
-      const loggedInUser = await login(email, password);
+      const loggedInUser = await login(trimmedEmail, password);
       addToast('Signed in successfully!', 'success');
       handleRoleRedirect(loggedInUser);
     } catch (err) {
@@ -117,7 +117,6 @@ export const LoginPage = () => {
         setGoogleLoading(true);
         setServerError('');
         try {
-          // Token response provides access_token or credential
           const loggedInUser = await googleLogin(tokenResponse.credential || tokenResponse.access_token);
           addToast('Signed in with Google!', 'success');
           handleRoleRedirect(loggedInUser);
@@ -134,7 +133,6 @@ export const LoginPage = () => {
       },
     });
   } catch (err) {
-    // If not within GoogleOAuthProvider in edge cases
     triggerGoogleLogin = () => {
       setServerError('Google OAuth is not configured yet. Please configure VITE_GOOGLE_CLIENT_ID.');
     };
@@ -162,8 +160,8 @@ export const LoginPage = () => {
             <span className="text-[24px]">❖</span>
             <span>InfoNest</span>
           </div>
-          <h1 className="text-white text-[22px] font-semibold mt-3">Welcome back</h1>
-          <p className="text-[#888888] text-[14px] mt-1">Sign in to continue your learning journey</p>
+          <h1 className="text-white text-[22px] font-bold mt-3">Sign In to InfoNest</h1>
+          <p className="text-[#888888] text-[14px] mt-1">Sign in with your registered credentials</p>
         </div>
 
         {/* Google OAuth Button */}
@@ -232,7 +230,7 @@ export const LoginPage = () => {
                 if (serverError) setServerError('');
               }}
               onBlur={handleEmailBlur}
-              placeholder="your@gmail.com"
+              placeholder="name@example.com"
               className={`w-full min-h-[48px] px-3.5 rounded-xl bg-[#111111] text-white text-[14px] placeholder-[#555555] transition-colors focus:outline-none focus:ring-1 ${
                 emailError
                   ? 'border border-[#E05252] focus:border-[#E05252] focus:ring-[#E05252]/30'
@@ -300,7 +298,7 @@ export const LoginPage = () => {
           <div className="text-right pt-1">
             <button
               type="button"
-              onClick={() => alert('Password reset instructions will be sent to your Gmail address.')}
+              onClick={() => alert('Password reset instructions will be sent to your registered email.')}
               className="text-[14px] text-[#D4AF37] underline hover:text-[#E8C84A] transition-colors"
             >
               Forgot password?

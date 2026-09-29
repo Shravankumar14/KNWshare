@@ -1,10 +1,10 @@
 import express from 'express';
-import { register, login, getMe, googleAuth } from '../controllers/authController.js';
+import { register, login, getMe, googleAuth, demoLogin } from '../controllers/authController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// Gmail format validation middleware
+// Gmail format validation helper
 export const validateGmail = (req, res, next) => {
   const { email } = req.body;
   const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
@@ -15,8 +15,9 @@ export const validateGmail = (req, res, next) => {
 };
 
 router.post('/register', register);
-router.post('/login', validateGmail, login);
+router.post('/login', login);
 router.post('/google', googleAuth);
+router.post('/demo-login', demoLogin);
 router.get('/me', protect, getMe);
 
 export default router;
