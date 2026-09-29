@@ -5,8 +5,14 @@ export const notFound = (req, res, next) => {
 };
 
 export const errorHandler = (err, req, res, next) => {
-  let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+  let statusCode = err.status || err.statusCode || (res.statusCode === 200 ? 500 : res.statusCode);
   let message = err.message || 'Internal Server Error';
+
+  // Handle malformed JSON body from body-parser / express.json()
+  if (err instanceof SyntaxError && (err.status === 400 || 'body' in err)) {
+    statusCode = 400;
+    message = 'Malformed JSON payload in request body';
+  }
 
   if (err.name === 'CastError' && err.kind === 'ObjectId') {
     statusCode = 404;

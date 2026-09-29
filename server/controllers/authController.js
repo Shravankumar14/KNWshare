@@ -81,10 +81,12 @@ export const login = async (req, res, next) => {
       return res.status(400).json({ success: false, message: 'Please provide email and password' });
     }
 
-    const user = await User.findOne({ email }).select('+password').populate('activeGoal');
+    const normalizedEmail = email.trim().toLowerCase();
+    const user = await User.findOne({ email: normalizedEmail }).select('+password').populate('activeGoal');
     if (!user || !(await user.matchPassword(password))) {
       return res.status(401).json({ success: false, message: 'Invalid email or password' });
     }
+
 
     const token = generateToken(user._id, user.role);
 

@@ -1,0 +1,183 @@
+=== CSE312 AUTOMATED TEST EXECUTION LOG ===
+Project: InfoNest | Date: 2026-09-28
+
+============================================================================
+        INFONEST AUTOMATED TEST SUITE EXECUTION & VERIFICATION
+     Course: CSE312 - Software Architecture: Principles and Practices
+============================================================================
+ Team Members & Roll Numbers:
+   1. Shravan Kumar   - 2024BCS0337
+   2. Charan Sai      - 2024BCS0193
+   3. Bhargava Rayudu - 2024BCS0017
+   4. Jyoshith kumar  - 2024BCS0197
+   5. Vishnu          - 2024BCS0205
+ Faculty: Dr. Renu Mary Daniel
+ Target Architecture: MERN Stack (Node.js API + MongoDB + React Vite)
+============================================================================
+
+
+============================================================================
+>>> RUNNING: Pytest Automated Backend API Test Suite (Auth, Goals, Timetable, Tasks)
+    COMMAND: C:\Users\shravan kumar degala\AppData\Local\Programs\Python\Python314\python.exe -m pytest test_scripts/test_backend_api.py -v
+============================================================================
+============================= test session starts =============================
+platform win32 -- Python 3.14.5, pytest-9.0.3, pluggy-1.6.0 -- C:\Users\shravan kumar degala\AppData\Local\Programs\Python\Python314\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\shravan kumar degala\.gemini\antigravity\worktrees\KNWshare\cse312_software_testing_report
+plugins: anyio-4.13.0, cov-7.1.0
+collecting ... collected 4 items
+
+test_scripts/test_backend_api.py::TestInfoNestBackendAPI::test_tc_auth_01_student_registration_and_profile_access PASSED [ 25%]
+test_scripts/test_backend_api.py::TestInfoNestBackendAPI::test_tc_auth_02_negative_security_and_boundary_rejection PASSED [ 50%]
+test_scripts/test_backend_api.py::TestInfoNestBackendAPI::test_tc_goal_01_catalog_retrieval_and_goal_enrollment PASSED [ 75%]
+test_scripts/test_backend_api.py::TestInfoNestBackendAPI::test_tc_time_01_weekly_timetable_and_task_generation PASSED [100%]
+
+============================== 4 passed in 0.40s ==============================
+
+--- STATUS: PASSED (Exit Code: 0, Duration: 0.99s) ---
+
+============================================================================
+>>> RUNNING: White-Box Algorithmic Unit Tests with Statement & Branch Coverage
+    COMMAND: C:\Users\shravan kumar degala\AppData\Local\Programs\Python\Python314\python.exe -m pytest test_scripts/test_algorithms_whitebox.py --cov=test_scripts.scheduling_engine --cov-branch --cov-report=term-missing --cov-report=html:test_evidence/coverage_html -v
+============================================================================
+============================= test session starts =============================
+platform win32 -- Python 3.14.5, pytest-9.0.3, pluggy-1.6.0 -- C:\Users\shravan kumar degala\AppData\Local\Programs\Python\Python314\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\shravan kumar degala\.gemini\antigravity\worktrees\KNWshare\cse312_software_testing_report
+plugins: anyio-4.13.0, cov-7.1.0
+collecting ... collected 5 items
+
+test_scripts/test_algorithms_whitebox.py::TestWhiteBoxAlgorithms::test_wb_01_empty_pending_tasks_branch PASSED [ 20%]
+test_scripts/test_algorithms_whitebox.py::TestWhiteBoxAlgorithms::test_wb_02_task_redistribution_under_capacity_and_overflow PASSED [ 40%]
+test_scripts/test_algorithms_whitebox.py::TestWhiteBoxAlgorithms::test_wb_03_capacity_calculator_branches PASSED [ 60%]
+test_scripts/test_algorithms_whitebox.py::TestWhiteBoxAlgorithms::test_wb_04_time_formatter_branches PASSED [ 80%]
+test_scripts/test_algorithms_whitebox.py::TestWhiteBoxAlgorithms::test_wb_05_timetable_slots_all_preferences_and_breaks PASSED [100%]
+
+=============================== tests coverage ================================
+_______________ coverage: platform win32, python 3.14.5-final-0 _______________
+
+Name                                Stmts   Miss Branch BrPart  Cover   Missing
+-------------------------------------------------------------------------------
+test_scripts\scheduling_engine.py      65      0     26      0   100%
+-------------------------------------------------------------------------------
+TOTAL                                  65      0     26      0   100%
+Coverage HTML written to dir test_evidence/coverage_html
+============================== 5 passed in 0.08s ==============================
+
+--- STATUS: PASSED (Exit Code: 0, Duration: 0.79s) ---
+
+============================================================================
+>>> RUNNING: Selenium WebDriver UI Browser E2E Tests (Roadmap Navigation & Student Registration)
+    COMMAND: C:\Users\shravan kumar degala\AppData\Local\Programs\Python\Python314\python.exe -m pytest test_scripts/test_ui_selenium.py -v -s
+============================================================================
+============================= test session starts =============================
+platform win32 -- Python 3.14.5, pytest-9.0.3, pluggy-1.6.0 -- C:\Users\shravan kumar degala\AppData\Local\Programs\Python\Python314\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\shravan kumar degala\.gemini\antigravity\worktrees\KNWshare\cse312_software_testing_report
+plugins: anyio-4.13.0, cov-7.1.0
+collecting ... collected 2 items
+
+test_scripts/test_ui_selenium.py::TestInfoNestSeleniumUI::test_tc_selenium_01_homepage_and_roadmap_navigation 
+[TC-SELENIUM-01] Launching InfoNest Homepage...
+[TC-SELENIUM-01] Demo student authentication confirmed in UI.
+[TC-SELENIUM-01] Screenshot saved to: C:\Users\shravan kumar degala\.gemini\antigravity\worktrees\KNWshare\cse312_software_testing_report\test_evidence\screenshots\selenium_roadmap_verified.png
+PASSED
+test_scripts/test_ui_selenium.py::TestInfoNestSeleniumUI::test_tc_selenium_02_student_registration_workflow 
+[TC-SELENIUM-02] Testing Student Registration Workflow...
+[TC-SELENIUM-02] Form filled screenshot saved: C:\Users\shravan kumar degala\.gemini\antigravity\worktrees\KNWshare\cse312_software_testing_report\test_evidence\screenshots\selenium_registration_filled.png
+[TC-SELENIUM-02] Authenticated session confirmed for: Student a98f4
+[TC-SELENIUM-02] Success screenshot saved: C:\Users\shravan kumar degala\.gemini\antigravity\worktrees\KNWshare\cse312_software_testing_report\test_evidence\screenshots\selenium_registration_success.png
+PASSED
+
+============================== 2 passed in 5.38s ==============================
+
+--- STATUS: PASSED (Exit Code: 0, Duration: 6.00s) ---
+
+============================================================================
+>>> RUNNING: Non-Functional Testing Suite (Performance, Security, Reliability, Usability)
+    COMMAND: C:\Users\shravan kumar degala\AppData\Local\Programs\Python\Python314\python.exe test_scripts/non_functional_tests.py
+============================================================================
+CSE312 SOFTWARE TESTING SUITE - NON-FUNCTIONAL TESTING (NFR)
+Project: InfoNest | Group Members: Shravan Kumar (2024BCS0337), Charan Sai (2024BCS0193),
+Bhargava Rayudu (2024BCS0017), Jyoshith kumar (2024BCS0197), Vishnu (2024BCS0205)
+Faculty: Dr. Renu Mary Daniel | Date: 2026-09-28
+
+
+======================================================================
+>>> [NFR-01] RUNNING PERFORMANCE / RESPONSE TIME BENCHMARK (50 SAMPLES)
+======================================================================
+ • Health Check      : Min=1.3ms | Mean=7.2ms | Median=1.9ms | P95=27.1ms | Status=PASS
+ • Goals Catalog     : Min=3.5ms | Mean=13.0ms | Median=14.2ms | P95=27.4ms | Status=PASS
+ • Roadmap PCM       : Min=11.6ms | Mean=20.3ms | Median=14.7ms | P95=37.0ms | Status=PASS
+
+======================================================================
+>>> [NFR-02] RUNNING SECURITY & ACCESS CONTROL BOUNDARY AUDIT
+======================================================================
+ • GET Profile             : Missing -> HTTP 401 | Forged -> HTTP 401 | [PASS]
+ • GET Current Timetable   : Missing -> HTTP 401 | Forged -> HTTP 401 | [PASS]
+ • GET Student Tasks       : Missing -> HTTP 401 | Forged -> HTTP 401 | [PASS]
+ • POST Select Goal        : Missing -> HTTP 401 | Forged -> HTTP 401 | [PASS]
+
+======================================================================
+>>> [NFR-03] RUNNING RELIABILITY & FAULT TOLERANCE AUDIT
+======================================================================
+ • Malformed JSON Header     : HTTP 400 (Expected [400]) | Error JSON Handled: True | [PASS]
+ • Invalid ObjectId Format   : HTTP 404 (Expected [404]) | Error JSON Handled: True | [PASS]
+ • Non-existent API Route    : HTTP 404 (Expected [404]) | Error JSON Handled: True | [PASS]
+
+======================================================================
+>>> [NFR-04] USABILITY & FRONTEND BUILD BUNDLE EFFICIENCY
+======================================================================
+ • JavaScript Main Bundle (Gzip): 187.51 KB
+ • CSS Stylesheet Bundle (Gzip) : 11.31 KB
+ • Total Compressed Transfer    : 198.82 KB (< 250 KB threshold)
+ • Production Build Time        : 1.49s
+ • Overall Evaluation           : [PASS]
+
+[SUCCESS] Non-functional test results recorded to test_evidence/non_functional_results.json
+
+--- STATUS: PASSED (Exit Code: 0, Duration: 2.34s) ---
+
+============================================================================
+>>> RUNNING: Defect Verification (BUG-01, BUG-02) and Regression Testing Suite
+    COMMAND: C:\Users\shravan kumar degala\AppData\Local\Programs\Python\Python314\python.exe -m pytest test_scripts/test_defect_regression.py -v
+============================================================================
+============================= test session starts =============================
+platform win32 -- Python 3.14.5, pytest-9.0.3, pluggy-1.6.0 -- C:\Users\shravan kumar degala\AppData\Local\Programs\Python\Python314\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\shravan kumar degala\.gemini\antigravity\worktrees\KNWshare\cse312_software_testing_report
+plugins: anyio-4.13.0, cov-7.1.0
+collecting ... collected 3 items
+
+test_scripts/test_defect_regression.py::TestDefectRegression::test_retest_bug_01_email_whitespace_normalization PASSED [ 33%]
+test_scripts/test_defect_regression.py::TestDefectRegression::test_retest_bug_02_rescheduled_overdue_tasks_load_balancing PASSED [ 66%]
+test_scripts/test_defect_regression.py::TestDefectRegression::test_regression_core_auth_and_goals_unaffected PASSED [100%]
+
+============================== 3 passed in 0.32s ==============================
+
+--- STATUS: PASSED (Exit Code: 0, Duration: 0.92s) ---
+
+================================================================================
+             CSE312 TEST EXECUTION MASTER SUMMARY REPORT
+================================================================================
+Project Title       : InfoNest – Student Goal, Roadmap & Career Platform
+Execution Date      : 2026-09-28
+Faculty Mentor      : Dr. Renu Mary Daniel
+Team Members        : Shravan Kumar (2024BCS0337), Charan Sai (2024BCS0193),
+                      Bhargava Rayudu (2024BCS0017), Jyoshith kumar (2024BCS0197),
+                      Vishnu (2024BCS0205)
+Total Execution Time: 11.04s
+--------------------------------------------------------------------------------
+Test Category / Suite Description                            Status     Duration
+--------------------------------------------------------------------------------
+Pytest Automated Backend API Test Suite (Auth, Goals, Time   PASSED       0.99s
+White-Box Algorithmic Unit Tests with Statement & Branch C   PASSED       0.79s
+Selenium WebDriver UI Browser E2E Tests (Roadmap Navigatio   PASSED       6.00s
+Non-Functional Testing Suite (Performance, Security, Relia   PASSED       2.34s
+Defect Verification (BUG-01, BUG-02) and Regression Testin   PASSED       0.92s
+================================================================================
+>>> OVERALL RESULT: ALL TEST SUITES PASSED WITH 100% SUCCESS RATE <<<
+================================================================================
+
+[EVIDENCE RECORDED] Execution summary saved to: C:\Users\shravan kumar degala\.gemini\antigravity\worktrees\KNWshare\cse312_software_testing_report\test_execution_summary.txt
+[EVIDENCE RECORDED] Complete verbose logs saved to: C:\Users\shravan kumar degala\.gemini\antigravity\worktrees\KNWshare\cse312_software_testing_report\test_evidence\test_execution.log
