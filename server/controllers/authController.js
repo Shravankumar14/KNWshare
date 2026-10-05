@@ -336,11 +336,11 @@ export const googleAuth = async (req, res, next) => {
       await user.save();
     }
 
-    const appToken = generateToken(user._id, user.role);
+    const token = generateToken(user._id, user.role);
 
     return res.json({
       success: true,
-      token: appToken,
+      token,
       user: {
         id: user._id,
         _id: user._id,

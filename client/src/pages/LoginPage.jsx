@@ -37,7 +37,7 @@ export const LoginPage = () => {
         return;
       }
       if (role !== 'teacher' && requestedPath.startsWith('/teacher')) {
-        navigate('/', { replace: true });
+        navigate('/dashboard', { replace: true });
         return;
       }
       navigate(requestedPath, { replace: true });
@@ -47,7 +47,7 @@ export const LoginPage = () => {
     if (role === 'teacher') {
       navigate('/teacher/dashboard', { replace: true });
     } else {
-      navigate('/', { replace: true });
+      navigate('/dashboard', { replace: true });
     }
   };
 
