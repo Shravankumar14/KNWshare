@@ -1,14 +1,13 @@
+import 'dotenv/config'; // CHANGED: must be the FIRST import so .env loads before anything else
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
-import dotenv from 'dotenv';
 import { connectDB } from './config/db.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import { seedDatabase } from './seeds/seedData.js';
 import { seedRoadmaps } from './scripts/seedRoadmaps.js';
 import Goal from './models/Goal.js';
 import Roadmap from './models/Roadmap.js';
-
 
 // Route imports
 import authRoutes from './routes/authRoutes.js';
@@ -28,7 +27,7 @@ import aiRoutes from './routes/aiRoutes.js';
 import postRoutes from './routes/postRoutes.js';
 import storyRoutes from './routes/storyRoutes.js';
 
-dotenv.config();
+// CHANGED: removed the old dotenv.config() line (import 'dotenv/config' replaces it)
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -66,7 +65,7 @@ app.get(['/health', '/api/health', '/api/v1/health'], (req, res) => {
   });
 });
 
-// Multi-Goal System Routes (§4: /api/goals, /api/resources, /api/users/me/*, etc.)
+// Multi-Goal System Routes
 app.use('/api', multiGoalRoutes);
 app.use('/api/v1', multiGoalRoutes);
 
@@ -92,7 +91,7 @@ const mountAppRoutes = (prefix) => {
 mountAppRoutes('/api/v1');
 mountAppRoutes('/api');
 
-// Manual Seed Trigger Endpoint (Protected by secret or public in dev/initial deploy)
+// Manual Seed Trigger Endpoint
 app.post('/api/v1/seed', async (req, res, next) => {
   try {
     await seedDatabase();
@@ -106,12 +105,11 @@ app.post('/api/v1/seed', async (req, res, next) => {
 app.use(notFound);
 app.use(errorHandler);
 
-// Connect DB, Auto-seed if first run or missing roadmaps, and Start Server
+// Connect DB, Auto-seed if needed, and Start Server
 const startServer = async () => {
   try {
     await connectDB();
 
-    // Auto-seed if database has missing roadmaps
     const goalCount = await Goal.countDocuments();
     const roadmapCount = await Roadmap.countDocuments();
     if (goalCount < 4 || roadmapCount < 4) {
@@ -119,13 +117,15 @@ const startServer = async () => {
       await seedRoadmaps();
     }
 
-    app.listen(PORT,"0.0.0.0", () => {
+    app.listen(PORT, "0.0.0.0", () => {
       const hasGeminiKey = !!(process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim() !== '' && process.env.GEMINI_API_KEY !== 'your_gemini_api_key_here');
       console.log(`=========================================`);
       console.log(`🚀 KNWshare Server running on port ${PORT}`);
       console.log(`📡 API Health: http://localhost:${PORT}/api/health`);
       console.log(`🔒 Security Boundary: Secret leak protection active`);
       console.log(`🤖 Gemini AI Assistant: ${hasGeminiKey ? 'Active (API Key loaded)' : 'Active (Resilient Curated Engine)'}`);
+      // CHANGED: startup check so you can instantly see if the Google client ID loaded
+      console.log(`🔑 Google Client ID: ${process.env.GOOGLE_CLIENT_ID ? 'loaded' : 'MISSING ❌'}`);
       console.log(`=========================================`);
     });
   } catch (err) {

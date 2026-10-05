@@ -17,9 +17,22 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, 'Password is required'],
+    // CHANGED: only required for normal email/password accounts
+    required: [function () { return this.authProvider === 'local'; }, 'Password is required'],
     minlength: 6,
     select: false,
+  },
+  // NEW: how this account was created
+  authProvider: {
+    type: String,
+    enum: ['local', 'google'],
+    default: 'local',
+  },
+  // NEW: Google's permanent user ID (the "sub" field in the token)
+  googleId: {
+    type: String,
+    unique: true,
+    sparse: true, // lets many users have NO googleId without clashing
   },
   role: {
     type: String,
@@ -66,6 +79,8 @@ userSchema.pre('save', async function (next) {
 });
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
+  // CHANGED: Google users have no password, so bcrypt would crash without this guard
+  if (!this.password) return false;
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
