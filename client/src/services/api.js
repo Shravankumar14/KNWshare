@@ -35,12 +35,18 @@ api.interceptors.response.use(
       // localStorage.removeItem('knwshare_token');
     }
 
-    return Promise.reject(new Error(message));
+    const customError = new Error(message);
+    customError.response = error.response;
+    customError.status = error.response?.status;
+    customError.data = error.response?.data;
+    return Promise.reject(customError);
   }
 );
 
 export const googleAuth = (credential) => api.post('/auth/google', { credential });
 export const loginApi = (email, password) => api.post('/auth/login', { email, password });
 export const registerApi = (data) => api.post('/auth/register', data);
+export const verifyEmailApi = (token) => api.get(`/auth/verify-email/${token}`);
+export const resendVerificationApi = (email) => api.post('/auth/resend-verification', { email });
 
 export default api;

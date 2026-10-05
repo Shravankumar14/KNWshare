@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Compass, Eye, EyeOff } from 'lucide-react';
+import { Compass, Eye, EyeOff, MailCheck } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
 import { useGoogleLogin } from '@react-oauth/google';
+import api from '../services/api';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -19,6 +20,9 @@ export const LoginPage = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [serverError, setServerError] = useState('');
+  const [needsVerification, setNeedsVerification] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
+  const [resendStatus, setResendStatus] = useState('');
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
 
@@ -78,6 +82,8 @@ export const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setServerError('');
+    setNeedsVerification(false);
+    setResendStatus('');
     setEmailError('');
     setPasswordError('');
 
@@ -102,10 +108,36 @@ export const LoginPage = () => {
       addToast('Signed in successfully!', 'success');
       handleRoleRedirect(loggedInUser);
     } catch (err) {
-      const msg = err.response?.data?.message || err.message || 'Invalid email or password.';
+      const errorData = err.response?.data || err.data;
+      const msg = errorData?.message || err.message || 'Invalid email or password.';
       setServerError(msg);
+      if (errorData?.needsVerification) {
+        setNeedsVerification(true);
+      }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleResendVerification = async () => {
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail) {
+      setEmailError('Please enter your email address.');
+      return;
+    }
+
+    setResendLoading(true);
+    setResendStatus('');
+    try {
+      const res = await api.post('/auth/resend-verification', { email: trimmedEmail });
+      const msg = res.data?.message || 'Verification link sent to your email.';
+      setResendStatus(msg);
+      addToast(msg, 'info');
+    } catch (err) {
+      const msg = err.response?.data?.message || err.message || 'Failed to resend verification email.';
+      setResendStatus(msg);
+    } finally {
+      setResendLoading(false);
     }
   };
 
@@ -116,6 +148,7 @@ export const LoginPage = () => {
       onSuccess: async (tokenResponse) => {
         setGoogleLoading(true);
         setServerError('');
+        setNeedsVerification(false);
         try {
           const loggedInUser = await googleLogin(tokenResponse.credential || tokenResponse.access_token);
           addToast('Signed in with Google!', 'success');
@@ -141,6 +174,7 @@ export const LoginPage = () => {
   const handleGoogleClick = () => {
     if (googleLoading || loading) return;
     setServerError('');
+    setNeedsVerification(false);
     if (triggerGoogleLogin) {
       try {
         triggerGoogleLogin();
@@ -208,8 +242,32 @@ export const LoginPage = () => {
 
         {/* Server Error Message */}
         {serverError && (
-          <div className="mb-4 p-3 rounded-xl bg-[#111111] border border-[#E05252]/40 text-[#E05252] text-[14px]">
-            {serverError}
+          <div className="mb-4 p-3.5 rounded-xl bg-[#111111] border border-[#E05252]/40 text-[#E05252] text-[14px] space-y-2.5">
+            <p>{serverError}</p>
+            {needsVerification && (
+              <div className="pt-1">
+                <button
+                  type="button"
+                  onClick={handleResendVerification}
+                  disabled={resendLoading}
+                  className="w-full py-2 px-3 rounded-lg bg-[#1a1a1a] hover:bg-[#252525] border border-[#D4AF37]/50 text-[#D4AF37] text-[13px] font-semibold transition-colors flex items-center justify-center gap-2"
+                >
+                  {resendLoading ? (
+                    <div className="w-4 h-4 border-2 border-[#D4AF37]/30 border-t-[#D4AF37] rounded-full animate-spin" />
+                  ) : (
+                    'Resend verification email'
+                  )}
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Resend Status Message */}
+        {resendStatus && (
+          <div className="mb-4 p-3 rounded-xl bg-[#111111] border border-[#D4AF37]/40 text-[#D4AF37] text-[13px] flex items-center gap-2">
+            <MailCheck className="w-4 h-4 shrink-0" />
+            <span>{resendStatus}</span>
           </div>
         )}
 
@@ -228,6 +286,8 @@ export const LoginPage = () => {
                 setEmail(e.target.value);
                 if (emailError) setEmailError('');
                 if (serverError) setServerError('');
+                if (needsVerification) setNeedsVerification(false);
+                if (resendStatus) setResendStatus('');
               }}
               onBlur={handleEmailBlur}
               placeholder="name@example.com"
@@ -256,6 +316,8 @@ export const LoginPage = () => {
                   setPassword(e.target.value);
                   if (passwordError) setPasswordError('');
                   if (serverError) setServerError('');
+                  if (needsVerification) setNeedsVerification(false);
+                  if (resendStatus) setResendStatus('');
                 }}
                 onBlur={handlePasswordBlur}
                 placeholder="••••••••••••"

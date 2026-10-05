@@ -61,6 +61,18 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: 'jee-main-advanced',
   },
+  isEmailVerified: {
+    type: Boolean,
+    default: false,
+  },
+  emailVerificationToken: {
+    type: String,
+    select: false,
+  },
+  emailVerificationExpires: {
+    type: Date,
+    select: false,
+  },
   preferences: {
     defaultHoursPerDay: { type: Number, default: 2 },
     preferredStudyTime: { type: String, enum: ['morning', 'afternoon', 'evening', 'night'], default: 'morning' },
@@ -73,6 +85,7 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
+  if (!this.password) return next();
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
   next();

@@ -18,6 +18,7 @@ import { ProgressPage } from './pages/ProgressPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
+import { VerifyEmail } from './pages/VerifyEmail';
 import { TeacherDashboardPage } from './pages/TeacherDashboardPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
@@ -61,6 +62,7 @@ export function App() {
                     <Route index element={<HomeRoute />} />
                     <Route path="login" element={<HomeRoute />} />
                     <Route path="register" element={<RegisterPage />} />
+                    <Route path="verify-email/:token" element={<VerifyEmail />} />
 
                     {/* PROTECTED STUDENT ROUTES */}
                     <Route

@@ -58,14 +58,17 @@ export const AuthProvider = ({ children }) => {
     const res = await api.post('/auth/register', { name, email, password, ...extra });
     const payload = res.data;
     const newToken = payload.token || payload.data?.token;
-    const userData = payload.user || payload.data?.user || (payload.data ? { ...payload.data } : null);
-    if (userData && userData.token) {
-      delete userData.token;
+    if (newToken) {
+      const userData = payload.user || payload.data?.user || (payload.data ? { ...payload.data } : null);
+      if (userData && userData.token) {
+        delete userData.token;
+      }
+      localStorage.setItem('knwshare_token', newToken);
+      setToken(newToken);
+      setUser(userData);
+      return userData;
     }
-    localStorage.setItem('knwshare_token', newToken);
-    setToken(newToken);
-    setUser(userData);
-    return userData;
+    return payload;
   };
 
   const logout = () => {

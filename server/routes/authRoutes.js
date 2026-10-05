@@ -1,5 +1,5 @@
 import express from 'express';
-import { register, login, getMe, googleAuth, demoLogin } from '../controllers/authController.js';
+import { register, login, getMe, googleAuth, demoLogin, verifyEmail, resendVerification } from '../controllers/authController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -18,6 +18,8 @@ router.post('/register', register);
 router.post('/login', login);
 router.post('/google', googleAuth);
 router.post('/demo-login', demoLogin);
+router.get('/verify-email/:token', verifyEmail);
+router.post('/resend-verification', resendVerification);
 router.get('/me', protect, getMe);
 
 export default router;

@@ -18,6 +18,8 @@ export const RegisterPage = () => {
   const [selectedSubjects, setSelectedSubjects] = useState(['Physics']);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [registeredEmail, setRegisteredEmail] = useState('');
 
   const toggleSubject = (sub) => {
     setSelectedSubjects(prev =>
@@ -37,20 +39,54 @@ export const RegisterPage = () => {
         subjects: selectedSubjects,
       } : { role: 'student' };
 
-      await register(name, email, password, extra);
-      if (role === 'teacher') {
-        addToast('Teacher account created! Welcome to your Faculty Workspace.', 'success');
-        navigate('/teacher/dashboard');
-      } else {
-        addToast('Welcome to InfoNest! Select your goal to begin.', 'success');
-        navigate('/');
-      }
+      const trimmedEmail = email.trim();
+      await register(name, trimmedEmail, password, extra);
+      setRegisteredEmail(trimmedEmail);
+      setIsRegistered(true);
+      addToast('Check your inbox to verify your email!', 'success');
     } catch (err) {
       setError(err.response?.data?.message || err.message || 'Registration failed');
     } finally {
       setLoading(false);
     }
   };
+
+  if (isRegistered) {
+    return (
+      <div className="max-w-lg mx-auto py-12 px-4">
+        <div className="knw-card rounded-3xl p-6 sm:p-8 space-y-6 relative overflow-hidden border border-[#D4AF37]/30 shadow-red-lg text-center">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-knw-red via-[#D4AF37] to-knw-redDark shadow-red" />
+
+          <div className="w-14 h-14 rounded-2xl bg-[#D4AF37]/15 text-[#D4AF37] border border-[#D4AF37]/30 flex items-center justify-center mx-auto">
+            <Mail className="w-7 h-7 text-[#D4AF37]" />
+          </div>
+
+          <div className="space-y-3">
+            <h1 className="text-2xl font-bold text-white tracking-tight">Check your inbox</h1>
+            <p className="text-sm text-zinc-300">
+              We have sent a verification link to:
+            </p>
+            <p className="text-sm font-semibold text-[#D4AF37] bg-white/5 py-2.5 px-4 rounded-xl inline-block border border-white/10 break-all">
+              {registeredEmail}
+            </p>
+            <p className="text-xs text-knw-muted pt-2 leading-relaxed">
+              Please click the link in the email to activate your account before signing in. If you don't see it, check your spam folder.
+            </p>
+          </div>
+
+          <div className="pt-3 border-t border-white/5">
+            <Link
+              to="/login"
+              className="w-full btn-red py-3 rounded-xl text-xs font-bold shadow-red flex items-center justify-center gap-2"
+            >
+              <span>Go to Sign In</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-lg mx-auto py-12 px-4">

@@ -1,26 +1,63 @@
+import crypto from 'crypto';
 import User from '../models/User.js';
 import TeacherProfile from '../models/TeacherProfile.js';
 import AvailabilitySlot from '../models/AvailabilitySlot.js';
 import { generateToken } from '../utils/jwt.js';
 import { OAuth2Client } from 'google-auth-library';
+import { sendVerificationEmail } from '../utils/sendEmail.js';
 
 export const register = async (req, res, next) => {
   try {
     const { name, email, password, role, subjects, qualification, experienceYears, bio } = req.body;
 
-    const userExists = await User.findOne({ email });
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Email is required' });
+    }
+
+    const normalizedEmail = email.trim().toLowerCase();
+
+    const userExists = await User.findOne({ email: normalizedEmail });
     if (userExists) {
+      if (!userExists.isEmailVerified) {
+        // Unverified user: resend a fresh verification email
+        const rawToken = crypto.randomBytes(32).toString('hex');
+        const hashedToken = crypto.createHash('sha256').update(rawToken).digest('hex');
+        userExists.emailVerificationToken = hashedToken;
+        userExists.emailVerificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000);
+        if (password) userExists.password = password;
+        if (name) userExists.name = name;
+        await userExists.save();
+
+        try {
+          await sendVerificationEmail(userExists.email, rawToken);
+        } catch (emailErr) {
+          console.error('Failed to send verification email:', emailErr.message);
+        }
+
+        return res.status(201).json({
+          success: true,
+          message: 'Check your inbox to verify your email',
+        });
+      }
+
       return res.status(400).json({ success: false, message: 'User already exists with this email' });
     }
 
     const assignedRole = (role === 'teacher') ? 'teacher' : 'student';
 
+    const rawToken = crypto.randomBytes(32).toString('hex');
+    const hashedToken = crypto.createHash('sha256').update(rawToken).digest('hex');
+    const emailVerificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
     const user = await User.create({
       name,
-      email,
+      email: normalizedEmail,
       password,
       role: assignedRole,
       bio: bio || '',
+      isEmailVerified: false,
+      emailVerificationToken: hashedToken,
+      emailVerificationExpires,
     });
 
     // If teacher, initialize teacher profile
@@ -56,18 +93,88 @@ export const register = async (req, res, next) => {
       }
     }
 
-    const token = generateToken(user._id, user.role);
+    try {
+      await sendVerificationEmail(user.email, rawToken);
+    } catch (emailErr) {
+      console.error('Failed to send verification email:', emailErr.message);
+    }
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
-      data: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        activeGoal: user.activeGoal,
-        token,
-      },
+      message: 'Check your inbox to verify your email',
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const verifyEmail = async (req, res, next) => {
+  try {
+    const { token } = req.params;
+    if (!token) {
+      return res.status(400).json({ success: false, message: 'Invalid or missing verification token' });
+    }
+
+    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+
+    const user = await User.findOne({
+      emailVerificationToken: hashedToken,
+      emailVerificationExpires: { $gt: new Date() },
+    }).select('+emailVerificationToken +emailVerificationExpires');
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid or expired verification token',
+      });
+    }
+
+    user.isEmailVerified = true;
+    user.emailVerificationToken = undefined;
+    user.emailVerificationExpires = undefined;
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: 'Email verified successfully. You can now log in.',
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const resendVerification = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const genericMessage = 'If an account exists with this email, a verification link has been sent.';
+
+    if (!email) {
+      return res.status(200).json({
+        success: true,
+        message: genericMessage,
+      });
+    }
+
+    const normalizedEmail = email.trim().toLowerCase();
+    const user = await User.findOne({ email: normalizedEmail }).select('+emailVerificationToken +emailVerificationExpires');
+
+    if (user && !user.isEmailVerified) {
+      const rawToken = crypto.randomBytes(32).toString('hex');
+      const hashedToken = crypto.createHash('sha256').update(rawToken).digest('hex');
+      user.emailVerificationToken = hashedToken;
+      user.emailVerificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000);
+      await user.save();
+
+      try {
+        await sendVerificationEmail(user.email, rawToken);
+      } catch (emailErr) {
+        console.error('Failed to send verification email:', emailErr.message);
+      }
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: genericMessage,
     });
   } catch (err) {
     next(err);
@@ -86,6 +193,14 @@ export const login = async (req, res, next) => {
     const user = await User.findOne({ email: normalizedEmail }).select('+password').populate('activeGoal');
     if (!user || !(await user.matchPassword(password))) {
       return res.status(401).json({ success: false, message: 'Invalid email or password.' });
+    }
+
+    if (!user.isEmailVerified) {
+      return res.status(403).json({
+        success: false,
+        message: 'Please verify your email first',
+        needsVerification: true,
+      });
     }
 
     const token = generateToken(user._id, user.role);
@@ -142,15 +257,35 @@ export const googleAuth = async (req, res, next) => {
       return res.status(400).json({ success: false, message: 'Google account has no email' });
     }
 
-    let user = await User.findOne({ email }).populate('activeGoal');
+    if (!payload.email_verified) {
+      return res.status(403).json({ success: false, message: 'Google email is not verified' });
+    }
+
+    const normalizedEmail = email.trim().toLowerCase();
+    let user = await User.findOne({ email: normalizedEmail }).select('+password').populate('activeGoal');
+
     if (!user) {
       user = await User.create({
         name: name || 'Student',
-        email,
-        password: Math.random().toString(36).slice(-12) + 'Ab1!',
+        email: normalizedEmail,
+        googleId: payload.sub,
+        authProvider: 'google',
+        isEmailVerified: true,
         role: 'student',
         avatar: picture || '',
       });
+    } else {
+      user.googleId = payload.sub || user.googleId;
+      const wasUnverified = !user.isEmailVerified;
+      user.isEmailVerified = true;
+      if (wasUnverified) {
+        user.password = undefined;
+        user.authProvider = 'google';
+      }
+      if (picture && !user.avatar) {
+        user.avatar = picture;
+      }
+      await user.save();
     }
 
     const token = generateToken(user._id, user.role);
@@ -202,7 +337,11 @@ export const demoLogin = async (req, res, next) => {
         password: 'password123',
         role: 'student',
         bio: 'Passionate student aiming for competitive exam excellence and structured study routines.',
+        isEmailVerified: true,
       });
+    } else if (!demoUser.isEmailVerified) {
+      demoUser.isEmailVerified = true;
+      await demoUser.save();
     }
 
     const token = generateToken(demoUser._id, demoUser.role);
