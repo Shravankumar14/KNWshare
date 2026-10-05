@@ -47,7 +47,7 @@ const HomeRoute = () => {
 };
 
 export function App() {
-  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || 'your_google_client_id';
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
   return (
     <GoogleOAuthProvider clientId={googleClientId}>
