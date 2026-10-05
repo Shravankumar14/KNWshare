@@ -25,12 +25,29 @@ export const sendEmail = async ({ to, subject, text, html }) => {
     html,
   };
 
-  return await transporter.sendMail(mailOptions);
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log(`✅ [Email Sent] Successfully sent to ${to} (Message ID: ${info.messageId})`);
+    return info;
+  } catch (err) {
+    console.error(`❌ [Email Delivery Error] Failed sending to ${to}:`, err.message);
+    throw err;
+  }
 };
 
 export const sendVerificationEmail = async (email, token) => {
   const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
   const verificationUrl = `${clientUrl}/verify-email/${token}`;
+
+  console.log('--------------------------------------------------');
+  console.log(`📨 [Email Verification] Target: ${email}`);
+  console.log(`🔗 Verification Link: ${verificationUrl}`);
+  console.log('--------------------------------------------------');
+
+  if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
+    console.warn('⚠️ [SMTP Notice] SMTP_HOST, SMTP_USER, or SMTP_PASS not set in server/.env. Real email delivery requires valid SMTP credentials.');
+    return;
+  }
 
   const subject = 'Verify your email address - InfoNest';
   const text = `Hello,\n\nPlease verify your email for InfoNest by clicking the link below:\n${verificationUrl}\n\nThis verification link expires in 24 hours.\n\nIf you did not create an account, please disregard this email.`;

@@ -191,8 +191,13 @@ export const login = async (req, res, next) => {
 
     const normalizedEmail = email.trim().toLowerCase();
     const user = await User.findOne({ email: normalizedEmail }).select('+password').populate('activeGoal');
-    if (!user || !(await user.matchPassword(password))) {
-      return res.status(401).json({ success: false, message: 'Invalid email or password.' });
+    if (!user) {
+      return res.status(401).json({ success: false, message: 'Email does not exist' });
+    }
+
+    const isMatch = await user.matchPassword(password);
+    if (!isMatch) {
+      return res.status(401).json({ success: false, message: 'Incorrect password' });
     }
 
     if (!user.isEmailVerified) {
