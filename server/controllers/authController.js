@@ -237,8 +237,8 @@ export const login = async (req, res, next) => {
 
 export const googleAuth = async (req, res, next) => {
   try {
-    const { credential } = req.body;
-    if (!credential) {
+    const incomingToken = req.body.credential || req.body.access_token || req.body.token;
+    if (!incomingToken) {
       return res.status(400).json({ success: false, message: 'Google credential is required' });
     }
 
@@ -246,19 +246,61 @@ export const googleAuth = async (req, res, next) => {
     const client = new OAuth2Client(googleClientId);
 
     let payload;
-    try {
-      const ticket = await client.verifyIdToken({
-        idToken: credential,
-        audience: googleClientId,
-      });
-      payload = ticket.getPayload();
-    } catch (verifyErr) {
-      console.warn('Google token verification failed:', verifyErr.message);
-      return res.status(401).json({ success: false, message: 'Invalid Google token' });
+
+    // Determine whether token is an ID token (JWT with 3 parts: header.payload.signature)
+    // or an OAuth2 access token (e.g. starts with "ya29." with 2 segments)
+    const isIdToken = typeof incomingToken === 'string' && incomingToken.split('.').length === 3;
+
+    if (isIdToken) {
+      try {
+        const ticket = await client.verifyIdToken({
+          idToken: incomingToken,
+          audience: googleClientId,
+        });
+        payload = ticket.getPayload();
+      } catch (verifyErr) {
+        console.warn('Google ID token verification failed:', verifyErr.message);
+        return res.status(401).json({ success: false, message: 'Invalid Google token' });
+      }
+    } else {
+      try {
+        // Validate the OAuth2 access token using Google's tokeninfo endpoint
+        const tokenInfo = await client.getTokenInfo(incomingToken);
+
+        // Security requirement: audience/client-ID validation
+        if (googleClientId && tokenInfo.aud && tokenInfo.aud !== googleClientId) {
+          console.warn(`Google token audience mismatch: expected ${googleClientId}, got ${tokenInfo.aud}`);
+          return res.status(401).json({ success: false, message: 'Invalid Google token audience' });
+        }
+
+        // Fetch verified user profile from Google's UserInfo endpoint
+        const userInfoRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: {
+            Authorization: `Bearer ${incomingToken}`,
+          },
+        });
+
+        if (!userInfoRes.ok) {
+          console.warn('Failed to fetch userinfo from Google API:', userInfoRes.status, userInfoRes.statusText);
+          return res.status(401).json({ success: false, message: 'Failed to retrieve Google user profile' });
+        }
+
+        const profile = await userInfoRes.json();
+
+        payload = {
+          email: profile.email || tokenInfo.email,
+          name: profile.name,
+          picture: profile.picture,
+          sub: profile.sub || tokenInfo.sub,
+          email_verified: profile.email_verified ?? (tokenInfo.email_verified === 'true' || tokenInfo.email_verified === true),
+        };
+      } catch (accessErr) {
+        console.warn('Google access token verification failed:', accessErr.message);
+        return res.status(401).json({ success: false, message: 'Invalid Google token' });
+      }
     }
 
-    const { email, name, picture } = payload;
-    if (!email) {
+    if (!payload || !payload.email) {
       return res.status(400).json({ success: false, message: 'Google account has no email' });
     }
 
@@ -266,6 +308,7 @@ export const googleAuth = async (req, res, next) => {
       return res.status(403).json({ success: false, message: 'Google email is not verified' });
     }
 
+    const { email, name, picture } = payload;
     const normalizedEmail = email.trim().toLowerCase();
     let user = await User.findOne({ email: normalizedEmail }).select('+password').populate('activeGoal');
 
@@ -293,11 +336,11 @@ export const googleAuth = async (req, res, next) => {
       await user.save();
     }
 
-    const token = generateToken(user._id, user.role);
+    const appToken = generateToken(user._id, user.role);
 
     return res.json({
       success: true,
-      token,
+      token: appToken,
       user: {
         id: user._id,
         _id: user._id,

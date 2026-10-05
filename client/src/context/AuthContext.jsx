@@ -40,8 +40,8 @@ export const AuthProvider = ({ children }) => {
     return userData;
   };
 
-  const googleLogin = async (credential) => {
-    const res = await api.post('/auth/google', { credential });
+  const googleLogin = async (token) => {
+    const res = await api.post('/auth/google', { credential: token, access_token: token });
     const payload = res.data;
     const newToken = payload.token || payload.data?.token;
     const userData = payload.user || payload.data?.user || (payload.data ? { ...payload.data } : null);
