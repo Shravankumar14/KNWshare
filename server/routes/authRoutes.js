@@ -2,6 +2,8 @@ import express from 'express';
 import { register, login, getMe, googleAuth, demoLogin, verifyEmail, resendVerification } from '../controllers/authController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
+import { runSmtpDiagnostics } from '../utils/smtpDiagnostics.js';
+
 const router = express.Router();
 
 // Gmail format validation helper
@@ -13,6 +15,15 @@ export const validateGmail = (req, res, next) => {
   }
   next();
 };
+
+router.get('/smtp-status', async (req, res) => {
+  try {
+    const data = await runSmtpDiagnostics();
+    res.json({ success: true, data });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
 
 router.post('/register', register);
 router.post('/login', login);
