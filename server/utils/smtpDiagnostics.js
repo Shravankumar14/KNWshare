@@ -41,12 +41,17 @@ export const runSmtpDiagnostics = async () => {
   const pass = process.env.SMTP_PASS;
   const from = process.env.EMAIL_FROM || user;
 
+  const emailEnvKeys = Object.keys(process.env).filter((k) =>
+    /MAIL|EMAIL|SMTP|SEND|RESEND|BREVO|POSTMARK|API_KEY/i.test(k)
+  );
+
   const envCheck = {
     SMTP_HOST: host || null,
     SMTP_PORT: process.env.SMTP_PORT || null,
     SMTP_USER: user ? `${user.substring(0, 3)}***` : null,
     has_SMTP_PASS: !!pass,
     EMAIL_FROM: from || null,
+    availableEmailKeys: emailEnvKeys,
   };
 
   const results = {
@@ -74,6 +79,12 @@ export const runSmtpDiagnostics = async () => {
   for (const p of portsToTest) {
     results.tcpPorts[p] = await testTcp(host, p, 3500);
   }
+
+  // 2b. Test HTTPS API reachability to common email services
+  results.httpsApis = {
+    resend: await testTcp('api.resend.com', 443, 3000),
+    brevo: await testTcp('api.brevo.com', 443, 3000),
+  };
 
   // 3. Transporter verify test with timeout
   if (host && user && pass) {
