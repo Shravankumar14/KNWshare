@@ -28,10 +28,33 @@ export const register = async (req, res, next) => {
         if (name) userExists.name = name;
         await userExists.save();
 
+        // Ensure teacher profile exists if role is teacher
+        if (userExists.role === 'teacher' || role === 'teacher') {
+          let teacherProfile = await TeacherProfile.findOne({ userId: userExists._id });
+          if (!teacherProfile) {
+            await TeacherProfile.create({
+              userId: userExists._id,
+              name: userExists.name,
+              email: userExists.email,
+              headline: qualification ? `${qualification} · Academic Mentor` : 'Academic Coach & Mentor',
+              bio: bio || 'Passionate educator providing personalized 1-on-1 concept coaching and doubt clearance.',
+              subjects: subjects && subjects.length > 0 ? subjects : ['Physics'],
+              expertise: ['JEE Main', 'JEE Advanced'],
+              qualification: qualification || 'M.Tech / M.Sc from Premier Institute',
+              experienceYears: Number(experienceYears) || 5,
+              goalsSupported: ['jee-mains-advanced', 'full-stack-development'],
+            }).catch((tpErr) => console.warn('TeacherProfile create warning on unverified re-register:', tpErr.message));
+          }
+        }
+
         try {
           await sendVerificationEmail(userExists.email, rawToken);
         } catch (emailErr) {
           console.error('Failed to send verification email:', emailErr.message);
+          return res.status(503).json({
+            success: false,
+            message: 'Account updated, but verification email service is temporarily unavailable. Please try resending verification from the login page.',
+          });
         }
 
         return res.status(201).json({
@@ -97,6 +120,10 @@ export const register = async (req, res, next) => {
       await sendVerificationEmail(user.email, rawToken);
     } catch (emailErr) {
       console.error('Failed to send verification email:', emailErr.message);
+      return res.status(503).json({
+        success: false,
+        message: 'Account created, but verification email service is temporarily unavailable. Please try resending verification from the login page.',
+      });
     }
 
     return res.status(201).json({
@@ -169,6 +196,10 @@ export const resendVerification = async (req, res, next) => {
         await sendVerificationEmail(user.email, rawToken);
       } catch (emailErr) {
         console.error('Failed to send verification email:', emailErr.message);
+        return res.status(503).json({
+          success: false,
+          message: 'Unable to send verification email at this time. Please try again later.',
+        });
       }
     }
 

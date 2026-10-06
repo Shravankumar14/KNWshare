@@ -1,20 +1,96 @@
 import nodemailer from 'nodemailer';
 
+/**
+ * Sends an email using one of the supported channels:
+ * 1. Resend HTTP API (if RESEND_API_KEY is defined) - Recommended for cloud providers like Render Free Tier that block outbound SMTP ports.
+ * 2. Brevo HTTP API (if BREVO_API_KEY is defined).
+ * 3. Nodemailer SMTP (if SMTP_HOST, SMTP_USER, SMTP_PASS are defined) with 5s connection/socket timeouts and IPv4 forcing.
+ */
 export const sendEmail = async ({ to, subject, text, html }) => {
+  // Option 1: Resend HTTP API (Port 443 HTTPS - Works on Render Free Tier)
+  if (process.env.RESEND_API_KEY) {
+    const from = process.env.EMAIL_FROM || 'InfoNest <onboarding@resend.dev>';
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from,
+        to: [to],
+        subject,
+        text,
+        html,
+      }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      const errMsg = data?.message || `Resend HTTP error ${res.status}`;
+      console.error(`❌ [Resend Error] Failed sending to ${to}:`, errMsg);
+      throw new Error(errMsg);
+    }
+
+    console.log(`✅ [Email Sent via Resend] Successfully sent to ${to} (Message ID: ${data.id})`);
+    return { messageId: data.id };
+  }
+
+  // Option 2: Brevo HTTP API (Port 443 HTTPS - Works on Render Free Tier)
+  if (process.env.BREVO_API_KEY) {
+    const senderEmail = process.env.BREVO_SENDER_EMAIL || process.env.EMAIL_FROM || 'info@knwshare.dev';
+    const senderName = process.env.BREVO_SENDER_NAME || 'InfoNest';
+    const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'api-key': process.env.BREVO_API_KEY,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        sender: { email: senderEmail, name: senderName },
+        to: [{ email: to }],
+        subject,
+        textContent: text,
+        htmlContent: html,
+      }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      const errMsg = data?.message || `Brevo HTTP error ${res.status}`;
+      console.error(`❌ [Brevo Error] Failed sending to ${to}:`, errMsg);
+      throw new Error(errMsg);
+    }
+
+    console.log(`✅ [Email Sent via Brevo] Successfully sent to ${to} (Message ID: ${data.messageId})`);
+    return { messageId: data.messageId };
+  }
+
+  // Option 3: Standard SMTP via Nodemailer
   const host = process.env.SMTP_HOST;
   const port = Number(process.env.SMTP_PORT) || 587;
   const user = process.env.SMTP_USER;
   const pass = process.env.SMTP_PASS;
   const from = process.env.EMAIL_FROM || user;
 
+  if (!host || !user || !pass) {
+    throw new Error('SMTP credentials not configured (missing SMTP_HOST, SMTP_USER, or SMTP_PASS)');
+  }
+
+  const isSecure = port === 465;
+
   const transporter = nodemailer.createTransport({
     host,
     port,
-    secure: port === 465,
+    secure: isSecure,
     auth: {
       user,
       pass,
     },
+    family: 4,               // Enforce IPv4 to avoid ENETUNREACH errors on hosts without IPv6 routing
+    connectionTimeout: 5000, // 5s connection timeout (fails fast rather than hanging indefinitely)
+    greetingTimeout: 5000,   // 5s greeting timeout
+    socketTimeout: 5000,     // 5s socket inactivity timeout
   });
 
   const mailOptions = {
@@ -44,9 +120,12 @@ export const sendVerificationEmail = async (email, token) => {
   console.log(`🔗 Verification Link: ${verificationUrl}`);
   console.log('--------------------------------------------------');
 
-  if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
-    console.warn('⚠️ [SMTP Notice] SMTP_HOST, SMTP_USER, or SMTP_PASS not set in server/.env. Real email delivery requires valid SMTP credentials.');
-    return;
+  const hasHttpProvider = !!(process.env.RESEND_API_KEY || process.env.BREVO_API_KEY);
+  const hasSmtpProvider = !!(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS);
+
+  if (!hasHttpProvider && !hasSmtpProvider) {
+    console.warn('⚠️ [SMTP Notice] Email service unconfigured. Verification link printed above.');
+    return { success: false, reason: 'unconfigured', verificationUrl };
   }
 
   const subject = 'Verify your email address - InfoNest';
