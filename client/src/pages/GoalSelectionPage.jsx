@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
-  Layers, Target, Map, BookOpen, Clock, CheckCircle2, ArrowRight,
+  Layers, Target, Map, BookOpen, Clock, CheckCircle2, ArrowRight, ArrowLeft,
   Sparkles, Zap, Star, TrendingUp, Play, Users, ChevronRight,
   Flame, MessageCircle, Bookmark, Share2, PlusCircle, Video,
-  Briefcase, Check, ExternalLink, X, Compass, Award
+  Briefcase, Check, ExternalLink, X, Compass, Award, Search
 } from 'lucide-react';
 import { useGoal } from '../context/GoalContext';
 import { useAuth } from '../context/AuthContext';
 import { GoalOnboardingModal } from '../components/goal/GoalOnboardingModal';
 import { CustomGoalModal } from '../components/goal/CustomGoalModal';
+import { GoalCard } from '../components/goal/GoalCard';
+import { MentorCard } from '../components/goal/MentorCard';
 
 import api from '../services/api';
 
@@ -18,6 +20,33 @@ export const GoalSelectionPage = () => {
   const { allGoals, activeGoal, activeUserGoal, loading, setPreviewGoal } = useGoal();
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const isGoalsRoute = location.pathname === '/goals' ||
+                       location.pathname === '/goal-select' ||
+                       new URLSearchParams(location.search).get('view') === 'goals';
+
+  const [viewMode, setViewMode] = useState(() => (isGoalsRoute ? 'goals' : 'dashboard'));
+
+  useEffect(() => {
+    if (isGoalsRoute) {
+      setViewMode('goals');
+    } else if (location.pathname === '/dashboard' && !new URLSearchParams(location.search).get('view')) {
+      setViewMode('dashboard');
+    }
+  }, [isGoalsRoute, location.pathname, location.search]);
+
+  const handleOpenGoalsView = () => {
+    setViewMode('goals');
+    navigate('/goals');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleBackToDashboard = () => {
+    setViewMode('dashboard');
+    navigate('/dashboard');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -155,8 +184,8 @@ export const GoalSelectionPage = () => {
 
   return (
     <div className="min-h-screen bg-knw-bg text-knw-offWhite">
-      {/* ── Top Hero for Unauthenticated Visitors ── */}
-      {!isAuthenticated && (
+      {/* ── Top Hero for Unauthenticated Visitors (Dashboard view only) ── */}
+      {!isAuthenticated && viewMode === 'dashboard' && (
         <div
           className="hero-banner relative overflow-hidden px-4 py-10 sm:py-14 text-center border-b border-white/5"
         >
@@ -191,9 +220,214 @@ export const GoalSelectionPage = () => {
         </div>
       )}
 
-      {/* ── Main Two-Column Layout ── */}
+      {/* ── Main Layout: Dedicated Goals View OR Dashboard ── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="flex flex-col lg:flex-row gap-8">
+        {viewMode === 'goals' ? (
+          <div className="animate-slide-in space-y-8 pb-12">
+            {/* ── Top Bar: Back to Dashboard & Action ── */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/10">
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={handleBackToDashboard}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-white text-xs sm:text-sm font-semibold border border-white/10 hover:border-white/20 transition-all cursor-pointer group"
+                >
+                  <ArrowLeft className="w-4 h-4 text-knw-red group-hover:-translate-x-1 transition-transform" />
+                  <span>Back to Dashboard</span>
+                </button>
+
+                <span className="text-white/20 hidden sm:inline">/</span>
+
+                <div className="hidden sm:flex items-center gap-1.5 text-xs font-mono text-knw-muted">
+                  <span>Dashboard</span>
+                  <ChevronRight className="w-3.5 h-3.5 text-knw-subtle" />
+                  <span className="text-knw-red font-semibold">Goals Discovery</span>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setIsCustomGoalOpen(true)}
+                className="btn-red-outline px-4 py-2 rounded-xl text-xs sm:text-sm font-mono font-bold flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform cursor-pointer"
+              >
+                <Sparkles className="w-4 h-4 text-knw-red" />
+                <span>Design Custom Goal with AI</span>
+              </button>
+            </div>
+
+            {/* ── Dedicated Hero Banner ── */}
+            <div className="relative overflow-hidden rounded-3xl p-6 sm:p-8 border border-white/10 bg-gradient-to-br from-knw-surface via-knw-bg to-[#1a0000]">
+              <div className="hero-radial absolute inset-0 opacity-20 pointer-events-none" />
+              <div className="relative max-w-3xl space-y-2.5">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-knw-red/40 bg-knw-red/15 text-xs font-mono text-knw-red font-bold">
+                  <Target className="w-3.5 h-3.5 text-knw-red" />
+                  <span>CURATED AMBITIONS & ROADMAPS</span>
+                </div>
+                <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight">
+                  Select Your <span className="text-gradient-red">Goal</span>
+                </h1>
+                <p className="text-xs sm:text-sm text-knw-muted leading-relaxed max-w-2xl">
+                  Choose your goal below to begin your structured learning path. Every ambition includes milestone tracks, vetted resources, mock drill exercises, and verified mentor guidance.
+                </p>
+              </div>
+            </div>
+
+            {/* ── Main Full-Width Section: Select Your Goal ── */}
+            <div className="space-y-6">
+              {/* Search & Category Filter Bar */}
+              <div className="knw-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-4">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  {/* Search Input */}
+                  <div className="relative flex-1 max-w-xl">
+                    <Search className="w-4 h-4 text-knw-muted absolute left-3.5 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Search ambitions, JEE, GATE, Web, AI, Algorithms..."
+                      className="w-full bg-knw-surface border border-white/10 rounded-xl pl-10 pr-9 py-2.5 text-xs sm:text-sm text-white placeholder-knw-subtle focus:outline-none focus:border-knw-red transition-colors"
+                    />
+                    {searchQuery && (
+                      <button
+                        type="button"
+                        onClick={() => setSearchQuery('')}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-knw-muted hover:text-white cursor-pointer"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Counter */}
+                  <div className="flex items-center gap-2 text-xs font-mono text-knw-muted">
+                    <span className="w-2 h-2 rounded-full bg-knw-red" />
+                    <span>
+                      Showing <strong className="text-white">{filteredGoals.length}</strong> of {allGoals.length} Curricula
+                    </span>
+                  </div>
+                </div>
+
+                {/* Category Filter Pills */}
+                <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none" style={{ scrollbarWidth: 'none' }}>
+                  {categories.map((c) => (
+                    <button
+                      key={c.id}
+                      type="button"
+                      onClick={() => setSelectedCategory(c.id)}
+                      className={`text-xs font-mono px-3.5 py-1.5 rounded-xl border transition-all whitespace-nowrap cursor-pointer ${
+                        selectedCategory === c.id
+                          ? 'bg-knw-red text-white border-knw-red shadow-red font-bold'
+                          : 'bg-knw-surface border-white/10 text-knw-muted hover:text-white hover:border-white/20'
+                      }`}
+                    >
+                      {c.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Goal Cards Grid - Prominent Full-Width */}
+              {loading ? (
+                <div className="py-16 text-center text-xs font-mono text-knw-muted space-y-3">
+                  <div className="w-8 h-8 border-2 border-knw-red border-t-transparent rounded-full animate-spin mx-auto" />
+                  <p>Loading curricula catalog...</p>
+                </div>
+              ) : filteredGoals.length === 0 ? (
+                <div className="knw-card rounded-3xl p-12 text-center space-y-3 border border-white/10">
+                  <Target className="w-10 h-10 text-knw-muted mx-auto" />
+                  <h4 className="text-base font-bold text-white">No matching curricula found</h4>
+                  <p className="text-xs text-knw-muted max-w-sm mx-auto">
+                    We couldn't find any goals matching &quot;{searchQuery}&quot;. Try adjusting your search query or category filter.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearchQuery('');
+                      setSelectedCategory('all');
+                    }}
+                    className="btn-red px-4 py-2 rounded-xl text-xs font-mono font-bold mt-2 cursor-pointer"
+                  >
+                    Reset Filters
+                  </button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {filteredGoals.map((goal) => {
+                    const isEnrolled = activeGoal?._id === goal._id || (activeGoal?.slug && activeGoal?.slug === goal.slug);
+                    return (
+                      <GoalCard
+                        key={goal._id || goal.slug}
+                        goal={goal}
+                        isEnrolled={isEnrolled}
+                        onSelect={handleSelectGoal}
+                        variant="expanded"
+                      />
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            {/* ── Separate Full-Width Section: Verified Mentors ── */}
+            <div className="space-y-6 pt-6 border-t border-white/10">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-knw-red animate-pulse" />
+                    <span className="text-xs font-mono uppercase tracking-widest text-knw-red font-bold">
+                      VERIFIED MENTORS
+                    </span>
+                  </div>
+                  <h2 className="text-xl sm:text-2xl font-black text-white mt-1">
+                    Connect with Top Industry Advisors & Mentors
+                  </h2>
+                  <p className="text-xs text-knw-muted mt-1">
+                    Book 1-on-1 guidance sessions for architecture reviews, interview drills, and exam strategy.
+                  </p>
+                </div>
+
+                <div className="text-xs font-mono text-knw-muted">
+                  <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10">
+                    {availableMentors.length} Mentors Available
+                  </span>
+                </div>
+              </div>
+
+              {/* Mentors Grid */}
+              {availableMentors.length === 0 ? (
+                <div className="knw-card rounded-3xl p-8 text-center space-y-2 border border-white/10">
+                  <Users className="w-8 h-8 text-knw-muted mx-auto" />
+                  <p className="text-xs font-mono text-knw-muted">No mentors with open slots currently available.</p>
+                  <p className="text-[11px] text-gray-500">Check back soon or explore goal roadmaps above.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                  {availableMentors.map((adv) => (
+                    <MentorCard
+                      key={adv._id || adv.teacherId}
+                      mentor={adv}
+                      onBook={setBookingMentor}
+                      variant="expanded"
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* ── Bottom Return Button ── */}
+            <div className="pt-8 border-t border-white/10 flex items-center justify-center">
+              <button
+                type="button"
+                onClick={handleBackToDashboard}
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white text-xs sm:text-sm font-semibold border border-white/10 transition-colors cursor-pointer group"
+              >
+                <ArrowLeft className="w-4 h-4 text-knw-red group-hover:-translate-x-1 transition-transform" />
+                <span>Return to Dashboard</span>
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-col lg:flex-row gap-8 animate-slide-in">
           
           {/* ════════ LEFT / MAIN FEED COLUMN ════════ */}
           <div className="flex-1 min-w-0 space-y-6">
@@ -331,13 +565,14 @@ export const GoalSelectionPage = () => {
                     </div>
                   </div>
 
-                  <a
-                    href="#goal-catalogue"
-                    className="btn-red px-4 py-2 text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-red font-mono whitespace-nowrap self-start sm:self-center"
+                  <button
+                    type="button"
+                    onClick={handleOpenGoalsView}
+                    className="btn-red px-4 py-2 text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-red font-mono whitespace-nowrap self-start sm:self-center cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98]"
                   >
                     <span>Browse Goals</span>
                     <ArrowRight className="w-3.5 h-3.5" />
-                  </a>
+                  </button>
                 </div>
               </div>
             )}
@@ -511,7 +746,13 @@ export const GoalSelectionPage = () => {
                       SELECT YOUR GOAL
                     </span>
                   </div>
-                  <span className="text-[10px] font-mono text-knw-muted">{allGoals.length} Curricula</span>
+                  <button
+                    type="button"
+                    onClick={handleOpenGoalsView}
+                    className="text-[10px] font-mono text-knw-muted hover:text-white transition-colors cursor-pointer"
+                  >
+                    {allGoals.length} Curricula →
+                  </button>
                 </div>
 
                 {/* Search */}
@@ -555,38 +796,15 @@ export const GoalSelectionPage = () => {
                     </div>
                   ) : (
                     filteredGoals.map((goal) => {
-                      const isEnrolled = activeGoal?._id === goal._id;
+                      const isEnrolled = activeGoal?._id === goal._id || (activeGoal?.slug && activeGoal?.slug === goal.slug);
                       return (
-                        <div
-                          key={goal._id}
-                          onClick={() => handleSelectGoal(goal)}
-                          className={`p-3 rounded-2xl border transition-all cursor-pointer ${
-                            isEnrolled
-                              ? 'border-knw-red bg-knw-red/10 shadow-red'
-                              : 'border-white/5 bg-knw-surface hover:border-knw-red/40 hover:bg-white/[0.02]'
-                          }`}
-                        >
-                          <div className="flex items-start justify-between gap-2">
-                            <div>
-                              <div className="flex items-center gap-1.5">
-                                <span className="text-xs font-bold text-white">{goal.title}</span>
-                                {isEnrolled && (
-                                  <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-knw-red text-white font-bold">
-                                    Enrolled
-                                  </span>
-                                )}
-                              </div>
-                              <p className="text-[10px] text-knw-muted mt-0.5 line-clamp-1 leading-tight">
-                                {goal.description}
-                              </p>
-                            </div>
-                            <ChevronRight className="w-3.5 h-3.5 text-knw-subtle shrink-0 mt-0.5" />
-                          </div>
-                          <div className="flex items-center gap-3 mt-1.5 text-[10px] text-knw-subtle font-mono">
-                            <span>~{goal.estimatedDuration || '6 months'}</span>
-                            <span>• {goal.category}</span>
-                          </div>
-                        </div>
+                        <GoalCard
+                          key={goal._id || goal.slug}
+                          goal={goal}
+                          isEnrolled={isEnrolled}
+                          onSelect={handleSelectGoal}
+                          variant="compact"
+                        />
                       );
                     })
                   )}
@@ -608,9 +826,13 @@ export const GoalSelectionPage = () => {
                   <span className="text-xs font-mono uppercase tracking-widest text-knw-red font-bold">
                     VERIFIED MENTORS
                   </span>
-                  <Link to="/roadmap" className="text-[11px] font-mono text-knw-muted hover:text-white">
+                  <button
+                    type="button"
+                    onClick={handleOpenGoalsView}
+                    className="text-[11px] font-mono text-knw-muted hover:text-white transition-colors cursor-pointer"
+                  >
                     View All →
-                  </Link>
+                  </button>
                 </div>
 
                 <div className="space-y-3">
@@ -621,43 +843,12 @@ export const GoalSelectionPage = () => {
                     </div>
                   ) : (
                     availableMentors.map((adv) => (
-                      <div
+                      <MentorCard
                         key={adv._id || adv.teacherId}
-                        className="flex items-center justify-between p-2.5 rounded-2xl bg-knw-surface border border-white/5 hover:border-knw-red/30 transition-all"
-                      >
-                        <div className="flex items-center gap-2.5 min-w-0">
-                          <img
-                            src={adv.avatar}
-                            alt={adv.name}
-                            className="w-9 h-9 rounded-full object-cover ring-1 ring-knw-red/40 shrink-0"
-                            onError={(e) => {
-                              e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(adv.name)}&background=2d0000&color=ff4444`;
-                            }}
-                          />
-                          <div className="min-w-0">
-                            <h4 className="text-xs font-bold text-white leading-tight truncate">{adv.name}</h4>
-                            <p className="text-[10px] text-knw-red font-mono truncate max-w-[130px]">
-                              {adv.headline || adv.currentPosition?.jobTitle || 'Verified Mentor'}
-                            </p>
-                            {adv.nextAvailableSlot && (
-                              <p className="text-[9px] text-emerald-400 font-mono">
-                                Next: {adv.nextAvailableSlot}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                        <div className="text-right shrink-0">
-                          {adv.rating && (
-                            <span className="text-xs font-mono text-yellow-400 font-bold block">★ {adv.rating}</span>
-                          )}
-                          <button
-                            onClick={() => setBookingMentor(adv)}
-                            className="block text-[10px] font-mono text-knw-red hover:text-white mt-0.5 underline font-bold"
-                          >
-                            Book Slot
-                          </button>
-                        </div>
-                      </div>
+                        mentor={adv}
+                        onBook={setBookingMentor}
+                        variant="compact"
+                      />
                     ))
                   )}
                 </div>
@@ -667,6 +858,7 @@ export const GoalSelectionPage = () => {
           </div>
 
         </div>
+        )}
       </div>
 
       {/* ── 4. POPUP STORY VIEWER MODAL (Instagram Style) ── */}

@@ -9,7 +9,8 @@ import {
   Clock,
   ArrowRight,
   Briefcase,
-  CheckCircle2
+  CheckCircle2,
+  ChevronRight
 } from 'lucide-react';
 
 const iconMap = {
@@ -21,78 +22,128 @@ const iconMap = {
   Sparkles,
 };
 
-export const GoalCard = ({ goal, isActive, onSelect }) => {
+const getCategoryLabel = (cat) => {
+  switch (cat) {
+    case 'web_dev': return 'Web & Full Stack';
+    case 'ai_ml': return 'AI & ML';
+    case 'competitive_programming': return 'Competitive Prog.';
+    case 'engineering_exams': return 'Exams (JEE/GATE)';
+    case 'custom': return 'Custom Career';
+    default: return 'Curriculum';
+  }
+};
+
+export const GoalCard = ({
+  goal,
+  isActive = false,
+  isEnrolled = false,
+  onSelect,
+  variant = 'expanded'
+}) => {
+  const enrolled = isEnrolled || isActive;
   const IconComponent = iconMap[goal.icon] || Target;
 
-  const getCategoryBadge = (cat) => {
-    switch (cat) {
-      case 'web_dev': return { label: 'Web & Software', bg: 'bg-blue-50 text-blue-700 border-blue-200' };
-      case 'ai_ml': return { label: 'AI & Data Science', bg: 'bg-purple-50 text-purple-700 border-purple-200' };
-      case 'competitive_programming': return { label: 'Algorithms & CP', bg: 'bg-amber-50 text-amber-700 border-amber-200' };
-      case 'engineering_exams': return { label: 'Academic & Exams', bg: 'bg-emerald-50 text-emerald-700 border-emerald-200' };
-      case 'custom': return { label: 'Custom Career', bg: 'bg-indigo-50 text-indigo-700 border-indigo-200' };
-      default: return { label: 'Career Goal', bg: 'bg-slate-50 text-slate-700 border-slate-200' };
-    }
-  };
-
-  const badge = getCategoryBadge(goal.category);
+  if (variant === 'compact') {
+    return (
+      <div
+        onClick={() => onSelect && onSelect(goal)}
+        className={`p-3 rounded-2xl border transition-all cursor-pointer ${
+          enrolled
+            ? 'border-knw-red bg-knw-red/10 shadow-red'
+            : 'border-white/5 bg-knw-surface hover:border-knw-red/40 hover:bg-white/[0.02]'
+        }`}
+      >
+        <div className="flex items-start justify-between gap-2">
+          <div className="min-w-0">
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs font-bold text-white truncate">{goal.title}</span>
+              {enrolled && (
+                <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-knw-red text-white font-bold shrink-0">
+                  Enrolled
+                </span>
+              )}
+            </div>
+            <p className="text-[10px] text-knw-muted mt-0.5 line-clamp-1 leading-tight">
+              {goal.description}
+            </p>
+          </div>
+          <ChevronRight className="w-3.5 h-3.5 text-knw-subtle shrink-0 mt-0.5" />
+        </div>
+        <div className="flex items-center gap-3 mt-1.5 text-[10px] text-knw-subtle font-mono">
+          <span>~{goal.estimatedDuration || `${goal.estimatedMonths || 6} months`}</span>
+          <span>• {getCategoryLabel(goal.category)}</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
-      className={`relative group flex flex-col justify-between rounded-2xl border p-6 transition-all duration-300 bg-white ${
-        isActive
-          ? 'ring-2 ring-brand-500 border-brand-400 shadow-soft-lg'
-          : 'border-slate-200/90 hover:border-brand-300 hover:shadow-soft-lg hover:-translate-y-0.5'
+      onClick={() => onSelect && onSelect(goal)}
+      className={`group relative flex flex-col justify-between p-5 sm:p-6 rounded-3xl border transition-all duration-300 cursor-pointer ${
+        enrolled
+          ? 'border-knw-red bg-knw-red/10 shadow-red hover:shadow-red-lg'
+          : 'knw-card border-white/10 hover:border-knw-red/50 hover:bg-white/[0.03]'
       }`}
     >
-      {/* Top Banner / Category */}
       <div>
+        {/* Top Header: Category badge & Enrolled status */}
         <div className="flex items-center justify-between gap-2 mb-4">
-          <div className="flex items-center gap-3">
-            <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${
-              isActive ? 'bg-brand-600 text-white shadow-md' : 'bg-brand-50 text-brand-600 group-hover:bg-brand-100'
-            }`}>
-              <IconComponent className="w-6 h-6" />
+          <div className="flex items-center gap-2.5">
+            <div
+              className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
+                enrolled
+                  ? 'bg-knw-red text-white shadow-red'
+                  : 'bg-white/5 text-knw-red border border-white/10 group-hover:bg-knw-red/10 group-hover:border-knw-red/30'
+              }`}
+            >
+              <IconComponent className="w-4 h-4" />
             </div>
-            <div>
-              <span className={`inline-block px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${badge.bg}`}>
-                {badge.label}
-              </span>
-            </div>
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-knw-muted group-hover:border-knw-red/40 group-hover:text-knw-red transition-colors">
+              {getCategoryLabel(goal.category)}
+            </span>
           </div>
 
-          {isActive && (
-            <span className="flex items-center gap-1 text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-              <CheckCircle2 className="w-3.5 h-3.5" /> Enrolled
+          {enrolled ? (
+            <span className="inline-flex items-center gap-1 text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-knw-red text-white shadow-red">
+              <CheckCircle2 className="w-3 h-3" />
+              <span>Enrolled</span>
+            </span>
+          ) : (
+            <span className="text-[10px] font-mono text-knw-subtle">
+              ~{goal.estimatedDuration || `${goal.estimatedMonths || 6} months`}
             </span>
           )}
         </div>
 
-        {/* Title & Tagline */}
-        <h3 className="text-lg font-bold text-slate-900 group-hover:text-brand-700 transition-colors">
-          {goal.title}
-        </h3>
-        <p className="text-xs text-slate-500 mt-1 line-clamp-2 leading-relaxed">
-          {goal.tagline || goal.description}
-        </p>
+        {/* Title & Description */}
+        <div className="space-y-2 mb-4">
+          <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-knw-red transition-colors flex items-center justify-between">
+            <span>{goal.title}</span>
+            <ChevronRight className="w-4 h-4 text-knw-subtle group-hover:text-knw-red group-hover:translate-x-1 transition-all shrink-0" />
+          </h3>
+          <p className="text-xs sm:text-sm text-knw-muted line-clamp-2 leading-relaxed">
+            {goal.tagline || goal.description}
+          </p>
+        </div>
 
-        {/* Target Roles */}
+        {/* Target Roles (if present) */}
         {goal.targetRoles && goal.targetRoles.length > 0 && (
-          <div className="mt-4 pt-3 border-t border-slate-100">
-            <div className="flex items-center gap-1.5 text-[11px] text-slate-500 mb-2 font-medium">
-              <Briefcase className="w-3.5 h-3.5 text-slate-400" /> Target Roles:
-            </div>
+          <div className="pt-3 border-t border-white/5 space-y-1.5 mb-4">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-knw-subtle block">
+              Target Roles:
+            </span>
             <div className="flex flex-wrap gap-1.5">
               {goal.targetRoles.slice(0, 3).map((role, idx) => (
                 <span
                   key={idx}
-                  className="px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md text-[10px] font-medium"
+                  className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-gray-300"
                 >
                   {role}
                 </span>
               ))}
               {goal.targetRoles.length > 3 && (
-                <span className="px-1.5 py-0.5 text-slate-400 text-[10px]">
+                <span className="text-[10px] font-mono text-knw-subtle self-center">
                   +{goal.targetRoles.length - 3} more
                 </span>
               )}
@@ -102,24 +153,30 @@ export const GoalCard = ({ goal, isActive, onSelect }) => {
       </div>
 
       {/* Footer Info & Select CTA */}
-      <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
-        <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
-          <Clock className="w-3.5 h-3.5 text-slate-400" />
-          <span>~{goal.estimatedMonths || 6} months</span>
+      <div className="pt-4 border-t border-white/5 flex items-center justify-between">
+        <div className="flex items-center gap-1.5 text-xs font-mono text-knw-muted">
+          <Clock className="w-3.5 h-3.5 text-knw-red" />
+          <span>{goal.estimatedDuration || `${goal.estimatedMonths || 6} Months`}</span>
         </div>
 
         <button
-          onClick={() => onSelect(goal)}
-          className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
-            isActive
-              ? 'bg-brand-50 text-brand-700 hover:bg-brand-100'
-              : 'bg-slate-900 text-white hover:bg-brand-600 shadow-sm'
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            onSelect && onSelect(goal);
+          }}
+          className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
+            enrolled
+              ? 'bg-knw-red text-white shadow-red'
+              : 'text-knw-red bg-knw-red/10 border border-knw-red/30 group-hover:bg-knw-red group-hover:text-white'
           }`}
         >
-          <span>{isActive ? 'Manage Journey' : 'Select Goal'}</span>
+          <span>{enrolled ? 'Manage Journey' : 'Select Goal'}</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </button>
       </div>
     </div>
   );
 };
+
+export default GoalCard;
