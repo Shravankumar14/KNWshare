@@ -22,7 +22,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useGoal } from '../../context/GoalContext';
 import { ThemeToggle } from './ThemeToggle';
 import { useNotification } from '../../context/NotificationContext';
-import { HamburgerMenu } from './HamburgerMenu';
+import { NavigationDrawer } from './NavigationDrawer';
 
 export const Navbar = () => {
   const location = useLocation();
@@ -34,7 +34,7 @@ export const Navbar = () => {
   const [showGoalDropdown, setShowGoalDropdown]   = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserDropdown, setShowUserDropdown]   = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen]       = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen]           = useState(false);
 
   const studentLinks = [
     { name: 'Goals',            path: '/dashboard', icon: Target      },
@@ -68,23 +68,42 @@ export const Navbar = () => {
     setShowUserDropdown(false);
   };
 
-  // ── 1. Unauthenticated State: Show ONLY InfoNest logo/wordmark ──
+  // ── 1. Unauthenticated State: Show InfoNest logo + toggleable menu ──
   if (!isAuthenticated) {
     return (
-      <header className="navbar w-full bg-[#050505] border-b border-[#222222] sticky top-0 z-40">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center text-[#D4AF37] font-black text-sm">
-              ❖
+      <>
+        <header className="navbar w-full bg-[#050505] border-b border-[#222222] sticky top-0 z-40">
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <button
+                type="button"
+                onClick={() => setIsDrawerOpen((prev) => !prev)}
+                className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 text-[#D4AF37] border border-white/10 hover:border-[#D4AF37]/40 flex items-center justify-center transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95"
+                aria-label="Toggle navigation drawer"
+                title="Toggle navigation menu"
+              >
+                <Menu className="w-5 h-5 text-[#D4AF37]" />
+              </button>
+
+              <Link to="/" className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center text-[#D4AF37] font-black text-sm">
+                  ❖
+                </div>
+                <div className="leading-tight">
+                  <span className="text-lg font-black tracking-tight text-white">
+                    Info<span className="text-[#D4AF37]">Nest</span>
+                  </span>
+                </div>
+              </Link>
             </div>
-            <div className="leading-tight">
-              <span className="text-lg font-black tracking-tight text-white">
-                Info<span className="text-[#D4AF37]">Nest</span>
-              </span>
-            </div>
-          </Link>
-        </div>
-      </header>
+          </div>
+        </header>
+
+        <NavigationDrawer
+          isOpen={isDrawerOpen}
+          onClose={() => setIsDrawerOpen(false)}
+        />
+      </>
     );
   }
 
@@ -95,8 +114,18 @@ export const Navbar = () => {
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
 
-            {/* ── LEFT: Logo + Active-Goal Badge ── */}
-            <div className="flex items-center gap-5">
+            {/* ── LEFT: Menu/Hamburger Button + Logo + Active-Goal Badge ── */}
+            <div className="flex items-center gap-3 sm:gap-4">
+              <button
+                type="button"
+                onClick={() => setIsDrawerOpen((prev) => !prev)}
+                className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 text-[#D4AF37] border border-white/10 hover:border-[#D4AF37]/40 flex items-center justify-center transition-all duration-200 cursor-pointer shadow-sm hover:scale-105 active:scale-95"
+                aria-label="Toggle navigation drawer"
+                title="Toggle navigation menu"
+              >
+                <Menu className="w-5 h-5 text-[#D4AF37]" />
+              </button>
+
               <Link
                 to={user?.role === 'teacher' ? '/teacher/dashboard' : '/dashboard'}
                 className="flex items-center gap-2.5 group shrink-0"
@@ -375,22 +404,22 @@ export const Navbar = () => {
 
               {/* Hamburger Button (Below 1024px) */}
               <button
-                onClick={() => setMobileMenuOpen(true)}
-                className="lg:hidden w-11 h-11 min-w-[44px] min-h-[44px] bg-black text-[#D4AF37] border border-[#2A2A2A] rounded-lg flex items-center justify-center hover:border-[#D4AF37] transition-colors"
+                type="button"
+                onClick={() => setIsDrawerOpen((prev) => !prev)}
+                className="lg:hidden w-10 h-10 min-w-[40px] min-h-[40px] bg-black text-[#D4AF37] border border-[#2A2A2A] rounded-xl flex items-center justify-center hover:border-[#D4AF37] transition-colors cursor-pointer"
                 aria-label="Toggle navigation menu"
               >
-                <Menu className="w-6 h-6 text-[#D4AF37]" />
+                <Menu className="w-5 h-5 text-[#D4AF37]" />
               </button>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Hamburger Drawer Component */}
-      <HamburgerMenu
-        isOpen={mobileMenuOpen}
-        onClose={() => setMobileMenuOpen(false)}
-        navLinks={activeNavLinks}
+      {/* Navigation Drawer Component */}
+      <NavigationDrawer
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
       />
     </>
   );

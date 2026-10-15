@@ -20,6 +20,7 @@ import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { VerifyEmail } from './pages/VerifyEmail';
 import { TeacherDashboardPage } from './pages/TeacherDashboardPage';
+import { FacultyProfilePage } from './pages/FacultyProfilePage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
 // Smart Home route:
@@ -181,6 +182,24 @@ export function App() {
                       element={
                         <ProtectedRoute>
                           <ProfilePage />
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    {/* Faculty Public Profile for Students */}
+                    <Route
+                      path="faculty/:id"
+                      element={
+                        <ProtectedRoute>
+                          <FacultyProfilePage />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="teachers/:id"
+                      element={
+                        <ProtectedRoute>
+                          <FacultyProfilePage />
                         </ProtectedRoute>
                       }
                     />

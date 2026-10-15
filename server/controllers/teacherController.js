@@ -1,9 +1,12 @@
+import mongoose from 'mongoose';
 import TeacherProfile from '../models/TeacherProfile.js';
 import AvailabilitySlot from '../models/AvailabilitySlot.js';
 import Booking from '../models/Booking.js';
 import User from '../models/User.js';
 import Notification from '../models/Notification.js';
 import TeacherContent from '../models/TeacherContent.js';
+import Post from '../models/Post.js';
+import Story from '../models/Story.js';
 
 // Helper to convert time string e.g. "09:30 AM", "10:45AM", or "14:30" to minutes from midnight
 const timeStringToMinutes = (timeStr) => {
@@ -658,26 +661,77 @@ export const getTeacherPublicProfile = async (req, res, next) => {
   try {
     const { id } = req.params;
     let profile = null;
+    let teacherUser = null;
+
     if (mongoose.Types.ObjectId.isValid(id)) {
       profile = await TeacherProfile.findOne({
         $or: [{ _id: id }, { userId: id }]
       });
     }
-    if (!profile) {
+
+    if (profile) {
+      teacherUser = await User.findById(profile.userId).select('name email avatar role bio');
+    } else if (mongoose.Types.ObjectId.isValid(id)) {
+      teacherUser = await User.findById(id).select('name email avatar role bio');
+      if (teacherUser) {
+        profile = await TeacherProfile.findOne({ userId: teacherUser._id });
+      }
+    }
+
+    if (!profile && !teacherUser) {
       return res.status(404).json({ success: false, message: 'Teacher profile not found' });
     }
 
+    const teacherUserId = profile ? profile.userId : teacherUser._id;
+
+    // Fetch availability slots
     const availableSlots = await AvailabilitySlot.find({
-      teacherId: profile.userId,
+      teacherId: teacherUserId,
       isBooked: false,
       isActive: true
     }).sort({ dayOfWeek: 1, startTime: 1 });
 
+    // Fetch published educational content/materials
+    const materials = await TeacherContent.find({
+      teacherId: teacherUserId,
+      visibility: 'published'
+    }).sort({ createdAt: -1 });
+
+    // Fetch published posts
+    const posts = await Post.find({
+      createdBy: teacherUserId,
+      published: true
+    }).sort({ createdAt: -1 });
+
+    // Fetch active stories
+    const stories = await Story.find({
+      createdBy: teacherUserId,
+      published: true,
+      expiresAt: { $gt: new Date() }
+    }).sort({ createdAt: -1 });
+
+    const profileData = profile ? profile.toObject() : {};
+    const name = profile?.name || teacherUser?.name || 'Verified Faculty Mentor';
+    const avatar = profile?.photo || teacherUser?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=2d0000&color=ff4444`;
+
     res.json({
       success: true,
       data: {
-        ...profile.toObject(),
-        availableSlots
+        ...profileData,
+        teacherId: teacherUserId,
+        userId: teacherUserId,
+        name,
+        email: profile?.email || teacherUser?.email,
+        avatar,
+        photo: avatar,
+        bio: profile?.bio || teacherUser?.bio || '',
+        availableSlots,
+        materials,
+        posts,
+        stories,
+        contentCount: materials.length,
+        postsCount: posts.length,
+        slotsCount: availableSlots.length
       }
     });
   } catch (err) {

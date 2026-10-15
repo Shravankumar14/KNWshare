@@ -22,7 +22,8 @@ import {
   deleteWorkExperience,
   getPublicTeachers,
   getTeacherPublicSlots,
-  getAvailableTeachers
+  getAvailableTeachers,
+  getTeacherPublicProfile
 } from '../controllers/teacherController.js';
 
 const router = express.Router();
@@ -34,6 +35,7 @@ router.get('/public', getPublicTeachers);
 router.get(['/public/:teacherId/slots', '/:teacherId/slots'], getTeacherPublicSlots);
 router.get('/content/public', getPublicTeacherContent);
 router.get('/available', getAvailableTeachers);
+router.get(['/public/:id', '/profile/:id', '/mentor/:id', '/detail/:id'], getTeacherPublicProfile);
 
 // ==========================================
 // PROTECTED TEACHER ROUTES

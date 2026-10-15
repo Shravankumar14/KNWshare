@@ -1,27 +1,38 @@
 import React from 'react';
 import { CheckCircle2, Video } from 'lucide-react';
 
-export const MentorCard = ({ mentor, onBook, variant = 'expanded' }) => {
+export const MentorCard = ({ mentor, onBook, onViewProfile, variant = 'expanded' }) => {
   const mentorName = mentor.name || mentor.author || 'Verified Mentor';
   const mentorAvatar = mentor.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(mentorName)}&background=2d0000&color=ff4444`;
   const mentorHeadline = mentor.headline || mentor.credential || mentor.currentPosition?.jobTitle || 'Academic Coach';
+  const facultyId = mentor.teacherId || mentor._id;
+
+  const handleProfileClick = (e) => {
+    e.stopPropagation();
+    if (onViewProfile) {
+      onViewProfile(facultyId);
+    }
+  };
 
   if (variant === 'compact') {
     return (
       <div
         className="flex items-center justify-between p-2.5 rounded-2xl bg-knw-surface border border-white/5 hover:border-knw-red/30 transition-all"
       >
-        <div className="flex items-center gap-2.5 min-w-0">
+        <div
+          onClick={handleProfileClick}
+          className="flex items-center gap-2.5 min-w-0 cursor-pointer group/item"
+        >
           <img
             src={mentorAvatar}
             alt={mentorName}
-            className="w-9 h-9 rounded-full object-cover ring-1 ring-knw-red/40 shrink-0"
+            className="w-9 h-9 rounded-full object-cover ring-1 ring-knw-red/40 group-hover/item:ring-knw-red shrink-0 transition-all"
             onError={(e) => {
               e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(mentorName)}&background=2d0000&color=ff4444`;
             }}
           />
           <div className="min-w-0">
-            <h4 className="text-xs font-bold text-white leading-tight truncate">{mentorName}</h4>
+            <h4 className="text-xs font-bold text-white leading-tight truncate group-hover/item:text-knw-red transition-colors">{mentorName}</h4>
             <p className="text-[10px] text-knw-red font-mono truncate max-w-[130px]">
               {mentorHeadline}
             </p>
@@ -32,17 +43,26 @@ export const MentorCard = ({ mentor, onBook, variant = 'expanded' }) => {
             )}
           </div>
         </div>
-        <div className="text-right shrink-0">
+        <div className="text-right shrink-0 space-y-0.5">
           {mentor.rating && (
             <span className="text-xs font-mono text-yellow-400 font-bold block">★ {mentor.rating}</span>
           )}
-          <button
-            type="button"
-            onClick={() => onBook && onBook(mentor)}
-            className="block text-[10px] font-mono text-knw-red hover:text-white mt-0.5 underline font-bold cursor-pointer"
-          >
-            Book Slot
-          </button>
+          <div className="flex items-center gap-2 justify-end">
+            <button
+              type="button"
+              onClick={handleProfileClick}
+              className="text-[10px] font-mono text-gray-400 hover:text-white underline cursor-pointer"
+            >
+              Profile
+            </button>
+            <button
+              type="button"
+              onClick={() => onBook && onBook(mentor)}
+              className="text-[10px] font-mono text-knw-red hover:text-white underline font-bold cursor-pointer"
+            >
+              Book Slot
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -54,12 +74,15 @@ export const MentorCard = ({ mentor, onBook, variant = 'expanded' }) => {
     >
       <div>
         <div className="flex items-start justify-between gap-3 mb-3">
-          <div className="flex items-center gap-3 min-w-0">
+          <div
+            onClick={handleProfileClick}
+            className="flex items-center gap-3 min-w-0 cursor-pointer group/prof"
+          >
             <div className="relative shrink-0">
               <img
                 src={mentorAvatar}
                 alt={mentorName}
-                className="w-12 h-12 rounded-full object-cover ring-2 ring-knw-red/50 group-hover:scale-105 transition-transform"
+                className="w-12 h-12 rounded-full object-cover ring-2 ring-knw-red/50 group-hover/prof:scale-105 group-hover/prof:ring-knw-red transition-all"
                 onError={(e) => {
                   e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(mentorName)}&background=2d0000&color=ff4444`;
                 }}
@@ -68,7 +91,7 @@ export const MentorCard = ({ mentor, onBook, variant = 'expanded' }) => {
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-1.5">
-                <h4 className="text-sm font-bold text-white truncate">{mentorName}</h4>
+                <h4 className="text-sm font-bold text-white truncate group-hover/prof:text-knw-red transition-colors">{mentorName}</h4>
                 <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 fill-cyan-400/20 shrink-0" />
               </div>
               <p className="text-xs text-knw-red font-mono truncate">
@@ -94,7 +117,13 @@ export const MentorCard = ({ mentor, onBook, variant = 'expanded' }) => {
       </div>
 
       <div className="pt-3 border-t border-white/5 flex items-center justify-between">
-        <span className="text-[11px] font-mono text-knw-muted">1-on-1 Guidance</span>
+        <button
+          type="button"
+          onClick={handleProfileClick}
+          className="text-[11px] font-mono text-knw-muted hover:text-white underline cursor-pointer"
+        >
+          View Profile →
+        </button>
         <button
           type="button"
           onClick={() => onBook && onBook(mentor)}

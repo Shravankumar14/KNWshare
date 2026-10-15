@@ -135,9 +135,19 @@ export const ResourceCard = ({ resource, isSelected, onToggleSelect }) => {
 
         {/* Key Info Meta */}
         <div className="mt-3.5 pt-3 border-t border-white/5 flex items-center justify-between text-xs text-knw-muted font-mono">
-          <span className="font-semibold text-gray-300 truncate max-w-[170px]">
-            {resource.provider || resource.author || resource.platformOrAuthor || (isFaculty ? (resource.createdBy?.name || 'Faculty Mentor') : 'Curated Portal')}
-          </span>
+          {isFaculty && resource.teacherId ? (
+            <a
+              href={`/faculty/${resource.teacherId}`}
+              className="font-semibold text-knw-red hover:underline truncate max-w-[170px]"
+              title="View Faculty Profile"
+            >
+              {resource.author || resource.provider || 'Faculty Mentor'} →
+            </a>
+          ) : (
+            <span className="font-semibold text-gray-300 truncate max-w-[170px]">
+              {resource.provider || resource.author || resource.platformOrAuthor || (isFaculty ? (resource.createdBy?.name || 'Faculty Mentor') : 'Curated Portal')}
+            </span>
+          )}
 
           <div className="flex items-center gap-3 shrink-0">
             {resource.rating && (

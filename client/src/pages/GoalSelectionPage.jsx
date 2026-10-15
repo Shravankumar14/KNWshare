@@ -12,6 +12,7 @@ import { GoalOnboardingModal } from '../components/goal/GoalOnboardingModal';
 import { CustomGoalModal } from '../components/goal/CustomGoalModal';
 import { GoalCard } from '../components/goal/GoalCard';
 import { MentorCard } from '../components/goal/MentorCard';
+import { FacultyProfileModal } from '../components/expert/FacultyProfileModal';
 
 import api from '../services/api';
 
@@ -58,20 +59,25 @@ export const GoalSelectionPage = () => {
   const [stories, setStories] = useState([]);
   const [posts, setPosts] = useState([]);
   const [availableMentors, setAvailableMentors] = useState([]);
+  const [teacherMaterials, setTeacherMaterials] = useState([]);
+  const [feedTab, setFeedTab] = useState('all'); // 'all' | 'posts' | 'materials'
+  const [selectedFacultyId, setSelectedFacultyId] = useState(null);
   const [feedLoading, setFeedLoading] = useState(true);
 
   // Fetch real data from MongoDB
   const loadHomeFeed = async () => {
     setFeedLoading(true);
     try {
-      const [storiesRes, postsRes, mentorsRes] = await Promise.all([
+      const [storiesRes, postsRes, mentorsRes, contentRes] = await Promise.all([
         api.get('/stories').catch(() => ({ data: { data: [] } })),
         api.get('/posts').catch(() => ({ data: { data: [] } })),
         api.get('/teachers/available').catch(() => ({ data: { data: [] } })),
+        api.get('/teachers/content/public').catch(() => ({ data: { data: [] } })),
       ]);
       setStories(storiesRes.data?.data || []);
       setPosts(postsRes.data?.data || []);
       setAvailableMentors(mentorsRes.data?.data || []);
+      setTeacherMaterials(contentRes.data?.data || []);
     } catch (err) {
       console.warn('Feed load error:', err.message);
     } finally {
@@ -407,6 +413,7 @@ export const GoalSelectionPage = () => {
                       key={adv._id || adv.teacherId}
                       mentor={adv}
                       onBook={setBookingMentor}
+                      onViewProfile={setSelectedFacultyId}
                       variant="expanded"
                     />
                   ))}
@@ -465,13 +472,13 @@ export const GoalSelectionPage = () => {
                 {/* Mentor Sparks Bubbles */}
                 {stories.length > 0 ? (
                   stories.map((spark) => {
-                    const authorName = spark.createdBy?.name || 'Educator';
-                    const authorAvatar = spark.createdBy?.avatar || spark.mediaUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=2d0000&color=ff4444`;
+                    const authorName = spark.createdBy?.name || 'Verified Educator';
+                    const authorAvatar = spark.createdBy?.avatar || spark.authorProfile?.photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=2d0000&color=ff4444`;
                     return (
                       <button
                         key={spark._id}
                         onClick={() => setActiveStory(spark)}
-                        className="flex flex-col items-center gap-1.5 shrink-0 group focus:outline-none"
+                        className="flex flex-col items-center gap-1.5 shrink-0 group focus:outline-none cursor-pointer"
                       >
                         <div className={spark.isLive ? 'story-ring-live' : 'story-ring'}>
                           <div className="bg-[#080808] rounded-full p-[2px]">
@@ -479,6 +486,9 @@ export const GoalSelectionPage = () => {
                               src={authorAvatar}
                               alt={authorName}
                               className="w-14 h-14 rounded-full object-cover group-hover:scale-105 transition-transform"
+                              onError={(e) => {
+                                e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=2d0000&color=ff4444`;
+                              }}
                             />
                           </div>
                         </div>
@@ -577,148 +587,55 @@ export const GoalSelectionPage = () => {
               </div>
             )}
 
-            {/* ── 3. FEED POSTS (Data-driven from MongoDB) ── */}
+            {/* ── 3. FEED: POSTS & EDUCATIONAL STUDY MATERIALS ── */}
             <div className="space-y-6">
-              {posts.length > 0 ? (
-                posts.map((post) => {
-                  const postId = post._id;
-                  const reaction = reactionsState[postId] || { count: post.likesCount || 0, reacted: false };
-                  const isBookmarked = bookmarkedPosts[postId] || false;
-                  const authorName = post.createdBy?.name || 'Verified Educator';
-                  const authorAvatar = post.createdBy?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=2d0000&color=ff4444`;
-                  const authorCred = post.authorProfile?.headline || post.authorProfile?.qualification || 'Academic Coach';
+              
+              {/* Feed Filter Bar */}
+              <div className="flex items-center justify-between gap-3 flex-wrap">
+                <div className="flex items-center gap-2 overflow-x-auto scrollbar-none" style={{ scrollbarWidth: 'none' }}>
+                  <button
+                    type="button"
+                    onClick={() => setFeedTab('all')}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer whitespace-nowrap ${
+                      feedTab === 'all'
+                        ? 'bg-knw-red text-white shadow-red'
+                        : 'bg-white/5 border border-white/10 text-knw-muted hover:text-white'
+                    }`}
+                  >
+                    All Updates ({posts.length + teacherMaterials.length})
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFeedTab('posts')}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer whitespace-nowrap ${
+                      feedTab === 'posts'
+                        ? 'bg-knw-red text-white shadow-red'
+                        : 'bg-white/5 border border-white/10 text-knw-muted hover:text-white'
+                    }`}
+                  >
+                    Posts ({posts.length})
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFeedTab('materials')}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
+                      feedTab === 'materials'
+                        ? 'bg-knw-red text-white shadow-red'
+                        : 'bg-white/5 border border-white/10 text-knw-muted hover:text-white'
+                    }`}
+                  >
+                    <BookOpen className="w-3.5 h-3.5" />
+                    <span>Study Materials & PDFs ({teacherMaterials.length})</span>
+                  </button>
+                </div>
 
-                  return (
-                    <article
-                      key={postId}
-                      className="knw-card rounded-3xl overflow-hidden relative group"
-                    >
-                      <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-knw-red/60 to-transparent" />
+                <span className="text-[11px] font-mono text-knw-muted hidden sm:inline">
+                  Verified Educator Contributions
+                </span>
+              </div>
 
-                      {/* Post Top Meta */}
-                      <div className="flex items-center justify-between px-5 pt-4 pb-2">
-                        <div className="flex items-center gap-2">
-                          <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border bg-knw-red/15 text-knw-red border-knw-red/40">
-                            ● POST
-                          </span>
-                          {post.goalSlug && (
-                            <span className="text-[10px] text-knw-red font-mono hidden sm:inline">
-                              ✦ {post.goalSlug}
-                            </span>
-                          )}
-                        </div>
-                        <span className="text-[11px] text-knw-muted font-mono">
-                          {new Date(post.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}
-                        </span>
-                      </div>
-
-                      {/* Author Header */}
-                      <div className="flex items-center justify-between px-5 pb-3">
-                        <div className="flex items-center gap-3">
-                          <div className="story-ring shrink-0">
-                            <img
-                              src={authorAvatar}
-                              alt={authorName}
-                              className="w-11 h-11 rounded-full object-cover bg-black p-[1px]"
-                            />
-                          </div>
-                          <div>
-                            <div className="flex items-center gap-1.5">
-                              <span className="text-sm font-bold text-white">{authorName}</span>
-                              <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 fill-cyan-400/20" />
-                            </div>
-                            <p className="text-xs text-knw-red font-semibold leading-tight mt-0.5">
-                              {authorCred}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Media Cover Image if present */}
-                      {post.imageUrl && (
-                        <div className="relative mx-5 rounded-2xl overflow-hidden">
-                          <img
-                            src={post.imageUrl}
-                            alt={post.title}
-                            className="w-full h-56 sm:h-64 object-cover"
-                            onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                          />
-                        </div>
-                      )}
-
-                      {/* Title & Description Body */}
-                      <div className="px-5 pt-3 pb-4 space-y-1.5">
-                        <h3 className="text-base sm:text-lg font-black text-white leading-snug">
-                          {post.title}
-                        </h3>
-                        <p className="text-xs sm:text-sm text-gray-300 leading-relaxed whitespace-pre-line">
-                          {post.text}
-                        </p>
-
-                        {/* External Link if present */}
-                        {post.externalLink?.url && (
-                          <div className="pt-2">
-                            <a
-                              href={post.externalLink.url}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="inline-flex items-center gap-1.5 text-xs text-knw-red hover:text-knw-redBright underline font-mono"
-                            >
-                              <span>{post.externalLink.title || 'Open Reference Material'}</span>
-                              <ExternalLink className="w-3 h-3" />
-                            </a>
-                          </div>
-                        )}
-
-                        {/* Tags */}
-                        {post.tags?.length > 0 && (
-                          <div className="flex flex-wrap gap-2 pt-2">
-                            {post.tags.map((tag, tIdx) => (
-                              <span
-                                key={tIdx}
-                                className="text-xs font-mono text-knw-red/80 hover:text-knw-red cursor-pointer transition-colors"
-                              >
-                                #{tag}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Social Reaction Bar */}
-                      <div className="flex items-center justify-between px-5 pt-2 pb-3 border-t border-white/5">
-                        <div className="flex items-center gap-3">
-                          <button
-                            onClick={() => toggleReaction(postId, post.likesCount || 0)}
-                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono transition-all border ${
-                              reaction.reacted
-                                ? 'bg-orange-950/40 text-orange-400 border-orange-700/50 shadow-sm'
-                                : 'bg-white/5 text-knw-muted hover:text-orange-400 border-white/10'
-                            }`}
-                          >
-                            <Flame className={`w-4 h-4 ${reaction.reacted ? 'fill-orange-400 text-orange-400' : ''}`} />
-                            <span className="font-bold">{reaction.count.toLocaleString()}</span>
-                            <span className="hidden sm:inline">Likes</span>
-                          </button>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={() => toggleBookmark(postId)}
-                            className={`p-2 rounded-xl border transition-all ${
-                              isBookmarked
-                                ? 'bg-yellow-500/20 border-yellow-500/40 text-yellow-400'
-                                : 'bg-white/5 border-white/10 text-knw-muted hover:text-yellow-400'
-                            }`}
-                          >
-                            <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-current' : ''}`} />
-                          </button>
-                        </div>
-                      </div>
-                    </article>
-                  );
-                })
-              ) : (
+              {/* Combined Feed Content */}
+              {posts.length === 0 && teacherMaterials.length === 0 ? (
                 <div className="knw-card rounded-3xl p-8 text-center space-y-3">
                   <div className="w-12 h-12 rounded-full bg-knw-red/15 text-knw-red flex items-center justify-center mx-auto">
                     <BookOpen className="w-6 h-6" />
@@ -728,6 +645,289 @@ export const GoalSelectionPage = () => {
                     Educators and mentors will share educational sparks, practice problem breakdowns, and live session updates here.
                   </p>
                 </div>
+              ) : (
+                <>
+                  {/* Educational Study Materials uploaded by teachers */}
+                  {(feedTab === 'all' || feedTab === 'materials') && teacherMaterials.length > 0 && (
+                    teacherMaterials.map((material) => {
+                      const matId = material._id;
+                      const authorName = material.teacherId?.name || material.teacherProfileId?.name || 'Verified Faculty';
+                      const authorAvatar = material.teacherProfileId?.photo || material.teacherId?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=2d0000&color=ff4444`;
+                      const authorCred = material.teacherProfileId?.headline || 'Academic Mentor & Coach';
+                      const facultyId = material.teacherId?._id || material.teacherId;
+
+                      return (
+                        <article
+                          key={`mat-${matId}`}
+                          className="knw-card rounded-3xl overflow-hidden relative group border border-white/10 hover:border-knw-red/40 transition-all"
+                        >
+                          <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-cyan-500/70 to-transparent" />
+
+                          {/* Top Meta */}
+                          <div className="flex items-center justify-between px-5 pt-4 pb-2">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border bg-cyan-950/40 text-cyan-300 border-cyan-700/50">
+                                ✦ {material.contentType?.toUpperCase() || 'PDF'} STUDY MATERIAL
+                              </span>
+                              {material.goalTitle && (
+                                <span className="text-[10px] text-knw-red font-mono hidden sm:inline">
+                                  ✦ {material.goalTitle}
+                                </span>
+                              )}
+                            </div>
+                            <span className="text-[11px] text-knw-muted font-mono">
+                              {new Date(material.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}
+                            </span>
+                          </div>
+
+                          {/* Author Header */}
+                          <div className="flex items-center justify-between px-5 pb-3">
+                            <div
+                              onClick={() => setSelectedFacultyId(facultyId)}
+                              className="flex items-center gap-3 cursor-pointer group/matAuthor"
+                              title="Click to view faculty mentor profile"
+                            >
+                              <div className="story-ring shrink-0 group-hover/matAuthor:scale-105 transition-transform">
+                                <img
+                                  src={authorAvatar}
+                                  alt={authorName}
+                                  className="w-11 h-11 rounded-full object-cover bg-black p-[1px]"
+                                  onError={(e) => {
+                                    e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=2d0000&color=ff4444`;
+                                  }}
+                                />
+                              </div>
+                              <div>
+                                <div className="flex items-center gap-1.5">
+                                  <span className="text-sm font-bold text-white group-hover/matAuthor:text-knw-red transition-colors">
+                                    {authorName}
+                                  </span>
+                                  <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 fill-cyan-400/20" />
+                                </div>
+                                <p className="text-xs text-knw-red font-semibold leading-tight mt-0.5">
+                                  {authorCred}
+                                </p>
+                              </div>
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={() => setSelectedFacultyId(facultyId)}
+                              className="px-3 py-1 rounded-xl bg-white/5 hover:bg-white/10 text-[11px] font-mono text-gray-300 hover:text-white border border-white/10 transition-colors cursor-pointer"
+                            >
+                              View Profile
+                            </button>
+                          </div>
+
+                          {/* Content Details */}
+                          <div className="px-5 pt-1 pb-4 space-y-2">
+                            <h3 className="text-base sm:text-lg font-black text-white leading-snug">
+                              {material.title}
+                            </h3>
+                            {material.description && (
+                              <p className="text-xs sm:text-sm text-gray-300 leading-relaxed whitespace-pre-line">
+                                {material.description}
+                              </p>
+                            )}
+
+                            <div className="flex flex-wrap gap-2 pt-2">
+                              {material.subject && (
+                                <span className="px-2.5 py-1 rounded-xl text-xs font-mono font-bold bg-blue-950/40 text-blue-300 border border-blue-700/40">
+                                  ✦ {material.subject}
+                                </span>
+                              )}
+                              {material.topic && (
+                                <span className="px-2.5 py-1 rounded-xl text-xs font-mono bg-white/5 text-gray-300 border border-white/10">
+                                  Topic: {material.topic}
+                                </span>
+                              )}
+                              {material.goalSlug && (
+                                <span className="px-2.5 py-1 rounded-xl text-xs font-mono bg-zinc-800 text-zinc-300 border border-zinc-700">
+                                  Track: {material.goalSlug}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Download / Open Action Bar */}
+                          <div className="flex items-center justify-between px-5 py-3 border-t border-white/5 bg-white/[0.02]">
+                            <span className="text-xs font-mono text-knw-muted">
+                              Faculty Verified Material
+                            </span>
+
+                            {material.mediaUrl && (
+                              <a
+                                href={material.mediaUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="btn-red px-4 py-2 rounded-xl text-xs font-mono font-bold flex items-center gap-2 shadow-red cursor-pointer"
+                              >
+                                <span>Open / Download Material</span>
+                                <ExternalLink className="w-3.5 h-3.5" />
+                              </a>
+                            )}
+                          </div>
+                        </article>
+                      );
+                    })
+                  )}
+
+                  {/* Regular Feed Posts */}
+                  {(feedTab === 'all' || feedTab === 'posts') && posts.map((post) => {
+                    const postId = post._id;
+                    const reaction = reactionsState[postId] || { count: post.likesCount || 0, reacted: false };
+                    const isBookmarked = bookmarkedPosts[postId] || false;
+                    const authorName = post.createdBy?.name || 'Verified Educator';
+                    const authorAvatar = post.createdBy?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=2d0000&color=ff4444`;
+                    const authorCred = post.authorProfile?.headline || post.authorProfile?.qualification || 'Academic Coach';
+                    const facultyId = post.createdBy?._id || post.createdBy;
+
+                    return (
+                      <article
+                        key={postId}
+                        className="knw-card rounded-3xl overflow-hidden relative group"
+                      >
+                        <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-knw-red/60 to-transparent" />
+
+                        {/* Post Top Meta */}
+                        <div className="flex items-center justify-between px-5 pt-4 pb-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border bg-knw-red/15 text-knw-red border-knw-red/40">
+                              ● POST
+                            </span>
+                            {post.goalSlug && (
+                              <span className="text-[10px] text-knw-red font-mono hidden sm:inline">
+                                ✦ {post.goalSlug}
+                              </span>
+                            )}
+                          </div>
+                          <span className="text-[11px] text-knw-muted font-mono">
+                            {new Date(post.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}
+                          </span>
+                        </div>
+
+                        {/* Author Header */}
+                        <div className="flex items-center justify-between px-5 pb-3">
+                          <div
+                            onClick={() => setSelectedFacultyId(facultyId)}
+                            className="flex items-center gap-3 cursor-pointer group/author"
+                            title="Click to view faculty mentor profile"
+                          >
+                            <div className="story-ring shrink-0 group-hover/author:scale-105 transition-transform">
+                              <img
+                                src={authorAvatar}
+                                alt={authorName}
+                                className="w-11 h-11 rounded-full object-cover bg-black p-[1px]"
+                                onError={(e) => {
+                                  e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=2d0000&color=ff4444`;
+                                }}
+                              />
+                            </div>
+                            <div>
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-sm font-bold text-white group-hover/author:text-knw-red transition-colors">{authorName}</span>
+                                <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 fill-cyan-400/20" />
+                              </div>
+                              <p className="text-xs text-knw-red font-semibold leading-tight mt-0.5">
+                                {authorCred}
+                              </p>
+                            </div>
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => setSelectedFacultyId(facultyId)}
+                            className="px-3 py-1 rounded-xl bg-white/5 hover:bg-white/10 text-[11px] font-mono text-gray-300 hover:text-white border border-white/10 transition-colors cursor-pointer"
+                          >
+                            View Profile
+                          </button>
+                        </div>
+
+                        {/* Media Cover Image if present */}
+                        {post.imageUrl && (
+                          <div className="relative mx-5 rounded-2xl overflow-hidden">
+                            <img
+                              src={post.imageUrl}
+                              alt={post.title}
+                              className="w-full h-56 sm:h-64 object-cover"
+                              onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                            />
+                          </div>
+                        )}
+
+                        {/* Title & Description Body */}
+                        <div className="px-5 pt-3 pb-4 space-y-1.5">
+                          <h3 className="text-base sm:text-lg font-black text-white leading-snug">
+                            {post.title}
+                          </h3>
+                          <p className="text-xs sm:text-sm text-gray-300 leading-relaxed whitespace-pre-line">
+                            {post.text}
+                          </p>
+
+                          {/* External Link if present */}
+                          {post.externalLink?.url && (
+                            <div className="pt-2">
+                              <a
+                                href={post.externalLink.url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center gap-1.5 text-xs text-knw-red hover:text-knw-redBright underline font-mono"
+                              >
+                                <span>{post.externalLink.title || 'Open Reference Material'}</span>
+                                <ExternalLink className="w-3 h-3" />
+                              </a>
+                            </div>
+                          )}
+
+                          {/* Tags */}
+                          {post.tags?.length > 0 && (
+                            <div className="flex flex-wrap gap-2 pt-2">
+                              {post.tags.map((tag, tIdx) => (
+                                <span
+                                  key={tIdx}
+                                  className="text-xs font-mono text-knw-red/80 hover:text-knw-red cursor-pointer transition-colors"
+                                >
+                                  #{tag}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Social Reaction Bar */}
+                        <div className="flex items-center justify-between px-5 pt-2 pb-3 border-t border-white/5">
+                          <div className="flex items-center gap-3">
+                            <button
+                              onClick={() => toggleReaction(postId, post.likesCount || 0)}
+                              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono transition-all border ${
+                                reaction.reacted
+                                  ? 'bg-orange-950/40 text-orange-400 border-orange-700/50 shadow-sm'
+                                  : 'bg-white/5 text-knw-muted hover:text-orange-400 border-white/10'
+                              }`}
+                            >
+                              <Flame className={`w-4 h-4 ${reaction.reacted ? 'fill-orange-400 text-orange-400' : ''}`} />
+                              <span className="font-bold">{reaction.count.toLocaleString()}</span>
+                              <span className="hidden sm:inline">Likes</span>
+                            </button>
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            <button
+                              onClick={() => toggleBookmark(postId)}
+                              className={`p-2 rounded-xl border transition-all ${
+                                isBookmarked
+                                  ? 'bg-yellow-500/20 border-yellow-500/40 text-yellow-400'
+                                  : 'bg-white/5 border-white/10 text-knw-muted hover:text-yellow-400'
+                              }`}
+                            >
+                              <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-current' : ''}`} />
+                            </button>
+                          </div>
+                        </div>
+                      </article>
+                    );
+                  })}
+                </>
               )}
             </div>
 
@@ -847,6 +1047,7 @@ export const GoalSelectionPage = () => {
                         key={adv._id || adv.teacherId}
                         mentor={adv}
                         onBook={setBookingMentor}
+                        onViewProfile={setSelectedFacultyId}
                         variant="compact"
                       />
                     ))
@@ -875,68 +1076,136 @@ export const GoalSelectionPage = () => {
 
             {/* Story Header */}
             <div className="absolute top-5 left-4 right-4 z-30 flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
+              <div
+                onClick={() => {
+                  const fid = activeStory.createdBy?._id || activeStory.createdBy || activeStory.teacherId;
+                  setActiveStory(null);
+                  setSelectedFacultyId(fid);
+                }}
+                className="flex items-center gap-2.5 cursor-pointer group/storyAuthor"
+                title="View faculty profile"
+              >
                 <img
-                  src={activeStory.avatar}
-                  alt={activeStory.author}
-                  className="w-9 h-9 rounded-full object-cover ring-2 ring-knw-red"
+                  src={
+                    activeStory.createdBy?.avatar ||
+                    activeStory.avatar ||
+                    `https://ui-avatars.com/api/?name=${encodeURIComponent(activeStory.createdBy?.name || activeStory.author || 'Educator')}&background=2d0000&color=ff4444`
+                  }
+                  alt={activeStory.createdBy?.name || activeStory.author || 'Faculty'}
+                  className="w-9 h-9 rounded-full object-cover ring-2 ring-knw-red bg-black"
+                  onError={(e) => {
+                    e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(activeStory.createdBy?.name || activeStory.author || 'Educator')}&background=2d0000&color=ff4444`;
+                  }}
                 />
                 <div>
-                  <span className="text-xs font-bold text-white block leading-tight">{activeStory.author}</span>
-                  <span className="text-[9px] text-knw-red font-mono block">{activeStory.credential}</span>
+                  <div className="flex items-center gap-1">
+                    <span className="text-xs font-bold text-white block leading-tight group-hover/storyAuthor:text-knw-red transition-colors">
+                      {activeStory.createdBy?.name || activeStory.author || 'Verified Faculty'}
+                    </span>
+                    <CheckCircle2 className="w-3 h-3 text-cyan-400 fill-cyan-400/20" />
+                  </div>
+                  <span className="text-[9px] text-knw-red font-mono block">
+                    {activeStory.authorProfile?.headline || activeStory.credential || 'Academic Mentor'}
+                  </span>
                 </div>
               </div>
 
-              <button
-                onClick={() => setActiveStory(null)}
-                className="p-1 rounded-full bg-black/60 text-white hover:text-knw-red transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const fid = activeStory.createdBy?._id || activeStory.createdBy || activeStory.teacherId;
+                    setActiveStory(null);
+                    setSelectedFacultyId(fid);
+                  }}
+                  className="px-2 py-0.5 rounded-lg bg-black/60 text-[10px] font-mono text-gray-300 hover:text-white border border-white/10 cursor-pointer"
+                >
+                  Profile
+                </button>
+                <button
+                  onClick={() => setActiveStory(null)}
+                  className="p-1 rounded-full bg-black/60 text-white hover:text-knw-red transition-colors cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
-            {/* Story Image */}
-            <div className="relative h-72 w-full overflow-hidden">
-              <img
-                src={activeStory.storyImage}
-                alt={activeStory.tipTitle}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40" />
+            {/* Story Image / Video */}
+            <div className="relative h-72 w-full overflow-hidden bg-black flex items-center justify-center">
+              {activeStory.mediaType === 'video' ? (
+                <video
+                  src={activeStory.mediaUrl || activeStory.storyImage}
+                  autoPlay
+                  controls
+                  loop
+                  muted
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <img
+                  src={
+                    activeStory.mediaUrl ||
+                    activeStory.storyImage ||
+                    'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&auto=format&fit=crop&q=80'
+                  }
+                  alt={activeStory.title || activeStory.tipTitle || 'Daily Spark'}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&auto=format&fit=crop&q=80';
+                  }}
+                />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/50 pointer-events-none" />
             </div>
 
             {/* Story Content & Educational Tip */}
             <div className="p-5 space-y-3 relative z-20">
               <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-knw-red px-2 py-0.5 rounded-full bg-knw-red/15 border border-knw-red/30">
-                ✦ {activeStory.badge}
+                ✦ {activeStory.badge || 'SPARK'}
               </span>
               <h3 className="text-base font-black text-white leading-tight">
-                {activeStory.tipTitle}
+                {activeStory.title || activeStory.tipTitle || 'Strategic Learning Spark'}
               </h3>
-              <p className="text-xs text-gray-300 leading-relaxed">
-                {activeStory.tipText}
-              </p>
+              {(activeStory.text || activeStory.tipText) && (
+                <p className="text-xs text-gray-300 leading-relaxed whitespace-pre-line">
+                  {activeStory.text || activeStory.tipText}
+                </p>
+              )}
 
-              <div className="pt-2">
+              <div className="pt-2 flex flex-col gap-2">
                 <button
                   onClick={() => {
                     const selected = activeStory;
                     setActiveStory(null);
-                    const mentorUser = availableMentors.find(m => m.teacherId === (selected.teacherId?._id || selected.teacherId));
+                    const mentorUser = availableMentors.find(m => (m.teacherId || m._id) === (selected.createdBy?._id || selected.teacherId));
                     setBookingMentor(mentorUser || {
-                      _id: selected.teacherId?._id || selected.teacherId,
-                      teacherId: selected.teacherId?._id || selected.teacherId,
-                      name: selected.author,
-                      avatar: selected.avatar,
-                      headline: selected.credential,
-                      rating: selected.rating,
+                      _id: selected.createdBy?._id || selected.teacherId,
+                      teacherId: selected.createdBy?._id || selected.teacherId,
+                      name: selected.createdBy?.name || selected.author || 'Verified Faculty',
+                      avatar: selected.createdBy?.avatar || selected.avatar,
+                      headline: selected.authorProfile?.headline || selected.credential,
+                      rating: selected.authorProfile?.rating || selected.rating || 4.95,
                       availableSlots: []
                     });
                   }}
-                  className="w-full btn-red py-2.5 text-xs font-bold shadow-red flex items-center justify-center gap-2 font-mono"
+                  className="w-full btn-red py-2.5 text-xs font-bold shadow-red flex items-center justify-center gap-2 font-mono cursor-pointer"
                 >
                   <Video className="w-3.5 h-3.5" />
-                  <span>{activeStory.slotAction || 'Book 1-on-1 Session'}</span>
+                  <span>{activeStory.slotAction || 'Book 1-on-1 Guidance Session'}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    const fid = activeStory.createdBy?._id || activeStory.createdBy || activeStory.teacherId;
+                    setActiveStory(null);
+                    setSelectedFacultyId(fid);
+                  }}
+                  className="w-full py-2 rounded-xl text-xs font-mono text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 transition-colors border border-white/5 flex items-center justify-center gap-1.5 cursor-pointer"
+                >
+                  <span>View Faculty Profile & Notes</span>
+                  <ArrowRight className="w-3 h-3" />
                 </button>
               </div>
             </div>
@@ -1090,6 +1359,19 @@ export const GoalSelectionPage = () => {
             </p>
           </div>
         </div>
+      )}
+
+      {/* ── 6. DEDICATED FACULTY PROFILE MODAL ── */}
+      {selectedFacultyId && (
+        <FacultyProfileModal
+          facultyId={selectedFacultyId}
+          isOpen={!!selectedFacultyId}
+          onClose={() => setSelectedFacultyId(null)}
+          onBookSlot={(mentorWithSlot) => {
+            setSelectedFacultyId(null);
+            setBookingMentor(mentorWithSlot);
+          }}
+        />
       )}
     </div>
   );
